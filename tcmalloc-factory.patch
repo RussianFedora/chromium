@@ -1,0 +1,12 @@
+--- chromium/src/build/common.gypi     2010-04-29 12:39:04.018140987 +0200
++++ chromium/src/build/common.gypi     2010-05-03 21:38:49.733821848 +0200
+@@ -261,7 +261,7 @@
+     'linux_strip_reliability_tests%': 0,
+ 
+     # Enable TCMalloc.
+-    'linux_use_tcmalloc%': 1,
++    'linux_use_tcmalloc%': 0,
+ 
+     # Disable TCMalloc's debugallocation.
+     'linux_use_debugallocation%': 0,
+

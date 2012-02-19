@@ -1,0 +1,12 @@
+diff -up chromium-20100218svn39394/src/build/all.gyp.no-courgette chromium-20100218svn39394/src/build/all.gyp
+--- chromium-20100218svn39394/src/build/all.gyp.no-courgette	2010-02-19 16:03:23.305138076 -0500
++++ chromium-20100218svn39394/src/build/all.gyp	2010-02-19 16:03:42.426124248 -0500
+@@ -81,7 +81,6 @@
+         ['OS=="linux"', {
+           'dependencies': [
+             '../breakpad/breakpad.gyp:*',
+-            '../courgette/courgette.gyp:*',
+             '../dbus/dbus.gyp:*',
+             '../sandbox/sandbox.gyp:*',
+           ],
+diff -up chromium-20100218svn39394/src/chrome/chrome.gyp.no-courgette chromium-20100218svn39394/src/chrome/chrome.gyp

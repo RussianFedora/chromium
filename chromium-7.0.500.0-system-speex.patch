@@ -1,0 +1,53 @@
+diff -up chromium-7.0.500.0-20100819svn56724/build/linux/system.gyp.speex chromium-7.0.500.0-20100819svn56724/build/linux/system.gyp
+--- chromium-7.0.500.0-20100819svn56724/src/build/linux/system.gyp.speex	2010-08-19 16:23:14.594998783 -0400
++++ chromium-7.0.500.0-20100819svn56724/src/build/linux/system.gyp	2010-08-19 16:23:14.676903548 -0400
+@@ -410,6 +410,26 @@
+       }]]
+     },
+     {
++      'target_name': 'speex',
++      'type': 'none',
++      'conditions': [
++        ['_toolset=="target"', {
++          'direct_dependent_settings': {
++            'cflags': [
++              '<!@(pkg-config --cflags speex)',
++            ],
++          },
++          'link_settings': {
++            'ldflags': [
++              '<!@(pkg-config --libs-only-L --libs-only-other speex)',
++            ],
++            'libraries': [
++              '<!@(pkg-config --libs-only-l speex)',
++            ],
++          },
++      }]]
++    },
++    {
+       'target_name': 'gnome_keyring',
+       'type': 'none',
+       'conditions': [
+diff -up chromium-7.0.500.0-20100819svn56724/content/content_browser.gypi.speex chromium-7.0.500.0-20100819svn56724/chrome/chrome_browser.gypi
+--- chromium-7.0.500.0-20100819svn56724/src/content/content_browser.gypi.speex	2010-08-19 16:23:14.594998783 -0400
++++ chromium-7.0.500.0-20100819svn56724/src/content/content_browser.gypi	2010-08-19 16:25:27.921293238 -0400
+@@ -10,7 +10,7 @@
+     '../ppapi/ppapi_internal.gyp:ppapi_proxy',
+     '../skia/skia.gyp:skia',
+     '../third_party/flac/flac.gyp:libflac',
+-    '../third_party/speex/speex.gyp:libspeex',
++    '../build/linux/system.gyp:speex',
+     '../third_party/WebKit/Source/WebKit/chromium/WebKit.gyp:webkit',
+     '../third_party/zlib/zlib.gyp:zlib',
+     '../ui/gfx/surface/surface.gyp:surface',
+--- chromium/src/content/browser/speech/audio_encoder.cc	2011-01-20 09:04:11.631000020 +0100
++++ chromium/src/content/browser/speech/audio_encoder.cc	2011-01-20 09:04:11.631000020 +0100
+@@ -10,7 +10,7 @@
+ #include "base/stl_util.h"
+ #include "base/string_number_conversions.h"
+ #include "third_party/flac/flac.h"
+-#include "third_party/speex/speex.h"
++#include <speex/speex.h>
+ 
+ using std::string;
+ 

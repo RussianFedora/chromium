@@ -1,0 +1,11 @@
+--- chromium/src/native_client/build/common.gypi.norpath	2009-12-16 10:15:46.000000000 -0500
++++ chromium/src/native_client/build/common.gypi	2009-12-16 10:15:52.000000000 -0500
+@@ -511,7 +511,7 @@
+           # -rpath is only used when building with shared libraries.
+           'conditions': [
+             [ 'library=="shared_library"', {
+-              'RPATH': '$LIB_DIR',
++              # 'RPATH': '$LIB_DIR',
+             }],
+           ],
+         },

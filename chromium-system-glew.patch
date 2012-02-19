@@ -1,0 +1,46 @@
+diff -up chromium-5.0.377.0-20100413svn44349/src/build/linux/system.gyp.GLEW chromium-5.0.377.0-20100413svn44349/src/build/linux/system.gyp
+--- chromium-5.0.377.0-20100413svn44349/src/build/linux/system.gyp.GLEW	2010-04-13 11:36:47.300172139 -0400
++++ chromium-5.0.377.0-20100413svn44349/src/build/linux/system.gyp	2010-04-13 11:36:47.579173387 -0400
+@@ -372,6 +372,42 @@
+           },
+       }]]
+     },
++    {
++      'target_name': 'icu',
++      'type': 'none',
++      'conditions': [
++        ['_toolset=="target"', {
++          'direct_dependent_settings': {
++            'cflags': [
++              '-Wno-unused-function',  
++              # TODO(port): fix ICU to not depend on this flag.  
++              '-fno-strict-aliasing',
++            ],
++          },
++          'link_settings': {
++            'ldflags': [
++              '',
++            ],
++            'libraries': [
++              '-licui18n',
++            ],
++          },
++      }]]   
++    },   
++    {
++      'target_name': 'glew',
++      'type': 'none',
++      'conditions': [
++        ['_toolset=="target"', {
++          'link_settings': {
++            'libraries': [
++              '-lGLEW',
++              '-lGL',
++              '-lX11',
++            ],
++          },
++      }]]
++    },
+     {
+       'target_name': 'gnome_keyring',
+       'type': 'none',
