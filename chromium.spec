@@ -1,15 +1,16 @@
 %define v8_ver 3.9.1.0
+%define svn_revision 120549
 %define debug_package %{nil}
 
-Summary:        Google's opens source browser project
 Name:           chromium
-Version:        18.0.972.0
+Version:        19.0.1031.0
 Release:        1%{?dist}.R
+Summary:        Google's opens source browser project
 
 License:        BSD
 Group:          Applications/Internet
 Url:            http://code.google.com/p/chromium/
-Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn.tar.lzma
+Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn%{svn_revision}.tar.lzma
 Source8:        http://download.rfremix.ru/storage/chromium/%{version}/ffmpeg-0.6-headers.tar.bz2
 Source20:       chromium-vendor.patch.in
 Source30:       master_preferences
@@ -18,7 +19,8 @@ Source99:       chrome-wrapper
 Source100:      chromium-browser.sh
 Source101:      chromium-browser.desktop
 Source102:      chromium-browser.xml
-Source104:      http://download.rfremix.ru/storage/chromium/%{version}/chromium-icons.tar.bz2
+Source105:      chromium-12-256x256.svg
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Provides:       chromium-browser = %{version}
 Provides:       chromium-based-browser = %{version}
@@ -28,8 +30,6 @@ Obsoletes:      chromium-browser < %{version}
 # Many changes to the gyp systems so we can use system libraries
 # PATCH-FIX-OPENSUSE Fix build with GCC 4.6
 Patch1:         chromium-gcc46.patch
-# PATCH-FIX-OPENSUSE disable debug for sqlite
-Patch4:         chromium-no-sqlite-debug.patch
 # PATCH-FIX-OPENSUSE patches in system zlib library
 Patch8:         chromium-codechanges-zlib.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
@@ -56,6 +56,10 @@ Patch62:        chromium-norpath.patch
 Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch64:        chromium-more-codec-aliases.patch
+# PATCH-FIX-UPSTREAM Only include glib.h
+Patch65:        chromium-new-glib.patch
+# PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
+Patch66:        chromium-sandbox-pie.patch
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
@@ -64,6 +68,7 @@ BuildRequires:  cups-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  flex
 BuildRequires:  freetype-devel
+BuildRequires:  gperf
 BuildRequires:  hunspell-devel
 BuildRequires:  bzip2-devel
 BuildRequires:  libevent-devel
@@ -88,7 +93,7 @@ BuildRequires:  pkgconfig(gtk+-2.0)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  dbus-devel
 BuildRequires:  python
-BuildRequires:  libselinux-devel
+BuildRequires:	libselinux-devel
 BuildRequires:  sqlite-devel
 BuildRequires:  v8-devel = %{v8_ver}
 BuildRequires:  zlib-devel
@@ -97,8 +102,9 @@ BuildRequires:  elfutils-libelf-devel
 BuildRequires:  gnome-keyring-devel
 BuildRequires:  python-devel
 BuildRequires:  speex-devel
+BuildRequires:  lzma
 BuildRequires:  hicolor-icon-theme
-BuildRequires:  gperf
+BuildRequires:  libudev-devel
 
 # NaCl needs these
 BuildRequires:  libstdc++-devel
@@ -107,9 +113,9 @@ BuildRequires:  nacl-gcc, nacl-binutils, nacl-newlib
 BuildRequires:  libselinux-devel
 BuildRequires:  libXt-devel, libXScrnSaver-devel
 
-Requires:       chromium-ffmpeg = %{version}
+Requires:       hicolor-icon-theme
+Requires:       chromium-ffmpeg >= %{version}
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 Chromium is the open-source project behind Google Chrome. We invite you to join
@@ -125,6 +131,7 @@ lzma -cd %{SOURCE0} | tar xf -
 %patch62 -p1
 %patch63 -p1
 %patch64
+%patch65 -p1
 %patch8 -p1
 %patch13 -p1
 %patch14 -p1
@@ -135,7 +142,9 @@ lzma -cd %{SOURCE0} | tar xf -
 %patch26 -p1
 %patch28 -p1
 %patch32 -p1
-%patch4 -p1
+%patch66 -p1
+
+echo "%{svn_revision}" > src/build/LASTCHANGE.in
 
 pushd src/third_party/ffmpeg/
 tar xf %{SOURCE8}
@@ -148,13 +157,6 @@ sed "s:RPM_VERSION:%{version}:" %{SOURCE20} | patch -p0
 cp -a src/AUTHORS src/LICENSE .
 
 %build
-
-pwd
-%if 0%{?rhel} < 7
-sed -i 's!gtk_widget_get_realized!GTK_WIDGET_REALIZED!g' \
-        src/chrome/browser/ui/gtk/bookmarks/bookmark_bar_gtk.cc
-%endif
-
 
 ## create make files
 
@@ -170,11 +172,11 @@ for i in src/build/common.gypi; do
         sed -i "s|'-Werror'|'-Wno-error'|g" $i
 done
 # '
-#%if 0%{?suse_version} <= 1120
+%if 0%{?rhel} <= 7
 for i in src/build/common.gypi; do
         sed -i "s|'-Wno-unused-result',||g" $i
 done
-#%endif
+%endif
 
 pushd src
 
@@ -231,13 +233,15 @@ popd
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_libdir}/chromium/
+%ifarch x86_64
+mkdir -p %{buildroot}%{_prefix}/lib/
+%endif
 mkdir -p %{buildroot}%{_bindir}
 install -m 755 %{SOURCE100} %{buildroot}%{_bindir}/chromium
 # x86_64 capable systems need this
 sed -i "s|/usr/lib/chromium|%{_libdir}/chromium|g" %{buildroot}%{_bindir}/chromium
 sed -i "s|/usr/lib/chrome_sandbox|%{_libdir}/chrome_sandbox|g" %{buildroot}%{_bindir}/chromium
 
-mkdir -p %{buildroot}%{_mandir}/man1/
 pushd src/out/Release
 
 cp -a chrome_sandbox %{buildroot}%{_libdir}/
@@ -248,6 +252,7 @@ sed "s|xdg-mime|%{_libdir}/chromium/xdg-mime|g" xdg-settings > %{buildroot}%{_li
 
 cp -a resources.pak %{buildroot}%{_libdir}/chromium/
 cp -a chrome %{buildroot}%{_libdir}/chromium/chromium
+mkdir -p %{buildroot}%{_mandir}/man1/
 cp -a chrome.1 %{buildroot}%{_mandir}/man1/chrome.1
 cp -a chrome.1 %{buildroot}%{_mandir}/man1/chromium.1
 
@@ -258,11 +263,8 @@ cp -a nacl_irt_*.nexe %{buildroot}%{_libdir}/chromium/
 cp -a libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/chromium/
 popd
 
-mkdir -p %{buildroot}%{_datadir}/icons/
-pushd %{buildroot}%{_datadir}/icons/
-tar -xjf %{SOURCE104}
-mv oxygen hicolor
-popd
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
+cp -a %{SOURCE105} %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/chromium-browser.svg
 
 mkdir -p %{buildroot}%{_datadir}/applications/
 desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE101}
@@ -270,10 +272,8 @@ desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE101}
 mkdir -p %{buildroot}%{_datadir}/gnome-control-center/default-apps/
 cp -a %{SOURCE102} %{buildroot}%{_datadir}/gnome-control-center/default-apps/
 
-## link to browser plugin path.  Plugin patch doesn't work. Why?
+# link to browser plugin path.  Plugin patch doesn't work. Why?
 mkdir -p mkdir -p %{buildroot}%{_libdir}/chromium/plugins/
-#pushd %{buildroot}%{_libdir}/%{name}
-#ln -s %{_libdir}/browser-plugins plugins
 
 # Install the master_preferences file
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -323,9 +323,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man1/chrom*
 %{_datadir}/applications/*.desktop
 %{_datadir}/gnome-control-center/default-apps/chromium-browser.xml
-%{_datadir}/icons/hicolor/
+%{_datadir}/icons/hicolor/scalable/apps/chromium-browser.svg
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
 %changelog
+* Mon Feb 20 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1031.0-1.R
+- update to 19.0.1031.0
+
 * Sun Feb 19 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 18.0.972.0-1.R
 - initial build for EL6
