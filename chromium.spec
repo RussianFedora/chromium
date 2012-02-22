@@ -1,16 +1,16 @@
-%define v8_ver 3.9.1.0
+%define v8_ver 3.9.7.0
 %define debug_package %{nil}
 
 Summary:        Google's opens source browser project
 Name:           chromium
-Version:        18.0.972.0
+Version:        18.0.1022.0
 Release:        1%{?dist}.R
 
 License:        BSD
 Group:          Applications/Internet
 Url:            http://code.google.com/p/chromium/
-Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn.tar.lzma
-Source8:        http://download.rfremix.ru/storage/chromium/%{version}/ffmpeg-0.6-headers.tar.bz2
+Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn119632.tar.lzma
+Source8:        http://download.rfremix.ru/storage/chromium/18.0.972.0/ffmpeg-0.6-headers.tar.bz2
 Source20:       chromium-vendor.patch.in
 Source30:       master_preferences
 Source31:       default_bookmarks.html
@@ -18,7 +18,7 @@ Source99:       chrome-wrapper
 Source100:      chromium-browser.sh
 Source101:      chromium-browser.desktop
 Source102:      chromium-browser.xml
-Source104:      http://download.rfremix.ru/storage/chromium/%{version}/chromium-icons.tar.bz2
+Source105:      chromium-12-256x256.svg
 
 Provides:       chromium-browser = %{version}
 Provides:       chromium-based-browser = %{version}
@@ -28,8 +28,6 @@ Obsoletes:      chromium-browser < %{version}
 # Many changes to the gyp systems so we can use system libraries
 # PATCH-FIX-OPENSUSE Fix build with GCC 4.6
 Patch1:         chromium-gcc46.patch
-# PATCH-FIX-OPENSUSE disable debug for sqlite
-Patch4:         chromium-no-sqlite-debug.patch
 # PATCH-FIX-OPENSUSE patches in system zlib library
 Patch8:         chromium-codechanges-zlib.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
@@ -56,6 +54,8 @@ Patch62:        chromium-norpath.patch
 Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch64:        chromium-more-codec-aliases.patch
+# PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
+Patch66:        chromium-sandbox-pie.patch
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
@@ -107,7 +107,7 @@ BuildRequires:  nacl-gcc, nacl-binutils, nacl-newlib
 BuildRequires:  libselinux-devel
 BuildRequires:  libXt-devel, libXScrnSaver-devel
 
-Requires:       chromium-ffmpeg = %{version}
+Requires:       chromium-ffmpeg >= %{version}
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -135,7 +135,7 @@ lzma -cd %{SOURCE0} | tar xf -
 %patch26 -p1
 %patch28 -p1
 %patch32 -p1
-%patch4 -p1
+%patch66 -p1
 
 pushd src/third_party/ffmpeg/
 tar xf %{SOURCE8}
@@ -258,11 +258,8 @@ cp -a nacl_irt_*.nexe %{buildroot}%{_libdir}/chromium/
 cp -a libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/chromium/
 popd
 
-mkdir -p %{buildroot}%{_datadir}/icons/
-pushd %{buildroot}%{_datadir}/icons/
-tar -xjf %{SOURCE104}
-mv oxygen hicolor
-popd
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/
+cp -a %{SOURCE105} %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/chromium-browser.svg
 
 mkdir -p %{buildroot}%{_datadir}/applications/
 desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE101}
@@ -323,9 +320,14 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man1/chrom*
 %{_datadir}/applications/*.desktop
 %{_datadir}/gnome-control-center/default-apps/chromium-browser.xml
-%{_datadir}/icons/hicolor/
+%{_datadir}/icons/hicolor/scalable/apps/chromium-browser.svg
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
 %changelog
+* Wed Feb 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 18.0.1022.0-1.R
+- update to 18.0.1022.0
+- drop password save programs option by default
+- new vector icon
+
 * Sun Feb 19 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 18.0.972.0-1.R
 - initial build for EL6
