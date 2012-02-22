@@ -129,7 +129,6 @@ developing a new generation of web applications.
 %patch62 -p1
 %patch63 -p1
 %patch64
-%patch65 -p1
 %patch8 -p1
 %patch13 -p1
 %patch14 -p1
