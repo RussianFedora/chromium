@@ -1,17 +1,21 @@
---- chromium/src/build/all.gyp	2010-11-25 19:17:16.000000000 +0100
-+++ new/src/build/all.gyp	2010-11-25 21:05:09.413000018 +0100
-@@ -51,7 +51,7 @@
+Index: chromium/src/build/all.gyp
+===================================================================
+--- chromium.orig/src/build/all.gyp
++++ chromium/src/build/all.gyp
+@@ -50,7 +50,7 @@
          '../third_party/sqlite/sqlite.gyp:*',
-         '../third_party/WebKit/Source/WebKit/chromium/WebKit.gyp:*',
+         '../third_party/WebKit/Source/WebKit/chromium/All.gyp:*',
          '../third_party/zlib/zlib.gyp:*',
 -        '../v8/tools/gyp/v8.gyp:*',
 +        'linux/system.gyp:v8',
          '../webkit/support/webkit_support.gyp:*',
          '../webkit/webkit.gyp:*',
          'util/build_util.gyp:*',
---- chromium/src/build/linux/system.gyp	2010-11-20 23:07:46.000000000 +0100
-+++ new/src/build/linux/system.gyp	2010-11-25 21:05:09.418000018 +0100
-@@ -359,6 +359,19 @@
+Index: chromium/src/build/linux/system.gyp
+===================================================================
+--- chromium.orig/src/build/linux/system.gyp
++++ chromium/src/build/linux/system.gyp
+@@ -380,6 +380,19 @@
        ],
      },
      {
@@ -31,9 +35,11 @@
        'target_name': 'gnome_keyring',
        'type': 'none',
        'conditions': [
---- chromium/src/net/net.gyp	2010-11-25 19:17:15.000000000 +0100
-+++ new/src/net/net.gyp	2010-11-25 21:05:09.427000018 +0100
-@@ -717,7 +717,7 @@
+Index: chromium/src/net/net.gyp
+===================================================================
+--- chromium.orig/src/net/net.gyp
++++ chromium/src/net/net.gyp
+@@ -35,7 +35,7 @@
          '../third_party/icu/icu.gyp:icui18n',
          '../third_party/icu/icu.gyp:icuuc',
          '../third_party/zlib/zlib.gyp:zlib',
@@ -42,9 +48,11 @@
          'net_resources',
          'ssl_false_start_blacklist_process#host',
        ],
---- chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp	2010-11-20 23:09:21.000000000 +0100
-+++ new/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp	2010-11-25 21:05:09.435000018 +0100
-@@ -960,7 +960,7 @@
+Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
+===================================================================
+--- chromium.orig/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
++++ chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
+@@ -1070,7 +1070,7 @@
          '<(chromium_src_dir)/third_party/libwebp/libwebp.gyp:libwebp',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
@@ -53,7 +61,7 @@
          '<(libjpeg_gyp_path):libjpeg',
        ],
        'include_dirs': [
-@@ -1078,7 +1078,7 @@
+@@ -1189,7 +1189,7 @@
          '<(chromium_src_dir)/third_party/ots/ots.gyp:ots',
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
          '<(chromium_src_dir)/third_party/angle/src/build_angle.gyp:translator_glsl',
@@ -62,7 +70,7 @@
          '<(libjpeg_gyp_path):libjpeg',
        ],
        'export_dependent_settings': [
-@@ -1095,7 +1095,7 @@
+@@ -1207,7 +1207,7 @@
          '<(chromium_src_dir)/third_party/ots/ots.gyp:ots',
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
          '<(chromium_src_dir)/third_party/angle/src/build_angle.gyp:translator_glsl',
@@ -71,7 +79,7 @@
          '<(libjpeg_gyp_path):libjpeg',
        ],
        # This is needed for mac because of webkit_system_interface. It'd be nice
-@@ -1820,7 +1820,7 @@
+@@ -1967,7 +1967,7 @@
          '<(chromium_src_dir)/build/temp_gyp/googleurl.gyp:googleurl',
          '<(chromium_src_dir)/skia/skia.gyp:skia',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
@@ -80,7 +88,7 @@
        ],
        'export_dependent_settings': [
          'webcore_bindings',
-@@ -1828,7 +1828,7 @@
+@@ -1976,7 +1976,7 @@
          '<(chromium_src_dir)/build/temp_gyp/googleurl.gyp:googleurl',
          '<(chromium_src_dir)/skia/skia.gyp:skia',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
