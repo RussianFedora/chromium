@@ -2,9 +2,9 @@ Index: chromium/src/build/all.gyp
 ===================================================================
 --- chromium.orig/src/build/all.gyp
 +++ chromium/src/build/all.gyp
-@@ -50,7 +50,7 @@
-         '../third_party/sqlite/sqlite.gyp:*',
+@@ -51,7 +51,7 @@
          '../third_party/WebKit/Source/WebKit/chromium/All.gyp:*',
+         '../third_party/WebKit/Source/WebKit/chromium/WebKit.gyp:generate_devtools_zip',
          '../third_party/zlib/zlib.gyp:*',
 -        '../v8/tools/gyp/v8.gyp:*',
 +        'linux/system.gyp:v8',
