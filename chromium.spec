@@ -10,7 +10,7 @@ Summary:        Google's opens source browser project
 License:        BSD
 Group:          Applications/Internet
 Url:            http://code.google.com/p/chromium/
-Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn%{svn_revision}.tar.lzma
+Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn%{svn_revision}.tar.bz2
 Source8:        http://download.rfremix.ru/storage/chromium/19.0.1031.0/ffmpeg-0.6-headers.tar.bz2
 Source20:       chromium-vendor.patch.in
 Source30:       master_preferences
@@ -102,7 +102,6 @@ BuildRequires:  elfutils-libelf-devel
 BuildRequires:  gnome-keyring-devel
 BuildRequires:  python-devel
 BuildRequires:  speex-devel
-BuildRequires:  lzma
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  libudev-devel
 
@@ -124,8 +123,7 @@ Internet users to experience the web, and to create a powerful platform for
 developing a new generation of web applications.
 
 %prep
-lzma -cd %{SOURCE0} | tar xf -
-%setup -D -T -n %{name}-suse
+%setup -q -n %{name}
 
 %patch1 -p1
 %patch62 -p1
