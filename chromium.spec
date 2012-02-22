@@ -1,9 +1,9 @@
-%define v8_ver 3.9.1.0
-%define svn_revision 120549
+%define v8_ver 3.9.7.0
+%define svn_revision 122684
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        19.0.1031.0
+Version:        19.0.1046.0
 Release:        1%{?dist}.R
 Summary:        Google's opens source browser project
 
@@ -11,7 +11,7 @@ License:        BSD
 Group:          Applications/Internet
 Url:            http://code.google.com/p/chromium/
 Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn%{svn_revision}.tar.lzma
-Source8:        http://download.rfremix.ru/storage/chromium/%{version}/ffmpeg-0.6-headers.tar.bz2
+Source8:        http://download.rfremix.ru/storage/chromium/19.0.1031.0/ffmpeg-0.6-headers.tar.bz2
 Source20:       chromium-vendor.patch.in
 Source30:       master_preferences
 Source31:       default_bookmarks.html
@@ -327,6 +327,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
 %changelog
+* Wed Feb 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-1.R
+- update to 19.0.1046.0
+
 * Mon Feb 20 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1031.0-1.R
 - update to 19.0.1031.0
 

@@ -74,7 +74,7 @@ if [ ! -d ~/.config/chromium/Default ]; then
          "use_system": true
       }
    },
-   "homepage": "http://meego.com/",
+   "homepage": "http://russianfedora.ru/",
    "homepage_is_newtabpage": false,
    "session": {
       "restore_on_startup": 1
@@ -111,6 +111,6 @@ if [ $want_debug -eq 1 ] ; then
   $GDB "$LIBDIR/$APPNAME" -x $tmpfile
   exit $?
 else
-  exec $LIBDIR/$APPNAME $SANDBOX "--password-store=detect" "--enable-experimental-extension-apis" "--enable-plugins" "--enable-extensions" "--enable-user-scripts" "--enable-printing" "--enable-sync" "--auto-ssl-client-auth" "$@"
+  exec $LIBDIR/$APPNAME $SANDBOX "--enable-experimental-extension-apis" "--enable-plugins" "--enable-extensions" "--enable-user-scripts" "--enable-printing" "--enable-sync" "--auto-ssl-client-auth" "$@"
 fi
 
