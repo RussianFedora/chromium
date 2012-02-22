@@ -175,6 +175,10 @@ done
 
 pushd src
 
+sed -i 's!-Wl,--threads -Wl,--thread-count=4!!g' tools/gyp/pylib/gyp/generator/make.py
+sed -i 's!-Wl,--threads -Wl,--thread-count=4!!g' tools/gyp/pylib/gyp/generator/ninja.py
+sed -i 's!-Wl,--threads --Wl,--thread-count=4!!g' third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
+
 ./build/gyp_chromium -f make build/all.gyp \
 -Dlinux_sandbox_path=%{_libdir}/chrome_sandbox \
 -Dlinux_sandbox_chrome_path=%{_libdir}/chromium/chromium \
