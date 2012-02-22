@@ -56,8 +56,6 @@ Patch62:        chromium-norpath.patch
 Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch64:        chromium-more-codec-aliases.patch
-# PATCH-FIX-UPSTREAM Only include glib.h
-Patch65:        chromium-new-glib.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch66:        chromium-sandbox-pie.patch
 
