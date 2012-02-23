@@ -99,6 +99,7 @@ BuildRequires:  python-devel
 BuildRequires:  speex-devel
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  gperf
+BuildRequires:  libudev-devel
 
 # NaCl needs these
 BuildRequires:  libstdc++-devel
