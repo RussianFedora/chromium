@@ -4,7 +4,7 @@
 
 Name:           chromium
 Version:        19.0.1046.0
-Release:        1%{?dist}.R
+Release:        2%{?dist}.R
 Summary:        Google's opens source browser project
 
 License:        BSD
@@ -113,7 +113,7 @@ BuildRequires:  libselinux-devel
 BuildRequires:  libXt-devel, libXScrnSaver-devel
 
 Requires:       hicolor-icon-theme
-Requires:       chromium-ffmpeg >= %{version}
+Requires:       chromium-ffmpeg >= 19.0.1037.0
 Requires:       v8 >= %{v8_ver}
 
 
@@ -331,6 +331,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
 %changelog
+* Thu Feb 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-2.R
+- fix chromium-ffmpeg version
+
 * Wed Feb 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-1.R
 - update to 19.0.1046.0
 - added R: v8
