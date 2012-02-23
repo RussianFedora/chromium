@@ -182,7 +182,7 @@ pushd src
 # ugly hack. remove threads
 #sed -i 's!-Wl,--threads --Wl,--thread-count=4!!g' third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
 
-find . -name "*.mk" -exec sed -i '/-Wl,--threads/d;/-Wl,--thread-count=4/d' {} \;
+find . -name "*.mk" -exec sed -i '/-Wl,--threads/d;/-Wl,--thread-count=4/d;/-Wl,--icf=none/d' {} \;
 
 ./build/gyp_chromium -f make build/all.gyp \
 -Dlinux_sandbox_path=%{_libdir}/chrome_sandbox \

@@ -1,10 +1,11 @@
 diff -urN chromium.orig/src/build/common.gypi chromium/src/build/common.gypi
 --- chromium.orig/src/build/common.gypi	2012-02-23 15:28:18.198368280 +0400
-+++ chromium/src/build/common.gypi	2012-02-23 15:34:12.842384870 +0400
-@@ -1984,13 +1984,6 @@
++++ chromium/src/build/common.gypi	2012-02-23 17:41:18.836485261 +0400
+@@ -1983,31 +1983,6 @@
+             'defines': ['KEEP_SHADOW_STACKS'],
              'cflags': ['-finstrument-functions'],
            }],
-           ['linux_use_gold_flags==1', {
+-          ['linux_use_gold_flags==1', {
 -            'ldflags': [
 -              # Experimentation found that using four linking threads
 -              # saved ~20% of link time.
@@ -12,9 +13,26 @@ diff -urN chromium.orig/src/build/common.gypi chromium/src/build/common.gypi
 -              '-Wl,--threads',
 -              '-Wl,--thread-count=4',
 -            ],
-             'conditions': [
-               ['release_valgrind_build==0', {
-                 'target_conditions': [
+-            'conditions': [
+-              ['release_valgrind_build==0', {
+-                'target_conditions': [
+-                  ['_toolset=="target"', {
+-                    'ldflags': [
+-                      # There seems to be a conflict of --icf and -pie
+-                      # in gold which can generate crashy binaries. As
+-                      # a security measure, -pie takes precendence for
+-                      # now.
+-                      #'-Wl,--icf=safe',
+-                      '-Wl,--icf=none',
+-                    ],
+-                  }],
+-                ],
+-              }],
+-            ],
+-          }],
+           ['linux_use_gold_binary==1', {
+             'variables': {
+               # We pass the path to gold to the compiler.  gyp leaves
 diff -urN chromium.orig/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py chromium/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
 --- chromium.orig/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py	2012-02-23 15:28:22.379371449 +0400
 +++ chromium/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py	2012-02-23 15:35:14.350371102 +0400
