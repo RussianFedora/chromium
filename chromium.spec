@@ -58,6 +58,8 @@ Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 Patch64:        chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch66:        chromium-sandbox-pie.patch
+# No threads patch
+Patch100:       %{name}-nothreads.patch
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
@@ -112,6 +114,7 @@ BuildRequires:  libXt-devel, libXScrnSaver-devel
 
 Requires:       hicolor-icon-theme
 Requires:       chromium-ffmpeg >= %{version}
+Requires:       v8 >= %{v8_ver}
 
 
 %description
@@ -138,6 +141,7 @@ developing a new generation of web applications.
 %patch28 -p1
 %patch32 -p1
 %patch66 -p1
+%patch100 -p1
 
 echo "%{svn_revision}" > src/build/LASTCHANGE.in
 
@@ -175,9 +179,10 @@ done
 
 pushd src
 
-sed -i 's!-Wl,--threads -Wl,--thread-count=4!!g' tools/gyp/pylib/gyp/generator/make.py
-sed -i 's!-Wl,--threads -Wl,--thread-count=4!!g' tools/gyp/pylib/gyp/generator/ninja.py
-sed -i 's!-Wl,--threads --Wl,--thread-count=4!!g' third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
+# ugly hack. remove threads
+#sed -i 's!-Wl,--threads --Wl,--thread-count=4!!g' third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
+
+find . -name "*.mk" -exec sed -i '/-Wl,--threads/d;/-Wl,--thread-count=4/d' {} \;
 
 ./build/gyp_chromium -f make build/all.gyp \
 -Dlinux_sandbox_path=%{_libdir}/chrome_sandbox \
@@ -328,6 +333,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Wed Feb 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-1.R
 - update to 19.0.1046.0
+- added R: v8
+- drop not supported gold linker options
 
 * Mon Feb 20 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1031.0-1.R
 - update to 19.0.1031.0

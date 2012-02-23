@@ -1,0 +1,29 @@
+diff -urN chromium.orig/src/build/common.gypi chromium/src/build/common.gypi
+--- chromium.orig/src/build/common.gypi	2012-02-23 15:28:18.198368280 +0400
++++ chromium/src/build/common.gypi	2012-02-23 15:34:12.842384870 +0400
+@@ -1984,13 +1984,6 @@
+             'cflags': ['-finstrument-functions'],
+           }],
+           ['linux_use_gold_flags==1', {
+-            'ldflags': [
+-              # Experimentation found that using four linking threads
+-              # saved ~20% of link time.
+-              # https://groups.google.com/a/chromium.org/group/chromium-dev/browse_thread/thread/281527606915bb36
+-              '-Wl,--threads',
+-              '-Wl,--thread-count=4',
+-            ],
+             'conditions': [
+               ['release_valgrind_build==0', {
+                 'target_conditions': [
+diff -urN chromium.orig/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py chromium/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
+--- chromium.orig/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py	2012-02-23 15:28:22.379371449 +0400
++++ chromium/src/third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py	2012-02-23 15:35:14.350371102 +0400
+@@ -1248,7 +1248,7 @@
+     # don't even use flock when linking in the cross-compile setup!
+     # TODO(evan): refactor cross-compilation such that this code can
+     # be reused.
+-    link_flags = '-Wl,--threads --Wl,--thread-count=4'
++    link_flags = ''
+ 
+   # TODO(evan): cache this output.  (But then we'll need to add extra
+   # flags to gyp to flush the cache, yuk!  It's fast enough for now to
