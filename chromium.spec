@@ -97,7 +97,11 @@ BuildRequires:  v8-devel = %{v8_ver}
 BuildRequires:  zlib-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  elfutils-libelf-devel
+%if 0%{?fedora} >= 17 || %0%{?rhel} >= 7
+BuildRequires:	libgnome-keyring-devel
+%else
 BuildRequires:  gnome-keyring-devel
+%endif
 BuildRequires:  python-devel
 BuildRequires:  speex-devel
 BuildRequires:  hicolor-icon-theme
@@ -319,6 +323,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - build with internal NaCl
 - added BR for some i686 libs in x86_64 build
 - fix distribution name in useragent
+- GNOME 3.4 has new keyring packages
 
 * Thu Feb 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-2.R
 - fix chromium-ffmpeg version
