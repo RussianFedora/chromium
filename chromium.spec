@@ -4,7 +4,7 @@
 
 Name:           chromium
 Version:        19.0.1046.0
-Release:        2%{?dist}.R
+Release:        3%{?dist}.R
 Summary:        Google's opens source browser project
 
 License:        BSD
@@ -58,8 +58,6 @@ Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 Patch64:        chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch66:        chromium-sandbox-pie.patch
-# No threads patch
-Patch100:       %{name}-nothreads.patch
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
@@ -104,13 +102,15 @@ BuildRequires:  python-devel
 BuildRequires:  speex-devel
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  libudev-devel
+BuildRequires:  libXt-devel
+BuildRequires:  libXScrnSaver-devel
 
 # NaCl needs these
-BuildRequires:  libstdc++-devel
-BuildRequires:  nacl-gcc, nacl-binutils, nacl-newlib
-
-BuildRequires:  libselinux-devel
-BuildRequires:  libXt-devel, libXScrnSaver-devel
+%ifarch x86_64
+BuildRequires:	/lib/libc.so.6
+BuildRequires:  /lib/libz.so.1
+BuildRequires:  /lib/libgcc_s.so.1
+%endif
 
 Requires:       hicolor-icon-theme
 Requires:       chromium-ffmpeg >= 19.0.1037.0
@@ -122,6 +122,7 @@ Chromium is the open-source project behind Google Chrome. We invite you to join
 us in our effort to help build a safer, faster, and more stable way for all
 Internet users to experience the web, and to create a powerful platform for
 developing a new generation of web applications.
+
 
 %prep
 %setup -q -n %{name}
@@ -141,7 +142,6 @@ developing a new generation of web applications.
 %patch28 -p1
 %patch32 -p1
 %patch66 -p1
-%patch100 -p1
 
 echo "%{svn_revision}" > src/build/LASTCHANGE.in
 
@@ -154,6 +154,7 @@ sed "s:RPM_VERSION:%{version}:" %{SOURCE20} | patch -p0
 
 # Make sure that the requires legal files can be found
 cp -a src/AUTHORS src/LICENSE .
+
 
 %build
 
@@ -179,11 +180,6 @@ done
 
 pushd src
 
-# ugly hack. remove threads
-#sed -i 's!-Wl,--threads --Wl,--thread-count=4!!g' third_party/WebKit/Source/ThirdParty/gyp/pylib/gyp/generator/make.py
-
-find . -name "*.mk" -exec sed -i '/-Wl,--threads/d;/-Wl,--thread-count=4/d;/-Wl,--icf=none/d' {} \;
-
 ./build/gyp_chromium -f make build/all.gyp \
 -Dlinux_sandbox_path=%{_libdir}/chrome_sandbox \
 -Dlinux_sandbox_chrome_path=%{_libdir}/chromium/chromium \
@@ -207,25 +203,9 @@ find . -name "*.mk" -exec sed -i '/-Wl,--threads/d;/-Wl,--thread-count=4/d;/-Wl,
 %endif
 %ifarch x86_64
 -Dtarget_arch=x64 \
+-Dlinux_use_gold_flags=0 \
 %endif
 -Djavascript_engine=v8
-
-# Make symlinks for nacl
-cd native_client/toolchain/linux_x86_newlib/x86_64-nacl/bin/
-ln -sf /usr/bin/x86_64-nacl-gcc gcc
-ln -sf /usr/bin/x86_64-nacl-g++ g++
-ln -sf /usr/bin/x86_64-nacl-c++ c++
-ln -sf /usr/bin/x86_64-nacl-ar ar
-ln -sf /usr/bin/x86_64-nacl-as as
-ln -sf /usr/bin/x86_64-nacl-ld ld
-ln -sf /usr/bin/x86_64-nacl-nm nm
-ln -sf /usr/bin/x86_64-nacl-ranlib ranlib
-ln -sf /usr/bin/x86_64-nacl-objdump objdump
-ln -sf /usr/bin/x86_64-nacl-objcopy objcopy
-ln -sf /usr/bin/x86_64-nacl-strip strip
-popd
-
-pushd src
 
 make -r %{?_smp_mflags} chrome V=1 BUILDTYPE=Release
 
@@ -234,12 +214,10 @@ make -r %{?_smp_mflags} chrome_sandbox V=1 BUILDTYPE=Release
 
 popd
 
+
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_libdir}/chromium/
-%ifarch x86_64
-mkdir -p %{buildroot}%{_prefix}/lib/
-%endif
 mkdir -p %{buildroot}%{_bindir}
 install -m 755 %{SOURCE100} %{buildroot}%{_bindir}/chromium
 # x86_64 capable systems need this
@@ -291,12 +269,15 @@ popd
 
 strip -p %{buildroot}%{_libdir}/chrome_sandbox
 
+
 %clean
 rm -rf %{buildroot}
+
 
 %post
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 update-desktop-database &> /dev/null || :
+
 
 %postun
 if [ $1 -eq 0 ] ; then
@@ -305,8 +286,10 @@ if [ $1 -eq 0 ] ; then
 fi
 update-desktop-database &> /dev/null || :
 
+
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+
 
 %files
 %defattr(-,root,root,-)
@@ -330,7 +313,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/icons/hicolor/scalable/apps/chromium-browser.svg
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
+
 %changelog
+* Fri Feb 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-3.R
+- build with internal NaCl
+- added BR for some i686 libs in x86_64 build
+
 * Thu Feb 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-2.R
 - fix chromium-ffmpeg version
 
