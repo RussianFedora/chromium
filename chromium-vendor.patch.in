@@ -6,7 +6,7 @@
        "Mozilla/5.0 (%s%s) AppleWebKit/%d.%d"
 -      " (KHTML, like Gecko) %s Safari/%d.%d",
 +      " (KHTML, like Gecko) %s Safari/%d.%d"
-+      " RERemix/RPM_VERSION",
++      " RFRemix/RPM_VERSION",
        kUserAgentPlatform,
        webkit_glue::BuildOSCpuInfo().c_str(),
        WEBKIT_VERSION_MAJOR,
