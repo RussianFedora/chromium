@@ -97,7 +97,7 @@ BuildRequires:  v8-devel = %{v8_ver}
 BuildRequires:  zlib-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  elfutils-libelf-devel
-%if 0%{?fedora} >= 17 || %0%{?rhel} >= 7
+%if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
 BuildRequires:	libgnome-keyring-devel
 %else
 BuildRequires:  gnome-keyring-devel
