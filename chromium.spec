@@ -318,6 +318,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Fri Feb 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-3.R
 - build with internal NaCl
 - added BR for some i686 libs in x86_64 build
+- fix distribution name in useragent
 
 * Thu Feb 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-2.R
 - fix chromium-ffmpeg version
