@@ -28,8 +28,11 @@ Obsoletes:      chromium-browser < %{version}
 
 ## Start Patches
 # Many changes to the gyp systems so we can use system libraries
-# PATCH-FIX-OPENSUSE Fix build with GCC 4.6
+# PATCH-FIX-OPENSUSE Fix build with GCC 4.6, GCC 4.7
 Patch1:         chromium-gcc46.patch
+%if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
+Patch2:         chromium-gcc47.patch
+%endif
 # PATCH-FIX-OPENSUSE patches in system zlib library
 Patch8:         chromium-codechanges-zlib.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
@@ -83,6 +86,7 @@ BuildRequires:  openssl-devel
 BuildRequires:  pam-devel
 BuildRequires:  pkgconfig
 BuildRequires:  perl(Switch)
+BuildRequires:  perl(Digest::MD5)
 BuildRequires:  pkgconfig(cairo) >= 1.6
 BuildRequires:  dbus-glib-devel
 BuildRequires:  pkgconfig(gconf-2.0)
@@ -132,6 +136,9 @@ developing a new generation of web applications.
 %setup -q -n %{name}
 
 %patch1 -p1
+%if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
+%patch2 -p1
+%endif
 %patch62 -p1
 %patch63 -p1
 %patch64
@@ -324,6 +331,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - added BR for some i686 libs in x86_64 build
 - fix distribution name in useragent
 - GNOME 3.4 has new keyring packages
+- added gcc 4.7 patch
+- added R: perl(Digest::MD5)
 
 * Thu Feb 23 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-2.R
 - fix chromium-ffmpeg version
