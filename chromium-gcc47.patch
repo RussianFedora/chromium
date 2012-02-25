@@ -1,0 +1,57 @@
+diff -urN chromium.orig/src/base/message_pump_libevent.cc chromium/src/base/message_pump_libevent.cc
+--- chromium.orig/src/base/message_pump_libevent.cc	2012-02-26 00:55:03.079369397 +0400
++++ chromium/src/base/message_pump_libevent.cc	2012-02-26 00:56:36.074372620 +0400
+@@ -6,6 +6,7 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
++#include <unistd.h>
+ 
+ #include "base/auto_reset.h"
+ #include "base/compiler_specific.h"
+diff -urN chromium.orig/src/chrome/browser/policy/policy_path_parser_linux.cc chromium/src/chrome/browser/policy/policy_path_parser_linux.cc
+--- chromium.orig/src/chrome/browser/policy/policy_path_parser_linux.cc	2012-02-26 00:55:04.985402784 +0400
++++ chromium/src/chrome/browser/policy/policy_path_parser_linux.cc	2012-02-26 00:57:11.935502736 +0400
+@@ -3,6 +3,7 @@
+ // found in the LICENSE file.
+ 
+ #include <pwd.h>
++#include <unistd.h>
+ 
+ #include "chrome/browser/policy/policy_path_parser.h"
+ 
+diff -urN chromium.orig/src/ipc/ipc_channel.h chromium/src/ipc/ipc_channel.h
+--- chromium.orig/src/ipc/ipc_channel.h	2012-02-26 00:55:03.191369764 +0400
++++ chromium/src/ipc/ipc_channel.h	2012-02-26 00:56:36.075375481 +0400
+@@ -9,6 +9,7 @@
+ #include "base/compiler_specific.h"
+ #include "ipc/ipc_channel_handle.h"
+ #include "ipc/ipc_message.h"
++#include "sys/ipc.h"
+ 
+ namespace IPC {
+ 
+diff -urN chromium.orig/src/ipc/ipc_platform_file.cc chromium/src/ipc/ipc_platform_file.cc
+--- chromium.orig/src/ipc/ipc_platform_file.cc	2012-02-26 00:55:03.193369442 +0400
++++ chromium/src/ipc/ipc_platform_file.cc	2012-02-26 00:56:36.075375481 +0400
+@@ -4,9 +4,7 @@
+ 
+ #include "ipc/ipc_platform_file.h"
+ 
+-#if defined(OS_ANDROID)
+ #include <unistd.h>
+-#endif
+ 
+ namespace IPC {
+ 
+diff -urN chromium.orig/src/seccompsandbox/library.h chromium/src/seccompsandbox/library.h
+--- chromium.orig/src/seccompsandbox/library.h	2012-02-26 00:55:06.651400479 +0400
++++ chromium/src/seccompsandbox/library.h	2012-02-26 00:56:36.076370369 +0400
+@@ -12,6 +12,7 @@
+ #include <string>
+ #include <string.h>
+ #include <sys/mman.h>
++#include <sys/types.h>
+ 
+ #include "maps.h"
+ 
