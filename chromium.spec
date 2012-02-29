@@ -4,7 +4,7 @@
 
 Name:           chromium
 Version:        19.0.1046.0
-Release:        3%{?dist}.R
+Release:        3%{?dist}
 Summary:        Google's opens source browser project
 
 License:        BSD
