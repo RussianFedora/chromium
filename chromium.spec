@@ -4,7 +4,7 @@
 Summary:        Google's opens source browser project
 Name:           chromium
 Version:        18.0.1022.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 
 License:        BSD
 Group:          Applications/Internet
@@ -102,7 +102,7 @@ BuildRequires:  python-devel
 BuildRequires:  speex-devel
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  gperf
-BuildRequires:  libudev-devel
+# BuildRequires:  libudev-devel
 
 # NaCl needs these
 BuildRequires:  libstdc++-devel
@@ -329,7 +329,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
 %changelog
-* Sat Mar  3 2012 Alexei Panov <me AT elemc DOT name> 18.0.1022.0
+* Sat Mar  3 2012 Alexei Panov <me AT elemc DOT name> 18.0.1022.0-3
+- Forgot to remove the dependency of the libudev
+
+* Sat Mar  3 2012 Alexei Panov <me AT elemc DOT name> 18.0.1022.0-2
 - Added patch to remove linux gamepad and libudev depend
 
 * Wed Feb 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 18.0.1022.0-1.R
