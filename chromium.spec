@@ -4,7 +4,7 @@
 
 Name:           chromium
 Version:        19.0.1046.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Google's opens source browser project
 
 License:        BSD
@@ -61,6 +61,10 @@ Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 Patch64:        chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch66:        chromium-sandbox-pie.patch
+%if 0%{?fedora} < 13 || 0%{?rhel} < 7
+# Remove udev build requires and gamepad
+Patch100: chromium-remove-linux-gamepad.patch
+%endif
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
@@ -109,7 +113,9 @@ BuildRequires:  gnome-keyring-devel
 BuildRequires:  python-devel
 BuildRequires:  speex-devel
 BuildRequires:  hicolor-icon-theme
+%if 0%{?fedora} < 13 || 0%{?rhel} < 7
 BuildRequires:  libudev-devel
+%endif
 BuildRequires:  libXt-devel
 BuildRequires:  libXScrnSaver-devel
 
@@ -153,6 +159,9 @@ developing a new generation of web applications.
 %patch28 -p1
 %patch32 -p1
 %patch66 -p1
+%if 0%{?fedora} < 13 || 0%{?rhel} < 7
+%patch100 -p1
+%endif
 
 echo "%{svn_revision}" > src/build/LASTCHANGE.in
 
@@ -326,6 +335,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Mar  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-4
+- added patch to remove gamepad support for old udev
+
 * Fri Feb 24 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-3.R
 - build with internal NaCl
 - added BR for some i686 libs in x86_64 build

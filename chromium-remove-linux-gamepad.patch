@@ -1,0 +1,60 @@
+diff -urN chromium/src/content/browser/gamepad/platform_data_fetcher.h chromium.new/src/content/browser/gamepad/platform_data_fetcher.h
+--- chromium/src/content/browser/gamepad/platform_data_fetcher.h	2012-01-26 00:40:24.000000000 +0400
++++ chromium.new/src/content/browser/gamepad/platform_data_fetcher.h	2012-03-03 20:40:49.145372619 +0400
+@@ -16,8 +16,6 @@
+ #include "content/browser/gamepad/platform_data_fetcher_win.h"
+ #elif defined(OS_MACOSX)
+ #include "content/browser/gamepad/platform_data_fetcher_mac.h"
+-#elif defined(OS_LINUX)
+-#include "content/browser/gamepad/platform_data_fetcher_linux.h"
+ #endif
+ 
+ namespace content {
+@@ -30,10 +28,6 @@
+ 
+ typedef GamepadPlatformDataFetcherMac GamepadPlatformDataFetcher;
+ 
+-#elif defined(OS_LINUX)
+-
+-typedef GamepadPlatformDataFetcherLinux GamepadPlatformDataFetcher;
+-
+ #else
+ 
+ class GamepadDataFetcherEmpty : public GamepadDataFetcher {
+diff -urN chromium/src/content/content_browser.gypi chromium.new/src/content/content_browser.gypi
+--- chromium/src/content/content_browser.gypi	2012-02-18 12:04:28.000000000 +0400
++++ chromium.new/src/content/content_browser.gypi	2012-03-03 20:46:24.293372036 +0400
+@@ -690,11 +690,6 @@
+     '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/devtools_resources_map.h',
+   ],
+   'conditions': [
+-    ['OS!="win" and OS!="mac" and OS!="linux"', {
+-      'sources': [
+-        'browser/gamepad/platform_data_fetcher.cc',
+-      ]
+-    }],
+     ['p2p_apis==1', {
+       'sources': [
+         'browser/renderer_host/p2p/socket_host.cc',
+@@ -743,9 +738,6 @@
+       ],
+     }],
+     ['OS=="linux"', {
+-      'dependencies': [
+-        '../build/linux/system.gyp:udev',
+-      ],
+       # Set LINUX_SANDBOX_PATH for Linux, including Chrome OS
+       'conditions': [
+         ['linux_sandbox_path != ""', {
+@@ -796,6 +788,11 @@
+         'browser/renderer_host/gtk_key_bindings_handler.cc',
+         'browser/renderer_host/gtk_key_bindings_handler.h',
+       ],
++    ['OS=="linux"', {
++      'sources/': [
++        ['exclude', '^browser/gamepad/platform_data_fetcher_linux\\.cc$'],
++      ],
++    }],
+     }],
+     ['os_bsd==1', {
+       'sources/': [
