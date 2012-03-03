@@ -4,7 +4,7 @@
 Summary:        Google's opens source browser project
 Name:           chromium
 Version:        18.0.1022.0
-Release:        1%{?dist}.R
+Release:        2%{?dist}
 
 License:        BSD
 Group:          Applications/Internet
@@ -56,6 +56,9 @@ Patch63:        chromium-6.0.406.0-system-gyp-v8.patch
 Patch64:        chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch66:        chromium-sandbox-pie.patch
+
+# Remove udev build requires and gamepad
+Patch100:       chromium-remove-linux-gamepad.patch
 
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
@@ -137,6 +140,7 @@ lzma -cd %{SOURCE0} | tar xf -
 %patch28 -p1
 %patch32 -p1
 %patch66 -p1
+%patch100 -p1
 
 pushd src/third_party/ffmpeg/
 tar xf %{SOURCE8}
@@ -325,6 +329,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %attr(4755, root, root) %{_libdir}/chrome_sandbox
 
 %changelog
+* Sat Mar  3 2012 Alexei Panov <me AT elemc DOT name> 18.0.1022.0
+- Added patch to remove linux gamepad and libudev depend
+
 * Wed Feb 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 18.0.1022.0-1.R
 - update to 18.0.1022.0
 - drop password save programs option by default
