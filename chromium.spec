@@ -1,17 +1,16 @@
-%define v8_ver 3.9.7.0
-%define svn_revision 122684
+%define v8_ver 3.9.13.0
+%define svn_revision 124863
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        19.0.1046.0
-Release:        4%{?dist}
+Version:        19.0.1060.0
+Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
 License:        BSD
 Group:          Applications/Internet
 Url:            http://code.google.com/p/chromium/
-Source0:        http://download.rfremix.ru/storage/chromium/%{version}/%{name}.%{version}.svn%{svn_revision}.tar.bz2
-Source8:        http://download.rfremix.ru/storage/chromium/19.0.1031.0/ffmpeg-0.6-headers.tar.bz2
+Source0:        %{version}/%{name}.%{version}.svn%{svn_revision}.tar.bz2
 Source20:       chromium-vendor.patch.in
 Source30:       master_preferences
 Source31:       default_bookmarks.html
@@ -163,11 +162,7 @@ developing a new generation of web applications.
 %patch100 -p1
 %endif
 
-echo "%{svn_revision}" > src/build/LASTCHANGE.in
-
-pushd src/third_party/ffmpeg/
-tar xf %{SOURCE8}
-popd
+echo "svn%{svn_revision}" > src/build/LASTCHANGE.in
 
 # apply vendor patch after substitution
 sed "s:RPM_VERSION:%{version}:" %{SOURCE20} | patch -p0
@@ -205,6 +200,7 @@ pushd src
 -Dlinux_sandbox_chrome_path=%{_libdir}/chromium/chromium \
 -Duse_openssl=0 \
 -Duse_system_ffmpeg=1 \
+-Dbuild_ffmpegsumo=1 \
 -Duse_system_zlib=1 \
 -Duse_system_libpng=1 \
 -Duse_system_bzip2=1 \
@@ -223,8 +219,9 @@ pushd src
 %endif
 %ifarch x86_64
 -Dtarget_arch=x64 \
--Dlinux_use_gold_flags=0 \
 %endif
+-Dlinux_use_gold_flags=0 \
+-Dlinux_use_gold_binary=0
 -Djavascript_engine=v8
 
 make -r %{?_smp_mflags} chrome V=1 BUILDTYPE=Release
@@ -335,6 +332,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Mar  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1060.0-1
+- update to 19.0.1060.0
+- use internal ffmpeg support
+
 * Sat Mar  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-4
 - added patch to remove gamepad support for old udev
 
