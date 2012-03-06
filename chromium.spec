@@ -334,7 +334,46 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Sat Mar  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1060.0-1
 - update to 19.0.1060.0
-- use internal ffmpeg support
+- Fixed NTP signed in state is missing (Issue: 112676)
+- Fixed gmail seems to redraw itself (all white) occasionally 
+  (Issue: 111263)
+- Focus "OK" button on Javascript dialogs (Issue: 111015)
+- Fixed Back button frequently hangs (Issue: 93427)
+- Increase the buffer size to fix muted playback rate 
+  (Issue: 108239)
+- Fixed Empty span with line-height renders with non-zero height
+  (Issue: 109811)
+- Marked the Certum Trusted Network CA as an issuer of 
+  extended-validation (EV) certificates.
+- Fixed importing of bookmarks, history, etc. from Firefox 10+.
+- Fixed issues - 114001, 110785, 114168, 114598, 111663, 113636, 
+  112676
+- Fixed several crashes (Issues: 111376, 108688, 114391)
+- Fixed Firefox browser in Import Bookmarks and Settings 
+  drop-down (Issue: 114476)
+- Sync: Sessions aren't associating pre-existing tabs
+  (Issue: 113319)
+- Fixed All "Extensions" make an entry under the "NTP Apps"
+  page (Issue: 113672)
+- Security Fixes (bnc#750407): 
+- High CVE-2011-3031: Use-after-free in v8 element wrapper.
+- High CVE-2011-3032: Use-after-free in SVG value handling.
+- High CVE-2011-3033: Buffer overflow in the Skia drawing library.
+- High CVE-2011-3034: Use-after-free in SVG document handling.
+- High CVE-2011-3035: Use-after-free in SVG use handling.
+- High CVE-2011-3036: Bad cast in line box handling.
+- High CVE-2011-3037: Bad casts in anonymous block splitting.
+- High CVE-2011-3038: Use-after-free in multi-column handling.
+- High CVE-2011-3039: Use-after-free in quote handling.
+- High CVE-2011-3040: Out-of-bounds read in text handling.
+- High CVE-2011-3041: Use-after-free in class attribute handling.
+- High CVE-2011-3042: Use-after-free in table section handling.
+- High CVE-2011-3043: Use-after-free in flexbox with floats.
+- High CVE-2011-3044: Use-after-free with SVG animation elements.
+- Remove the external ffmepg headers and start using the ones 
+  delivered with Chromium. Changes to Chromium are no longer in line 
+  with any ffmpeg version :-(. So we can only use the Chromium 
+  ffmpeg headers.
 
 * Sat Mar  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1046.0-4
 - added patch to remove gamepad support for old udev
