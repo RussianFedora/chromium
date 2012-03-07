@@ -8,15 +8,15 @@ diff -up chromium-6.0.425.0-20100603svn48830/third_party/ffmpeg/ffmpeg.gyp.BAD c
 -              'cflags': [
 -                '<!@(pkg-config --cflags libavcodec libavformat libavutil)',
 +              'include_dirs': [
-+                'config',
-+                'ffmpeg-0.6-headers',
++                'chromium/config',
++                '.',
                ],
                'direct_dependent_settings': {
 -                'cflags': [
 -                  '<!@(pkg-config --cflags libavcodec libavformat libavutil)',
 +                'include_dirs': [
-+                  'config',
-+                  'ffmpeg-0.6-headers',
++                  'chromium/config',
++                  '.',
                  ],
                },
              }, {  # else use_system_ffmpeg == 0, add local copy to include path
