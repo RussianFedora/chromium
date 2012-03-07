@@ -221,7 +221,7 @@ pushd src
 -Dtarget_arch=x64 \
 %endif
 -Dlinux_use_gold_flags=0 \
--Dlinux_use_gold_binary=0
+-Dlinux_use_gold_binary=0 \
 -Djavascript_engine=v8
 
 make -r %{?_smp_mflags} chrome V=1 BUILDTYPE=Release
