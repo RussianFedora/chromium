@@ -126,7 +126,7 @@ BuildRequires:  /lib/libgcc_s.so.1
 %endif
 
 Requires:       hicolor-icon-theme
-Requires:       chromium-ffmpeg >= 19.0.1037.0
+#Requires:       chromium-ffmpeg >= 19.0.1037.0
 Requires:       v8 >= %{v8_ver}
 
 
