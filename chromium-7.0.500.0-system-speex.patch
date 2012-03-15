@@ -42,12 +42,12 @@ diff -up chromium-7.0.500.0-20100819svn56724/content/content_browser.gypi.speex 
      '../ui/gfx/surface/surface.gyp:surface',
 --- chromium/src/content/browser/speech/audio_encoder.cc	2011-01-20 09:04:11.631000020 +0100
 +++ chromium/src/content/browser/speech/audio_encoder.cc	2011-01-20 09:04:11.631000020 +0100
-@@ -10,7 +10,7 @@
- #include "base/stl_util.h"
+@@ -11,7 +11,7 @@
  #include "base/string_number_conversions.h"
+ #include "content/browser/speech/audio_buffer.h"
  #include "third_party/flac/flac.h"
 -#include "third_party/speex/speex.h"
 +#include <speex/speex.h>
  
  using std::string;
- 
+ using speech::AudioChunk;

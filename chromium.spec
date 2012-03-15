@@ -1,9 +1,9 @@
-%define v8_ver 3.9.13.0
-%define svn_revision 124863
+%define v8_ver 3.9.19.0
+%define svn_revision 126888
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        19.0.1060.0
+Version:        19.0.1071.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -332,6 +332,33 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Mar 15 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1071.0-1
+- Several fixes and improvements in the new Settings, Extensions, and Help
+  pages.
+- Fixed the flashing when switched between composited and 
+  non-composited mode. [Issue: 116603]
+- Fixed stability issues 116913, 117217, 117347, 117081
+- Fixed Chrome install/update resets Google search preferences 
+  (Issue: 105390)
+- Don't trigger accelerated compositing on 3D CSS when using 
+  swiftshader (Issue: 116401)
+- Fixed a GPU crash (Issue: 116096)
+- More fixes for Back button frequently hangs (Issue: 93427)
+- Bastion now works (Issue: 116285)
+- Fixed Composited layer sorting irregularity with accelerated
+  canvas (Issue: 102943)
+- Fixed Composited layer sorting irregularity with accelerated 
+  canvas (Issue: 102943)
+- Fixed Google Feedback causes render process to use too much 
+  memory (Issue: 114489)
+- Fixed after upgrade, some pages are rendered as blank 
+  (Issue: 109888)
+- Fixed Pasting text into a single-line text field shouldn't 
+  keep literal newlines (Issue: 106551)
+- Critical CVE-2011-3047: Errant plug-in load and GPU process 
+  memory corruption
+- Critical CVE-2011-3046: UXSS and bad history navigation.
+
 * Sat Mar  3 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1060.0-1
 - update to 19.0.1060.0
 - Fixed NTP signed in state is missing (Issue: 112676)
