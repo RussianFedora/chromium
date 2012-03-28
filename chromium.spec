@@ -1,9 +1,9 @@
-%define v8_ver 3.9.19.0
-%define svn_revision 126888
+%define v8_ver 3.9.24.1
+%define svn_revision 128706
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        19.0.1071.0
+Version:        19.0.1079.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -332,6 +332,32 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Mar 28 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1079.0-1
+- Update to 19.0.1079
+- High CVE-2011-3050: Use-after-free with first-letter handling
+- High CVE-2011-3045: libpng integer issue from upstream
+- High CVE-2011-3051: Use-after-free in CSS cross-fade handling
+- High CVE-2011-3052: Memory corruption in WebGL canvas handling
+- High CVE-2011-3053: Use-after-free in block splitting
+- Low CVE-2011-3054: Apply additional isolations to webui 
+  privileges
+- Low CVE-2011-3055: Prompt in the browser native UI for unpacked 
+  extension installation
+- High CVE-2011-3056: Cross-origin violation with “magic iframe”.
+- Low CVE-2011-3049: Extension web request API can interfere with
+  system requests
+- The short-cut key for caps lock (Shift + Search) is disabled 
+  when an accessibility screen reader is enabled
+- Fixes an issue with files not being displayed in File Manager 
+  when some file names contain UTF-8 characters (generally 
+  accented characters)
+- Fixed dialog boxes in settings. (Issue: 118031)
+- Fixed flash videos turning white on mac when running with 
+  --disable-composited-core-animation-plugins (Issue: 117916) 
+- Change to look for correctly sized favicon when multiple images 
+  are provided. (Issue: 118275)
+- Fixed issues - 116044, 117470, 117068, 117668, 118620
+
 * Thu Mar 15 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1071.0-1
 - Several fixes and improvements in the new Settings, Extensions, and Help
   pages.
