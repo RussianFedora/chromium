@@ -100,7 +100,7 @@ BuildRequires:  dbus-devel
 BuildRequires:  python
 BuildRequires:	libselinux-devel
 BuildRequires:  sqlite-devel
-BuildRequires:  v8-devel = %{v8_ver}
+BuildRequires:  v8-devel >= %{v8_ver}
 BuildRequires:  zlib-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  elfutils-libelf-devel
