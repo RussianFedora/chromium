@@ -1,9 +1,9 @@
 %define v8_ver 3.9.24.1
-%define svn_revision 128706
+%define svn_revision 130316
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        19.0.1079.0
+Version:        20.0.1090.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -332,6 +332,25 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Apr  4 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1090.0-1
+- Update to 20.0.1090
+- Fixed issue cannot add GMail app to Chrome. [Issue: 119975]
+- Fixed theme and bookmarks bar notifications. [Issue: 117027]
+- Fixed popup prompting permission for flash plugin. 
+  [Issue: 120358]
+- Medium CVE-2011-3058: Bad interaction possibly leading to 
+  XSS in EUC-JP.
+- Medium CVE-2011-3059: Out-of-bounds read in SVG text handling.
+- Medium CVE-2011-3060: Out-of-bounds read in text fragment 
+  handling.
+- Medium CVE-2011-3061: SPDY proxy certificate checking error.
+- High CVE-2011-3062: Off-by-one in OpenType Sanitizer.
+- Low CVE-2011-3063: Validate navigation requests from the 
+  renderer more carefully.
+- High CVE-2011-3064: Use-after-free in SVG clipping.
+- High CVE-2011-3065: Memory corruption in Skia.
+- Medium CVE-2011-3057: Invalid read in v8.
+
 * Wed Mar 28 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 19.0.1079.0-1
 - Update to 19.0.1079
 - High CVE-2011-3050: Use-after-free with first-letter handling
