@@ -1,9 +1,9 @@
 %define v8_ver 3.10.0.5
-%define svn_revision 131123
+%define svn_revision 131310
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1094.0
+Version:        20.0.1096.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -334,8 +334,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1094.0-1
-- Update to 20.0.1094.0
+* Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1096.0-1
+- Update to 20.0.1096.0
 - Other Devices menu shows last update time for other sessions, 
   and allows sessions to be hidden using a context menu.
 - Fix sync issue with sessions (open tabs) triggering an 
