@@ -1,9 +1,9 @@
-%define v8_ver 3.9.24.1
-%define svn_revision 130316
+%define v8_ver 3.10.0.5
+%define svn_revision 131123
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1090.0
+Version:        20.0.1094.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -116,6 +116,8 @@ BuildRequires:  hicolor-icon-theme
 BuildRequires:  libudev-devel
 %endif
 BuildRequires:  libXt-devel
+BuildRequires:  libXcursor-devel
+BuildRequires:  libXrender-devel
 BuildRequires:  libXScrnSaver-devel
 
 # NaCl needs these
@@ -332,6 +334,30 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1094.0-1
+- Update to 20.0.1094.0
+- Other Devices menu shows last update time for other sessions, 
+  and allows sessions to be hidden using a context menu.
+- Fix sync issue with sessions (open tabs) triggering an 
+  unrecoverable error.
+- Fixed Sync/Apps: NTP apps icons missing after sync. 
+  [Issue: 117857]
+- Fixed bookmarks drag-n-drop in Bookmark Manager. 
+  [Issue: 118715]
+- Medium CVE-2011-3066: Out-of-bounds read in Skia clipping.
+- Medium CVE-2011-3067: Cross-origin iframe replacement.
+- High CVE-2011-3068: Use-after-free in run-in handling.
+- High CVE-2011-3069: Use-after-free in line box handling.
+- High CVE-2011-3070: Use-after-free in v8 bindings.
+- High CVE-2011-3071: Use-after-free in HTMLMediaElement.
+- Low CVE-2011-3072: Cross-origin violation parenting pop-up 
+  window.
+- High CVE-2011-3073: Use-after-free in SVG resource handling.
+- Medium CVE-2011-3074: Use-after-free in media handling.
+- High CVE-2011-3075: Use-after-free applying style command.
+- High CVE-2011-3076: Use-after-free in focus handling.
+- Medium CVE-2011-3077: Read-after-free in script bindings.
+
 * Wed Apr  4 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1090.0-1
 - Update to 20.0.1090
 - Fixed issue cannot add GMail app to Chrome. [Issue: 119975]
