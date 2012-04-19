@@ -1,3 +1,3 @@
 #!/bin/sh
 
-curl -sO https://api.opensuse.org/public/source/network:chromium/chromium/chromium.20.0.1096.0.svn131310.tar.bz2
+curl -sO https://api.opensuse.org/public/source/network:chromium/chromium/chromium.20.0.1106.0.svn132566.tar.bz2

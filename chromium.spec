@@ -1,13 +1,13 @@
-%define v8_ver 3.10.0.5
-%define svn_revision 131310
+%define v8_ver 3.10.2.1
+%define svn_revision 132566
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1096.0
+Version:        20.0.1106.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
-License:        BSD
+License:        BSD-3-Clause and LGPL-2.1+
 Group:          Applications/Internet
 Url:            http://code.google.com/p/chromium/
 Source0:        %{version}/%{name}.%{version}.svn%{svn_revision}.tar.bz2
@@ -334,6 +334,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Apr 19 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1106.0-1.R
+- update to 20.0.1106.0
+- Fixes issues with fonts (Issue: 108645).
+- Enable the Chrome To Mobile page action for users with 
+  compatible registered devices
+
 * Sun Apr  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1096.0-1
 - Update to 20.0.1096.0
 - Other Devices menu shows last update time for other sessions, 
