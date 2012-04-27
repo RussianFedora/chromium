@@ -1,9 +1,9 @@
-%define v8_ver 3.10.5.0
-%define svn_revision 133754
+%define v8_ver 3.10.6.0
+%define svn_revision 134106
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1116.0
+Version:        20.0.1119.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -334,6 +334,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Apr 27 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1119.0-1.R
+- update to 20.0.1119.0
+
 * Thu Apr 26 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1116.0-1.R
 - update to 20.0.1116.0
 
