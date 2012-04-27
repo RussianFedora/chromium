@@ -4,7 +4,7 @@
 
 Name:           chromium
 Version:        20.0.1119.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Google's opens source browser project
 
 License:        BSD-3-Clause and LGPL-2.1+
@@ -246,7 +246,7 @@ sed -i "s|/usr/lib/chrome_sandbox|%{_libdir}/chrome_sandbox|g" %{buildroot}%{_bi
 pushd src/out/Release
 
 cp -a chrome_sandbox %{buildroot}%{_libdir}/
-cp -a chrome.pak locales xdg-mime %{buildroot}%{_libdir}/chromium/
+cp -a chrome.pak chrome.pak ui_resources_standard.pak theme_resources_standard.pak locales xdg-mime %{buildroot}%{_libdir}/chromium/
 
 # Patch xdg-settings to use the chromium version of xdg-mime as that the system one is not KDE4 compatible
 sed "s|xdg-mime|%{_libdir}/chromium/xdg-mime|g" xdg-settings > %{buildroot}%{_libdir}/chromium/xdg-settings
@@ -334,6 +334,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Apr 27 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1119.0-2.R
+- copy more files
+
 * Fri Apr 27 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1119.0-1.R
 - update to 20.0.1119.0
 
