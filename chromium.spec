@@ -121,6 +121,7 @@ BuildRequires:  libXt-devel
 BuildRequires:  libXcursor-devel
 BuildRequires:  libXrender-devel
 BuildRequires:  libXScrnSaver-devel
+BuildRequires:  subversion
 
 # NaCl needs these
 %ifarch x86_64
@@ -341,6 +342,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Fri May 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.0-1.R
 - update to 20.0.1132.0
 - Added patch for Sqlite which should resolve crashes when build with GCC 4.7
+- added BR: subversion
 
 * Fri Apr 27 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1119.0-2.R
 - copy more files
