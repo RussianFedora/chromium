@@ -65,6 +65,8 @@ Patch66:        chromium-sandbox-pie.patch
 Patch100: chromium-remove-linux-gamepad.patch
 %endif
 
+Patch500:	sqlite-3.7.6.3-fix-out-of-scope-memory-reference.patch
+
 BuildRequires:  libjpeg-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -163,6 +165,8 @@ developing a new generation of web applications.
 %if 0%{?fedora} < 13 || 0%{?rhel} < 7
 %patch100 -p1
 %endif
+
+%patch500 -p1
 
 echo "svn%{svn_revision}" > src/build/LASTCHANGE.in
 
