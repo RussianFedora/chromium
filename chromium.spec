@@ -338,6 +338,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri May 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.0-1.R
+- update to 20.0.1132.0
+- Added patch for Sqlite which should resolve crashes when build with GCC 4.7
+
 * Fri Apr 27 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1119.0-2.R
 - copy more files
 
