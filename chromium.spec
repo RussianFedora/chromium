@@ -1,10 +1,10 @@
-%define v8_ver 3.10.6.0
-%define svn_revision 134106
+%define v8_ver 3.10.8.4
+%define svn_revision 136019
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1119.0
-Release:        2%{?dist}
+Version:        20.0.1132.0
+Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
 License:        BSD-3-Clause and LGPL-2.1+
