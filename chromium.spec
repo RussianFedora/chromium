@@ -1,9 +1,9 @@
 %define v8_ver 3.10.8.4
-%define svn_revision 136019
+%define svn_revision 136806
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1132.0
+Version:        20.0.1137.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -339,6 +339,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon May 14 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1137.0-1.R
+- update to 20.0.1137.0
+- CVE-2011-3078: Use after free in floats handling.
+- CVE-2012-1521: Use after free in xml parser.
+- CVE-2011-3079: IPC validation failure.
+- CVE-2011-3080: Race condition in sandbox IPC
+- CVE-2011-3081: Use after free in floats handling.
+
+
 * Fri May 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.0-1.R
 - update to 20.0.1132.0
 - Added patch for Sqlite which should resolve crashes when build with GCC 4.7
