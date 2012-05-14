@@ -3,7 +3,7 @@
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        20.0.1137.0
+Version:        21.0.1137.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -339,8 +339,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Mon May 14 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1137.0-1.R
-- update to 20.0.1137.0
+* Mon May 14 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1137.0-1.R
+- update to 21.0.1137.0
 - CVE-2011-3078: Use after free in floats handling.
 - CVE-2012-1521: Use after free in xml parser.
 - CVE-2011-3079: IPC validation failure.
