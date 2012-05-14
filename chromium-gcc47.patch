@@ -51,3 +51,15 @@
  
  #include "maps.h"
  
+--- chromium/src/content/public/common/sandbox_init.cc	2012-05-13 21:49:38.095114828 +0200
++++ chromium/src/content/public/common/sandbox_init.cc	2012-05-13 21:49:38.095114828 +0200
+@@ -4,9 +4,7 @@
+ 
+ #include "content/public/common/sandbox_init.h"
+ 
+-#if defined(OS_ANDROID)
+ #include <unistd.h>
+-#endif
+ 
+ namespace content {
+ 
