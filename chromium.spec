@@ -1,9 +1,9 @@
-%define v8_ver 3.10.8.4
-%define svn_revision 136806
+%define v8_ver 3.11.3.0
+%define svn_revision 138062
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        21.0.1137.0
+Version:        21.0.1145.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -339,6 +339,29 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri May 25 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1145.0-1.R
+- update to 21.0.1145.0
+- Fixed several issues around audio not playing with videos
+- Improvements to trackpad on Cr-48
+- CVE-2011-3083: Browser crash with video + FTP
+- CVE-2011-3084: Load links from internal pages in their own process.
+- CVE-2011-3085: UI corruption with long autofilled values
+- CVE-2011-3086: Use-after-free with style element.
+- CVE-2011-3087: Incorrect window navigation
+- CVE-2011-3088: Out-of-bounds read in hairline drawing
+- CVE-2011-3089: Use-after-free in table handling.
+- CVE-2011-3090: Race condition with workers.
+- CVE-2011-3091: Use-after-free with indexed DB
+- CVE-2011-3092: Invalid write in v8 regex
+- CVE-2011-3093: Out-of-bounds read in glyph handling
+- CVE-2011-3094: Out-of-bounds read in Tibetan handling
+- CVE-2011-3095: Out-of-bounds write in OGG container.
+- CVE-2011-3096: Use-after-free in GTK omnibox handling.
+- CVE-2011-3098: Bad search path for Windows Media Player plug-in
+- CVE-2011-3100: Out-of-bounds read drawing dash paths.
+- CVE-2011-3101: Work around Linux Nvidia driver bug
+- CVE-2011-3102: Off-by-one out-of-bounds write in libxml.
+
 * Mon May 14 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1137.0-1.R
 - update to 21.0.1137.0
 - CVE-2011-3078: Use after free in floats handling.
