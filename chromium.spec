@@ -1,9 +1,9 @@
-%define v8_ver 3.11.3.0
-%define svn_revision 138062
+%define v8_ver 3.11.8.0
+%define svn_revision 140971
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        21.0.1145.0
+Version:        21.0.1167.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -339,6 +339,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Jun  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1167.0-1.R
+- update to 21.0.1167.0
+
 * Fri May 25 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1145.0-1.R
 - update to 21.0.1145.0
 - Fixed several issues around audio not playing with videos
