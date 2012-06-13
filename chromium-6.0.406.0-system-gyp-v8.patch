@@ -10,7 +10,7 @@ Index: chromium/src/build/all.gyp
 +        'linux/system.gyp:v8',
          '../webkit/support/webkit_support.gyp:*',
          '../webkit/webkit.gyp:*',
-         'util/build_util.gyp:*',
+         'temp_gyp/googleurl.gyp:*',
 Index: chromium/src/build/linux/system.gyp
 ===================================================================
 --- chromium.orig/src/build/linux/system.gyp
@@ -52,7 +52,7 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
 ===================================================================
 --- chromium.orig/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
 +++ chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
-@@ -1066,7 +1066,7 @@
+@@ -1087,7 +1087,7 @@
          '<(chromium_src_dir)/third_party/libwebp/libwebp.gyp:libwebp',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
@@ -61,7 +61,7 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
          '<(libjpeg_gyp_path):libjpeg',
        ],
        'include_dirs': [
-@@ -1189,7 +1189,7 @@
+@@ -1216,7 +1216,7 @@
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
          '<(chromium_src_dir)/third_party/angle/src/build_angle.gyp:translator_glsl',
          '<(chromium_src_dir)/third_party/zlib/zlib.gyp:zlib',
@@ -70,7 +70,7 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
          '<(libjpeg_gyp_path):libjpeg',
        ],
        'export_dependent_settings': [
-@@ -1207,7 +1207,7 @@
+@@ -1235,7 +1235,7 @@
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
          '<(chromium_src_dir)/third_party/angle/src/build_angle.gyp:translator_glsl',
          '<(chromium_src_dir)/third_party/zlib/zlib.gyp:zlib',
@@ -79,7 +79,7 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
          '<(libjpeg_gyp_path):libjpeg',
        ],
        # This is needed for mac because of webkit_system_interface. It'd be nice
-@@ -1939,7 +1939,7 @@
+@@ -1975,7 +1975,7 @@
          '<(chromium_src_dir)/build/temp_gyp/googleurl.gyp:googleurl',
          '<(chromium_src_dir)/skia/skia.gyp:skia',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
@@ -88,7 +88,7 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
        ],
        'export_dependent_settings': [
          'webcore_bindings',
-@@ -1947,7 +1947,7 @@
+@@ -1983,7 +1983,7 @@
          '<(chromium_src_dir)/build/temp_gyp/googleurl.gyp:googleurl',
          '<(chromium_src_dir)/skia/skia.gyp:skia',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',

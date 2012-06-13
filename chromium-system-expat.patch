@@ -1,16 +1,3 @@
-Index: chromium/src/chrome/browser/autofill/autofill_xml_parser.h
-===================================================================
---- chromium.orig/src/chrome/browser/autofill/autofill_xml_parser.h
-+++ chromium/src/chrome/browser/autofill/autofill_xml_parser.h
-@@ -13,7 +13,7 @@
- #include "base/compiler_specific.h"
- #include "chrome/browser/autofill/field_types.h"
- #include "chrome/browser/autofill/form_structure.h"
--#include "third_party/expat/files/lib/expat.h"
-+#include <expat.h>
- #include "third_party/libjingle/source/talk/xmllite/xmlparser.h"
- 
- // The base class that contains common functionality between
 Index: chromium/src/third_party/libjingle/source/talk/xmllite/xmlbuilder.h
 ===================================================================
 --- chromium.orig/src/third_party/libjingle/source/talk/xmllite/xmlbuilder.h

@@ -150,6 +150,7 @@ developing a new generation of web applications.
 %patch2 -p1
 %endif
 %patch62 -p1
+%patch63 -p1
 %patch64
 %patch8 -p1
 %patch13 -p1

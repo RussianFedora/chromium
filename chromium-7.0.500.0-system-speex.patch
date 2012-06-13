@@ -46,12 +46,12 @@ Index: chromium/src/content/content_browser.gypi
 ===================================================================
 --- chromium.orig/src/content/content_browser.gypi
 +++ chromium/src/content/content_browser.gypi
-@@ -12,7 +12,7 @@
+@@ -13,7 +13,7 @@
      '../ppapi/ppapi_internal.gyp:ppapi_proxy',
      '../skia/skia.gyp:skia',
      '../third_party/flac/flac.gyp:libflac',
 -    '../third_party/speex/speex.gyp:libspeex',
 +    '../build/linux/system.gyp:speex',
-     '../third_party/WebKit/Source/WebKit/chromium/WebKit.gyp:webkit',
+     '<(webkit_src_dir)/Source/WebKit/chromium/WebKit.gyp:webkit',
      '../third_party/zlib/zlib.gyp:zlib',
      '../ui/surface/surface.gyp:surface',
