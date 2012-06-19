@@ -52,16 +52,16 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
 ===================================================================
 --- chromium.orig/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
 +++ chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
-@@ -1087,7 +1087,7 @@
-         '<(chromium_src_dir)/third_party/libwebp/libwebp.gyp:libwebp',
+@@ -1114,7 +1114,7 @@
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
+         '<(chromium_src_dir)/third_party/qcms/qcms.gyp:qcms',
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
 -        '<(chromium_src_dir)/v8/tools/gyp/v8.gyp:v8',
 +        '<(chromium_src_dir)/build/linux/system.gyp:v8',
          '<(libjpeg_gyp_path):libjpeg',
        ],
        'include_dirs': [
-@@ -1216,7 +1216,7 @@
+@@ -1245,7 +1245,7 @@
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
          '<(chromium_src_dir)/third_party/angle/src/build_angle.gyp:translator_glsl',
          '<(chromium_src_dir)/third_party/zlib/zlib.gyp:zlib',
@@ -70,7 +70,7 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
          '<(libjpeg_gyp_path):libjpeg',
        ],
        'export_dependent_settings': [
-@@ -1235,7 +1235,7 @@
+@@ -1265,7 +1265,7 @@
          '<(chromium_src_dir)/third_party/sqlite/sqlite.gyp:sqlite',
          '<(chromium_src_dir)/third_party/angle/src/build_angle.gyp:translator_glsl',
          '<(chromium_src_dir)/third_party/zlib/zlib.gyp:zlib',
@@ -79,19 +79,19 @@ Index: chromium/src/third_party/WebKit/Source/WebCore/WebCore.gyp/WebCore.gyp
          '<(libjpeg_gyp_path):libjpeg',
        ],
        # This is needed for mac because of webkit_system_interface. It'd be nice
-@@ -1975,7 +1975,7 @@
-         '<(chromium_src_dir)/build/temp_gyp/googleurl.gyp:googleurl',
+@@ -2015,7 +2015,7 @@
          '<(chromium_src_dir)/skia/skia.gyp:skia',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
+         '<(chromium_src_dir)/third_party/qcms/qcms.gyp:qcms',
 -        '<(chromium_src_dir)/v8/tools/gyp/v8.gyp:v8',
 +        '<(chromium_src_dir)/build/linux/system.gyp:v8',
        ],
        'export_dependent_settings': [
          'webcore_bindings',
-@@ -1983,7 +1983,7 @@
-         '<(chromium_src_dir)/build/temp_gyp/googleurl.gyp:googleurl',
+@@ -2024,7 +2024,7 @@
          '<(chromium_src_dir)/skia/skia.gyp:skia',
          '<(chromium_src_dir)/third_party/npapi/npapi.gyp:npapi',
+         '<(chromium_src_dir)/third_party/qcms/qcms.gyp:qcms',
 -        '<(chromium_src_dir)/v8/tools/gyp/v8.gyp:v8',
 +        '<(chromium_src_dir)/build/linux/system.gyp:v8',
        ],
