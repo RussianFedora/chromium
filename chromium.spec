@@ -1,9 +1,9 @@
-%define v8_ver 3.11.8.0
-%define svn_revision 140971
+%define v8_ver 3.11.10.6
+%define svn_revision 142939
 %define debug_package %{nil}
 
 Name:           chromium
-Version:        21.0.1167.0
+Version:        21.0.1181.0
 Release:        1%{?dist}
 Summary:        Google's opens source browser project
 
@@ -167,7 +167,7 @@ developing a new generation of web applications.
 %patch100 -p1
 %endif
 
-%patch500 -p1
+#%patch500 -p1
 
 echo "svn%{svn_revision}" > src/build/LASTCHANGE.in
 
@@ -339,6 +339,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Jun 19 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1181.0-1.R
+- update to 21.0.1181.0
+
 * Fri Jun  8 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1167.0-1.R
 - update to 21.0.1167.0
 
