@@ -1,22 +1,26 @@
-%define revision 06302012
+%define revision 144678
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	20.0.1132.47
-Release:	3%{?dist}
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
 License:	BSD, LGPL
-Url:		http://www.chromium.org/
-Source0:	%{name}-%{version}.tar.xz
+URL:		http://www.chromium.org/
+
+Source0:	http://download.rfremix.ru/storage/chromium/%{version}/%{name}-%{version}.tar.xz
 Source1:	chromium-wrapper
 Source2:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
+
 Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 Patch1:		chromium-20.0.1132.43-fix-includes.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Patch2:		sqlite-3.7.6.3-fix-out-of-scope-memory-reference.patch
+
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -90,6 +94,7 @@ your profile before changing channels.
 %setup -q
 %patch0 -p1 -b .master-prefs
 %patch1 -p0 -b .includes
+%patch2 -p1 -b .fix-out-of-scope-memory-reference
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -99,11 +104,11 @@ sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"Russian Fedora"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
 %ifarch x86_64
-sed -i "s#/lib/#/lib64/#g" %{_sourcedir}/chromium-browser.desktop
+sed -i "s#/lib/#/lib64/#g" %{SOURCE2}
 %endif
 
 %ifarch i686
-sed -i "s#/lib64/#/lib/#g" %{_sourcedir}/chromium-browser.desktop
+sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
 %endif
 
 %build
@@ -241,6 +246,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - apply patch for getting bookmarks and preferences
 - patch for gcc47
 - many new build requires
+- apply sqlite memory leak patch
 
 * Sat Jun 30 2012 Andrew Wyatt <andrew@fuduntu.org> - 20.0.1132.47-1
 - New upstream stable release
