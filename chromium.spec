@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	20.0.1132.47
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -19,6 +19,8 @@ Source31:	default_bookmarks.html
 Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 Patch1:		chromium-20.0.1132.43-fix-includes.patch
 Patch2:		sqlite-3.7.6.3-fix-out-of-scope-memory-reference.patch
+# fix http://code.google.com/p/chromium/issues/detail?id=136023
+Patch3:		chromium-20.0.1132.47-glibc216.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -95,6 +97,9 @@ your profile before changing channels.
 %patch0 -p1 -b .master-prefs
 %patch1 -p0 -b .includes
 %patch2 -p1 -b .fix-out-of-scope-memory-reference
+%if 0%{?fedora} >= 18
+%patch3 -p1 -b .glibc216
+%endif
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -242,6 +247,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Jul 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-2.R
+- fix trouble with glibe 2.16 (is136023)
+  http://code.google.com/p/chromium/issues/detail?id=136023
+
 * Mon Jul  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-1.R
 - apply patch for getting bookmarks and preferences
 - patch for gcc47
