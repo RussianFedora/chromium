@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	20.0.1132.47
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -74,6 +74,8 @@ BuildRequires:	/lib/libgcc_s.so.1
 %endif
 
 Requires:	hicolor-icon-theme
+
+Obsoletes:	chromium-ffmpeg
 
 ExclusiveArch: i686 x86_64 armv7l
 
@@ -247,6 +249,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Jul 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-3.R
+- added O: chromium-ffmpeg
+
 * Tue Jul 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-2.R
 - fix trouble with glibe 2.16 (is136023)
   http://code.google.com/p/chromium/issues/detail?id=136023
