@@ -1,9 +1,9 @@
-%define revision 144678
+%define revision 145816
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	20.0.1132.47
-Release:	3%{?dist}
+Version:	20.0.1132.57
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -249,6 +249,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Jul 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.57-1.R
+- update to last stable 20.0.11.32.57
+
 * Wed Jul 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-3.R
 - added O: chromium-ffmpeg
 
