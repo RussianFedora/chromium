@@ -1,8 +1,8 @@
-%define revision 145816
+%define revision 148609
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	20.0.1132.57
+Version:	21.0.1180.57
 Release:	1%{?dist}
 Epoch:		1
 
@@ -17,8 +17,6 @@ Source30:	master_preferences
 Source31:	default_bookmarks.html
 
 Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
-Patch1:		chromium-20.0.1132.43-fix-includes.patch
-Patch2:		sqlite-3.7.6.3-fix-out-of-scope-memory-reference.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 
@@ -97,8 +95,6 @@ your profile before changing channels.
 %prep
 %setup -q
 %patch0 -p1 -b .master-prefs
-%patch1 -p0 -b .includes
-%patch2 -p1 -b .fix-out-of-scope-memory-reference
 %if 0%{?fedora} >= 18
 %patch3 -p1 -b .glibc216
 %endif
@@ -249,17 +245,21 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Thu Jul 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.57-1.R
+* Wed Aug  1 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1180.57-1.R
+- update to 21.0.1180.57
+- drop old patches
+
+* Thu Jul 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.57-1.R
 - update to last stable 20.0.11.32.57
 
-* Wed Jul 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-3.R
+* Wed Jul 11 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.47-3.R
 - added O: chromium-ffmpeg
 
-* Tue Jul 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-2.R
+* Tue Jul 10 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.47-2.R
 - fix trouble with glibe 2.16 (is136023)
   http://code.google.com/p/chromium/issues/detail?id=136023
 
-* Mon Jul  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.11.32.47-1.R
+* Mon Jul  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 20.0.1132.47-1.R
 - apply patch for getting bookmarks and preferences
 - patch for gcc47
 - many new build requires
