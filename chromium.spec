@@ -184,7 +184,7 @@ mkdir -p %{buildroot}%{_datadir}/applications
 install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/applications/
 
 # icon
-for i in 16 22 24 26 32 48 64 128 256; do
+for i in 22 24 32 48 64 128 256; do
 	mkdir -p %{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps
 	install -m 644 chrome/app/theme/chromium/product_logo_$i.png \
 		%{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps/%{name}.png
