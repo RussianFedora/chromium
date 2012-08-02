@@ -137,6 +137,9 @@ build/gyp_chromium --depth=. \
 	-D use_system_libevent=1 \
 	-D use_system_flac=0 \
 	-D use_system_vpx=0 \
+%if %{defined rhel} && 0%{?rhel} < 7
+	-D v8_use_snapshot=false \
+%endif
 	-D use_system_icu=0 \
 %ifarch i686
 	-D disable_sse2=1 \
