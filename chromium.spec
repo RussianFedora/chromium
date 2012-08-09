@@ -1,8 +1,8 @@
-%define revision 148609
+%define revision 150266
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	21.0.1180.57
+Version:	21.0.1180.75
 Release:	1%{?dist}
 Epoch:		1
 
@@ -258,6 +258,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Aug  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1180.75-1.R
+- update to 21.0.1180.75
+
 * Wed Aug  1 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1180.57-1.R
 - update to 21.0.1180.57
 - drop old patches
