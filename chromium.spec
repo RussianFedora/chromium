@@ -21,8 +21,6 @@ Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 # drop gamepad support for el6
 Patch4:		chromium-21.0.1180.57-drop-gamepad-support.patch
-# build webkit on gcc 4.7.1
-Patch5:		chromium-21.0.1180.57-webkit-gcc-4.7.1.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -101,7 +99,6 @@ your profile before changing channels.
 %patch0 -p1 -b .master-prefs
 %if 0%{?fedora} >= 18
 %patch3 -p1 -b .glibc216
-%patch5 -p1 -b .gcc471
 %endif
 
 %if %{defined rhel} && 0%{?rhel} < 7
