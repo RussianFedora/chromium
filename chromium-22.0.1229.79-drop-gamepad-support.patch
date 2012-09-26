@@ -1,6 +1,6 @@
-diff -urN chromium-21.0.1180.57.orig/content/browser/gamepad/platform_data_fetcher.h chromium-21.0.1180.57/content/browser/gamepad/platform_data_fetcher.h
---- chromium-21.0.1180.57.orig/content/browser/gamepad/platform_data_fetcher.h	2012-08-01 17:46:45.295562280 +0400
-+++ chromium-21.0.1180.57/content/browser/gamepad/platform_data_fetcher.h	2012-08-01 17:50:13.938770482 +0400
+diff -urN chromium-22.0.1229.79.orig/content/browser/gamepad/platform_data_fetcher.h chromium-22.0.1229.79/content/browser/gamepad/platform_data_fetcher.h
+--- chromium-22.0.1229.79.orig/content/browser/gamepad/platform_data_fetcher.h	2012-09-26 13:12:54.530339770 +0400
++++ chromium-22.0.1229.79/content/browser/gamepad/platform_data_fetcher.h	2012-09-26 13:15:28.699509118 +0400
 @@ -16,8 +16,6 @@
  #include "content/browser/gamepad/platform_data_fetcher_win.h"
  #elif defined(OS_MACOSX)
@@ -21,10 +21,10 @@ diff -urN chromium-21.0.1180.57.orig/content/browser/gamepad/platform_data_fetch
  #else
  
  class GamepadDataFetcherEmpty : public GamepadDataFetcher {
-diff -urN chromium-21.0.1180.57.orig/content/content_browser.gypi chromium-21.0.1180.57/content/content_browser.gypi
---- chromium-21.0.1180.57.orig/content/content_browser.gypi	2012-08-01 17:46:45.591562524 +0400
-+++ chromium-21.0.1180.57/content/content_browser.gypi	2012-08-01 17:53:05.571963907 +0400
-@@ -770,7 +770,7 @@
+diff -urN chromium-22.0.1229.79.orig/content/content_browser.gypi chromium-22.0.1229.79/content/content_browser.gypi
+--- chromium-22.0.1229.79.orig/content/content_browser.gypi	2012-09-26 13:12:54.848340119 +0400
++++ chromium-22.0.1229.79/content/content_browser.gypi	2012-09-26 13:17:54.541670318 +0400
+@@ -817,7 +817,7 @@
      '<(SHARED_INTERMEDIATE_DIR)/webkit/grit/devtools_resources_map.h',
    ],
    'conditions': [
@@ -33,13 +33,14 @@ diff -urN chromium-21.0.1180.57.orig/content/content_browser.gypi chromium-21.0.
        'sources': [
          'browser/gamepad/platform_data_fetcher.cc',
        ]
-@@ -825,19 +825,6 @@
+@@ -873,20 +873,6 @@
          '../dbus/dbus.gyp:dbus',
        ],
      }],
 -    ['OS=="linux"', {
 -      'dependencies': [
 -        '../build/linux/system.gyp:udev',
+-        '../sandbox/sandbox.gyp:libc_urandom_override',
 -      ],
 -      # Set LINUX_SANDBOX_PATH for Linux, including Chrome OS
 -      'conditions': [
@@ -53,7 +54,7 @@ diff -urN chromium-21.0.1180.57.orig/content/content_browser.gypi chromium-21.0.
      ['OS=="linux" and use_aura==1', {
        'dependencies': [
          '../build/linux/system.gyp:dbus',
-@@ -895,6 +882,11 @@
+@@ -949,6 +935,11 @@
          'browser/renderer_host/gtk_key_bindings_handler.h',
        ],
      }],

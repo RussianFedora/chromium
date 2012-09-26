@@ -20,7 +20,7 @@ Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 # drop gamepad support for el6
-Patch4:		chromium-21.0.1180.57-drop-gamepad-support.patch
+Patch4:		chromium-22.0.1229.79-drop-gamepad-support.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
