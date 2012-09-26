@@ -131,7 +131,7 @@ build/gyp_chromium --depth=. \
 	-D werror='' \
 	-D use_system_sqlite=0 \
 	-D use_system_libxml=1 \
-	-D use_system_zlib=1 \
+	-D use_system_zlib=0 \
 	-D use_system_bzip2=1 \
 	-D use_system_libpng=1 \
 	-D use_system_libjpeg=0 \
@@ -257,6 +257,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Wed Sep 26 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 22.0.1229.79-1.R
 - update to 22.0.1229.79
+- turn off system zlib
+  (http://code.google.com/p/chromium/issues/detail?id=143623)
 
 * Thu Sep 20 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 21.0.1180.89-1.R
 - update to 21.0.1180.89
