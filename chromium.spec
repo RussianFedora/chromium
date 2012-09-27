@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	22.0.1229.79
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -180,8 +180,8 @@ install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
 install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
-#install -m 644 out/Release/theme_resources_standard.pak %{buildroot}%{_libdir}/%{name}/
-#install -m 644 out/Release/ui_resources_standard.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
@@ -241,8 +241,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/nacl_irt_*.nexe
 %endif
 %{_libdir}/%{name}/locales
-#%{_libdir}/%{name}/theme_resources_standard.pak
-#%{_libdir}/%{name}/ui_resources_standard.pak
+%{_libdir}/%{name}/chrome_100_percent.pak
+%{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
@@ -255,6 +255,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Sep 27 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 22.0.1229.79-2.R
+- pack new resource files
+
 * Wed Sep 26 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 22.0.1229.79-1.R
 - update to 22.0.1229.79
 - turn off system zlib
