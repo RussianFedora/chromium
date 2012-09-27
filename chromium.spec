@@ -180,7 +180,8 @@ install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
 install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/theme_resources_100_percent.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/ui_resources_100_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
@@ -241,7 +242,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/nacl_irt_*.nexe
 %endif
 %{_libdir}/%{name}/locales
-%{_libdir}/%{name}/chrome_100_percent.pak
+%{_libdir}/%{name}/theme_resources_100_percent.pak
+%{_libdir}/%{name}/ui_resources_100_percent.pak
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/resources
