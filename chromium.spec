@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	22.0.1229.92
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -130,7 +130,7 @@ build/gyp_chromium --depth=. \
 	-D use_gconf=0 \
 	-D werror='' \
 	-D use_system_sqlite=0 \
-	-D use_system_libxml=1 \
+	-D use_system_libxml=0 \
 	-D use_system_zlib=0 \
 	-D use_system_bzip2=1 \
 	-D use_system_libpng=1 \
@@ -257,6 +257,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Oct 22 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 22.0.1229.92-2.R
+- build with internal libxml
+
 * Tue Oct  9 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 22.0.1229.92-1.R
 - update to 22.0.1229.92
 
