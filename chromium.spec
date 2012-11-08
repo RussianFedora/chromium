@@ -241,8 +241,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/nacl_irt_*.nexe
 %endif
 %{_libdir}/%{name}/locales
-%{_libdir}/%{name}/theme_resources_100_percent.pak
-%{_libdir}/%{name}/ui_resources_100_percent.pak
+%{_libdir}/%{name}/chrome_100_percent.pak
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/resources
