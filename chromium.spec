@@ -168,6 +168,7 @@ mkdir -p %{buildroot}%{_mandir}/man1
 install -m 755 %{SOURCE1} %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/chrome %{buildroot}%{_libdir}/%{name}/
 install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome-sandbox
+cp -a out/Release/cromedriver %{buildroot}%{_libdir}/%{name}/cromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/chrome.pak %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
