@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	23.0.1271.97
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -156,7 +156,7 @@ build/gyp_chromium --depth=. \
 
 # Note: DON'T use system sqlite (3.7.3) -- it breaks history search
 
-make %{_smp_mflags} chrome chrome_sandbox BUILDTYPE=Release
+make %{_smp_mflags} chrome chrome_sandbox chromedriver BUILDTYPE=Release
 
 %install
 rm -rf %{buildroot}
@@ -234,6 +234,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/libffmpegsumo.so
+%{_libdir}/%{name}/chromedriver
 %ifnarch armv7l
 %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
 %{_libdir}/%{name}/nacl_helper_bootstrap
@@ -255,6 +256,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Dec 13 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 23.0.1271.97-2.R
+- rebuild with ChromeDriver
+
 * Wed Dec 12 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 23.0.1271.97-1.R
 - update to 23.0.1271.97
 
