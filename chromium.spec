@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	23.0.1271.97
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -93,6 +93,21 @@ experience tab crashes on startup. This crash only affects tabs restored
 during the first launch due to a change in how tab state is stored.
 See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
+
+
+%package -n chromedriver
+Summary:	WebDriver for Google Chrome/Chromium
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+
+%description -n chromedriver
+WebDriver is an open source tool for automated testing of webapps across many
+browsers. It provides capabilities for navigating to web pages, user input,
+JavaScript execution, and more. ChromeDriver is a standalone server which
+implements WebDriver's wire protocol for Chromium. It is being developed by
+members of the Chromium and WebDriver teams.
+
 
 %prep
 %setup -q
@@ -186,6 +201,7 @@ install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
+ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/%{name}
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
 cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
@@ -228,6 +244,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files
 %defattr(-,root,root,-)
+%doc LICENSE AUTHORS
 %config %{_sysconfdir}/%{name}
 %{_bindir}/%{name}
 %{_libdir}/%{name}/chromium-wrapper
@@ -235,7 +252,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/libffmpegsumo.so
-%{_libdir}/%{name}/chromedriver
 %ifnarch armv7l
 %{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
 %{_libdir}/%{name}/nacl_helper_bootstrap
@@ -256,7 +272,17 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 
+%files -n chromedriver
+%defattr(-,root,root,-)
+%doc LICENSE AUTHORS
+%{_bindir}/chromedriver
+%{_libdir}/%{name}/chromedriver
+
+
 %changelog
+* Mon Dec 17 2012 Arkady L. Shane <ashejn@russianfedora.ru. - 23.0.1271.97-3.R
+- create separate package for chromedriver
+
 * Thu Dec 13 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 23.0.1271.97-2.R
 - rebuild with ChromeDriver
 
