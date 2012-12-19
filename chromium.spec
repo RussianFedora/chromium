@@ -201,7 +201,7 @@ install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
-ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/%{name}
+ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
 cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
