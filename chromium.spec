@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	23.0.1271.97
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -98,7 +98,7 @@ your profile before changing channels.
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name} = %{epoch}:%{version}-%{release}
 
 
 %description -n chromedriver
@@ -280,6 +280,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Dec 21 2012 Arkady L. Shane <ashejn@russianfedora.ru. - 23.0.1271.97-4.R
+- added epoch to requires for chromedriver
+
 * Mon Dec 17 2012 Arkady L. Shane <ashejn@russianfedora.ru. - 23.0.1271.97-3.R
 - create separate package for chromedriver
 
