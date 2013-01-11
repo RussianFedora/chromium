@@ -1,9 +1,9 @@
-%define revision 172562
+%define revision 175383
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	23.0.1271.97
-Release:	4%{?dist}
+Version:	24.0.1312.52
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -280,10 +280,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Fri Dec 21 2012 Arkady L. Shane <ashejn@russianfedora.ru. - 23.0.1271.97-4.R
+* Fri Jan 11 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 24.0.1312.52-1.R
+- update to 24.0.1312.52
+
+* Fri Dec 21 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 23.0.1271.97-4.R
 - added epoch to requires for chromedriver
 
-* Mon Dec 17 2012 Arkady L. Shane <ashejn@russianfedora.ru. - 23.0.1271.97-3.R
+* Mon Dec 17 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 23.0.1271.97-3.R
 - create separate package for chromedriver
 
 * Thu Dec 13 2012 Arkady L. Shane <ashejn@russianfedora.ru> - 23.0.1271.97-2.R
