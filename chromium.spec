@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	25.0.1364.97
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -41,7 +41,7 @@ BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXt-devel
 BuildRequires:	libXtst-devel
 BuildRequires:	libevent-devel
-BuildRequires:	libjpeg-turbo-devel
+#BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libudev-devel
 BuildRequires:	libvpx-devel
@@ -159,7 +159,7 @@ build/gyp_chromium --depth=. \
 	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
 	-D use_system_libpng=1 \
-	-D use_system_libjpeg=1 \
+	-D use_system_libjpeg=0 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
 	-D use_system_vpx=1 \
@@ -309,6 +309,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Feb 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-2.R
+- rebuilt with internal jpeg
+
 * Fri Feb 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-1.R
 - update to 25.0.1364.97
 - enable many new build options
