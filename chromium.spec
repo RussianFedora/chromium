@@ -22,8 +22,6 @@ Patch3:		chromium-20.0.1132.47-glibc216.patch
 # drop gamepad support for el6
 Patch4:		chromium-22.0.1229.79-drop-gamepad-support.patch
 
-Patch10:	chromium-25-system-opus.patch
-
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	alsa-lib-devel
@@ -66,7 +64,6 @@ BuildRequires:	speech-dispatcher-devel
 BuildRequires:	gpsd-devel
 BuildRequires:	libsrtp-devel
 BuildRequires:	libmtp-devel
-BuildRequires:	opus-devel
 BuildRequires:	libwebp-devel
 BuildRequires:	harfbuzz-devel
 BuildRequires:	libicu-devel
@@ -134,8 +131,6 @@ members of the Chromium and WebDriver teams.
 %patch4 -p1 -b .gamepad
 %endif
 
-%patch112 -p1 -b .system-opus
-
 echo "%{revision}" > build/LASTCHANGE.in
 
 # Hard code extra version
@@ -173,7 +168,7 @@ build/gyp_chromium --depth=. \
 	-D use_system_libexif=1 \
 	-D use_system_libsrtp=1 \
 	-D use_system_libmtp=1 \
-	-D use_system_opus=1 \
+	-D use_system_opus=0 \
 	-D use_system_libwebp=1 \
 	-D use_system_harfbuzz=1 \
 	-D use_system_minizip=1 \
