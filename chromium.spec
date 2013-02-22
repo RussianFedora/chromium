@@ -71,7 +71,6 @@ BuildRequires:	libicu-devel
 BuildRequires:	minizip-devel
 BuildRequires:	yasm-devel
 BuildRequires:	pciutils-devel
-BuildRequires:	mesa-libGL-devel, mesa-libEGL-devel, mesa-libGLU-devel, mesa-libGLES-devel, mesa-libGLw-devel
 
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
 BuildRequires:	libgnome-keyring-devel
@@ -169,7 +168,6 @@ build/gyp_chromium --depth=. \
 	-D use_system_speex=1 \
 	-D use_system_libusb=1 \
 	-D use_system_libexif=1 \
-	-D use_system_mesa=1 \
 	-D use_system_libsrtp=1 \
 	-D use_system_libmtp=1 \
 	-D use_system_opus=1 \
