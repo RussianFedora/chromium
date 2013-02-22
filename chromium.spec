@@ -70,7 +70,6 @@ BuildRequires:	harfbuzz-devel
 BuildRequires:	libicu-devel
 BuildRequires:	minizip-devel
 BuildRequires:	yasm-devel
-BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	pciutils-devel
 BuildRequires:	mesa-libGL-devel, mesa-libEGL-devel, mesa-libGLU-devel, mesa-libGLES-devel, mesa-libGLw-devel
 
