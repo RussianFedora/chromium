@@ -40,7 +40,6 @@ BuildRequires:	gtk2-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXt-devel
 BuildRequires:	libXtst-devel
-BuildRequires:	libevent
 BuildRequires:	libevent-devel
 BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libpng-devel
@@ -59,6 +58,21 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	speex-devel
 BuildRequires:	subversion
 BuildRequires:	zlib-devel
+BuildRequires:	libusb-devel
+BuildRequires:	libexif-devel
+BuildRequires:	speech-dispatcher-devel
+BuildRequires:	gpsd-devel
+BuildRequires:	libsrtp-devel
+BuildRequires:	libmtp-devel
+BuildRequires:	opus-devel
+BuildRequires:	libwebp-devel
+BuildRequires:	harfbuzz-devel
+BuildRequires:	libicu-devel
+BuildRequires:	minizip-devel
+BuildRequires:	yasm-devel
+BuildRequires:	pulseaudio-libs-devel
+BuildRequires:	pciutils-devel
+BuildRequires:	mesa-libGL-devel, mesa-libEGL-devel, mesa-libGLU-devel, mesa-libGLES-devel, mesa-libGLw-devel
 
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
 BuildRequires:	libgnome-keyring-devel
@@ -146,17 +160,37 @@ build/gyp_chromium --depth=. \
 	-D werror='' \
 	-D use_system_sqlite=0 \
 	-D use_system_libxml=0 \
-	-D use_system_zlib=0 \
+	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
 	-D use_system_libpng=1 \
-	-D use_system_libjpeg=0 \
+	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
-	-D use_system_flac=0 \
-	-D use_system_vpx=0 \
+	-D use_system_flac=1 \
+	-D use_system_vpx=1 \
+	-D use_system_speex=1 \
+	-D use_system_libusb=1 \
+	-D use_system_libexif=1 \
+	-D use_system_mesa=1 \
+	-D use_system_libsrtp=1 \
+	-D use_system_libmtp=1 \
+	-D use_system_opus=1 \
+	-D use_system_libwebp=1 \
+	-D use_system_harfbuzz=1
+	-D use_system_minizip=1 \
+	-D use_system_yasm=1 \
+	-D use_system_xdg_utils=1 \
+	-D build_ffmpegsumo=1 \
+	-D proprietary_codecs=1 \
+	-D use_pulseaudio=1 \
+	-D linux_link_libpci=1 \
+	-D linux_link_gsettings=1 \
+	-D linux_link_libspeechd=1 \
+	-D linux_link_kerberos=1 \
+	-D linux_link_libgps=1 \
 %if %{defined rhel} && 0%{?rhel} < 7
 	-D v8_use_snapshot=false \
 %endif
-	-D use_system_icu=0 \
+	-D use_system_icu=1 \
 %ifarch i686
 	-D disable_sse2=1 \
 	-D release_extra_cflags="-march=i686"
