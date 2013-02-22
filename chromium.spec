@@ -223,8 +223,8 @@ install -m 755 out/Release/nacl_helper %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
 %endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
-install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
+#install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
+#install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
@@ -294,8 +294,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
-%{_libdir}/%{name}/xdg-mime
-%{_libdir}/%{name}/xdg-settings
+#%{_libdir}/%{name}/xdg-mime
+#%{_libdir}/%{name}/xdg-settings
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
