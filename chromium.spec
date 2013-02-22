@@ -309,6 +309,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Feb 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-1.R
+- update to 25.0.1364.97
+- enable many new build options
+
 * Tue Feb  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 24.0.1312.68-1.R
 - update to 24.0.1312.68
 
