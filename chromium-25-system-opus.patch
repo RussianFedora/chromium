@@ -1,0 +1,56 @@
+diff -p -up chromium/src/remoting/codec/audio_decoder_opus.cc.system-opus chromium/src/remoting/codec/audio_decoder_opus.cc
+--- chromium/src/remoting/codec/audio_decoder_opus.cc.system-opus	2012-11-09 13:49:45.590970733 +0100
++++ chromium/src/remoting/codec/audio_decoder_opus.cc	2012-12-08 01:57:26.029551677 +0100
+@@ -8,7 +8,7 @@
+ #include "base/stl_util.h"
+ #include "base/time.h"
+ #include "remoting/proto/audio.pb.h"
+-#include "third_party/opus/opus.h"
++#include "third_party/opus/opusshim.h"
+ 
+ namespace remoting {
+ 
+diff -p -up chromium/src/remoting/codec/audio_encoder_opus.cc.system-opus chromium/src/remoting/codec/audio_encoder_opus.cc
+--- chromium/src/remoting/codec/audio_encoder_opus.cc.system-opus	2012-11-24 08:57:00.698775383 +0100
++++ chromium/src/remoting/codec/audio_encoder_opus.cc	2012-12-08 02:03:26.793781819 +0100
+@@ -9,7 +9,7 @@
+ #include "base/time.h"
+ #include "media/base/audio_bus.h"
+ #include "media/base/multi_channel_resampler.h"
+-#include "third_party/opus/opus.h"
++#include "third_party/opus/opusshim.h"
+ 
+ namespace remoting {
+ 
+diff -p -up chromium/src/third_party/opus/opus.h.system-opus chromium/src/third_party/opus/opus.h
+--- chromium/src/third_party/opus/opus.h.system-opus	2012-10-20 20:21:50.284134323 +0200
++++ chromium/src/third_party/opus/opus.h	1970-01-01 00:00:00.000000000 +0000
+@@ -1,12 +0,0 @@
+-// Copyright (c) 2012 The Chromium Authors. All rights reserved.
+-// Use of this source code is governed by a BSD-style license that can be
+-// found in the LICENSE file.
+-
+-// This is a shim header to include the right opus header.
+-// Use this instead of referencing the opus header directly.
+-
+-#if defined(USE_SYSTEM_OPUS)
+-#include <opus/opus.h>
+-#else
+-#include "third_party/opus/src/include/opus.h"
+-#endif
+diff -p -up chromium/src/third_party/opus/opusshim.h.system-opus chromium/src/third_party/opus/opusshim.h
+--- chromium/src/third_party/opus/opusshim.h.system-opus	2012-12-08 01:57:45.719347525 +0100
++++ chromium/src/third_party/opus/opusshim.h	1970-01-01 00:00:00.000000000 +0000
+@@ -0,0 +1,12 @@
++// Copyright (c) 2012 The Chromium Authors. All rights reserved.
++// Use of this source code is governed by a BSD-style license that can be
++// found in the LICENSE file.
++
++// This is a shim header to include the right opus header.
++// Use this instead of referencing the opus header directly.
++
++#if defined(USE_SYSTEM_OPUS)
++#include <opus/opus.h>
++#else
++#include "third_party/opus/src/include/opus.h"
++#endif

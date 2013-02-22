@@ -22,6 +22,8 @@ Patch3:		chromium-20.0.1132.47-glibc216.patch
 # drop gamepad support for el6
 Patch4:		chromium-22.0.1229.79-drop-gamepad-support.patch
 
+Patch10:	chromium-25-system-opus.patch
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	alsa-lib-devel
@@ -132,6 +134,7 @@ members of the Chromium and WebDriver teams.
 %patch4 -p1 -b .gamepad
 %endif
 
+%patch112 -p1 -b .system-opus
 
 echo "%{revision}" > build/LASTCHANGE.in
 
