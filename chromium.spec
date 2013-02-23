@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	25.0.1364.97
-Release:	2.1%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -21,6 +21,8 @@ Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 # drop gamepad support for el6
 Patch4:		chromium-22.0.1229.79-drop-gamepad-support.patch
+
+Patch5:		chromium-25-webkitTransform-exception.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -130,6 +132,8 @@ members of the Chromium and WebDriver teams.
 %if %{defined rhel} && 0%{?rhel} < 7
 %patch4 -p1 -b .gamepad
 %endif
+
+%patch5 -p2 -b .webkitTransform-exception
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -309,6 +313,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Feb 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-3.R
+- rebuilt with internal png and system jpeg
+- fix "Uncaught exception" in 2 calls to webkitTransform
+
 * Sat Feb 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-2.R
 - rebuilt with internal jpeg
 
