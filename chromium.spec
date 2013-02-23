@@ -21,8 +21,12 @@ Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 # drop gamepad support for el6
 Patch4:		chromium-22.0.1229.79-drop-gamepad-support.patch
-
+# (cjw) fix "Uncaught exception" in 2 calls to webkitTransform (hack, need to test if this is still needed)
+# http://code.google.com/p/chromium/issues/detail?id=152407
 Patch5:		chromium-25-webkitTransform-exception.patch
+# (cjw) fix "Unable to set period time" alsa error, taken from chromiumOS
+# http://git.chromium.org/gitweb/?p=chromiumos/third_party/autotest.git;a=commitdiff;h=bd9e575ed7c1059b8566b5cbf4b493e5892e6252
+Patch6:         chromium-25-alsa-period-time.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -134,6 +138,7 @@ members of the Chromium and WebDriver teams.
 %endif
 
 %patch5 -p2 -b .webkitTransform-exception
+%patch6 -p2 -b .alsa
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -316,6 +321,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Sat Feb 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-3.R
 - rebuilt with internal png and system jpeg
 - fix "Uncaught exception" in 2 calls to webkitTransform
+- fix "Unable to set period time" alsa error, taken from chromiumOS
 
 * Sat Feb 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-2.R
 - rebuilt with internal jpeg

@@ -1,0 +1,96 @@
+diff -p -up chromium/src/media/audio/linux/alsa_wrapper.cc.period-time chromium/src/media/audio/linux/alsa_wrapper.cc
+--- chromium/src/media/audio/linux/alsa_wrapper.cc.period-time	2012-10-07 13:07:44.815961299 +0200
++++ chromium/src/media/audio/linux/alsa_wrapper.cc	2012-12-08 21:49:49.576993264 +0100
+@@ -75,13 +75,85 @@ int AlsaWrapper::PcmSetParams(snd_pcm_t*
+                               snd_pcm_access_t access, unsigned int channels,
+                               unsigned int rate, int soft_resample,
+                               unsigned int latency) {
+-  return snd_pcm_set_params(handle,
+-                            format,
+-                            access,
+-                            channels,
+-                            rate,
+-                            soft_resample,
+-                            latency);
++  unsigned int rate_set;
++  unsigned int latency_set;
++  int dir_set;
++  snd_pcm_hw_params_t *hwparams = 0;
++  int error;
++
++  snd_pcm_hw_params_malloc(&hwparams);
++
++  if ((error = snd_pcm_hw_params_any(handle, hwparams)) < 0) {
++//    fprintf(stderr, "No config available for PCM device %s\n",
++//	    PcmName(handle));
++    goto set_hw_err;
++  }
++
++  if ((error = snd_pcm_hw_params_set_rate_resample(handle,
++      hwparams, soft_resample)) < 0) {
++//    fprintf(stderr, "Resampling not available on PCM device %s\n",
++//	    PcmName(handle));
++    goto set_hw_err;
++  }
++
++  if ((error = snd_pcm_hw_params_set_access(handle, hwparams,
++      access)) < 0) {
++//    fprintf(stderr, "Access type not available on PCM device %s\n",
++//	    PcmName(handle));
++    goto set_hw_err;
++  }
++
++  if ((error = snd_pcm_hw_params_set_format(handle, hwparams, format)) < 0) {
++//    fprintf(stderr, "Could not set format for device %s\n", PcmName(handle));
++    goto set_hw_err;
++  }
++
++  if ((error = snd_pcm_hw_params_set_channels(handle, hwparams,
++      channels)) < 0) {
++//    fprintf(stderr, "Could not set channel count for device %s\n",
++//	    PcmName(handle));
++    goto set_hw_err;
++  }
++
++  rate_set = static_cast<unsigned int>(rate);
++  if ((error = snd_pcm_hw_params_set_rate_near(handle,
++      hwparams, &rate_set, 0)) < 0) {
++//    fprintf(stderr, "Could not set bitrate near %u for PCM device %s\n",
++//	    rate, PcmName(handle));
++    goto set_hw_err;
++  }
++
++  if (rate_set != static_cast<unsigned int>(rate))
++//    fprintf(stderr, "Warning: Actual rate(%u) != Requested rate(%u)\n",
++//	    rate_set,
++//	    rate);
++
++  snd_pcm_hw_params_set_periods(handle, hwparams, 2, 0);
++  
++  latency_set = latency;
++  dir_set = 0;
++  if ((error = snd_pcm_hw_params_set_period_time_near(handle,
++				    hwparams,
++				    &latency_set,
++				    &dir_set)) < 0) {
++//    fprintf(stderr, "Could not set latency near %u for PCM device %s\n",
++//	    latency, PcmName(handle));
++    goto set_hw_err;
++  }
++
++  if ((error = snd_pcm_hw_params(handle, hwparams)) < 0) {
++//    fprintf(stderr, "Unable to install hw params\n");
++    goto set_hw_err;
++  }
++  
++
++set_hw_err:
++  if (hwparams)
++  {
++    snd_pcm_hw_params_free(hwparams);
++  }
++
++  return error;
+ }
+ 
+ int AlsaWrapper::PcmGetParams(snd_pcm_t* handle, snd_pcm_uframes_t* buffer_size,
