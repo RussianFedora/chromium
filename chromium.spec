@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	25.0.1364.97
-Release:	2%{?dist}
+Release:	2.1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -41,8 +41,8 @@ BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXt-devel
 BuildRequires:	libXtst-devel
 BuildRequires:	libevent-devel
-#BuildRequires:	libjpeg-turbo-devel
-BuildRequires:	libpng-devel
+BuildRequires:	libjpeg-turbo-devel
+#BuildRequires:	libpng-devel
 BuildRequires:	libudev-devel
 BuildRequires:	libvpx-devel
 BuildRequires:	libxml2-devel
@@ -158,8 +158,8 @@ build/gyp_chromium --depth=. \
 	-D use_system_libxml=0 \
 	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
-	-D use_system_libpng=1 \
-	-D use_system_libjpeg=0 \
+	-D use_system_libpng=0 \
+	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
 	-D use_system_vpx=1 \
