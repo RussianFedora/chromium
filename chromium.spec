@@ -1,9 +1,9 @@
-%define revision 183699
+%define revision 185299
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	25.0.1364.97
-Release:	3%{?dist}
+Version:	25.0.1364.152
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
