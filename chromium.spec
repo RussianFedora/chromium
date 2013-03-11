@@ -1,8 +1,8 @@
-%define revision 185299
+%define revision 186730
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	25.0.1364.152
+Version:	25.0.1364.160
 Release:	1%{?dist}
 Epoch:		1
 
@@ -318,6 +318,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Mar 11 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.160-1.R
+- update to 25.0.1364.160
+
 * Sat Feb 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.97-3.R
 - rebuilt with internal png and system jpeg
 - fix "Uncaught exception" in 2 calls to webkitTransform
