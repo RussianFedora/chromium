@@ -64,7 +64,7 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	speex-devel
 BuildRequires:	subversion
 BuildRequires:	zlib-devel
-BuildRequires:	libusb-devel
+BuildRequires:	libusbx-devel
 BuildRequires:	libexif-devel
 BuildRequires:	speech-dispatcher-devel
 BuildRequires:	gpsd-devel
@@ -319,6 +319,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Fri Mar 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-2.R
 - do not build proprietary codecs as they break webm
+- added BR: libusbx-devel and drop libusb-devel
 
 * Tue Mar 19 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-1.R
 - update to 25.0.1364.172
