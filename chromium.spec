@@ -64,7 +64,11 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	speex-devel
 BuildRequires:	subversion
 BuildRequires:	zlib-devel
+if 0%{?fedora} < 18
+BuildRequires:	libusb-devel
+%else
 BuildRequires:	libusbx-devel
+%endif
 BuildRequires:	libexif-devel
 BuildRequires:	speech-dispatcher-devel
 BuildRequires:	gpsd-devel
