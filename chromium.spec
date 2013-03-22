@@ -3,8 +3,8 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	25.0.1364.172
-Release:	1%{?dist}
-Epoch:		2
+Release:	2%{?dist}
+Epoch:		1
 
 Group:		Applications/Internet
 License:	BSD, LGPL
