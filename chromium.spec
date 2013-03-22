@@ -4,7 +4,7 @@ Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	25.0.1364.172
 Release:	1%{?dist}
-Epoch:		1
+Epoch:		2
 
 Group:		Applications/Internet
 License:	BSD, LGPL
@@ -184,7 +184,6 @@ build/gyp_chromium --depth=. \
 	-D use_system_yasm=1 \
 	-D use_system_xdg_utils=1 \
 	-D build_ffmpegsumo=1 \
-	-D proprietary_codecs=1 \
 	-D use_pulseaudio=1 \
 	-D linux_link_libpci=1 \
 	-D linux_link_gsettings=1 \
@@ -318,6 +317,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Mar 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-2.R
+- do not build proprietary codecs as they break webm
+
 * Tue Mar 19 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-1.R
 - update to 25.0.1364.172
 
