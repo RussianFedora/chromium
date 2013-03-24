@@ -64,7 +64,7 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	speex-devel
 BuildRequires:	subversion
 BuildRequires:	zlib-devel
-if 0%{?fedora} < 18
+%if 0%{?fedora} < 18
 BuildRequires:	libusb-devel
 %else
 BuildRequires:	libusbx-devel
