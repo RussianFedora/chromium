@@ -22,9 +22,6 @@ Patch3:		chromium-20.0.1132.47-glibc216.patch
 # (cjw) fix "Uncaught exception" in 2 calls to webkitTransform (hack, need to test if this is still needed)
 # http://code.google.com/p/chromium/issues/detail?id=152407
 Patch5:		chromium-25-webkitTransform-exception.patch
-# (cjw) fix "Unable to set period time" alsa error, taken from chromiumOS
-# http://git.chromium.org/gitweb/?p=chromiumos/third_party/autotest.git;a=commitdiff;h=bd9e575ed7c1059b8566b5cbf4b493e5892e6252
-Patch6:         chromium-25-alsa-period-time.patch
 
 # PATCH-FIX-OPENSUSE patches in system speex library
 Patch10:	chromium-25.0.1364.172-system-speex.patch
@@ -148,7 +145,6 @@ members of the Chromium and WebDriver teams.
 %endif
 
 %patch5 -p2 -b .webkitTransform-exception
-%patch6 -p2 -b .alsa
 
 # openSUSE patches
 %patch10 -p1
