@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	25.0.1364.172
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -28,6 +28,17 @@ Patch5:		chromium-25-webkitTransform-exception.patch
 # http://git.chromium.org/gitweb/?p=chromiumos/third_party/autotest.git;a=commitdiff;h=bd9e575ed7c1059b8566b5cbf4b493e5892e6252
 Patch6:         chromium-25-alsa-period-time.patch
 
+# PATCH-FIX-OPENSUSE patches in system speex library
+Patch10:	chromium-25.0.1364.172-system-speex.patch
+# PATCH-FIX-OPENSUSE patches in the system libvpx library
+Patch11:	chromium-25.0.1364.172-system-libvpx.patch
+# PATCH-FIX-OPENSUSE patches in system glew library
+Patch13:	chromium-25.0.1364.172-system-glew.patch
+# PATCH-FIX-OPENSUSE removes build part for courgette
+Patch14:	chromium-25.0.1364.172-no-courgette.patch
+# PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
+Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	alsa-lib-devel
@@ -39,6 +50,7 @@ BuildRequires:	dbus-glib-devel
 BuildRequires:	elfutils-devel
 BuildRequires:	expat-devel
 BuildRequires:	flac-devel
+BuildRequires:	gstreamer1-plugins-base-devel gstreamer1-devel
 BuildRequires:	flex
 BuildRequires:	glib2-devel
 BuildRequires:	gperf
@@ -144,6 +156,13 @@ members of the Chromium and WebDriver teams.
 %patch5 -p2 -b .webkitTransform-exception
 %patch6 -p2 -b .alsa
 
+# openSUSE patches
+%patch10 -p1
+%patch11 -p1
+%patch13 -p1
+%patch14 -p1
+%patch15 -p1
+
 echo "%{revision}" > build/LASTCHANGE.in
 
 # Hard code extra version
@@ -169,8 +188,9 @@ build/gyp_chromium --depth=. \
 	-D werror='' \
 	-D use_system_sqlite=0 \
 	-D use_system_libxml=0 \
-	-D use_system_zlib=1 \
+	-D use_system_zlib=0 \
 	-D use_system_bzip2=1 \
+	-D use_system_libbz2=1 \
 	-D use_system_libpng=0 \
 	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
@@ -188,7 +208,9 @@ build/gyp_chromium --depth=. \
 	-D use_system_yasm=1 \
 	-D use_system_xdg_utils=1 \
 	-D build_ffmpegsumo=1 \
+	-D use_system_ffmpeg=0 \
 	-D use_pulseaudio=1 \
+	-D use_system_v8=0 \
 	-D linux_link_libpci=1 \
 	-D linux_link_gsettings=1 \
 	-D linux_link_libspeechd=1 \
@@ -321,6 +343,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Mar 25 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-3.R
+- apply many openSUSE patches and fixed webm/html5 playing (in youtube)
+- build with internal zlib
+- build with system libbz2
+- do no use system v8 and ffmpeg options defined
+
 * Fri Mar 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-2.R
 - do not build proprietary codecs as they break webm
 - added BR: libusbx-devel and drop libusb-devel

@@ -1,0 +1,11 @@
+diff -urN chromium-25.0.1364.172.orig/build/all.gyp chromium-25.0.1364.172/build/all.gyp
+--- chromium-25.0.1364.172.orig/build/all.gyp	2013-03-25 00:02:19.000000000 +0400
++++ chromium-25.0.1364.172/build/all.gyp	2013-03-25 00:04:49.007497074 +0400
+@@ -88,7 +88,6 @@
+         }],
+         ['OS=="linux"', {
+           'dependencies': [
+-            '../courgette/courgette.gyp:*',
+             '../dbus/dbus.gyp:*',
+             '../sandbox/sandbox.gyp:*',
+           ],

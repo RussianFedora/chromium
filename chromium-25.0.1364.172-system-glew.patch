@@ -1,0 +1,46 @@
+diff -urN chromium-25.0.1364.172.orig/build/linux/system.gyp chromium-25.0.1364.172/build/linux/system.gyp
+--- chromium-25.0.1364.172.orig/build/linux/system.gyp	2013-03-25 00:02:19.000000000 +0400
++++ chromium-25.0.1364.172/build/linux/system.gyp	2013-03-25 00:03:46.757371517 +0400
+@@ -383,6 +383,42 @@
+       ],
+     },
+     {
++      'target_name': 'icu',
++      'type': 'none',
++      'conditions': [
++        ['_toolset=="target"', {
++          'direct_dependent_settings': {
++            'cflags': [
++              '-Wno-unused-function',  
++              # TODO(port): fix ICU to not depend on this flag.  
++              '-fno-strict-aliasing',
++            ],
++          },
++          'link_settings': {
++            'ldflags': [
++              '',
++            ],
++            'libraries': [
++              '-licui18n',
++            ],
++          },
++      }]]   
++    },   
++    {
++      'target_name': 'glew',
++      'type': 'none',
++      'conditions': [
++        ['_toolset=="target"', {
++          'link_settings': {
++            'libraries': [
++              '-lGLEW',
++              '-lGL',
++              '-lX11',
++            ],
++          },
++      }]]
++    },
++    {
+       'target_name': 'x11',
+       'type': 'none',
+       'toolsets': ['host', 'target'],

@@ -1,0 +1,54 @@
+diff -urN chromium-25.0.1364.172.orig/build/linux/system.gyp chromium-25.0.1364.172/build/linux/system.gyp
+--- chromium-25.0.1364.172.orig/build/linux/system.gyp	2013-03-24 22:56:57.452586326 +0400
++++ chromium-25.0.1364.172/build/linux/system.gyp	2013-03-24 23:32:25.910385479 +0400
+@@ -492,6 +492,26 @@
+       ],
+     },
+     {
++      'target_name': 'speex',
++      'type': 'none',
++      'conditions': [
++        ['_toolset=="target"', {
++          'direct_dependent_settings': {
++            'cflags': [
++              '<!@(pkg-config --cflags speex)',
++            ],
++          },
++          'link_settings': {
++            'ldflags': [
++              '<!@(pkg-config --libs-only-L --libs-only-other speex)',
++            ],
++            'libraries': [
++              '<!@(pkg-config --libs-only-l speex)',
++            ],
++          },
++      }]]
++    },
++    {
+       'target_name': 'gnome_keyring',
+       'type': 'none',
+       'conditions': [
+diff -urN chromium-25.0.1364.172.orig/content/browser/speech/audio_encoder.cc chromium-25.0.1364.172/content/browser/speech/audio_encoder.cc
+--- chromium-25.0.1364.172.orig/content/browser/speech/audio_encoder.cc	2013-03-24 22:56:59.928371149 +0400
++++ chromium-25.0.1364.172/content/browser/speech/audio_encoder.cc	2013-03-24 23:32:25.911376376 +0400
+@@ -11,7 +11,7 @@
+ #include "base/string_number_conversions.h"
+ #include "content/browser/speech/audio_buffer.h"
+ #include "third_party/flac/flac.h"
+-#include "third_party/speex/speex.h"
++#include "speex/speex.h"
+ 
+ namespace content {
+ namespace {
+diff -urN chromium-25.0.1364.172.orig/content/content_browser.gypi chromium-25.0.1364.172/content/content_browser.gypi
+--- chromium-25.0.1364.172.orig/content/content_browser.gypi	2013-03-24 22:56:58.147369941 +0400
++++ chromium-25.0.1364.172/content/content_browser.gypi	2013-03-24 23:32:25.919370003 +0400
+@@ -1064,7 +1064,7 @@
+     }, { # OS!="android"
+       'dependencies': [
+         '../third_party/flac/flac.gyp:libflac',
+-        '../third_party/speex/speex.gyp:libspeex',
++        '../build/linux/system.gyp:speex',
+       ],
+     }],
+     ['OS=="mac"', {
