@@ -19,8 +19,6 @@ Source31:	default_bookmarks.html
 Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
-# drop gamepad support for el6
-Patch4:		chromium-22.0.1229.79-drop-gamepad-support.patch
 # (cjw) fix "Uncaught exception" in 2 calls to webkitTransform (hack, need to test if this is still needed)
 # http://code.google.com/p/chromium/issues/detail?id=152407
 Patch5:		chromium-25-webkitTransform-exception.patch
@@ -147,10 +145,6 @@ members of the Chromium and WebDriver teams.
 %patch0 -p1 -b .master-prefs
 %if 0%{?fedora} >= 18
 %patch3 -p1 -b .glibc216
-%endif
-
-%if %{defined rhel} && 0%{?rhel} < 7
-%patch4 -p1 -b .gamepad
 %endif
 
 %patch5 -p2 -b .webkitTransform-exception
