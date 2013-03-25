@@ -45,7 +45,6 @@ BuildRequires:	dbus-glib-devel
 BuildRequires:	elfutils-devel
 BuildRequires:	expat-devel
 BuildRequires:	flac-devel
-BuildRequires:	gstreamer1-plugins-base-devel gstreamer1-devel
 BuildRequires:	flex
 BuildRequires:	glib2-devel
 BuildRequires:	gperf
@@ -73,8 +72,10 @@ BuildRequires:	subversion
 BuildRequires:	zlib-devel
 %if 0%{?fedora} < 18
 BuildRequires:	libusb-devel
+BuildRequires:	gstreamer-plugins-base-devel gstreamer-devel
 %else
 BuildRequires:	libusbx-devel
+BuildRequires:	gstreamer1-plugins-base-devel gstreamer1-devel
 %endif
 BuildRequires:	libexif-devel
 BuildRequires:	speech-dispatcher-devel
