@@ -1,9 +1,9 @@
-%define revision 187219
+%define revision 190148
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	25.0.1364.172
-Release:	3%{?dist}
+Version:	26.0.1410.46
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -16,17 +16,13 @@ Source2:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 
-Patch0:		chromium-20.0.1132.47-master-prefs-path.patch
+Patch0:		chromium-26.0.1410.46-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 # (cjw) fix "Uncaught exception" in 2 calls to webkitTransform (hack, need to test if this is still needed)
 # http://code.google.com/p/chromium/issues/detail?id=152407
 Patch5:		chromium-25-webkitTransform-exception.patch
 
-# PATCH-FIX-OPENSUSE patches in system speex library
-Patch10:	chromium-25.0.1364.172-system-speex.patch
-# PATCH-FIX-OPENSUSE patches in the system libvpx library
-Patch11:	chromium-25.0.1364.172-system-libvpx.patch
 # PATCH-FIX-OPENSUSE patches in system glew library
 Patch13:	chromium-25.0.1364.172-system-glew.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
@@ -148,8 +144,6 @@ members of the Chromium and WebDriver teams.
 %patch5 -p2 -b .webkitTransform-exception
 
 # openSUSE patches
-%patch10 -p1
-%patch11 -p1
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
@@ -334,6 +328,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Mar 27 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 26.0.1410.46-1.R
+- update to 26.0.1410.46
+
 * Mon Mar 25 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 25.0.1364.172-3.R
 - apply many openSUSE patches and fixed webm/html5 playing (in youtube)
 - build with internal zlib
