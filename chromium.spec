@@ -1,9 +1,9 @@
-%define revision 190148
+%define revision 192699
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	26.0.1410.46
-Release:	2%{?dist}
+Version:	26.0.1410.63
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -331,6 +331,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Apr 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 26.0.1410.63-1.R
+- update to 26.0.1410.63
+
 * Wed Apr 17 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 26.0.1410.46-2.R
 - fix crash (https://bugs.webkit.org/show_bug.cgi?id=110145)
 
