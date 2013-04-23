@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	26.0.1410.63
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -29,8 +29,6 @@ Patch13:	chromium-25.0.1364.172-system-glew.patch
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
-# fix https://bugs.webkit.org/show_bug.cgi?id=110145
-Patch16:	chromium-26.0.1410.46-harfbuzz.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -81,7 +79,6 @@ BuildRequires:	gpsd-devel
 BuildRequires:	libsrtp-devel
 BuildRequires:	libmtp-devel
 BuildRequires:	libwebp-devel
-BuildRequires:	harfbuzz-devel
 BuildRequires:	libicu-devel
 BuildRequires:	minizip-devel
 BuildRequires:	yasm-devel
@@ -149,7 +146,6 @@ members of the Chromium and WebDriver teams.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-%patch16 -p1
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -191,7 +187,7 @@ build/gyp_chromium --depth=. \
 	-D use_system_libmtp=1 \
 	-D use_system_opus=0 \
 	-D use_system_libwebp=1 \
-	-D use_system_harfbuzz=1 \
+	-D use_system_harfbuzz=0 \
 	-D use_system_minizip=1 \
 	-D use_system_yasm=1 \
 	-D use_system_xdg_utils=1 \
@@ -331,6 +327,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Apr 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 26.0.1410.63-2.R
+- new harfbuzz still broken. Build with internal
+
 * Mon Apr 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 26.0.1410.63-1.R
 - update to 26.0.1410.63
 
