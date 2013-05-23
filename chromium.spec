@@ -1,9 +1,9 @@
-%define revision 192699
+%define revision 200848
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	26.0.1410.63
-Release:	2%{?dist}
+Version:	27.0.1453.93
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -16,7 +16,7 @@ Source2:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 
-Patch0:		chromium-26.0.1410.46-master-prefs-path.patch
+Patch0:		chromium-27.0.1453.93-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 # (cjw) fix "Uncaught exception" in 2 calls to webkitTransform (hack, need to test if this is still needed)
@@ -62,6 +62,9 @@ BuildRequires:	nss-devel
 BuildRequires:	openssl-devel
 BuildRequires:	perl(Switch)
 BuildRequires:	perl(Digest::MD5)
+%if 0%{?fedora} >= 19
+BuildRequires:	perl-Text-ParseWords
+%endif
 BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	speex-devel
 BuildRequires:	subversion
@@ -136,9 +139,9 @@ members of the Chromium and WebDriver teams.
 %prep
 %setup -q
 %patch0 -p1 -b .master-prefs
-%if 0%{?fedora} >= 18
-%patch3 -p1 -b .glibc216
-%endif
+#%if 0%{?fedora} >= 18
+#%patch3 -p1 -b .glibc216
+#%endif
 
 %patch5 -p2 -b .webkitTransform-exception
 
@@ -327,6 +330,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu May 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.93-1.R
+- update to 27.0.1453.93
+- drop old glibc patch
+- update master pref patch
+- added BR: perl-Text-ParseWords for fedora >= 19
+
 * Tue Apr 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 26.0.1410.63-2.R
 - new harfbuzz still broken. Build with internal
 
