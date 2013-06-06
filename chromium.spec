@@ -1,8 +1,8 @@
-%define revision 200848
+%define revision 202734
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	27.0.1453.93
+iVersion:	27.0.1453.110
 Release:	1%{?dist}
 Epoch:		1
 
@@ -330,6 +330,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Jun  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.110-1.R
+- update to 27.0.1453.110
+
 * Thu May 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.93-1.R
 - update to 27.0.1453.93
 - drop old glibc patch
