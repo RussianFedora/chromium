@@ -2,7 +2,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-iVersion:	27.0.1453.110
+Version:	27.0.1453.110
 Release:	1%{?dist}
 Epoch:		1
 
