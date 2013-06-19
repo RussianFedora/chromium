@@ -1,8 +1,8 @@
-%define revision 202734
+%define revision 205730
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	27.0.1453.110
+Version:	28.0.1500.45
 Release:	1%{?dist}
 Epoch:		1
 
@@ -19,9 +19,6 @@ Source31:	default_bookmarks.html
 Patch0:		chromium-27.0.1453.93-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
-# (cjw) fix "Uncaught exception" in 2 calls to webkitTransform (hack, need to test if this is still needed)
-# http://code.google.com/p/chromium/issues/detail?id=152407
-Patch5:		chromium-25-webkitTransform-exception.patch
 
 # PATCH-FIX-OPENSUSE patches in system glew library
 Patch13:	chromium-25.0.1364.172-system-glew.patch
@@ -142,8 +139,6 @@ members of the Chromium and WebDriver teams.
 #%if 0%{?fedora} >= 18
 #%patch3 -p1 -b .glibc216
 #%endif
-
-%patch5 -p2 -b .webkitTransform-exception
 
 # openSUSE patches
 %patch13 -p1
@@ -330,6 +325,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Jun 19 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.45-1.R
+- update to 28.0.1500.45
+
 * Thu Jun  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.110-1.R
 - update to 27.0.1453.110
 
