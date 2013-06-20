@@ -1,0 +1,11 @@
+--- chromium/src/net/third_party/nss/ssl/bodge/secitem_array.c	2013-06-16 15:31:49.856632237 +0200
++++ chromium/src/net/third_party/nss/ssl/bodge/secitem_array.c	2013-06-16 15:31:49.856632237 +0200
+@@ -12,8 +12,6 @@
+ #include "secerr.h"
+ #include "secport.h"
+ 
+-typedef struct SECItemArrayStr SECItemArray;
+-
+ #define NSSUTIL_VERSION_NUM \
+     (NSSUTIL_VMAJOR * 10000 + NSSUTIL_VMINOR * 100 + NSSUTIL_VPATCH)
+ #if NSSUTIL_VERSION_NUM < 31500
