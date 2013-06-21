@@ -1,12 +1,26 @@
-diff -urN chromium-28.0.1500.45.orig/net/third_party/nss/ssl/bodge/secitem_array.c chromium-28.0.1500.45.new/net/third_party/nss/ssl/bodge/secitem_array.c
---- chromium-28.0.1500.45.orig/net/third_party/nss/ssl/bodge/secitem_array.c	2013-06-20 19:27:52.000000000 +0400
-+++ chromium-28.0.1500.45.new/net/third_party/nss/ssl/bodge/secitem_array.c	2013-06-20 19:49:37.120194892 +0400
-@@ -11,8 +11,6 @@
- #include "secerr.h"
- #include "secport.h"
+--- a/net/third_party/nss/ssl/bodge/secitem_array.c
++++ b/net/third_party/nss/ssl/bodge/secitem_array.c
+@@ -6,6 +6,7 @@
+  * Support routines for SECItemArray data structure.
+  */
  
--typedef struct SECItemArrayStr SECItemArray;
--
++#include "nssutil.h"
+ #include "seccomon.h"
+ #include "secitem.h"
+ #include "secerr.h"
+@@ -13,10 +14,15 @@
+ 
+ typedef struct SECItemArrayStr SECItemArray;
+ 
++#define NSSUTIL_VERSION_NUM \
++    (NSSUTIL_VMAJOR * 10000 + NSSUTIL_VMINOR * 100 + NSSUTIL_VPATCH)
++#if NSSUTIL_VERSION_NUM < 31500
++// Added in NSS 3.15.
  struct SECItemArrayStr {
      SECItem *items;
      unsigned int len;
+ };
++#endif
+ 
+ SECItemArray *
+ SECITEM_AllocArray(PLArenaPool *arena, SECItemArray *array, unsigned int len)
