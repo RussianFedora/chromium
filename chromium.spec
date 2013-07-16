@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	28.0.1500.71
-Release:	1%{?dist}
+Release:	1.1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -196,6 +196,7 @@ build/gyp_chromium --depth=. \
 	-D use_system_ffmpeg=0 \
 	-D use_pulseaudio=1 \
 	-D use_system_v8=0 \
+	-D use_aura=1 \
 	-D linux_link_libpci=1 \
 	-D linux_link_gsettings=1 \
 	-D linux_link_libspeechd=1 \
@@ -331,6 +332,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Jul 16 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.71-1.1.R
+- build with use_aura
+
 * Wed Jul 10 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.71-1.R
 - update to 28.0.1500.71
 
