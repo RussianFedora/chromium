@@ -1,8 +1,8 @@
-%define revision 213526
+%define revision 217866
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	28.0.1500.95
+Version:	29.0.1547.57
 Release:	1%{?dist}
 Epoch:		1
 
@@ -26,8 +26,6 @@ Patch13:	chromium-25.0.1364.172-system-glew.patch
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
-# PATCH-FIX-OPENSUSE Be compliant with the latest NSS development kit in 13.1
-Patch16:        chromium-nss-compliant.diff
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -146,7 +144,6 @@ members of the Chromium and WebDriver teams.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-%patch16 -p1
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -331,6 +328,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Aug 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 29.0.1547.57-1.R
+- update to 29.0.1547.57
+
 * Wed Jul 31 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.95-1.R
 - update to 28.0.1500.95
 
