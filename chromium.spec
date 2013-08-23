@@ -40,6 +40,7 @@ BuildRequires:	expat-devel
 BuildRequires:	flac-devel
 BuildRequires:	flex
 BuildRequires:	glib2-devel
+BuildRequires:	gyp
 BuildRequires:	gperf
 BuildRequires:	gtk2-devel
 BuildRequires:	libXScrnSaver-devel
