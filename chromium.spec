@@ -162,7 +162,6 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
 %endif
 
 %build
-#build/gyp_chromium --depth=. \
 export GYP_GENERATORS=make
 ./build/gyp_chromium -f make build/all.gyp \
 	-D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
