@@ -10,7 +10,7 @@ Group:		Applications/Internet
 License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
-Source0:	http://download.rfremix.ru/storage/chromium/%{version}/%{name}-%{version}.tar.xz
+Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
 Source1:	chromium-wrapper
 Source2:	chromium-browser.desktop
 Source30:	master_preferences
