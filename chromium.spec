@@ -163,7 +163,7 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
 
 %build
 export GYP_GENERATORS=make
-./build/gyp_chromium -f make build/all.gyp \
+./build/gyp_chromium -f make build/all.gyp --depth=. \
 	-D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
 	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
 	-D linux_link_gnome_keyring=0 \
