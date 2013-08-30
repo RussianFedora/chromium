@@ -162,8 +162,9 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
 %endif
 
 %build
+#build/gyp_chromium --depth=. \
 export GYP_GENERATORS=make
-build/gyp_chromium --depth=. \
+./build/gyp_chromium -f make build/all.gyp \
 	-D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
 	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
 	-D linux_link_gnome_keyring=0 \
@@ -199,6 +200,7 @@ build/gyp_chromium --depth=. \
 	-D linux_link_libspeechd=1 \
 	-D linux_link_kerberos=1 \
 	-D linux_link_libgps=1 \
+	-D disable_nacl=1 \
         -Dgoogle_api_key='AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q' \
 	-Dgoogle_default_client_id='4139804441.apps.googleusercontent.com' \
 	-Dgoogle_default_client_secret='KDTRKEZk2jwT_7CDpcmMA--P' \
@@ -213,7 +215,6 @@ build/gyp_chromium --depth=. \
 %ifarch armv7l
 	-D target_arch=arm \
 	-D linux_use_tcmalloc=0 \
-	-D disable_nacl=1 \
 	-D armv7=1 \
 	-D release_extra_cflags="-marm"
 %endif
@@ -236,12 +237,12 @@ cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/chrome.pak %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
-%ifnarch armv7l
-install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/nacl_helper_bootstrap %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/nacl_helper %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
-%endif
+#%ifnarch armv7l
+#install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/%{name}/
+#install -m 755 out/Release/nacl_helper_bootstrap %{buildroot}%{_libdir}/%{name}/
+#install -m 755 out/Release/nacl_helper %{buildroot}%{_libdir}/%{name}/
+#install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
+#%endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
 #install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
 #install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
@@ -301,12 +302,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/libffmpegsumo.so
-%ifnarch armv7l
-%{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
-%{_libdir}/%{name}/nacl_helper_bootstrap
-%{_libdir}/%{name}/nacl_helper
-%{_libdir}/%{name}/nacl_irt_*.nexe
-%endif
+#%ifnarch armv7l
+#%{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
+#%{_libdir}/%{name}/nacl_helper_bootstrap
+#%{_libdir}/%{name}/nacl_helper
+#%{_libdir}/%{name}/nacl_irt_*.nexe
+#%endif
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_100_percent.pak
 %{_libdir}/%{name}/content_resources.pak
