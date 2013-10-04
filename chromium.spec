@@ -1,8 +1,6 @@
-%define revision 220622
-
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	29.0.1547.65
+Version:	30.0.1599.66
 Release:	1%{?dist}
 Epoch:		1
 
@@ -16,7 +14,7 @@ Source2:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 
-Patch0:		chromium-27.0.1453.93-master-prefs-path.patch
+Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 
@@ -145,8 +143,6 @@ members of the Chromium and WebDriver teams.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-
-echo "%{revision}" > build/LASTCHANGE.in
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
