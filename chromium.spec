@@ -160,7 +160,7 @@ members of the Chromium and WebDriver teams.
 #%endif
 
 # openSUSE patches
-%patch12 -p0
+#%patch12 -p0
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
