@@ -1,6 +1,10 @@
+#%define pnacl_version 11986
+#%define newlib_version 11958
+#%define glibc_version 11958
+
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	30.0.1599.66
+Version:	31.0.1650.48
 Release:	1%{?dist}
 Epoch:		1
 
@@ -9,8 +13,13 @@ License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
 Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
-Source1:	chromium-wrapper
-Source2:	chromium-browser.desktop
+#Source1:        http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r%{glibc_version}/toolchain_linux_x86.tar.bz2
+#Source2:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{newlib_version}/naclsdk_linux_x86.tgz
+#Source3:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{pnacl_version}/naclsdk_pnacl_linux_x86.tgz
+#Source4:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{pnacl_version}/naclsdk_pnacl_translator.tgz
+
+Source10:	chromium-wrapper
+Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 
@@ -18,12 +27,16 @@ Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 # fix http://code.google.com/p/chromium/issues/detail?id=136023
 Patch3:		chromium-20.0.1132.47-glibc216.patch
 
+# PATCH-FIX-OPENSUSE Disable the download of the NaCl tarballs
+Patch12:         no-download-nacl.diff
 # PATCH-FIX-OPENSUSE patches in system glew library
 Patch13:	chromium-25.0.1364.172-system-glew.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
+# PATCH-FIX-OPENSUSE Remove the SVN revision for the chromedriver as that this fails with the tarball
+Patch16:        chromium-fix-chromedriver-build.diff
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -39,6 +52,7 @@ BuildRequires:	flac-devel
 BuildRequires:	flex
 BuildRequires:	glib2-devel
 BuildRequires:	gyp
+BuildRequires:	ninja-build
 BuildRequires:	gperf
 BuildRequires:	gtk2-devel
 BuildRequires:	libXScrnSaver-devel
@@ -46,7 +60,7 @@ BuildRequires:	libXt-devel
 BuildRequires:	libXtst-devel
 BuildRequires:	libevent-devel
 BuildRequires:	libjpeg-turbo-devel
-#BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel
 BuildRequires:	libudev-devel
 BuildRequires:	libvpx-devel
 BuildRequires:	libxml2-devel
@@ -81,7 +95,13 @@ BuildRequires:	libwebp-devel
 BuildRequires:	libicu-devel
 BuildRequires:	minizip-devel
 BuildRequires:	yasm-devel
+BuildRequires:	opus-devel
 BuildRequires:	pciutils-devel
+BuildRequires:	v8-devel
+#BuildRequires:	sqlite-devel
+BuildRequires:	harfbuzz-devel
+BuildRequires:	GConf2-devel
+BuildRequires:  pkgconfig(protobuf)
 
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
 BuildRequires:	libgnome-keyring-devel
@@ -140,9 +160,23 @@ members of the Chromium and WebDriver teams.
 #%endif
 
 # openSUSE patches
+%patch12 -p0
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+%patch16 -p0
+
+sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
+
+## Install the Native Client tarballs to the right location
+#mkdir -p native_client/toolchain/.tars
+#cp %{SOURCE1} native_client/toolchain/.tars/
+#cp %{SOURCE2} native_client/toolchain/.tars/
+#cp %{SOURCE3} native_client/toolchain/.tars/
+#cp %{SOURCE4} native_client/toolchain/.tars/
+
+## Extract the NaCl tarballs 
+#python ./build/download_nacl_toolchains.py --no-arm-trusted --keep
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
@@ -159,18 +193,18 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
 
 %build
 export GYP_GENERATORS=make
-./build/gyp_chromium -f make build/all.gyp --depth=. \
-	-D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
+#export GYP_GENERATORS='ninja-build'
+./build/gyp_chromium build/all.gyp -f make --depth=. \
+        -D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
 	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
 	-D linux_link_gnome_keyring=0 \
-	-D use_gconf=0 \
 	-D werror='' \
 	-D use_system_sqlite=0 \
-	-D use_system_libxml=0 \
-	-D use_system_zlib=0 \
+	-D use_system_libxml=1 \
+	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
 	-D use_system_libbz2=1 \
-	-D use_system_libpng=0 \
+	-D use_system_libpng=1 \
 	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
@@ -180,22 +214,34 @@ export GYP_GENERATORS=make
 	-D use_system_libexif=1 \
 	-D use_system_libsrtp=1 \
 	-D use_system_libmtp=1 \
-	-D use_system_opus=0 \
+	-D use_system_opus=1 \
 	-D use_system_libwebp=1 \
-	-D use_system_harfbuzz=0 \
+	-D use_system_harfbuzz=1 \
 	-D use_system_minizip=1 \
 	-D use_system_yasm=1 \
 	-D use_system_xdg_utils=1 \
 	-D build_ffmpegsumo=1 \
 	-D use_system_ffmpeg=0 \
+        -D ffmpeg_branding=Chrome \
+	-D proprietary_codecs=1 \
 	-D use_pulseaudio=1 \
-	-D use_system_v8=0 \
+	-D use_system_v8=1 \
+	-D use_system_nspr=1 \
+	-D use_system_libxslt=1 \
+	-D use_system_protobuf=1 \
+	-D use_system_libyuv=1 \
 	-D linux_link_libpci=1 \
 	-D linux_link_gsettings=1 \
 	-D linux_link_libspeechd=1 \
 	-D linux_link_kerberos=1 \
 	-D linux_link_libgps=1 \
+	-D linux_fpic=1 \
 	-D disable_nacl=1 \
+        -D disable_glibc=0 \
+        -D disable_pnacl=1 \
+        -D disable_newlib_untar=0 \
+	-D logging_like_official_build=1 \
+	-D remove_webcore_debug_symbols=1 \
 %if 0%{?fedora} > 19        
         -Dlinux_link_libspeechd=1 \
         -Dlibspeechd_h_prefix=speech-dispatcher/ \
@@ -206,6 +252,7 @@ export GYP_GENERATORS=make
 %if %{defined rhel} && 0%{?rhel} < 7
 	-D v8_use_snapshot=false \
 %endif
+	-D javascript_engine=v8 \
 	-D use_system_icu=1 \
 %ifarch i686
 	-D disable_sse2=1 \
@@ -218,7 +265,15 @@ export GYP_GENERATORS=make
 	-D release_extra_cflags="-marm"
 %endif
 
-# Note: DON'T use system sqlite (3.7.3) -- it breaks history search
+
+#mkdir -p out/Release
+
+#ninja-build -C out/Release chrome
+# Build the required SUID_SANDBOX helper
+#ninja-build -C out/Release chrome_sandbox
+# Build the ChromeDriver test suite
+#ninja-build -C out/Release chromedriver
+
 
 make %{_smp_mflags} chrome chrome_sandbox chromedriver BUILDTYPE=Release
 
@@ -229,7 +284,7 @@ mkdir -p %{buildroot}%{_libdir}/%{name}/locales
 mkdir -p %{buildroot}%{_libdir}/%{name}/themes
 mkdir -p %{buildroot}%{_libdir}/%{name}/default_apps
 mkdir -p %{buildroot}%{_mandir}/man1
-install -m 755 %{SOURCE1} %{buildroot}%{_libdir}/%{name}/
+install -m 755 %{SOURCE10} %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/chrome %{buildroot}%{_libdir}/%{name}/
 install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome-sandbox
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
@@ -257,7 +312,7 @@ cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
 
 # desktop file
 mkdir -p %{buildroot}%{_datadir}/applications
-install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/applications/
+install -m 644 %{SOURCE20} %{buildroot}%{_datadir}/applications/
 
 # icon
 for i in 22 24 48 64 128 256; do
@@ -329,6 +384,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Nov 14 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 31.0.1650.48-1.R
+- update to 31.0.1650.48
+
+* Thu Oct 31 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 30.0.1599.114-1.R
+- update to 30.0.1599.114
+
 * Wed Sep  4 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 29.0.1547.65-1.R
 - update to 29.0.1547.65
 
@@ -350,7 +411,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Wed Jun 19 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.45-1.R
 - update to 28.0.1500.45
 
-* Thu Jun  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.110-1.R
+* Sat Jun  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.110-1.R
 - update to 27.0.1453.110
 
 * Thu May 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.93-1.R
