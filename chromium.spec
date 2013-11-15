@@ -184,11 +184,11 @@ sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"Russian Fedora"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
 %ifarch x86_64
-sed -i "s#/lib/#/lib64/#g" %{SOURCE2}
+sed -i "s#/lib/#/lib64/#g" %{SOURCE20}
 %endif
 
 %ifarch i686
-sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
+sed -i "s#/lib64/#/lib/#g" %{SOURCE20}
 %endif
 
 %build
