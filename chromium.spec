@@ -110,11 +110,11 @@ BuildRequires:	gnome-keyring-devel
 %endif
 
 # NaCl needs these
-%ifarch x86_64
-BuildRequires:	/lib/libc.so.6
-BuildRequires:	/lib/libz.so.1
-BuildRequires:	/lib/libgcc_s.so.1
-%endif
+#%ifarch x86_64
+#BuildRequires:	/lib/libc.so.6
+#BuildRequires:	/lib/libz.so.1
+#BuildRequires:	/lib/libgcc_s.so.1
+#%endif
 
 Requires:	hicolor-icon-theme
 
