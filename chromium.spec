@@ -24,8 +24,6 @@ Source30:	master_preferences
 Source31:	default_bookmarks.html
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
-# fix http://code.google.com/p/chromium/issues/detail?id=136023
-Patch3:		chromium-20.0.1132.47-glibc216.patch
 
 # PATCH-FIX-OPENSUSE Disable the download of the NaCl tarballs
 Patch12:         no-download-nacl.diff
@@ -155,9 +153,6 @@ members of the Chromium and WebDriver teams.
 %prep
 %setup -q
 %patch0 -p1 -b .master-prefs
-#%if 0%{?fedora} >= 18
-#%patch3 -p1 -b .glibc216
-#%endif
 
 # openSUSE patches
 #%patch12 -p0
