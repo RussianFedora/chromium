@@ -4,7 +4,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	31.0.1650.63
+Version:	32.0.1700.76
 Release:	1%{?dist}
 Epoch:		1
 
@@ -33,8 +33,6 @@ Patch13:	chromium-25.0.1364.172-system-glew.patch
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
-# PATCH-FIX-OPENSUSE Remove the SVN revision for the chromedriver as that this fails with the tarball
-Patch16:        chromium-fix-chromedriver-build.diff
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -159,7 +157,6 @@ members of the Chromium and WebDriver teams.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
-%patch16 -p0
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
@@ -379,6 +376,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Jan 15 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 32.0.1700.76-1.R
+- update to 32.0.1700.76
+
 * Thu Dec  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 31.0.1650.63-1.R
 - update to 31.0.1650.63
 
