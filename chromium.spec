@@ -98,6 +98,7 @@ BuildRequires:	v8-devel
 BuildRequires:	harfbuzz-devel
 BuildRequires:	GConf2-devel
 BuildRequires:  pkgconfig(protobuf)
+BuildRequires:  libcap-devel
 
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
 BuildRequires:	libgnome-keyring-devel
