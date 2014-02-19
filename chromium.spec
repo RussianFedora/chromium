@@ -23,6 +23,10 @@ Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 
+Provides:	chromium-stable
+Conflicts:	chromium-testing
+Conflicts:	chromium-unstable
+
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
 # PATCH-FIX-OPENSUSE Disable the download of the NaCl tarballs
@@ -139,7 +143,9 @@ your profile before changing channels.
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-
+Provides:	chromedriver-stable
+Conflicts:	chromedriver-testing
+Conflicts:	chromedriver-unstable
 
 %description -n chromedriver
 WebDriver is an open source tool for automated testing of webapps across many
