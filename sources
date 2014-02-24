@@ -1,5 +1,2 @@
-cdfca9b46c4b794627545bfae71d7ca1  chromium-30.0.1599.114.tar.xz
-a96c3cf40080708af388b3057b245429  naclsdk_linux_x86.tgz
-0834515f4ffe70b44c03ea81238cc2dd  naclsdk_pnacl_linux_x86.tgz
-11e26442f4da049ccdb39092bfe622f4  naclsdk_pnacl_translator.tgz
-020a6d95efb27e608b93df009285d70d  toolchain_linux_x86.tar.bz2
+cc505a2401ee4df88371fd1ab5d22a35  chromium-33.0.1750.117.tar.xz
+ca6cdd31217945be60426bab8554e50b  gn-binaries.tar.xz

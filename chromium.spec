@@ -4,7 +4,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	32.0.1700.107
+Version:	33.0.1750.117
 Release:	1%{?dist}
 Epoch:		1
 
@@ -22,6 +22,8 @@ Source10:	chromium-wrapper
 Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
+
+Source998:	gn-binaries.tar.xz
 
 Provides:	chromium-stable
 Conflicts:	chromium-testing
@@ -156,7 +158,7 @@ members of the Chromium and WebDriver teams.
 
 
 %prep
-%setup -q
+%setup -q -a 998
 %patch0 -p1 -b .master-prefs
 
 # openSUSE patches
@@ -383,6 +385,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Feb 24 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.117-1
+- update to 32.0.1750.117
+
+* Thu Feb 20 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.115-1
+- update to 32.0.1750.115
+
 * Wed Feb 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 32.0.1700.107-1.R
 - update to 32.0.1700.107
 
