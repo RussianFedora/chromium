@@ -40,6 +40,9 @@ Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
+# Fix https://codereview.chromium.org/142853004/
+Patch30:	issue142853004_80001_90001.diff
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	alsa-lib-devel
@@ -166,6 +169,8 @@ members of the Chromium and WebDriver teams.
 %patch13 -p1
 %patch14 -p1
 %patch15 -p1
+
+%patch30 -p1
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
