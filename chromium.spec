@@ -360,7 +360,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromium-wrapper
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
-%{_libdir}/%{name}/chrome.pak
 %{_libdir}/%{name}/libffmpegsumo.so
 #%ifnarch armv7l
 #%{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
