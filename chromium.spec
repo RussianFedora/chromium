@@ -5,7 +5,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	34.0.1847.116
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -42,8 +42,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
 # Fix https://codereview.chromium.org/142853004/
 Patch30:	issue142853004_80001_90001.diff
-
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -284,7 +282,6 @@ export GYP_GENERATORS=make
 make %{_smp_mflags} chrome chrome_sandbox chromedriver BUILDTYPE=Release
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_libdir}/%{name}/locales
 mkdir -p %{buildroot}%{_libdir}/%{name}/themes
@@ -296,6 +293,7 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
 #%ifnarch armv7l
 #install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/%{name}/
@@ -304,7 +302,11 @@ install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
 #install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
 #%endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
-#install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
+install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
+
+# Patch xdg-settings to use the chromium version of xdg-mime as that the system one is not KDE4 compatible
+sed "s|xdg-mime|%{_libdir}/chromium/xdg-mime|g" out/Release/xdg-mime > %{buildroot}%{_libdir}/%{name}/xdg-settings
+
 #install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
@@ -332,8 +334,6 @@ mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 install -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/%{name}/
 install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
 
-%clean
-rm -rf %{buildroot}
 
 %post
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -371,11 +371,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome_100_percent.pak
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
-#%{_libdir}/%{name}/xdg-mime
-#%{_libdir}/%{name}/xdg-settings
+%{_libdir}/%{name}/xdg-mime
+%{_libdir}/%{name}/xdg-settings
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -389,16 +390,21 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Tue Apr  8 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-1
+* Thu Apr 10 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-2.R
+- install icudtl.dat to avoid segfault
+- clean up spec
+- install xdg-mime again
+
+* Tue Apr  8 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-1.R
 - update to 34.0.1847.116
 
-* Wed Mar  5 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.146-1
+* Wed Mar  5 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.146-1.R
 - update to 32.0.1750.146
 
-* Mon Feb 24 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.117-1
+* Mon Feb 24 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.117-1.R
 - update to 32.0.1750.117
 
-* Thu Feb 20 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.115-1
+* Thu Feb 20 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.115-1.R
 - update to 32.0.1750.115
 
 * Wed Feb 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 32.0.1700.107-1.R
