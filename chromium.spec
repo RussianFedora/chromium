@@ -302,12 +302,6 @@ install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
 #install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
 #%endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
-install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
-
-# Patch xdg-settings to use the chromium version of xdg-mime as that the system one is not KDE4 compatible
-sed "s|xdg-mime|%{_libdir}/chromium/xdg-mime|g" out/Release/xdg-mime > %{buildroot}%{_libdir}/%{name}/xdg-settings
-
-#install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
@@ -375,8 +369,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
-%{_libdir}/%{name}/xdg-mime
-%{_libdir}/%{name}/xdg-settings
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -393,7 +385,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Thu Apr 10 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-2.R
 - install icudtl.dat to avoid segfault
 - clean up spec
-- install xdg-mime again
 
 * Tue Apr  8 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-1.R
 - update to 34.0.1847.116
