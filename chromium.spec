@@ -365,6 +365,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_100_percent.pak
 %{_libdir}/%{name}/content_resources.pak
+%{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/resources
