@@ -5,7 +5,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	34.0.1847.116
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -246,6 +246,7 @@ export GYP_GENERATORS=make
         -D disable_newlib_untar=0 \
 	-D logging_like_official_build=1 \
 	-D remove_webcore_debug_symbols=1 \
+	-D use_aura=1 \
 %if 0%{?fedora} > 19        
         -Dlinux_link_libspeechd=1 \
         -Dlibspeechd_h_prefix=speech-dispatcher/ \
@@ -382,6 +383,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Apr 15 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-3.R
+- build with enabled aura
+
 * Thu Apr 10 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-2.R
 - install icudtl.dat to avoid segfault
 - clean up spec
