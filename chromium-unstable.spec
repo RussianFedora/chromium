@@ -2,17 +2,19 @@
 #%define newlib_version 11958
 #%define glibc_version 11958
 
+%define realname chromium
+
 Summary:	A fast webkit-based web browser
-Name:		chromium
-Version:	34.0.1847.116
-Release:	3%{?dist}
+Name:		chromium-unstable
+Version:	36.0.1941.0
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
 License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
-Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
+Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{realname}-%{version}.tar.xz
 #Source1:        http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r%{glibc_version}/toolchain_linux_x86.tar.bz2
 #Source2:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{newlib_version}/naclsdk_linux_x86.tgz
 #Source3:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{pnacl_version}/naclsdk_pnacl_linux_x86.tgz
@@ -25,10 +27,6 @@ Source31:	default_bookmarks.html
 
 Source998:	gn-binaries.tar.xz
 
-Provides:	chromium-stable
-Conflicts:	chromium-testing
-Conflicts:	chromium-unstable
-
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
 # PATCH-FIX-OPENSUSE Disable the download of the NaCl tarballs
@@ -39,9 +37,6 @@ Patch13:	chromium-25.0.1364.172-system-glew.patch
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
-
-# Fix https://codereview.chromium.org/142853004/
-Patch30:	issue142853004_80001_90001.diff
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -142,15 +137,12 @@ See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
 
 
-%package -n chromedriver
+%package -n chromedriver-unstable
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Provides:	chromedriver-stable
-Conflicts:	chromedriver-testing
-Conflicts:	chromedriver-unstable
 
-%description -n chromedriver
+%description -n chromedriver-unstable
 WebDriver is an open source tool for automated testing of webapps across many
 browsers. It provides capabilities for navigating to web pages, user input,
 JavaScript execution, and more. ChromeDriver is a standalone server which
@@ -159,16 +151,14 @@ members of the Chromium and WebDriver teams.
 
 
 %prep
-%setup -q -a 998
+%setup -q -a 998 -n %{realname}-%{version}
 %patch0 -p1 -b .master-prefs
 
 # openSUSE patches
 #%patch12 -p0
-%patch13 -p1
+#%patch13 -p1
 %patch14 -p1
 %patch15 -p1
-
-%patch30 -p1
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
@@ -308,7 +298,7 @@ install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
-ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver
+ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver-unstable
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
 cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
@@ -376,16 +366,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
 
-%files -n chromedriver
+%files -n chromedriver-unstable
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
-%{_bindir}/chromedriver
+%{_bindir}/chromedriver-unstable
 %{_libdir}/%{name}/chromedriver
 
 
 %changelog
-* Tue Apr 15 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-3.R
-- build with enabled aura
+* Tue Apr 15 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 36.0.1941.0-1.R
+- build unstable branch
 
 * Thu Apr 10 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-2.R
 - install icudtl.dat to avoid segfault
