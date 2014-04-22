@@ -65,7 +65,9 @@ BuildRequires:	libevent-devel
 BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libudev-devel
+%if 0%{?fedora} < 21
 BuildRequires:	libvpx-devel
+%endif
 BuildRequires:	libxml2-devel
 BuildRequires:	libxslt-devel
 BuildRequires:	mesa-libGL-devel
@@ -212,7 +214,11 @@ export GYP_GENERATORS=make
 	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
+%if 0%{?fedora} >= 21
+	-D use_system_vpx=0 \
+%else
 	-D use_system_vpx=1 \
+%endif
 	-D use_system_speex=1 \
 	-D use_system_libusb=1 \
 	-D use_system_libexif=1 \
