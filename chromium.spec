@@ -5,7 +5,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	34.0.1847.116
-Release:	3%{?dist}
+Release:	5%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -104,7 +104,7 @@ BuildRequires:	v8-devel
 #BuildRequires:	sqlite-devel
 BuildRequires:	harfbuzz-devel
 BuildRequires:	GConf2-devel
-BuildRequires:  pkgconfig(protobuf)
+#BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  libcap-devel
 
 %if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
@@ -232,7 +232,7 @@ export GYP_GENERATORS=make
 	-D use_system_v8=1 \
 	-D use_system_nspr=1 \
 	-D use_system_libxslt=1 \
-	-D use_system_protobuf=1 \
+	-D use_system_protobuf=0 \
 	-D use_system_libyuv=1 \
 	-D linux_link_libpci=1 \
 	-D linux_link_gsettings=1 \
@@ -384,6 +384,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Apr 22 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-4.R
+- disable system protobuf. It crashes browser
+
 * Tue Apr 15 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-3.R
 - build with enabled aura
 
