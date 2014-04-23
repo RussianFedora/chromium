@@ -260,7 +260,7 @@ export GYP_GENERATORS='ninja'
         -D disable_newlib_untar=0 \
 	-D logging_like_official_build=1 \
 	-D remove_webcore_debug_symbols=1 \
-	-D use_aura=0 \
+	-D use_aura=1 \
 %if 0%{?fedora} > 19        
         -Dlinux_link_libspeechd=1 \
         -Dlibspeechd_h_prefix=speech-dispatcher/ \
