@@ -5,7 +5,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	34.0.1847.116
-Release:	5%{?dist}
+Release:	6%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -22,7 +22,9 @@ Source10:	chromium-wrapper
 Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
+Source32:	chromium.default
 
+Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
 
 Provides:	chromium-stable
@@ -55,7 +57,9 @@ BuildRequires:	flac-devel
 BuildRequires:	flex
 BuildRequires:	glib2-devel
 BuildRequires:	gyp
+%if 0%{?fedora} >= 20
 BuildRequires:	ninja-build
+%endif
 BuildRequires:	gperf
 BuildRequires:	gtk2-devel
 BuildRequires:	libXScrnSaver-devel
@@ -159,7 +163,7 @@ members of the Chromium and WebDriver teams.
 
 
 %prep
-%setup -q -a 998
+%setup -q -a 998 -a 997
 %patch0 -p1 -b .master-prefs
 
 # openSUSE patches
@@ -196,9 +200,13 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE20}
 %endif
 
 %build
-export GYP_GENERATORS=make
-#export GYP_GENERATORS='ninja-build'
+%if 0%{?fedora} >= 20
+export GYP_GENERATORS='ninja'
+./build/gyp_chromium build/all.gyp --depth=. \
+%else
+export GYP_GENERATORS='ninja'
 ./build/gyp_chromium build/all.gyp -f make --depth=. \
+%endif
         -D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
 	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
 	-D linux_link_gnome_keyring=0 \
@@ -246,7 +254,7 @@ export GYP_GENERATORS=make
         -D disable_newlib_untar=0 \
 	-D logging_like_official_build=1 \
 	-D remove_webcore_debug_symbols=1 \
-	-D use_aura=1 \
+	-D use_aura=0 \
 %if 0%{?fedora} > 19        
         -Dlinux_link_libspeechd=1 \
         -Dlibspeechd_h_prefix=speech-dispatcher/ \
@@ -258,7 +266,11 @@ export GYP_GENERATORS=make
 	-D v8_use_snapshot=false \
 %endif
 	-D javascript_engine=v8 \
+%if 0%{?fedora} >= 20
+	-D use_system_icu=0 \
+%else
 	-D use_system_icu=1 \
+%endif
 %ifarch i686
 	-D disable_sse2=1 \
 	-D release_extra_cflags="-march=i686"
@@ -271,16 +283,17 @@ export GYP_GENERATORS=make
 %endif
 
 
-#mkdir -p out/Release
+%if 0%{?fedora} >= 20
+mkdir -p out/Release
 
-#ninja-build -C out/Release chrome
+ninja-build -C out/Release chrome
 # Build the required SUID_SANDBOX helper
-#ninja-build -C out/Release chrome_sandbox
+ninja-build -C out/Release chrome_sandbox
 # Build the ChromeDriver test suite
-#ninja-build -C out/Release chromedriver
-
-
+ninja-build -C out/Release chromedriver
+%else
 make %{_smp_mflags} chrome chrome_sandbox chromedriver BUILDTYPE=Release
+%endif
 
 %install
 mkdir -p %{buildroot}%{_bindir}
@@ -307,8 +320,19 @@ install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
+
+# install wrapper
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
+sed -i "s!@LIBDIR@!%{_libdir}!g" %{buildroot}%{_bindir}/%{name}
+
 ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver
+
+# create global config file
+mkdir -p %{buildroot}%{_sysconfdir}/default
+install -m644 %{SOURCE32} %{buildroot}%{_sysconfdir}/default/%{name}
+
+# create pepper dir. talkplugin works fine only if sylinks in pepper
+mkdir -p %{buildroot}%{_libdir}/%{name}/pepper
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
 cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
@@ -334,6 +358,32 @@ install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 update-desktop-database &> /dev/null || :
 
+if [ -e /opt/google/talkplugin/libppgoogletalk.so ]; then
+    if [ ! -e %{_libdir}/%{name}/pepper/libppgoogletalk.so ]; then
+        ln -s /opt/google/talkplugin/libppgoogletalk.so \
+		%{_libdir}/%{name}/pepper/libppgoogletalk.so
+    fi
+fi
+
+if [ -e /opt/google/talkplugin/libppo1d.so ]; then
+    if [ ! -e %{_libdir}/%{name}/pepper/libppo1d.so ]; then
+        ln -s /opt/google/talkplugin/libppo1d.so \
+                %{_libdir}/%{name}/pepper/libppo1d.so
+    fi
+fi
+
+%preun
+if [ $1 -eq 0 ] ; then
+    if [ -e %{_libdir}/%{name}/pepper/libppo1d.so ]; then
+        rm -f %{_libdir}/%{name}/pepper/libppo1d.so
+    fi
+
+    if [ -e %{_libdir}/%{name}/pepper/libppgoogletalk.so ]; then
+        rm -f %{_libdir}/%{name}/pepper/libppgoogletalk.so
+    fi
+
+fi
+
 
 %postun
 if [ $1 -eq 0 ] ; then
@@ -351,6 +401,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
 %config %{_sysconfdir}/%{name}
+%config %{_sysconfdir}/default/%{name}
 %{_bindir}/%{name}
 %{_libdir}/%{name}/chromium-wrapper
 %{_libdir}/%{name}/chrome
@@ -371,6 +422,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
+%dir %{_libdir}/%{name}/pepper
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -384,6 +436,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Apr 23 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-6.R
+- build with ninja
+- use new run wapper and default file
+
+* Tue Apr 22 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-5.R
+- rebuilt
+
 * Tue Apr 22 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-4.R
 - disable system protobuf. It crashes browser
 
