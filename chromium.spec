@@ -323,7 +323,7 @@ install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{
 
 # install wrapper
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
-sed -i "s!@LIBDIR@!%{_libdir}!g" %{buildroot}%{_bindir}/%{name}
+sed -i "s!@LIBDIR@!%{_libdir}!g" %{buildroot}%{_libdir}/%{name}/chromium-wrapper
 
 ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver
 

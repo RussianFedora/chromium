@@ -7,7 +7,7 @@
 # License: GPLv2 or later
 
 APPNAME=chrome
-LIBDIR=/@LIBDIR@/chromium
+LIBDIR=@LIBDIR@/chromium
 GDB=/usr/bin/gdb
 
 usage () {
@@ -104,9 +104,9 @@ fi
 
 # Detect if PepperFlash has been installed (based on the package in packman)
 # If so, automatically enable it
-if [ -f /@LIBDIR@/chromium/PepperFlash/libpepflashplayer.so ]; then
-      PEPPER_FLASH_VERSION=$(grep '"version":' /@LIBDIR@/chromium/PepperFlash/manifest.json| grep -Po '(?<=version": ")(?:\d|\.)*')
-      PEPPERFLASH="--ppapi-flash-path=/@LIBDIR@/chromium/PepperFlash/libpepflashplayer.so --ppapi-flash-version=$PEPPER_FLASH_VERSION"
+if [ -f @LIBDIR@/chromium/PepperFlash/libpepflashplayer.so ]; then
+      PEPPER_FLASH_VERSION=$(grep '"version":' @LIBDIR@/chromium/PepperFlash/manifest.json| grep -Po '(?<=version": ")(?:\d|\.)*')
+      PEPPERFLASH="--ppapi-flash-path=@LIBDIR@/chromium/PepperFlash/libpepflashplayer.so --ppapi-flash-version=$PEPPER_FLASH_VERSION"
 fi
 
 # Prefer user defined CHROMIUM_USER_FLAGS (from env) over system
