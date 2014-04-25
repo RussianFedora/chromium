@@ -4,8 +4,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	34.0.1847.116
-Release:	6%{?dist}
+Version:	34.0.1847.132
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -436,6 +436,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Apr 25 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.132-1.R
+- update to 34.0.1847.132
+
 * Wed Apr 23 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-6.R
 - build with ninja
 - use new run wapper and default file
