@@ -16,6 +16,7 @@
      "extensions_to_open": "ymp"
   },
   "browser": {
+     "enabled_labs_experiments": [ "fullscreen-within-tab" ],
      "show_home_button": true,
      "check_default_browser": false
   },
