@@ -1,0 +1,187 @@
+Index: chrome/app/generated_resources.grd
+diff --git a/chrome/app/generated_resources.grd b/chrome/app/generated_resources.grd
+index f57f2b04652bb8b97afdd1ec87977b665a686f12..3d41daf6a6bca2fcbe27a2fc3cb78cd5e1b93ba1 100644
+--- a/chrome/app/generated_resources.grd
++++ b/chrome/app/generated_resources.grd
+@@ -6985,12 +6985,6 @@ Keep your key file in a safe place. You will need it to create new versions of y
+       <message name="IDS_FLAGS_ENABLE_PASSWORD_BUBBLE_DESCRIPTION" desc="Description for the flag to enable the Manage Passwords Bubble feature.">
+         Enables the Passwords Bubble. The Passwords Bubble provides an easy way to store and manage passwords for a website. It replaced the infobad for saving passwords.
+       </message>
+-      <message name="IDS_FLAGS_FULLSCREEN_WITHIN_TAB_NAME" desc="Name of about:flags option to enable new fullscreen-within-tab behaviors.">
+-        Fullscreen-within-tab UI
+-      </message>
+-      <message name="IDS_FLAGS_FULLSCREEN_WITHIN_TAB_DESCRIPTION" desc="Description for the about:flags option to enable new fullscreen-within-tab behaviors.">
+-        When enabled, Pepper/Flash fullscreen widgets are embedded within the browser window to make the fullscreen user experience consistent with all other browser fullscreen modes. In addition, while screen-capturing a tab, the browser window will not fullscreen. This allows the user to retain control of their desktop to work in other browser tabs or applications.
+-      </message>
+       <message name="IDS_FLAGS_ENABLE_PERMISSIONS_BUBBLES_NAME" desc="Title for the flag to enable showing permissions requests in bubbles.">
+         Use Bubbles for Permission Requests
+       </message>
+Index: chrome/browser/about_flags.cc
+diff --git a/chrome/browser/about_flags.cc b/chrome/browser/about_flags.cc
+index cf5fcf4c1b40f028ed75abc33c059eaf19512bfc..52ca59c5598bb3f777ed67d683f2a8880fee1475 100644
+--- a/chrome/browser/about_flags.cc
++++ b/chrome/browser/about_flags.cc
+@@ -1910,15 +1910,6 @@ const Experiment kExperiments[] = {
+     kOsWin | kOsCrOS,
+     SINGLE_VALUE_TYPE(switches::kEnableSavePasswordBubble)
+   },
+-#endif
+-  {
+-    "fullscreen-within-tab",
+-    IDS_FLAGS_FULLSCREEN_WITHIN_TAB_NAME,
+-    IDS_FLAGS_FULLSCREEN_WITHIN_TAB_DESCRIPTION,
+-    kOsDesktop,
+-    SINGLE_VALUE_TYPE(switches::kEmbedFlashFullscreen)
+-  },
+-#if defined(USE_AURA) || defined(OS_WIN)
+   {
+     "enable-permissions-bubbles",
+     IDS_FLAGS_ENABLE_PERMISSIONS_BUBBLES_NAME,
+Index: chrome/browser/ui/browser.cc
+diff --git a/chrome/browser/ui/browser.cc b/chrome/browser/ui/browser.cc
+index 6c80736f5736ab8e1014a8e85e1dcb2a403eb41f..900bbc080cf40f907b9bbb6efa135ed9396a0193 100644
+--- a/chrome/browser/ui/browser.cc
++++ b/chrome/browser/ui/browser.cc
+@@ -1572,8 +1572,8 @@ void Browser::EnumerateDirectory(WebContents* web_contents,
+ }
+ 
+ bool Browser::EmbedsFullscreenWidget() const {
+-  return CommandLine::ForCurrentProcess()->
+-      HasSwitch(switches::kEmbedFlashFullscreen);
++  return !CommandLine::ForCurrentProcess()->
++      HasSwitch(switches::kDisableFullscreenWithinTab);
+ }
+ 
+ void Browser::ToggleFullscreenModeForTab(WebContents* web_contents,
+Index: chrome/browser/ui/fullscreen/fullscreen_controller_state_unittest.cc
+diff --git a/chrome/browser/ui/fullscreen/fullscreen_controller_state_unittest.cc b/chrome/browser/ui/fullscreen/fullscreen_controller_state_unittest.cc
+index 7d873e8c31071ad067074521f39d2b26671e0103..8e441137c21d4c54f0800b8f8e783a15ed35f6a7 100644
+--- a/chrome/browser/ui/fullscreen/fullscreen_controller_state_unittest.cc
++++ b/chrome/browser/ui/fullscreen/fullscreen_controller_state_unittest.cc
+@@ -9,7 +9,6 @@
+ #include "chrome/browser/ui/fullscreen/fullscreen_controller.h"
+ #include "chrome/browser/ui/fullscreen/fullscreen_controller_state_test.h"
+ #include "chrome/browser/ui/tabs/tab_strip_model.h"
+-#include "chrome/common/chrome_switches.h"
+ #include "chrome/test/base/browser_with_test_window_test.h"
+ #include "content/public/browser/web_contents.h"
+ #include "content/public/browser/web_contents_view.h"
+@@ -485,11 +484,12 @@ TEST_F(FullscreenControllerStateUnitTest, ExitTabFullscreenViaReplacingTab) {
+ //
+ // See 'FullscreenWithinTab Note' in fullscreen_controller.h.
+ TEST_F(FullscreenControllerStateUnitTest, OneCapturedFullscreenedTab) {
+-  CommandLine::ForCurrentProcess()->
+-      AppendSwitch(switches::kEmbedFlashFullscreen);
+   content::WebContentsDelegate* const wc_delegate =
+       static_cast<content::WebContentsDelegate*>(browser());
+-  ASSERT_TRUE(wc_delegate->EmbedsFullscreenWidget());
++  if (!wc_delegate->EmbedsFullscreenWidget()) {
++    LOG(WARNING) << "Skipping test since fullscreen-within-tab is disabled.";
++    return;
++  }
+ 
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+@@ -551,11 +551,12 @@ TEST_F(FullscreenControllerStateUnitTest, OneCapturedFullscreenedTab) {
+ //
+ // See 'FullscreenWithinTab Note' in fullscreen_controller.h.
+ TEST_F(FullscreenControllerStateUnitTest, TwoFullscreenedTabsOneCaptured) {
+-  CommandLine::ForCurrentProcess()->
+-      AppendSwitch(switches::kEmbedFlashFullscreen);
+   content::WebContentsDelegate* const wc_delegate =
+       static_cast<content::WebContentsDelegate*>(browser());
+-  ASSERT_TRUE(wc_delegate->EmbedsFullscreenWidget());
++  if (!wc_delegate->EmbedsFullscreenWidget()) {
++    LOG(WARNING) << "Skipping test since fullscreen-within-tab is disabled.";
++    return;
++  }
+ 
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+@@ -611,11 +612,12 @@ TEST_F(FullscreenControllerStateUnitTest, TwoFullscreenedTabsOneCaptured) {
+ // See 'FullscreenWithinTab Note' in fullscreen_controller.h.
+ TEST_F(FullscreenControllerStateUnitTest,
+        BackgroundCapturedTabExitsFullscreen) {
+-  CommandLine::ForCurrentProcess()->
+-      AppendSwitch(switches::kEmbedFlashFullscreen);
+   content::WebContentsDelegate* const wc_delegate =
+       static_cast<content::WebContentsDelegate*>(browser());
+-  ASSERT_TRUE(wc_delegate->EmbedsFullscreenWidget());
++  if (!wc_delegate->EmbedsFullscreenWidget()) {
++    LOG(WARNING) << "Skipping test since fullscreen-within-tab is disabled.";
++    return;
++  }
+ 
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+@@ -669,11 +671,12 @@ TEST_F(FullscreenControllerStateUnitTest,
+ // See 'FullscreenWithinTab Note' in fullscreen_controller.h.
+ TEST_F(FullscreenControllerStateUnitTest,
+        OneCapturedTabFullscreenedBeforeBrowserFullscreen) {
+-  CommandLine::ForCurrentProcess()->
+-      AppendSwitch(switches::kEmbedFlashFullscreen);
+   content::WebContentsDelegate* const wc_delegate =
+       static_cast<content::WebContentsDelegate*>(browser());
+-  ASSERT_TRUE(wc_delegate->EmbedsFullscreenWidget());
++  if (!wc_delegate->EmbedsFullscreenWidget()) {
++    LOG(WARNING) << "Skipping test since fullscreen-within-tab is disabled.";
++    return;
++  }
+ 
+   AddTab(browser(), GURL(content::kAboutBlankURL));
+   content::WebContents* const tab =
+Index: chrome/common/chrome_switches.cc
+diff --git a/chrome/common/chrome_switches.cc b/chrome/common/chrome_switches.cc
+index d816fd8cc193e13ad486e21932bfb0cb404e98ee..31714e4fa848e4e8776e531cafb5e0495b92c34a 100644
+--- a/chrome/common/chrome_switches.cc
++++ b/chrome/common/chrome_switches.cc
+@@ -343,6 +343,13 @@ const char kDisableExtensionsHttpThrottling[] =
+ const char kDisableExtensionsResourceWhitelist[] =
+     "disable-extensions-resource-whitelist";
+ 
++// Disables embedding of Flash fullscreen widgets within the browser window.
++// This restores the old code paths where Flash fullscreen would display in its
++// own separate, always-on-top window.  In addition, this disables the new logic
++// which would prevent fullscreening the browser window during screen-capture of
++// a tab.  http://crbug.com/256870 and http://crbug.com/290403
++const char kDisableFullscreenWithinTab[] = "disable-fullscreen-within-tab";
++
+ // Disables Google Now integration.
+ const char kDisableGoogleNowIntegration[] = "disable-google-now-integration";
+ 
+@@ -529,14 +536,6 @@ const char kDnsPrefetchDisable[]            = "dns-prefetch-disable";
+ // given file. The file is overwritten if it exists.
+ const char kDumpBrowserHistograms[]         = "dump-browser-histograms";
+ 
+-// If set, Flash fullscreen widgets are embedded within the browser window and
+-// with the same UX as HTML5 fullscreen.
+-//
+-// TODO(miu): This feature is a work in-progress.  It should not be enabled by
+-// default until going through a formal UX review, and all comments/concerns on
+-// the crbug are addressed.  http://crbug.com/290403
+-const char kEmbedFlashFullscreen[] = "embed-flash-fullscreen";
+-
+ // Enables the <adview> tag in packaged apps.
+ const char kEnableAdview[]                  = "enable-adview";
+ 
+Index: chrome/common/chrome_switches.h
+diff --git a/chrome/common/chrome_switches.h b/chrome/common/chrome_switches.h
+index 93e3e80160f182fe0f9b46389782c04044f4993a..895d36d71d6840434ed9dd99932dc8c855177924 100644
+--- a/chrome/common/chrome_switches.h
++++ b/chrome/common/chrome_switches.h
+@@ -104,6 +104,7 @@ extern const char kDisableExtensionsFileAccessCheck[];
+ extern const char kDisableExtensionsHttpThrottling[];
+ extern const char kDisableExtensionsResourceWhitelist[];
+ extern const char kDisableExtensions[];
++extern const char kDisableFullscreenWithinTab[];
+ extern const char kDisableGoogleNowIntegration[];
+ extern const char kDisableImprovedDownloadProtection[];
+ extern const char kDisableIPv6[];
+@@ -157,7 +158,6 @@ extern const char kDiskCacheSize[];
+ extern const char kDnsLogDetails[];
+ extern const char kDnsPrefetchDisable[];
+ extern const char kDumpBrowserHistograms[];
+-extern const char kEmbedFlashFullscreen[];
+ extern const char kEnableAdview[];
+ extern const char kEnableAppList[];
+ extern const char kEnableAppWindowControls[];

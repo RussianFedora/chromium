@@ -44,6 +44,8 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
 # Fix https://codereview.chromium.org/142853004/
 Patch30:	issue142853004_80001_90001.diff
+#Fix https://codereview.chromium.org/164553006/ enable fullscreen-within-tab
+Patch31:	issue164553006_1.diff
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -173,6 +175,7 @@ members of the Chromium and WebDriver teams.
 %patch15 -p1
 
 %patch30 -p1
+%patch31 -p1
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
