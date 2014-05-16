@@ -4,7 +4,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	34.0.1847.132
+Version:	34.0.1847.137
 Release:	1%{?dist}
 Epoch:		1
 
@@ -441,6 +441,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri May 16 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.137-1.R
+- update to 34.0.1847.137
+- enable fullscreen-within-tab by default
+
 * Fri Apr 25 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.132-1.R
 - update to 34.0.1847.132
 
