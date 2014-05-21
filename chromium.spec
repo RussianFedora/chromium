@@ -250,11 +250,7 @@ export GYP_GENERATORS='ninja'
 	-D v8_use_snapshot=false \
 %endif
 	-D javascript_engine=v8 \
-%if 0%{?fedora} >= 20
 	-D use_system_icu=0 \
-%else
-	-D use_system_icu=1 \
-%endif
 %ifarch i686
 	-D disable_sse2=1 \
 	-D release_extra_cflags="-march=i686"
