@@ -50,9 +50,7 @@ BuildRequires:	flac-devel
 BuildRequires:	flex
 BuildRequires:	glib2-devel
 BuildRequires:	gyp
-%if 0%{?fedora} >= 20
 BuildRequires:	ninja-build
-%endif
 BuildRequires:	gperf
 BuildRequires:	gtk2-devel
 BuildRequires:	libXScrnSaver-devel
@@ -189,13 +187,8 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE20}
 %endif
 
 %build
-%if 0%{?fedora} >= 20
 export GYP_GENERATORS='ninja'
 ./build/gyp_chromium build/all.gyp --depth=. \
-%else
-export GYP_GENERATORS='make'
-./build/gyp_chromium build/all.gyp -f make --depth=. \
-%endif
         -D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
 	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
 	-D linux_link_gnome_keyring=0 \
@@ -274,7 +267,6 @@ export GYP_GENERATORS='make'
 %endif
 
 
-%if 0%{?fedora} >= 20
 mkdir -p out/Release
 
 ninja-build -C out/Release chrome
@@ -282,9 +274,6 @@ ninja-build -C out/Release chrome
 ninja-build -C out/Release chrome_sandbox
 # Build the ChromeDriver test suite
 ninja-build -C out/Release chromedriver
-%else
-make %{_smp_mflags} chrome chrome_sandbox chromedriver BUILDTYPE=Release
-%endif
 
 %install
 mkdir -p %{buildroot}%{_bindir}
