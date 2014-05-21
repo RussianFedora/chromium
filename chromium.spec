@@ -4,7 +4,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	34.0.1847.137
+Version:	35.0.1916.114
 Release:	1%{?dist}
 Epoch:		1
 
@@ -33,19 +33,10 @@ Conflicts:	chromium-unstable
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
-# PATCH-FIX-OPENSUSE Disable the download of the NaCl tarballs
-Patch12:         no-download-nacl.diff
-# PATCH-FIX-OPENSUSE patches in system glew library
-Patch13:	chromium-25.0.1364.172-system-glew.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
-
-# Fix https://codereview.chromium.org/142853004/
-Patch30:	issue142853004_80001_90001.diff
-#Fix https://codereview.chromium.org/164553006/ enable fullscreen-within-tab
-Patch31:	issue164553006_1.diff
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -169,13 +160,8 @@ members of the Chromium and WebDriver teams.
 %patch0 -p1 -b .master-prefs
 
 # openSUSE patches
-#%patch12 -p0
-%patch13 -p1
 %patch14 -p1
 %patch15 -p1
-
-%patch30 -p1
-%patch31 -p1
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
@@ -441,6 +427,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed May 21 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 35.0.1916.114-1.R
+- update to 35.0.1916.114
+
 * Fri May 16 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.137-1.R
 - update to 34.0.1847.137
 - enable fullscreen-within-tab by default
