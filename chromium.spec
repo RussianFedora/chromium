@@ -63,6 +63,7 @@ BuildRequires:	libudev-devel
 BuildRequires:	libvpx-devel
 #BuildRequires:	libxml2-devel
 #BuildRequires:	libxslt-devel
+BuildRequires:	libgcrypt-devel
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	mesa-libGLU-devel
 BuildRequires:	nspr-devel
