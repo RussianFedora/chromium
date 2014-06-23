@@ -5,7 +5,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	35.0.1916.153
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -61,8 +61,8 @@ BuildRequires:	libjpeg-turbo-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libudev-devel
 BuildRequires:	libvpx-devel
-BuildRequires:	libxml2-devel
-BuildRequires:	libxslt-devel
+#BuildRequires:	libxml2-devel
+#BuildRequires:	libxslt-devel
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	mesa-libGLU-devel
 BuildRequires:	nspr-devel
@@ -194,7 +194,7 @@ export GYP_GENERATORS='ninja'
 	-D linux_link_gnome_keyring=0 \
 	-D werror='' \
 	-D use_system_sqlite=0 \
-	-D use_system_libxml=1 \
+	-D use_system_libxml=0 \
 	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
 	-D use_system_libbz2=1 \
@@ -221,7 +221,7 @@ export GYP_GENERATORS='ninja'
 	-D use_pulseaudio=1 \
 	-D use_system_v8=1 \
 	-D use_system_nspr=1 \
-	-D use_system_libxslt=1 \
+	-D use_system_libxslt=0 \
 	-D use_system_protobuf=0 \
 	-D use_system_libyuv=1 \
 	-D linux_link_libpci=1 \
@@ -412,6 +412,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Jun 23 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 35.0.1916.153-2.R
+- build with internal xml, xslt
+
 * Wed Jun 11 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 35.0.1916.153-1.R
 - update to 35.0.1916.153
 
