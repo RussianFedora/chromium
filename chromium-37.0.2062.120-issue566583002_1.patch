@@ -1,0 +1,28 @@
+diff -urN chromium-37.0.2062.120/v8/src/utils.h chromium-37.0.2062.120.new/v8/src/utils.h
+--- chromium-37.0.2062.120/v8/src/utils.h	2014-09-10 03:48:34.000000000 +0400
++++ chromium-37.0.2062.120.new/v8/src/utils.h	2014-09-16 15:46:48.494162841 +0400
+@@ -1424,20 +1424,10 @@
+ void CopyCharsUnsigned(sinkchar* dest, const sourcechar* src, int chars) {
+   sinkchar* limit = dest + chars;
+ #ifdef V8_HOST_CAN_READ_UNALIGNED
+-  if (sizeof(*dest) == sizeof(*src)) {
+-    if (chars >= static_cast<int>(kMinComplexMemCopy / sizeof(*dest))) {
+-      MemCopy(dest, src, chars * sizeof(*dest));
+-      return;
+-    }
+-    // Number of characters in a uintptr_t.
+-    static const int kStepSize = sizeof(uintptr_t) / sizeof(*dest);  // NOLINT
+-    ASSERT(dest + kStepSize > dest);  // Check for overflow.
+-    while (dest + kStepSize <= limit) {
+-      *reinterpret_cast<uintptr_t*>(dest) =
+-          *reinterpret_cast<const uintptr_t*>(src);
+-      dest += kStepSize;
+-      src += kStepSize;
+-    }
++  if ((sizeof(*dest) == sizeof(*src)) &&
++      (chars >= static_cast<int>(kMinComplexMemCopy / sizeof(*dest)))) {
++    MemCopy(dest, src, chars * sizeof(*dest));
++    return;
+   }
+ #endif
+   while (dest < limit) {
