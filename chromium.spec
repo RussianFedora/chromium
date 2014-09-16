@@ -163,7 +163,9 @@ members of the Chromium and WebDriver teams.
 # openSUSE patches
 %patch14 -p1
 %patch15 -p1
+%if 0%{?fedora} >= 21
 %patch20 -p1
+%endif
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
