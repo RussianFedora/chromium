@@ -37,6 +37,8 @@ Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
+# fix https://code.google.com/p/chromium/issues/detail?id=412967
+Patch20:        chromium-38.0.2125.101-issue566583002_1.patch
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -161,6 +163,9 @@ members of the Chromium and WebDriver teams.
 # openSUSE patches
 %patch14 -p1
 %patch15 -p1
+%if 0%{?fedora} >= 21
+%patch20 -p1
+%endif
 
 sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
 
