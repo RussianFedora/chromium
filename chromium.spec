@@ -240,6 +240,7 @@ export GYP_GENERATORS='ninja'
 	-D use_aura=1 \
 	-D linux_use_gold_binary=0 \
 	-D linux_use_gold_flags=0 \
+	-D clang=0 \
 %if 0%{?fedora} > 19        
         -Dlinux_link_libspeechd=1 \
         -Dlibspeechd_h_prefix=speech-dispatcher/ \
