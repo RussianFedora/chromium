@@ -5,7 +5,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	38.0.2125.101
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
