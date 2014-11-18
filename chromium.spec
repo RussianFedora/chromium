@@ -205,7 +205,11 @@ export GYP_GENERATORS='ninja'
 	-D use_system_bzip2=1 \
 	-D use_system_libbz2=1 \
 	-D use_system_libpng=1 \
+%if 0%{?fedora} < 22
 	-D use_system_libjpeg=1 \
+%else
+	-D use_system_libjpeg=0 \
+%endif
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
 	-D use_system_vpx=1 \
