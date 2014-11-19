@@ -4,7 +4,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	38.0.2125.122
+Version:	39.0.2171.65
 Release:	1%{?dist}
 Epoch:		1
 
@@ -423,6 +423,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Nov 19 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 39.0.2171.65-1.R
+- update to 39.0.2171.65
+
 * Mon Nov 17 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 38.0.2125.122-1.R
 - update to 38.0.2125.122
 
