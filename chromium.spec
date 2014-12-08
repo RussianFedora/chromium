@@ -4,7 +4,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	39.0.2171.71
+Version:	39.0.2171.93
 Release:	1%{?dist}
 Epoch:		1
 
