@@ -275,8 +275,7 @@ buildconfig+=" -Dsystem_libdir=lib64
 		-Dtarget_arch=x64"
 %endif
 
-buildconfig+=" -Duse_system_icu=0
-                -Duse_pulseaudio=1
+buildconfig+=" -Duse_pulseaudio=1
                 -Dlinux_link_libpci=1
                 -Dlinux_link_gnome_keyring=1
                 -Dlinux_link_gsettings=1
