@@ -1,10 +1,8 @@
-#%define pnacl_version 11986
-#%define newlib_version 11958
-#%define glibc_version 11958
+%define chromium_system_libs 0
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	40.0.2214.91
+Version:	40.0.2214.94
 Release:	1%{?dist}
 Epoch:		1
 
@@ -13,10 +11,6 @@ License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
 Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
-#Source1:        http://gsdview.appspot.com/nativeclient-archive2/x86_toolchain/r%{glibc_version}/toolchain_linux_x86.tar.bz2
-#Source2:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{newlib_version}/naclsdk_linux_x86.tgz
-#Source3:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{pnacl_version}/naclsdk_pnacl_linux_x86.tgz
-#Source4:        http://gsdview.appspot.com/nativeclient-archive2/toolchain/%{pnacl_version}/naclsdk_pnacl_translator.tgz
 
 Source10:	chromium-wrapper
 Source20:	chromium-browser.desktop
@@ -33,88 +27,121 @@ Conflicts:	chromium-unstable
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
+# PATCH-FIX-UPSTREAM Add more charset aliases
+Patch6:         chromium-more-codec-aliases.patch
+# PATCH-FIX-OPENSUSE Adjust ldflags for better building
+Patch8:         adjust-ldflags-no-keep-memory.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
-BuildRequires:	alsa-lib-devel
-BuildRequires:	atk-devel
-BuildRequires:	bison
-BuildRequires:	bzip2-devel
-BuildRequires:	cups-devel
-BuildRequires:	dbus-glib-devel
-BuildRequires:	elfutils-devel
-BuildRequires:	expat-devel
-BuildRequires:	flac-devel
-BuildRequires:	flex
-BuildRequires:	glib2-devel
-BuildRequires:	gyp
-BuildRequires:	ninja-build
-BuildRequires:	gperf
-BuildRequires:	gtk2-devel
-BuildRequires:	libXScrnSaver-devel
-BuildRequires:	libXt-devel
-BuildRequires:	libXtst-devel
-BuildRequires:	libevent-devel
-BuildRequires:	libjpeg-turbo-devel
-BuildRequires:	libpng-devel
-BuildRequires:	libudev-devel
-BuildRequires:	libvpx-devel
-#BuildRequires:	libxml2-devel
-#BuildRequires:	libxslt-devel
-BuildRequires:	libgcrypt-devel
-BuildRequires:	mesa-libGL-devel
-BuildRequires:	mesa-libGLU-devel
-BuildRequires:	nspr-devel
-BuildRequires:	nss-devel
-BuildRequires:	openssl-devel
-BuildRequires:	perl(Switch)
-BuildRequires:	perl(Digest::MD5)
-%if 0%{?fedora} >= 19
-BuildRequires:	perl-Text-ParseWords
-%endif
-BuildRequires:	pulseaudio-libs-devel
-BuildRequires:	speex-devel
-BuildRequires:	subversion
-BuildRequires:	zlib-devel
-%if 0%{?fedora} < 18
-BuildRequires:	libusb-devel
-BuildRequires:	gstreamer-plugins-base-devel gstreamer-devel
-%else
-BuildRequires:	libusbx-devel
-BuildRequires:	gstreamer1-plugins-base-devel gstreamer1-devel
-%endif
-BuildRequires:	libexif-devel
-BuildRequires:	speech-dispatcher-devel
-BuildRequires:	gpsd-devel
-BuildRequires:	libsrtp-devel
-BuildRequires:	libmtp-devel
-BuildRequires:	libwebp-devel
-BuildRequires:	libicu-devel
-BuildRequires:	minizip-devel
-BuildRequires:	yasm-devel
-BuildRequires:	opus-devel
-BuildRequires:	pciutils-devel
-BuildRequires:	v8-devel
-#BuildRequires:	sqlite-devel
-BuildRequires:	harfbuzz-devel
-BuildRequires:	GConf2-devel
-#BuildRequires:  pkgconfig(protobuf)
+# archlinux arm enhancement patches
+Patch100:       arm-webrtc-fix.patch
+Patch101:       chromium-arm-r0.patch
+Patch102:       skia.patch
+
+
+BuildRequires:  alsa-lib-devel
+BuildRequires:  bison
+BuildRequires:  gyp
+BuildRequires:  cups-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  fdupes
+BuildRequires:  flac-devel
+BuildRequires:  flex
+BuildRequires:  freetype-devel
+BuildRequires:  gperf
+BuildRequires:  hicolor-icon-theme
+BuildRequires:  hunspell-devel
+BuildRequires:  krb5-devel
+BuildRequires:  bzip2-devel
 BuildRequires:  libcap-devel
-
-%if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
-BuildRequires:	libgnome-keyring-devel
-%else
-BuildRequires:	gnome-keyring-devel
+BuildRequires:  libdrm-devel
+BuildRequires:  elfutils-devel elfutils-libelf-devel
+BuildRequires:  expat-devel
+BuildRequires:  libgcrypt-devel
+BuildRequires:  libgnome-keyring-devel
+BuildRequires:  libicu-devel >= 4.0
+BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  ninja-build
+BuildRequires:  libdrm-devel
+BuildRequires:  pam-devel
+BuildRequires:  pciutils-devel
+BuildRequires:  pkgconfig
+BuildRequires:  python
+BuildRequires:  python-devel
+BuildRequires:  sqlite-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  util-linux
+BuildRequires:  valgrind-devel
+BuildRequires:  wdiff
+BuildRequires:  perl(Switch)
+BuildRequires:  pkgconfig(cairo) >= 1.6
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(gconf-2.0)
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(gtk+-2.0)
+BuildRequires:  pkgconfig(libcrypto)
+BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libudev)
+BuildRequires:  pkgconfig(libxslt)
+BuildRequires:  pkgconfig(nspr) >= 4.9.5
+BuildRequires:  pkgconfig(nss) >= 3.14
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(xcomposite)
+BuildRequires:  pkgconfig(xcursor)
+BuildRequires:  pkgconfig(xdamage)
+BuildRequires:  pkgconfig(xext)
+BuildRequires:  pkgconfig(xfixes)
+BuildRequires:  pkgconfig(xi)
+BuildRequires:  pkgconfig(xrandr)
+BuildRequires:  pkgconfig(xrender)
+BuildRequires:  pkgconfig(xscrnsaver)
+BuildRequires:  pkgconfig(xt)
+BuildRequires:  pkgconfig(xtst)
+%if 0%{?chromium_system_libs}
+BuildRequires:  libjpeg-turbo-devel
+BuildRequires:  perl-JSON
+BuildRequires:  usbutils
+BuildRequires:  yasm
+BuildRequires:  pkgconfig(libevent)
+BuildRequires:  pkgconfig(libmtp)
+BuildRequires:  pkgconfig(libpng)
+BuildRequires:  pkgconfig(libusb-1.0)
+BuildRequires:  pkgconfig(libxslt)
+BuildRequires:  pkgconfig(opus)
+BuildRequires:  pkgconfig(protobuf)
+BuildRequires:  pkgconfig(speex)
 %endif
+BuildRequires:  SDL-devel
+BuildRequires:  dirac-devel >= 1.0.0
+BuildRequires:  imlib2-devel
+BuildRequires:  libdc1394
+BuildRequires:  libdc1394-devel
+BuildRequires:  faac-devel >= 1.28
+BuildRequires:  gsm
+BuildRequires:  gsm-devel
+BuildRequires:  jack-audio-connection-kit-devel
+BuildRequires:  lame-devel
+BuildRequires:  libogg-devel
+BuildRequires:  liboil-devel >= 0.3.15
+BuildRequires:  opencore-amr-devel
+BuildRequires:  libtheora-devel >= 1.1
+BuildRequires:  libvdpau-devel
+BuildRequires:  libvorbis-devel
+BuildRequires:  libvpx-devel
+BuildRequires:  x264-devel
+BuildRequires:  xvidcore-devel
+BuildRequires:  ncurses-devel
+BuildRequires:  schroedinger-devel
+BuildRequires:  slang-devel
+BuildRequires:  texinfo
 
-# NaCl needs these
-#%ifarch x86_64
-#BuildRequires:	/lib/libc.so.6
-#BuildRequires:	/lib/libz.so.1
-#BuildRequires:	/lib/libgcc_s.so.1
-#%endif
+BuildRequires:  libusbx-devel
+BuildRequires:  gstreamer1-plugins-base-devel gstreamer1-devel
+BuildRequires:  speech-dispatcher-devel
 
 Requires:	hicolor-icon-theme
 
@@ -159,20 +186,15 @@ members of the Chromium and WebDriver teams.
 %patch0 -p1 -b .master-prefs
 
 # openSUSE patches
+%patch6 -p0
+%patch8 -p0
 %patch14 -p1
 %patch15 -p1
 
-sed -i 's|icu)|icu-i18n)|g' build/linux/system.gyp
-
-## Install the Native Client tarballs to the right location
-#mkdir -p native_client/toolchain/.tars
-#cp %{SOURCE1} native_client/toolchain/.tars/
-#cp %{SOURCE2} native_client/toolchain/.tars/
-#cp %{SOURCE3} native_client/toolchain/.tars/
-#cp %{SOURCE4} native_client/toolchain/.tars/
-
-## Extract the NaCl tarballs 
-#python ./build/download_nacl_toolchains.py --no-arm-trusted --keep
+# archlinux arm enhancements
+%patch100 -p0
+%patch101 -p0
+%patch102 -p0
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
@@ -188,86 +210,85 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE20}
 %endif
 
 %build
-export GYP_GENERATORS='ninja'
-./build/gyp_chromium build/all.gyp --depth=. \
-        -D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
-	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
-	-D linux_link_gnome_keyring=0 \
-	-D werror='' \
-	-D use_system_sqlite=0 \
-	-D use_system_libxml=0 \
-	-D use_system_zlib=1 \
-	-D use_system_bzip2=1 \
-	-D use_system_libbz2=1 \
-	-D use_system_libpng=1 \
-%if 0%{?fedora} < 22
-	-D use_system_libjpeg=1 \
+buildconfig+="-Dwerror=
+		-Dlinux_sandbox_chrome_path=%{_libdir}/%{name}/chrome
+                -Duse_openssl=0
+                -Duse_system_ffmpeg=0
+                -Dbuild_ffmpegsumo=1
+                -Dproprietary_codecs=1
+                -Dremove_webcore_debug_symbols=1
+                -Dlogging_like_official_build=1
+                -Dlinux_fpic=1
+                -Ddisable_sse2=1
+                -Dcomponent=shared_library
+                -Dclang=0
+                -Dtoolkit_uses_gtk=0
+                -Dffmpeg_branding=Chrome
+                -Ddisable_nacl=1
+		-Ddisable_glibc=0
+		-Ddisable_pnacl=1
+		-Ddisable_newlib_untar=0
+		-Duse_system_xdg_utils=1
+		-Duse_aura=1"
+
+%if 0%{?chromium_system_libs}
+buildconfig+=" -Duse_system_flac=1
+                -Duse_system_speex=1
+                -Duse_system_libexif=1
+                -Duse_system_libevent=1
+                -Duse_system_libmtp=1
+                -Duse_system_opus=1
+                -Duse_system_bzip2=1
+                -Duse_system_harfbuzz=1
+                -Duse_system_libjpeg=1
+                -Duse_system_libpng=1
+                -Duse_system_libxslt=1
+                -Duse_system_libyuv=1
+                -Duse_system_nspr=1
+                -Duse_system_protobuf=1
+                -Duse_system_yasm=1"
 %else
-	-D use_system_libjpeg=0 \
-%endif
-	-D use_system_libevent=1 \
-	-D use_system_flac=1 \
-	-D use_system_vpx=1 \
-	-D use_system_speex=1 \
-	-D use_system_libusb=1 \
-	-D use_system_libexif=1 \
-	-D use_system_libsrtp=1 \
-	-D use_system_libmtp=1 \
-	-D use_system_opus=1 \
-	-D use_system_libwebp=1 \
-	-D use_system_harfbuzz=1 \
-	-D use_system_minizip=1 \
-	-D use_system_yasm=1 \
-	-D use_system_xdg_utils=1 \
-	-D build_ffmpegsumo=1 \
-	-D use_system_ffmpeg=0 \
-        -D ffmpeg_branding=Chrome \
-	-D proprietary_codecs=1 \
-	-D use_pulseaudio=1 \
-	-D use_system_v8=1 \
-	-D use_system_nspr=1 \
-	-D use_system_libxslt=0 \
-	-D use_system_protobuf=0 \
-	-D use_system_libyuv=1 \
-	-D linux_link_libpci=1 \
-	-D linux_link_gsettings=1 \
-	-D linux_link_libspeechd=1 \
-	-D linux_link_kerberos=1 \
-	-D linux_link_libgps=1 \
-	-D linux_fpic=1 \
-	-D disable_nacl=1 \
-        -D disable_glibc=0 \
-        -D disable_pnacl=1 \
-        -D disable_newlib_untar=0 \
-	-D logging_like_official_build=1 \
-	-D remove_webcore_debug_symbols=1 \
-	-D use_aura=1 \
-	-D linux_use_gold_binary=0 \
-	-D linux_use_gold_flags=0 \
-	-D clang=0 \
-%if 0%{?fedora} > 19        
-        -Dlinux_link_libspeechd=1 \
-        -Dlibspeechd_h_prefix=speech-dispatcher/ \
-%endif
-        -Dgoogle_api_key='AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q' \
-	-Dgoogle_default_client_id='4139804441.apps.googleusercontent.com' \
-	-Dgoogle_default_client_secret='KDTRKEZk2jwT_7CDpcmMA--P' \
-%if %{defined rhel} && 0%{?rhel} < 7
-	-D v8_use_snapshot=false \
-%endif
-	-D javascript_engine=v8 \
-	-D use_system_icu=0 \
-%ifarch i686
-	-D disable_sse2=1 \
-	-D release_extra_cflags="-march=i686"
-%endif
-%ifarch armv7l
-	-D target_arch=arm \
-	-D linux_use_tcmalloc=0 \
-	-D armv7=1 \
-	-D release_extra_cflags="-marm"
+buildconfig+=" -Duse_system_flac=0
+                -Duse_system_speex=0
+                -Duse_system_libexif=0
+                -Duse_system_libevent=0
+                -Duse_system_libmtp=0
+                -Duse_system_opus=0
+                -Duse_system_bzip2=0
+                -Duse_system_harfbuzz=0
+                -Duse_system_libjpeg=0
+                -Duse_system_libpng=0
+                -Duse_system_libxslt=0
+                -Duse_system_libyuv=0
+                -Duse_system_nspr=0
+                -Duse_system_protobuf=0
+                -Duse_system_yasm=0"
 %endif
 
+%ifarch x86_64
+buildconfig+=" -Dsystem_libdir=lib64
+		-Dtarget_arch=x64"
+%endif
+
+buildconfig+=" -Duse_system_icu=1
+                -Duse_pulseaudio=1
+                -Dlinux_link_libpci=1
+                -Dlinux_link_gnome_keyring=1
+                -Dlinux_link_gsettings=1
+                -Dlinux_link_libgps=1
+		-Dlinux_link_libspeechd=1
+		-Dlibspeechd_h_prefix=speech-dispatcher/
+                -Djavascript_engine=v8
+                -Dlinux_use_gold_binary=0
+                -Dlinux_use_gold_flags=0
+                -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
+                -Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
+                -Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
+
+build/linux/unbundle/replace_gyp_files.py $buildconfig
+
+export GYP_GENERATORS='ninja'
+./build/gyp_chromium build/all.gyp --depth=. $buildconfig
 
 mkdir -p out/Release
 
@@ -289,14 +310,13 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
+#install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
-#%ifnarch armv7l
-#install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/%{name}/
-#install -m 755 out/Release/nacl_helper_bootstrap %{buildroot}%{_libdir}/%{name}/
-#install -m 755 out/Release/nacl_helper %{buildroot}%{_libdir}/%{name}/
-#install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
-#%endif
+
+# chromium components
+mkdir -p %{buildroot}%{_libdir}/%{name}/lib/
+cp -av out/Release/lib/*.so %{buildroot}%{_libdir}/%{name}/lib/
+
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
 install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
@@ -340,33 +360,6 @@ install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 update-desktop-database &> /dev/null || :
 
-if [ -e /opt/google/talkplugin/libppgoogletalk.so ]; then
-    if [ ! -e %{_libdir}/%{name}/pepper/libppgoogletalk.so ]; then
-        ln -s /opt/google/talkplugin/libppgoogletalk.so \
-		%{_libdir}/%{name}/pepper/libppgoogletalk.so
-    fi
-fi
-
-if [ -e /opt/google/talkplugin/libppo1d.so ]; then
-    if [ ! -e %{_libdir}/%{name}/pepper/libppo1d.so ]; then
-        ln -s /opt/google/talkplugin/libppo1d.so \
-                %{_libdir}/%{name}/pepper/libppo1d.so
-    fi
-fi
-
-%preun
-if [ $1 -eq 0 ] ; then
-    if [ -e %{_libdir}/%{name}/pepper/libppo1d.so ]; then
-        rm -f %{_libdir}/%{name}/pepper/libppo1d.so
-    fi
-
-    if [ -e %{_libdir}/%{name}/pepper/libppgoogletalk.so ]; then
-        rm -f %{_libdir}/%{name}/pepper/libppgoogletalk.so
-    fi
-
-fi
-
-
 %postun
 if [ $1 -eq 0 ] ; then
     touch --no-create %{_datadir}/icons/hicolor &>/dev/null
@@ -389,18 +382,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/libffmpegsumo.so
-#%ifnarch armv7l
-#%{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
-#%{_libdir}/%{name}/nacl_helper_bootstrap
-#%{_libdir}/%{name}/nacl_helper
-#%{_libdir}/%{name}/nacl_irt_*.nexe
-#%endif
+%{_libdir}/%{name}/lib
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_100_percent.pak
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
-%{_libdir}/%{name}/icudtl.dat
+#%{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
@@ -418,6 +406,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Feb  9 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.94-1.R
+- update to 40.0.2214.94
+- update depends and build parameters
+- fix crash with google hangouts
+- fix webrtc calls (rf#1418)
+
 * Thu Jan 22 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.91-1.R
 - update to 40.0.2214.91
 
