@@ -41,42 +41,52 @@ Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 Patch102:       skia.patch
 
-
+BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
-BuildRequires:  gyp
+BuildRequires:  bzip2-devel
 BuildRequires:  cups-devel
 BuildRequires:  desktop-file-utils
+BuildRequires:  dirac-devel >= 1.0.0
+BuildRequires:  elfutils-libelf-devel
+BuildRequires:  elfutils-devel
+BuildRequires:  expat-devel
 BuildRequires:  fdupes
 BuildRequires:  flac-devel
 BuildRequires:  flex
 BuildRequires:  freetype-devel
 BuildRequires:  gperf
+BuildRequires:  gsm
+BuildRequires:  gsm-devel
+BuildRequires:  gstreamer1-devel
+BuildRequires:  gstreamer1-plugins-base-devel
+BuildRequires:  gyp
 BuildRequires:  hicolor-icon-theme
 BuildRequires:  hunspell-devel
+BuildRequires:  imlib2-devel
+BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  krb5-devel
-BuildRequires:  bzip2-devel
 BuildRequires:  libcap-devel
+BuildRequires:  libdc1394
+BuildRequires:  libdc1394-devel
 BuildRequires:  libdrm-devel
-BuildRequires:  elfutils-devel elfutils-libelf-devel
-BuildRequires:  expat-devel
+BuildRequires:  libdrm-devel
 BuildRequires:  libgcrypt-devel
 BuildRequires:  libgnome-keyring-devel
 BuildRequires:  libicu-devel >= 4.0
-BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  libogg-devel
+BuildRequires:  liboil-devel >= 0.3.15
+BuildRequires:  libtheora-devel >= 1.1
+BuildRequires:  libusbx-devel
+BuildRequires:  libvdpau-devel
+BuildRequires:  libvorbis-devel
+BuildRequires:  libvpx-devel
+BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
-BuildRequires:  libdrm-devel
 BuildRequires:  pam-devel
 BuildRequires:  pciutils-devel
-BuildRequires:  pkgconfig
-BuildRequires:  python
-BuildRequires:  python-devel
-BuildRequires:  sqlite-devel
-BuildRequires:  desktop-file-utils
-BuildRequires:  util-linux
-BuildRequires:  valgrind-devel
-BuildRequires:  wdiff
 BuildRequires:  perl(Switch)
+BuildRequires:  pkgconfig
 BuildRequires:  pkgconfig(cairo) >= 1.6
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(gconf-2.0)
@@ -101,6 +111,17 @@ BuildRequires:  pkgconfig(xrender)
 BuildRequires:  pkgconfig(xscrnsaver)
 BuildRequires:  pkgconfig(xt)
 BuildRequires:  pkgconfig(xtst)
+BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  python
+BuildRequires:  python-devel
+BuildRequires:  schroedinger-devel
+BuildRequires:  slang-devel
+BuildRequires:  speech-dispatcher-devel
+BuildRequires:  sqlite-devel
+BuildRequires:  texinfo
+BuildRequires:  util-linux
+BuildRequires:  valgrind-devel
+
 %if 0%{?chromium_system_libs}
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  perl-JSON
@@ -115,33 +136,15 @@ BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(speex)
 %endif
-BuildRequires:  SDL-devel
-BuildRequires:  dirac-devel >= 1.0.0
-BuildRequires:  imlib2-devel
-BuildRequires:  libdc1394
-BuildRequires:  libdc1394-devel
+
+%if ! %{defined rhel}
 BuildRequires:  faac-devel >= 1.28
-BuildRequires:  gsm
-BuildRequires:  gsm-devel
-BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  lame-devel
-BuildRequires:  libogg-devel
-BuildRequires:  liboil-devel >= 0.3.15
 BuildRequires:  opencore-amr-devel
-BuildRequires:  libtheora-devel >= 1.1
-BuildRequires:  libvdpau-devel
-BuildRequires:  libvorbis-devel
-BuildRequires:  libvpx-devel
+BuildRequires:  wdiff
 BuildRequires:  x264-devel
 BuildRequires:  xvidcore-devel
-BuildRequires:  ncurses-devel
-BuildRequires:  schroedinger-devel
-BuildRequires:  slang-devel
-BuildRequires:  texinfo
-
-BuildRequires:  libusbx-devel
-BuildRequires:  gstreamer1-plugins-base-devel gstreamer1-devel
-BuildRequires:  speech-dispatcher-devel
+%endif
 
 Requires:	hicolor-icon-theme
 
