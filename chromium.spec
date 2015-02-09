@@ -281,13 +281,16 @@ buildconfig+=" -Duse_pulseaudio=1
                 -Dlinux_link_gsettings=1
                 -Dlinux_link_libgps=1
 		-Dlinux_link_libspeechd=1
-		-Dlibspeechd_h_prefix=speech-dispatcher/
                 -Djavascript_engine=v8
                 -Dlinux_use_gold_binary=0
                 -Dlinux_use_gold_flags=0
                 -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
                 -Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
                 -Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
+
+%if 0%{?fedora} >= 20
+buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
+%endif
 
 build/linux/unbundle/replace_gyp_files.py $buildconfig
 
