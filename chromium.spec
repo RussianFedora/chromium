@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	40.0.2214.111
-Release:	2{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
