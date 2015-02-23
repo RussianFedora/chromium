@@ -148,6 +148,8 @@ BuildRequires:  x264-devel
 BuildRequires:  xvidcore-devel
 %endif
 
+BuildRequires:	chromium-widevinecdm-plugin
+
 Requires:	hicolor-icon-theme
 
 Obsoletes:	chromium-ffmpeg
@@ -202,6 +204,13 @@ members of the Chromium and WebDriver teams.
 %patch102 -p0
 
 %patch200 -p1
+
+WIDEVINE_SUPPORTED_ARCHS="x64 ia32"
+for arch in $WIDEVINE_SUPPORTED_ARCHS; do
+    mkdir -p third_party/widevine/cdm/linux/$arch
+    cp %{_libdir}/chromium/libwidevinecdm.so third_party/widevine/cdm/widevine_cdm_*.h third_party/widevine/cdm/linux/$arch/
+done
+
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
