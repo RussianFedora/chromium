@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	40.0.2214.115
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -205,12 +205,16 @@ members of the Chromium and WebDriver teams.
 
 %patch200 -p1
 
+# build with widevine support
+WIDEVINE_VERSION=$(rpm -q chromium-widevinecdm-plugin --qf %%{version})
+
+sed -i "s/@WIDEVINE_VERSION@/$WIDEVINE_VERSION/g" third_party/widevine/cdm/widevine_cdm_version.h
+
 WIDEVINE_SUPPORTED_ARCHS="x64 ia32"
 for arch in $WIDEVINE_SUPPORTED_ARCHS; do
     mkdir -p third_party/widevine/cdm/linux/$arch
     cp %{_libdir}/chromium/libwidevinecdm.so third_party/widevine/cdm/widevine_cdm_*.h third_party/widevine/cdm/linux/$arch/
 done
-
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
@@ -426,6 +430,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Feb 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 40.0.2214.115-3.R
+- write widevine plugin version into header
+
 * Mon Feb 23 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.115-2.R
 - support widevine
 
