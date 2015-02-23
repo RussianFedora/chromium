@@ -3,7 +3,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	40.0.2214.115
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -40,6 +40,8 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 Patch102:       skia.patch
+
+Patch200:	chromium-widevine.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -198,6 +200,8 @@ members of the Chromium and WebDriver teams.
 %patch100 -p0
 %patch101 -p0
 %patch102 -p0
+
+%patch200 -p1
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
@@ -413,6 +417,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Feb 23 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.115-2.R
+- support widevine
+
 * Sun Feb 22 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.115-1.R
 - update to 40.0.2214.115
 
