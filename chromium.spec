@@ -1,9 +1,15 @@
 %define chromium_system_libs 0
 
+%if 0%{?fedora} >= 21
+%define	clang 1
+%else
+%define clang 0
+%endif
+
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	40.0.2214.115
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -150,6 +156,10 @@ BuildRequires:  xvidcore-devel
 
 BuildRequires:	chromium-widevinecdm-plugin
 
+%if 0%{?clang}
+BuildRequires:	clang
+%endif
+
 Requires:	hicolor-icon-theme
 
 Obsoletes:	chromium-ffmpeg
@@ -241,7 +251,6 @@ buildconfig+="-Dwerror=
                 -Dlinux_fpic=1
                 -Ddisable_sse2=1
                 -Dcomponent=shared_library
-                -Dclang=0
                 -Dtoolkit_uses_gtk=0
                 -Dffmpeg_branding=Chrome
                 -Ddisable_nacl=1
@@ -250,6 +259,13 @@ buildconfig+="-Dwerror=
 		-Ddisable_newlib_untar=0
 		-Duse_system_xdg_utils=1
 		-Duse_aura=1"
+
+
+%if 0%{?clang}
+buildconfig+=" -Dclang=1"
+%else
+buildconfig+=" -Dclang=0"
+%endif
 
 %if 0%{?chromium_system_libs}
 buildconfig+=" -Duse_system_icu=1
@@ -307,6 +323,11 @@ buildconfig+=" -Duse_pulseaudio=1
 
 %if 0%{?fedora} >= 20
 buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
+%endif
+
+%if 0%{?clang}
+tools/clang/scripts/update.sh
+export GYP_DEFINES=clang=1
 %endif
 
 build/linux/unbundle/replace_gyp_files.py $buildconfig
@@ -430,6 +451,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Feb 26 2015 Arkady L. Shane <ashejn@russianfedora.pro> 40.0.2214.115-4.R
+- build with clang for fedora older then 20
+
 * Tue Feb 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 40.0.2214.115-3.R
 - write widevine plugin version into header
 
