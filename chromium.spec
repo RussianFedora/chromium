@@ -330,10 +330,7 @@ buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 # Modern Clang produces a *lot* of warnings 
-export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option 
-	-Wno-unused-local-typedef
-	-Wunknown-attributes
-	-Wno-tautological-undefined-compare"
+export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option -Wno-unused-local-typedef -Wunknown-attributes -Wno-tautological-undefined-compare"
 export GYP_DEFINES=clang=1
 %endif
 
