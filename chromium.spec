@@ -360,6 +360,7 @@ cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
+cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
 
 # chromium components
@@ -438,6 +439,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
 %{_libdir}/%{name}/icudtl.dat
+%{_libdir}/%{name}/*_blob.bin
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
