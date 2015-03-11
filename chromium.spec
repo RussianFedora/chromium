@@ -9,7 +9,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	41.0.2272.76
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -103,7 +103,6 @@ BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libudev)
-BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(nspr) >= 4.9.5
 BuildRequires:  pkgconfig(nss) >= 3.14
 BuildRequires:  pkgconfig(x11)
@@ -140,6 +139,7 @@ BuildRequires:  pkgconfig(libmtp)
 BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libxslt)
+BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(speex)
@@ -281,6 +281,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libjpeg=1
                 -Duse_system_libpng=1
                 -Duse_system_libxslt=1
+                -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
                 -Duse_system_protobuf=1
@@ -298,6 +299,7 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libjpeg=0
                 -Duse_system_libpng=0
                 -Duse_system_libxslt=0
+                -Duse_system_libxml=0
                 -Duse_system_libyuv=0
                 -Duse_system_nspr=0
                 -Duse_system_protobuf=0
