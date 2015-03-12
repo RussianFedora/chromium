@@ -459,6 +459,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Mar 12 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.76-2.R
+- disable system xml
+
 * Thu Mar  5 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.76-1.R
 - update to 41.0.2272.76
 
