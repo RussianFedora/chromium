@@ -1,8 +1,9 @@
---- chrome/chrome_exe.gypi.ldflags	2012-06-28 09:02:24.000000000 -0400
-+++ chrome/chrome_exe.gypi	2012-07-06 15:46:13.008003437 -0400
-@@ -25,6 +25,14 @@
-         '<(DEPTH)/content/app/startup_helper_win.cc',
-         '<(DEPTH)/content/public/common/content_switches.cc',
+diff -urN chromium-42.0.2311.90.orig/chrome/chrome_exe.gypi chromium-42.0.2311.90/chrome/chrome_exe.gypi
+--- chromium-42.0.2311.90.orig/chrome/chrome_exe.gypi	2015-04-15 14:41:05.281523962 +0300
++++ chromium-42.0.2311.90/chrome/chrome_exe.gypi	2015-04-15 14:44:01.887325379 +0300
+@@ -75,6 +75,14 @@
+         'app/signature_validator_win.cc',
+         'app/signature_validator_win.h',
        ],
 +      # Hey, I know what would be an awesome idea.
 +      # Let us statically compile EVERYTHING into one giant

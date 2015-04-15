@@ -8,7 +8,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	41.0.2272.118
+Version:	42.0.2311.90
 Release:	1%{?dist}
 Epoch:		1
 
@@ -45,7 +45,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 # archlinux arm enhancement patches
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
-Patch102:       skia.patch
 
 Patch200:	chromium-widevine.patch
 
@@ -204,14 +203,13 @@ members of the Chromium and WebDriver teams.
 
 # openSUSE patches
 %patch6 -p0
-%patch8 -p0
+%patch8 -p1
 %patch14 -p1
 %patch15 -p1
 
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
-%patch102 -p0
 
 %patch200 -p1
 
@@ -459,6 +457,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Apr 15 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.90-1.R
+- update to 42.0.2311.90
+
 * Fri Apr  3 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.118-1.R
 - update to 41.0.2272.118
 - fix CVE-2015-1233
