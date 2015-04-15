@@ -9,7 +9,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	42.0.2311.90
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -162,6 +162,7 @@ BuildRequires:	clang
 Requires:	hicolor-icon-theme
 
 Obsoletes:	chromium-ffmpeg
+Obsoletes:	chromium-pdf-plugin < 17.0.0.169
 
 ExclusiveArch: i686 x86_64 armv7l
 
@@ -457,6 +458,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Apr 15 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.90-2.R
+- added O: chromium-pdf-plugin < 17.0.0.169
+
 * Wed Apr 15 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.90-1.R
 - update to 42.0.2311.90
 
