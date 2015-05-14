@@ -8,7 +8,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	42.0.2311.135
+Version:	42.0.2311.152
 Release:	1%{?dist}
 Epoch:		1
 
@@ -458,6 +458,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu May 14 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.152-1.R
+- update to 42.0.2311.152
+
 * Thu Apr 30 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.135-1.R
 - update to 42.0.2311.135
 
