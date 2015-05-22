@@ -8,7 +8,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	42.0.2311.153
+Version:	43.0.2357.65
 Release:	1%{?dist}
 Epoch:		1
 
@@ -207,7 +207,7 @@ members of the Chromium and WebDriver teams.
 # openSUSE patches
 %patch6 -p0
 %patch8 -p1
-%patch14 -p1
+#patch14 -p1
 %patch15 -p1
 
 # archlinux arm enhancements
@@ -371,7 +371,7 @@ mkdir -p %{buildroot}%{_libdir}/%{name}/lib/
 cp -av out/Release/lib/*.so %{buildroot}%{_libdir}/%{name}/lib/
 
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
-install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/chrome_*_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
@@ -437,7 +437,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/libffmpegsumo.so
 %{_libdir}/%{name}/lib
 %{_libdir}/%{name}/locales
-%{_libdir}/%{name}/chrome_100_percent.pak
+%{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
@@ -460,6 +460,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri May 22 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.65-1.R
+- update to 43.0.2357.65
+
 * Thu May 14 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.153-1.R
 - update to 42.0.2311.153
 
