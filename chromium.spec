@@ -259,6 +259,7 @@ buildconfig+="-Dwerror=
 		-Ddisable_pnacl=1
 		-Ddisable_newlib_untar=0
 		-Duse_system_xdg_utils=1
+		-Denable_hotwording=0
 		-Duse_aura=1"
 
 
