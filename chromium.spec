@@ -214,7 +214,7 @@ members of the Chromium and WebDriver teams.
 %patch100 -p0
 %patch101 -p0
 
-%patch200 -p1
+#patch200 -p1
 
 # build with widevine support
 WIDEVINE_VERSION=$(rpm -q chromium-widevinecdm-plugin --qf %%{version})
