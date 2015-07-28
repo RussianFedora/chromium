@@ -335,7 +335,9 @@ export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 # Modern Clang produces a *lot* of warnings 
 export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option -Wno-unused-local-typedef -Wunknown-attributes -Wno-tautological-undefined-compare"
-export GYP_DEFINES=clang=1
+export GYP_DEFINES="clang=1 enable_hidpi=1 enable_touch_ui=1 enable_hotwording=0"
+%else
+export GYP_DEFINES="enable_hidpi=1 enable_touch_ui=1 enable_hotwording=0"
 %endif
 
 build/linux/unbundle/replace_gyp_files.py $buildconfig
@@ -365,7 +367,6 @@ install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
 cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/*ffmpeg*.so %{buildroot}%{_libdir}/%{name}/
 
 # chromium components
 mkdir -p %{buildroot}%{_libdir}/%{name}/lib/
@@ -435,7 +436,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromium-wrapper
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
-%{_libdir}/%{name}/*ffmpeg*.so
 %{_libdir}/%{name}/lib
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
