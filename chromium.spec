@@ -46,7 +46,8 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
-Patch200:	chromium-widevine.patch
+Patch200:	fix_building_widevinecdm_with_chromium.patch
+Patch201:	widevine-other-locations.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -155,7 +156,7 @@ BuildRequires:  x264-devel
 BuildRequires:  xvidcore-devel
 %endif
 
-#BuildRequires:	chromium-widevinecdm-plugin
+BuildRequires:	chromium-widevinecdm-plugin
 
 %if 0%{?clang}
 BuildRequires:	clang
@@ -214,7 +215,8 @@ members of the Chromium and WebDriver teams.
 %patch100 -p0
 %patch101 -p0
 
-#patch200 -p1
+%patch200 -p1
+%patch201 -p1
 
 # build with widevine support
 WIDEVINE_VERSION=$(rpm -q chromium-widevinecdm-plugin --qf %%{version})
