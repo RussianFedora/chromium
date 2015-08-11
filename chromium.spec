@@ -250,8 +250,9 @@ buildconfig+="-Dwerror=
 		-Duse_system_xdg_utils=1
 		-Denable_hotwording=0
 		-Denable_widevine=1
-		-Duse_aura=1"
-
+		-Duse_aura=1
+		-Denable_hidpi=1
+		-Denable_touch_ui=1"
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
@@ -450,6 +451,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-2.R
 - drop BR: chromium-widevinecdm-plugin
 - change homepage to http://start.fedoraproject.org
+- added -Denable_hidpi=1 and -Denable_touch_ui=1
 
 * Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-1.R
 - update to 44.0.2403.130
