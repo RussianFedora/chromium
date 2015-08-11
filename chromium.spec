@@ -8,7 +8,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	44.0.2403.125
+Version:	44.0.2403.130
 Release:	1%{?dist}
 Epoch:		1
 
@@ -45,9 +45,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 # archlinux arm enhancement patches
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
-
-Patch200:	fix_building_widevinecdm_with_chromium.patch
-Patch201:	widevine-other-locations.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -215,19 +212,11 @@ members of the Chromium and WebDriver teams.
 %patch100 -p0
 %patch101 -p0
 
-%patch200 -p1
-%patch201 -p1
+### build with widevine support
 
-# build with widevine support
-WIDEVINE_VERSION=$(rpm -q chromium-widevinecdm-plugin --qf %%{version})
-
-sed -i "s/@WIDEVINE_VERSION@/$WIDEVINE_VERSION/g" third_party/widevine/cdm/widevine_cdm_version.h
-
-WIDEVINE_SUPPORTED_ARCHS="x64 ia32"
-for arch in $WIDEVINE_SUPPORTED_ARCHS; do
-    mkdir -p third_party/widevine/cdm/linux/$arch
-    cp %{_libdir}/chromium/libwidevinecdm.so third_party/widevine/cdm/widevine_cdm_*.h third_party/widevine/cdm/linux/$arch/
-done
+# Patch from crbug (chromium bugtracker)
+# fix the missing define (if not, fail build) (need upstream fix) (https://crbug.com/473866)
+sed '14i#define WIDEVINE_CDM_VERSION_STRING "Something fresh"' -i "third_party/widevine/cdm/stub/widevine_cdm_version.h"
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_posix.cc
@@ -262,6 +251,7 @@ buildconfig+="-Dwerror=
 		-Ddisable_newlib_untar=0
 		-Duse_system_xdg_utils=1
 		-Denable_hotwording=0
+		-Denable_widevine=1
 		-Duse_aura=1"
 
 
@@ -349,11 +339,7 @@ export GYP_GENERATORS='ninja'
 
 mkdir -p out/Release
 
-ninja-build -C out/Release chrome
-# Build the required SUID_SANDBOX helper
-ninja-build -C out/Release chrome_sandbox
-# Build the ChromeDriver test suite
-ninja-build -C out/Release chromedriver
+ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm
 
 %install
 mkdir -p %{buildroot}%{_bindir}
@@ -463,6 +449,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-1.R
+- update to 44.0.2403.130
+
 * Wed Jul 29 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.125-1.R
 - update to 44.0.2403.125
 - drop nonfree widevinecdm require
