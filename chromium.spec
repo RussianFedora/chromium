@@ -9,7 +9,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	44.0.2403.130
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -152,8 +152,6 @@ BuildRequires:  wdiff
 BuildRequires:  x264-devel
 BuildRequires:  xvidcore-devel
 %endif
-
-BuildRequires:	chromium-widevinecdm-plugin
 
 %if 0%{?clang}
 BuildRequires:	clang
@@ -449,6 +447,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-2.R
+- drop BR: chromium-widevinecdm-plugin
+
 * Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-1.R
 - update to 44.0.2403.130
 
