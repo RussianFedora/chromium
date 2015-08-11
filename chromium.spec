@@ -449,6 +449,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-2.R
 - drop BR: chromium-widevinecdm-plugin
+- change homepage to http://start.fedoraproject.org
 
 * Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-1.R
 - update to 44.0.2403.130
