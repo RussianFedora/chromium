@@ -8,8 +8,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	44.0.2403.130
-Release:	2%{?dist}
+Version:	44.0.2403.155
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -448,6 +448,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Aug 12 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.155-1.R
+- update to 44.0.2403.155
+
 * Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-2.R
 - drop BR: chromium-widevinecdm-plugin
 - change homepage to http://start.fedoraproject.org
