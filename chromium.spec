@@ -46,6 +46,9 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+https://boringssl.googlesource.com/boringssl/+/241364c6f4d44165ce2dc707b9ad141dcc880d1b%5E%21/
+Patch120:	chromium-45.0.2454.85-Demand-for-newer-POSIX-macro.patch
+
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -209,6 +212,9 @@ members of the Chromium and WebDriver teams.
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
+
+#https://boringssl.googlesource.com/boringssl/+/241364c6f4d44165ce2dc707b9ad141dcc880d1b%5E%21/
+%patch120 -p1
 
 ### build with widevine support
 
