@@ -8,7 +8,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	45.0.2454.85
+Version:	45.0.2454.93
 Release:	1%{?dist}
 Epoch:		1
 
@@ -326,9 +326,7 @@ export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 # Modern Clang produces a *lot* of warnings 
 export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option -Wno-unused-local-typedef -Wunknown-attributes -Wno-tautological-undefined-compare"
-export GYP_DEFINES="clang=1 enable_hidpi=1 enable_touch_ui=1 enable_hotwording=0"
-%else
-export GYP_DEFINES="enable_hidpi=1 enable_touch_ui=1 enable_hotwording=0"
+export GYP_DEFINES="clang=1"
 %endif
 
 build/linux/unbundle/replace_gyp_files.py $buildconfig
@@ -448,6 +446,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Sep 19 2015 Arkady L. Shane <ashejn@russianfedora.pro> 45.0.2454.93-1.R
+- update to 45.0.2454.93
+
 * Wed Sep  2 2015 Arkady L. Shane <ashejn@russianfedora.pro> 45.0.2454.85-1.R
 - update to 45.0.2454.85
 
