@@ -46,8 +46,8 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
-#https://boringssl.googlesource.com/boringssl/+/241364c6f4d44165ce2dc707b9ad141dcc880d1b%5E%21/
-Patch120:	chromium-45.0.2454.85-Demand-for-newer-POSIX-macro.patch
+# fix https://code.google.com/p/chromium/issues/detail?id=529564
+Patch121:	chromium-46.0.2490.71-DragEvent.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -213,8 +213,9 @@ members of the Chromium and WebDriver teams.
 %patch100 -p0
 %patch101 -p0
 
-#https://boringssl.googlesource.com/boringssl/+/241364c6f4d44165ce2dc707b9ad141dcc880d1b%5E%21/
-#%patch120 -p1
+%if 0%{?fedora} >= 22
+%patch121 -p1
+%endif
 
 ### build with widevine support
 
