@@ -236,6 +236,10 @@ sed -i "s#/lib64/#/lib/#g" %{SOURCE20}
 %endif
 
 %build
+# https://groups.google.com/a/chromium.org/forum/#!topic/chromium-packagers/9JX1N2nf4PU
+touch chrome/test/data/webui/i18n_process_css_test.html
+touch chrome/test/data/webui_test_resources.grd
+
 buildconfig+="-Dwerror=
 		-Dlinux_sandbox_chrome_path=%{_libdir}/%{name}/chrome
                 -Duse_openssl=0
