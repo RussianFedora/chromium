@@ -214,7 +214,7 @@ members of the Chromium and WebDriver teams.
 %patch101 -p0
 
 #https://boringssl.googlesource.com/boringssl/+/241364c6f4d44165ce2dc707b9ad141dcc880d1b%5E%21/
-%patch120 -p1
+#%patch120 -p1
 
 ### build with widevine support
 
