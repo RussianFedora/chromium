@@ -223,7 +223,7 @@ members of the Chromium and WebDriver teams.
 sed '14i#define WIDEVINE_CDM_VERSION_STRING "Something fresh"' -i "third_party/widevine/cdm/stub/widevine_cdm_version.h"
 
 # Hard code extra version
-FILE=chrome/common/chrome_version_info_posix.cc
+FILE=chrome/common/channel_info_posix.cc
 sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"Russian Fedora"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
