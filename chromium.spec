@@ -8,7 +8,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	45.0.2454.99
+Version:	46.0.2490.71
 Release:	1%{?dist}
 Epoch:		1
 
@@ -452,6 +452,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Oct 21 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.71-1.R
+- update to 46.0.2490.71
+
 * Thu Sep 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 45.0.2454.99-1.R
 - update to 45.0.2454.99
 - use gcc for Fedora 23 and later as chromium does bot build with new llvm
