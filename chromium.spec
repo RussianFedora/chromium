@@ -1,3 +1,4 @@
+%global _missing_build_ids_terminate_build 0
 %define chromium_system_libs 0
 
 %if 0%{?fedora} >= 23
