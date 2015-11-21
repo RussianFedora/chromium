@@ -109,7 +109,7 @@ BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libudev)
 BuildRequires:  pkgconfig(nspr) >= 4.9.5
-#BuildRequires:  pkgconfig(nss) >= 3.14
+BuildRequires:  pkgconfig(nss) >= 3.14
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(xcursor)
