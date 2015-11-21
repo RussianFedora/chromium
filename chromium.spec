@@ -14,7 +14,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	46.0.2490.86
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -109,7 +109,7 @@ BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libudev)
 BuildRequires:  pkgconfig(nspr) >= 4.9.5
-BuildRequires:  pkgconfig(nss) >= 3.14
+#BuildRequires:  pkgconfig(nss) >= 3.14
 BuildRequires:  pkgconfig(x11)
 BuildRequires:  pkgconfig(xcomposite)
 BuildRequires:  pkgconfig(xcursor)
@@ -279,6 +279,7 @@ buildconfig+=" -Dclang=0"
 
 %if 0%{?chromium_system_libs}
 buildconfig+=" -Duse_system_icu=1
+		-Duse_system_nss=1
 		-Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_libexif=1
@@ -297,6 +298,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
+		-Duse_system_nss=0
 		-Duse_system_flac=0
                 -Duse_system_speex=0
                 -Duse_system_libexif=0
@@ -462,6 +464,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Nov 21 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.86-2.R
+- rebuilt with internal nss
+
 * Wed Nov 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.86-1.R
 - update to 46.0.2490.86
 
