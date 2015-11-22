@@ -14,7 +14,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	46.0.2490.86
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
