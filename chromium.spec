@@ -5,7 +5,7 @@
 
 %define chromium_system_libs 0
 
-%if 0%{?fedora} >= 23
+%if 0%{?fedora} >= 24
 %define clang 0
 %else
 %define clang 1
