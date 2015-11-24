@@ -203,7 +203,7 @@ members of the Chromium and WebDriver teams.
 
 
 %prep
-%setup -q -a 998 -a 997
+%setup -n chromium-%{version} -q -a 998 -a 997
 %patch0 -p1 -b .master-prefs
 
 # openSUSE patches
