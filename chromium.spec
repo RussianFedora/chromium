@@ -12,8 +12,8 @@
 %endif
 
 Summary:	A fast webkit-based web browser
-Name:		chromium
-Version:	46.0.2490.86
+Name:		chromium-testing
+Version:	47.0.2526.69
 Release:	1%{?dist}
 Epoch:		1
 
@@ -21,7 +21,7 @@ Group:		Applications/Internet
 License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
-Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
+Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-%{version}.tar.xz
 
 Source10:	chromium-wrapper
 Source20:	chromium-browser.desktop
@@ -32,8 +32,7 @@ Source32:	chromium.default
 Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
 
-Provides:	chromium-stable
-Conflicts:	chromium-testing
+Conflicts:	chromium-stable
 Conflicts:	chromium-unstable
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
@@ -176,7 +175,7 @@ ExclusiveArch: i686 x86_64 armv7l
 Chromium is a browser that combines a minimal design with sophisticated
 technology to make the web faster, safer, and easier.
 
-This is the stable channel Chromium browser. It offers a rock solid
+This is the testing channel Chromium browser. It offers a rock solid
 browser which is updated with features and fixes once they have been
 thoroughly tested. If you want the latest features, install the
 chromium-browser-unstable package instead.
@@ -188,12 +187,11 @@ See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
 
 
-%package -n chromedriver
+%package -n chromedriver-testing
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Provides:	chromedriver-stable
-Conflicts:	chromedriver-testing
+Conflicts:	chromedriver-stable
 Conflicts:	chromedriver-unstable
 
 %description -n chromedriver
@@ -247,7 +245,7 @@ touch chrome/test/data/webui/i18n_process_css_test.html
 touch chrome/test/data/webui_test_resources.grd
 
 buildconfig+="-Dwerror=
-		-Dlinux_sandbox_chrome_path=%{_libdir}/%{name}/chrome
+		-Dlinux_sandbox_chrome_path=%{_libdir}/chromium/chrome
                 -Duse_openssl=0
                 -Duse_system_ffmpeg=0
                 -Dbuild_ffmpegsumo=1
@@ -356,44 +354,44 @@ ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-mkdir -p %{buildroot}%{_libdir}/%{name}/locales
-mkdir -p %{buildroot}%{_libdir}/%{name}/themes
-mkdir -p %{buildroot}%{_libdir}/%{name}/default_apps
+mkdir -p %{buildroot}%{_libdir}/chromium/locales
+mkdir -p %{buildroot}%{_libdir}/chromium/themes
+mkdir -p %{buildroot}%{_libdir}/chromium/default_apps
 mkdir -p %{buildroot}%{_mandir}/man1
-install -m 755 %{SOURCE10} %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/chrome %{buildroot}%{_libdir}/%{name}/
-install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome-sandbox
-cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
-install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
-install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
-cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
+install -m 755 %{SOURCE10} %{buildroot}%{_libdir}/chromium/
+install -m 755 out/Release/chrome %{buildroot}%{_libdir}/chromium/
+install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/chromium/chrome-sandbox
+cp -a out/Release/chromedriver %{buildroot}%{_libdir}/chromium/chromedriver
+install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/chromium.1
+install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/chromium/
+install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/chromium/
+cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/chromium/
 
 # chromium components
-mkdir -p %{buildroot}%{_libdir}/%{name}/lib/
-cp -av out/Release/lib/*.so %{buildroot}%{_libdir}/%{name}/lib/
+mkdir -p %{buildroot}%{_libdir}/chromium/lib/
+cp -av out/Release/lib/*.so %{buildroot}%{_libdir}/chromium/lib/
 
-install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
-install -m 644 out/Release/chrome_*_percent.pak %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
-install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
+install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/chromium/locales/
+install -m 644 out/Release/chrome_*_percent.pak %{buildroot}%{_libdir}/chromium/
+install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/chromium/
+install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/chromium/
+install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/chromium/default_apps/
 
 # install wrapper
-ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
-sed -i "s!@LIBDIR@!%{_libdir}!g" %{buildroot}%{_libdir}/%{name}/chromium-wrapper
+ln -s %{_libdir}/chromium/chromium-wrapper %{buildroot}%{_bindir}/chromium
+sed -i "s!@LIBDIR@!%{_libdir}!g" %{buildroot}%{_libdir}/chromium/chromium-wrapper
 
-ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver
+ln -s %{_libdir}/chromium/chromedriver %{buildroot}%{_bindir}/chromedriver
 
 # create global config file
 mkdir -p %{buildroot}%{_sysconfdir}/default
-install -m644 %{SOURCE32} %{buildroot}%{_sysconfdir}/default/%{name}
+install -m644 %{SOURCE32} %{buildroot}%{_sysconfdir}/default/chromium
 
 # create pepper dir. talkplugin works fine only if sylinks in pepper
-mkdir -p %{buildroot}%{_libdir}/%{name}/pepper
+mkdir -p %{buildroot}%{_libdir}/chromium/pepper
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
-cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
+cp -r out/Release/resources %{buildroot}%{_libdir}/chromium
 
 # desktop file
 mkdir -p %{buildroot}%{_datadir}/applications
@@ -403,13 +401,13 @@ install -m 644 %{SOURCE20} %{buildroot}%{_datadir}/applications/
 for i in 22 24 48 64 128 256; do
 	mkdir -p %{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps
 	install -m 644 chrome/app/theme/chromium/product_logo_$i.png \
-		%{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps/%{name}.png
+		%{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps/chromium.png
 done
 
 # Install the master_preferences file
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}
-install -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/%{name}/
-install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
+mkdir -p %{buildroot}%{_sysconfdir}/chromium
+install -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/chromium/
+install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/chromium/
 
 
 %post
@@ -431,37 +429,40 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %files
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
-%config %{_sysconfdir}/%{name}
-%config %{_sysconfdir}/default/%{name}
-%{_bindir}/%{name}
-%{_libdir}/%{name}/chromium-wrapper
-%{_libdir}/%{name}/chrome
-%{_libdir}/%{name}/chrome-sandbox
-%{_libdir}/%{name}/lib
-%{_libdir}/%{name}/locales
-%{_libdir}/%{name}/chrome_*_percent.pak
-%{_libdir}/%{name}/content_resources.pak
-%{_libdir}/%{name}/keyboard_resources.pak
-%{_libdir}/%{name}/resources.pak
-%{_libdir}/%{name}/icudtl.dat
-%{_libdir}/%{name}/*_blob.bin
-%{_libdir}/%{name}/resources
-%{_libdir}/%{name}/themes
-%{_libdir}/%{name}/default_apps
-%dir %{_libdir}/%{name}/pepper
-%{_mandir}/man1/%{name}*
+%config %{_sysconfdir}/chromium
+%config %{_sysconfdir}/default/chromium
+%{_bindir}/chromium
+%{_libdir}/chromium/chromium-wrapper
+%{_libdir}/chromium/chrome
+%{_libdir}/chromium/chrome-sandbox
+%{_libdir}/chromium/lib
+%{_libdir}/chromium/locales
+%{_libdir}/chromium/chrome_*_percent.pak
+%{_libdir}/chromium/content_resources.pak
+%{_libdir}/chromium/keyboard_resources.pak
+%{_libdir}/chromium/resources.pak
+%{_libdir}/chromium/icudtl.dat
+%{_libdir}/chromium/*_blob.bin
+%{_libdir}/chromium/resources
+%{_libdir}/chromium/themes
+%{_libdir}/chromium/default_apps
+%dir %{_libdir}/chromium/pepper
+%{_mandir}/man1/chromium*
 %{_datadir}/applications/*.desktop
-%{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/icons/hicolor/*/apps/chromium.png
 
 
 %files -n chromedriver
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
-%{_bindir}/chromedriver
-%{_libdir}/%{name}/chromedriver
+%{_bindir}/chromedriver-testing
+%{_libdir}/chromium/chromedriver
 
 
 %changelog
+* Tue Nov 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.69-1.R
+- change channel to testing
+
 * Wed Nov 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.86-1.R
 - update to 46.0.2490.86
 
