@@ -185,6 +185,6 @@ Exec=chromium %u
 Icon=chromium
 Terminal=false
 Type=Application
-StartupWMClass=Chromium
+StartupWMClass=chromium-browser
 MimeType=application/x-extension-htm;application/x-extension-html;application/x-extension-shtml;application/x-extension-xht;application/x-extension-xhtml;application/xhtml+xml;text/html;x-scheme-handler/chrome;x-scheme-handler/ftp;x-scheme-handler/http;x-scheme-handler/https;
 Categories=GTK;Network;WebBrowser;X-MandrivaLinux-Internet-WebBrowsers;X-MandrivaLinux-CrossDesktop;

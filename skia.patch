@@ -1,0 +1,10 @@
+--- skia/skia_library_opts.gyp.orig	2014-04-10 07:06:03.181637221 -0600
++++ skia/skia_library_opts.gyp	2014-04-10 07:06:55.256436603 -0600
+@@ -113,6 +113,7 @@
+             '../third_party/skia/src/opts/SkTextureCompression_opts_arm.cpp',
+             '../third_party/skia/src/opts/SkUtils_opts_arm.cpp',
+             '../third_party/skia/src/opts/SkXfermode_opts_none.cpp',
++            '../third_party/skia/src/opts/memset.arm.S',
+           ],
+         }],
+         [ 'target_arch == "mipsel" or target_arch == "mips64el"',{
