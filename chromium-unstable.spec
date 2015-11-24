@@ -12,8 +12,8 @@
 %endif
 
 Summary:	A fast webkit-based web browser
-Name:		chromium-testing
-Version:	47.0.2526.69
+Name:		chromium-unstable
+Version:	48.0.2564.10
 Release:	1%{?dist}
 Epoch:		1
 
@@ -33,7 +33,7 @@ Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
 
 Conflicts:	chromium-stable
-Conflicts:	chromium-unstable
+Conflicts:	chromium-testing
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
@@ -172,7 +172,7 @@ ExclusiveArch: i686 x86_64 armv7l
 Chromium is a browser that combines a minimal design with sophisticated
 technology to make the web faster, safer, and easier.
 
-This is the testing channel Chromium browser. It offers a rock solid
+This is the unstable channel Chromium browser. It offers a rock solid
 browser which is updated with features and fixes once they have been
 thoroughly tested. If you want the latest features, install the
 chromium-browser-unstable package instead.
@@ -184,14 +184,14 @@ See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
 
 
-%package -n chromedriver-testing
+%package -n chromedriver-unstable
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
 Conflicts:	chromedriver-stable
-Conflicts:	chromedriver-unstable
+Conflicts:	chromedriver-testing
 
-%description -n chromedriver-testing
+%description -n chromedriver-unstable
 WebDriver is an open source tool for automated testing of webapps across many
 browsers. It provides capabilities for navigating to web pages, user input,
 JavaScript execution, and more. ChromeDriver is a standalone server which
@@ -445,16 +445,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/icons/hicolor/*/apps/chromium.png
 
 
-%files -n chromedriver-testing
+%files -n chromedriver-unstable
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
-%{_bindir}/chromedriver-testing
+%{_bindir}/chromedriver-unstable
 %{_libdir}/chromium/chromedriver
 
 
 %changelog
-* Tue Nov 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.69-1.R
-- change channel to testing
+* Tue Nov 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.10-1.R
+- change channel to unstable
 
 * Wed Nov 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.86-1.R
 - update to 46.0.2490.86
