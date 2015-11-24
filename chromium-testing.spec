@@ -50,9 +50,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
-# fix https://code.google.com/p/chromium/issues/detail?id=529564
-Patch121:	chromium-46.0.2490.71-DragEvent.patch
-
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -215,10 +212,6 @@ members of the Chromium and WebDriver teams.
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
-
-%if 0%{?fedora} >= 22
-%patch121 -p1
-%endif
 
 ### build with widevine support
 
