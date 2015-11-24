@@ -447,7 +447,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %files -n chromedriver-testing
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
-%{_bindir}/chromedriver-testing
+%{_bindir}/chromedriver
 %{_libdir}/chromium/chromedriver
 
 
