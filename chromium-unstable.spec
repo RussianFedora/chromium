@@ -447,7 +447,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %files -n chromedriver-unstable
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
-%{_bindir}/chromedriver-unstable
+%{_bindir}/chromedriver
 %{_libdir}/chromium/chromedriver
 
 
