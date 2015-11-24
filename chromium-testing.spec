@@ -194,7 +194,7 @@ Requires:	%{name} = %{epoch}:%{version}-%{release}
 Conflicts:	chromedriver-stable
 Conflicts:	chromedriver-unstable
 
-%description -n chromedriver
+%description -n chromedriver-testing
 WebDriver is an open source tool for automated testing of webapps across many
 browsers. It provides capabilities for navigating to web pages, user input,
 JavaScript execution, and more. ChromeDriver is a standalone server which
