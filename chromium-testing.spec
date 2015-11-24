@@ -239,7 +239,6 @@ touch chrome/test/data/webui_test_resources.grd
 
 buildconfig+="-Dwerror=
 		-Dlinux_sandbox_chrome_path=%{_libdir}/chromium/chrome
-                -Duse_openssl=0
                 -Duse_system_ffmpeg=0
                 -Dbuild_ffmpegsumo=1
                 -Dproprietary_codecs=1
