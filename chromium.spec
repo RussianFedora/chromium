@@ -5,10 +5,10 @@
 
 %define chromium_system_libs 0
 
-%if 0%{?fedora} >= 24
-%define clang 0
-%else
+%if 0%{?fedora} >= 22
 %define clang 1
+%else
+%define clang 0
 %endif
 
 Summary:	A fast webkit-based web browser
