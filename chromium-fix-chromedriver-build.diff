@@ -1,0 +1,13 @@
+--- chrome/test/chromedriver/embed_version_in_cpp.py	2013-09-25 03:49:53.000000000 +0200
++++ chrome/test/chromedriver/embed_version_in_cpp.py	2013-09-25 03:49:53.000000000 +0200
+@@ -25,9 +25,8 @@
+   options, args = parser.parse_args()
+ 
+   version = open(options.version_file, 'r').read().strip()
+-  revision = lastchange.FetchVersionInfo(None).revision.strip()
+   global_string_map = {
+-      'kChromeDriverVersion': version + '.' + revision
++      'kChromeDriverVersion': version
+   }
+   cpp_source.WriteSource('version',
+                          'chrome/test/chromedriver',

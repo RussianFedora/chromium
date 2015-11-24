@@ -1,107 +1,174 @@
-%define revision 209858
+%if %{defined rhel}
+%global _missing_build_ids_terminate_build 0
+%global debug_package %{nil}
+%endif
+
+%define chromium_system_libs 0
+
+%if 0%{?fedora} >= 23
+%define clang 0
+%else
+%define clang 1
+%endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	28.0.1500.71
-Release:	1.1%{?dist}
+Version:	46.0.2490.86
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
 License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
-Source0:	http://download.rfremix.ru/storage/chromium/%{version}/%{name}-%{version}.tar.xz
-Source1:	chromium-wrapper
-Source2:	chromium-browser.desktop
+Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
+
+Source10:	chromium-wrapper
+Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
+Source32:	chromium.default
 
-Patch0:		chromium-27.0.1453.93-master-prefs-path.patch
-# fix http://code.google.com/p/chromium/issues/detail?id=136023
-Patch3:		chromium-20.0.1132.47-glibc216.patch
+Source997:	depot_tools.tar.xz
+Source998:	gn-binaries.tar.xz
 
-# PATCH-FIX-OPENSUSE patches in system glew library
-Patch13:	chromium-25.0.1364.172-system-glew.patch
+Provides:	chromium-stable
+Conflicts:	chromium-testing
+Conflicts:	chromium-unstable
+
+Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
+
+# PATCH-FIX-UPSTREAM Add more charset aliases
+Patch6:         chromium-more-codec-aliases.patch
+# PATCH-FIX-OPENSUSE Adjust ldflags for better building
+Patch8:         adjust-ldflags-no-keep-memory.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
-# PATCH-FIX-OPENSUSE Be compliant with the latest NSS development kit in 13.1
-Patch16:        chromium-nss-compliant.diff
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+# archlinux arm enhancement patches
+Patch100:       arm-webrtc-fix.patch
+Patch101:       chromium-arm-r0.patch
 
-BuildRequires:	alsa-lib-devel
-BuildRequires:	atk-devel
-BuildRequires:	bison
-BuildRequires:	bzip2-devel
-BuildRequires:	cups-devel
-BuildRequires:	dbus-glib-devel
-BuildRequires:	elfutils-devel
-BuildRequires:	expat-devel
-BuildRequires:	flac-devel
-BuildRequires:	flex
-BuildRequires:	glib2-devel
-BuildRequires:	gperf
-BuildRequires:	gtk2-devel
-BuildRequires:	libXScrnSaver-devel
-BuildRequires:	libXt-devel
-BuildRequires:	libXtst-devel
-BuildRequires:	libevent-devel
-BuildRequires:	libjpeg-turbo-devel
-#BuildRequires:	libpng-devel
-BuildRequires:	libudev-devel
-BuildRequires:	libvpx-devel
-BuildRequires:	libxml2-devel
-BuildRequires:	libxslt-devel
-BuildRequires:	mesa-libGL-devel
-BuildRequires:	mesa-libGLU-devel
-BuildRequires:	nspr-devel
-BuildRequires:	nss-devel
-BuildRequires:	openssl-devel
-BuildRequires:	perl(Switch)
-BuildRequires:	perl(Digest::MD5)
-%if 0%{?fedora} >= 19
-BuildRequires:	perl-Text-ParseWords
+# fix https://code.google.com/p/chromium/issues/detail?id=529564
+Patch121:	chromium-46.0.2490.71-DragEvent.patch
+
+BuildRequires:  SDL-devel
+BuildRequires:  alsa-lib-devel
+BuildRequires:  bison
+BuildRequires:  bzip2-devel
+BuildRequires:  cups-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  dirac-devel >= 1.0.0
+BuildRequires:  elfutils-libelf-devel
+BuildRequires:  elfutils-devel
+BuildRequires:  expat-devel
+BuildRequires:  fdupes
+BuildRequires:  flac-devel
+BuildRequires:  flex
+BuildRequires:  freetype-devel
+BuildRequires:  gperf
+BuildRequires:  gsm
+BuildRequires:  gsm-devel
+BuildRequires:  gstreamer1-devel
+BuildRequires:  gstreamer1-plugins-base-devel
+BuildRequires:  gyp
+BuildRequires:  hicolor-icon-theme
+BuildRequires:  hunspell-devel
+BuildRequires:  imlib2-devel
+BuildRequires:  jack-audio-connection-kit-devel
+BuildRequires:  krb5-devel
+BuildRequires:  libcap-devel
+BuildRequires:  libdc1394
+BuildRequires:  libdc1394-devel
+BuildRequires:  libdrm-devel
+BuildRequires:  libdrm-devel
+BuildRequires:  libgcrypt-devel
+BuildRequires:  libgnome-keyring-devel
+BuildRequires:  libogg-devel
+BuildRequires:  liboil-devel >= 0.3.15
+BuildRequires:  libtheora-devel >= 1.1
+BuildRequires:  libusbx-devel
+BuildRequires:  libvdpau-devel
+BuildRequires:  libvorbis-devel
+BuildRequires:  libvpx-devel
+BuildRequires:  ncurses-devel
+BuildRequires:  ninja-build
+BuildRequires:  pam-devel
+BuildRequires:  pciutils-devel
+BuildRequires:  perl(Switch)
+BuildRequires:  pkgconfig
+BuildRequires:  pkgconfig(cairo) >= 1.6
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(gconf-2.0)
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(gtk+-2.0)
+BuildRequires:  pkgconfig(libcrypto)
+BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libudev)
+BuildRequires:  pkgconfig(nspr) >= 4.9.5
+BuildRequires:  pkgconfig(nss) >= 3.14
+BuildRequires:  pkgconfig(x11)
+BuildRequires:  pkgconfig(xcomposite)
+BuildRequires:  pkgconfig(xcursor)
+BuildRequires:  pkgconfig(xdamage)
+BuildRequires:  pkgconfig(xext)
+BuildRequires:  pkgconfig(xfixes)
+BuildRequires:  pkgconfig(xi)
+BuildRequires:  pkgconfig(xrandr)
+BuildRequires:  pkgconfig(xrender)
+BuildRequires:  pkgconfig(xscrnsaver)
+BuildRequires:  pkgconfig(xt)
+BuildRequires:  pkgconfig(xtst)
+BuildRequires:  pulseaudio-libs-devel
+BuildRequires:  python
+BuildRequires:  python-devel
+BuildRequires:  schroedinger-devel
+BuildRequires:  slang-devel
+BuildRequires:  speech-dispatcher-devel
+BuildRequires:  sqlite-devel
+BuildRequires:  texinfo
+BuildRequires:  util-linux
+BuildRequires:  valgrind-devel
+
+%if 0%{?chromium_system_libs}
+BuildRequires:  libicu-devel >= 4.0
+BuildRequires:  libjpeg-turbo-devel
+BuildRequires:  perl-JSON
+BuildRequires:  usbutils
+BuildRequires:  yasm
+BuildRequires:  pkgconfig(libevent)
+BuildRequires:  pkgconfig(libmtp)
+BuildRequires:  pkgconfig(libpng)
+BuildRequires:  pkgconfig(libusb-1.0)
+BuildRequires:  pkgconfig(libxslt)
+BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(opus)
+BuildRequires:  pkgconfig(protobuf)
+BuildRequires:  pkgconfig(speex)
 %endif
-BuildRequires:	pulseaudio-libs-devel
-BuildRequires:	speex-devel
-BuildRequires:	subversion
-BuildRequires:	zlib-devel
-%if 0%{?fedora} < 18
-BuildRequires:	libusb-devel
-BuildRequires:	gstreamer-plugins-base-devel gstreamer-devel
-%else
-BuildRequires:	libusbx-devel
-BuildRequires:	gstreamer1-plugins-base-devel gstreamer1-devel
-%endif
-BuildRequires:	libexif-devel
-BuildRequires:	speech-dispatcher-devel
-BuildRequires:	gpsd-devel
-BuildRequires:	libsrtp-devel
-BuildRequires:	libmtp-devel
-BuildRequires:	libwebp-devel
-BuildRequires:	libicu-devel
-BuildRequires:	minizip-devel
-BuildRequires:	yasm-devel
-BuildRequires:	pciutils-devel
 
-%if 0%{?fedora} >= 17 || 0%{?rhel} >= 7
-BuildRequires:	libgnome-keyring-devel
-%else
-BuildRequires:	gnome-keyring-devel
+%if ! %{defined rhel}
+%if 0%{?fedora} < 22
+BuildRequires:  faac-devel >= 1.28
+%endif
+BuildRequires:  lame-devel
+BuildRequires:  opencore-amr-devel
+BuildRequires:  wdiff
+BuildRequires:  x264-devel
+BuildRequires:  xvidcore-devel
 %endif
 
-# NaCl needs these
-%ifarch x86_64
-BuildRequires:	/lib/libc.so.6
-BuildRequires:	/lib/libz.so.1
-BuildRequires:	/lib/libgcc_s.so.1
+%if 0%{?clang}
+BuildRequires:	clang
 %endif
 
 Requires:	hicolor-icon-theme
 
 Obsoletes:	chromium-ffmpeg
+Obsoletes:	chromium-pdf-plugin < 17.0.0.169
 
 ExclusiveArch: i686 x86_64 armv7l
 
@@ -125,7 +192,9 @@ your profile before changing channels.
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-
+Provides:	chromedriver-stable
+Conflicts:	chromedriver-testing
+Conflicts:	chromedriver-unstable
 
 %description -n chromedriver
 WebDriver is an open source tool for automated testing of webapps across many
@@ -136,131 +205,199 @@ members of the Chromium and WebDriver teams.
 
 
 %prep
-%setup -q
+%setup -q -a 998 -a 997
 %patch0 -p1 -b .master-prefs
-#%if 0%{?fedora} >= 18
-#%patch3 -p1 -b .glibc216
-#%endif
 
 # openSUSE patches
-%patch13 -p1
-%patch14 -p1
+%patch6 -p0
+%patch8 -p1
+#patch14 -p1
 %patch15 -p1
-%patch16 -p1
 
-echo "%{revision}" > build/LASTCHANGE.in
+# archlinux arm enhancements
+%patch100 -p0
+%patch101 -p0
+
+%if 0%{?fedora} >= 22
+%patch121 -p1
+%endif
+
+### build with widevine support
+
+# Patch from crbug (chromium bugtracker)
+# fix the missing define (if not, fail build) (need upstream fix) (https://crbug.com/473866)
+sed '14i#define WIDEVINE_CDM_VERSION_STRING "Something fresh"' -i "third_party/widevine/cdm/stub/widevine_cdm_version.h"
 
 # Hard code extra version
-FILE=chrome/common/chrome_version_info_posix.cc
+FILE=chrome/common/channel_info_posix.cc
 sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"Russian Fedora"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
 %ifarch x86_64
-sed -i "s#/lib/#/lib64/#g" %{SOURCE2}
+sed -i "s#/lib/#/lib64/#g" %{SOURCE20}
 %endif
 
 %ifarch i686
-sed -i "s#/lib64/#/lib/#g" %{SOURCE2}
+sed -i "s#/lib64/#/lib/#g" %{SOURCE20}
 %endif
 
 %build
-export GYP_GENERATORS=make
-build/gyp_chromium --depth=. \
-	-D linux_sandbox_path=%{_libdir}/%{name}/chrome-sandbox \
-	-D linux_sandbox_chrome_path=%{_libdir}/%{name}/chrome \
-	-D linux_link_gnome_keyring=0 \
-	-D use_gconf=0 \
-	-D werror='' \
-	-D use_system_sqlite=0 \
-	-D use_system_libxml=0 \
-	-D use_system_zlib=0 \
-	-D use_system_bzip2=1 \
-	-D use_system_libbz2=1 \
-	-D use_system_libpng=0 \
-	-D use_system_libjpeg=1 \
-	-D use_system_libevent=1 \
-	-D use_system_flac=1 \
-	-D use_system_vpx=1 \
-	-D use_system_speex=1 \
-	-D use_system_libusb=1 \
-	-D use_system_libexif=1 \
-	-D use_system_libsrtp=1 \
-	-D use_system_libmtp=1 \
-	-D use_system_opus=0 \
-	-D use_system_libwebp=1 \
-	-D use_system_harfbuzz=0 \
-	-D use_system_minizip=1 \
-	-D use_system_yasm=1 \
-	-D use_system_xdg_utils=1 \
-	-D build_ffmpegsumo=1 \
-	-D use_system_ffmpeg=0 \
-	-D use_pulseaudio=1 \
-	-D use_system_v8=0 \
-	-D use_aura=1 \
-	-D linux_link_libpci=1 \
-	-D linux_link_gsettings=1 \
-	-D linux_link_libspeechd=1 \
-	-D linux_link_kerberos=1 \
-	-D linux_link_libgps=1 \
-        -Dgoogle_api_key='AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q' \
-	-Dgoogle_default_client_id='4139804441.apps.googleusercontent.com' \
-	-Dgoogle_default_client_secret='KDTRKEZk2jwT_7CDpcmMA--P' \
-%if %{defined rhel} && 0%{?rhel} < 7
-	-D v8_use_snapshot=false \
-%endif
-	-D use_system_icu=1 \
-%ifarch i686
-	-D disable_sse2=1 \
-	-D release_extra_cflags="-march=i686"
-%endif
-%ifarch armv7l
-	-D target_arch=arm \
-	-D linux_use_tcmalloc=0 \
-	-D disable_nacl=1 \
-	-D armv7=1 \
-	-D release_extra_cflags="-marm"
+# https://groups.google.com/a/chromium.org/forum/#!topic/chromium-packagers/9JX1N2nf4PU
+touch chrome/test/data/webui/i18n_process_css_test.html
+touch chrome/test/data/webui_test_resources.grd
+
+buildconfig+="-Dwerror=
+		-Dlinux_sandbox_chrome_path=%{_libdir}/%{name}/chrome
+                -Duse_openssl=0
+                -Duse_system_ffmpeg=0
+                -Dbuild_ffmpegsumo=1
+                -Dproprietary_codecs=1
+                -Dremove_webcore_debug_symbols=1
+                -Dlogging_like_official_build=1
+                -Dlinux_fpic=1
+                -Ddisable_sse2=1
+                -Dcomponent=shared_library
+                -Dtoolkit_uses_gtk=0
+                -Dffmpeg_branding=Chrome
+                -Ddisable_nacl=1
+		-Ddisable_glibc=0
+		-Ddisable_pnacl=1
+		-Ddisable_newlib_untar=0
+		-Duse_system_xdg_utils=1
+		-Denable_hotwording=0
+		-Denable_widevine=1
+		-Duse_aura=1
+		-Denable_hidpi=1
+		-Denable_touch_ui=1"
+
+%if 0%{?clang}
+buildconfig+=" -Dclang=1
+		-Dclang_use_chrome_plugins=0"
+%else
+buildconfig+=" -Dclang=0"
 %endif
 
-# Note: DON'T use system sqlite (3.7.3) -- it breaks history search
+%if 0%{?chromium_system_libs}
+buildconfig+=" -Duse_system_icu=1
+		-Duse_system_flac=1
+                -Duse_system_speex=1
+                -Duse_system_libexif=1
+                -Duse_system_libevent=1
+                -Duse_system_libmtp=1
+                -Duse_system_opus=1
+                -Duse_system_bzip2=1
+                -Duse_system_harfbuzz=1
+                -Duse_system_libjpeg=1
+                -Duse_system_libpng=1
+                -Duse_system_libxslt=1
+                -Duse_system_libxml=1
+                -Duse_system_libyuv=1
+                -Duse_system_nspr=1
+                -Duse_system_protobuf=1
+                -Duse_system_yasm=1"
+%else
+buildconfig+=" -Duse_system_icu=0
+		-Duse_system_flac=0
+                -Duse_system_speex=0
+                -Duse_system_libexif=0
+                -Duse_system_libevent=0
+                -Duse_system_libmtp=0
+                -Duse_system_opus=0
+                -Duse_system_bzip2=0
+                -Duse_system_harfbuzz=0
+                -Duse_system_libjpeg=0
+                -Duse_system_libpng=0
+                -Duse_system_libxslt=0
+                -Duse_system_libxml=0
+                -Duse_system_libyuv=0
+                -Duse_system_nspr=0
+                -Duse_system_protobuf=0
+                -Duse_system_yasm=0"
+%endif
 
-make %{_smp_mflags} chrome chrome_sandbox chromedriver BUILDTYPE=Release
+%ifarch x86_64
+buildconfig+=" -Dsystem_libdir=lib64
+		-Dtarget_arch=x64"
+%endif
+
+buildconfig+=" -Duse_pulseaudio=1
+                -Dlinux_link_libpci=1
+                -Dlinux_link_gnome_keyring=1
+                -Dlinux_link_gsettings=1
+                -Dlinux_link_libgps=1
+		-Dlinux_link_libspeechd=1
+                -Djavascript_engine=v8
+                -Dlinux_use_gold_binary=0
+                -Dlinux_use_gold_flags=0
+                -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
+                -Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
+                -Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
+
+%if 0%{?fedora} >= 20
+buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
+%endif
+
+%if 0%{?clang}
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
+# Modern Clang produces a *lot* of warnings 
+export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option -Wno-unused-local-typedef -Wunknown-attributes -Wno-tautological-undefined-compare"
+export GYP_DEFINES="clang=1"
+%endif
+
+build/linux/unbundle/replace_gyp_files.py $buildconfig
+
+export GYP_GENERATORS='ninja'
+./build/gyp_chromium build/all.gyp --depth=. $buildconfig
+
+mkdir -p out/Release
+
+ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_libdir}/%{name}/locales
 mkdir -p %{buildroot}%{_libdir}/%{name}/themes
 mkdir -p %{buildroot}%{_libdir}/%{name}/default_apps
 mkdir -p %{buildroot}%{_mandir}/man1
-install -m 755 %{SOURCE1} %{buildroot}%{_libdir}/%{name}/
+install -m 755 %{SOURCE10} %{buildroot}%{_libdir}/%{name}/
 install -m 755 out/Release/chrome %{buildroot}%{_libdir}/%{name}/
 install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome-sandbox
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
-install -m 644 out/Release/chrome.pak %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_libdir}/%{name}/
-%ifnarch armv7l
-install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/nacl_helper_bootstrap %{buildroot}%{_libdir}/%{name}/
-install -m 755 out/Release/nacl_helper %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_libdir}/%{name}/
-%endif
+install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
+cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
+
+# chromium components
+mkdir -p %{buildroot}%{_libdir}/%{name}/lib/
+cp -av out/Release/lib/*.so %{buildroot}%{_libdir}/%{name}/lib/
+
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_libdir}/%{name}/locales/
-#install -m 755 out/Release/xdg-mime %{buildroot}%{_libdir}/%{name}/
-#install -m 755 out/Release/xdg-settings %{buildroot}%{_libdir}/%{name}/
-install -m 644 out/Release/chrome_100_percent.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/chrome_*_percent.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/content_resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_libdir}/%{name}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_libdir}/%{name}/default_apps/
+
+# install wrapper
 ln -s %{_libdir}/%{name}/chromium-wrapper %{buildroot}%{_bindir}/%{name}
+sed -i "s!@LIBDIR@!%{_libdir}!g" %{buildroot}%{_libdir}/%{name}/chromium-wrapper
+
 ln -s %{_libdir}/%{name}/chromedriver %{buildroot}%{_bindir}/chromedriver
+
+# create global config file
+mkdir -p %{buildroot}%{_sysconfdir}/default
+install -m644 %{SOURCE32} %{buildroot}%{_sysconfdir}/default/%{name}
+
+# create pepper dir. talkplugin works fine only if sylinks in pepper
+mkdir -p %{buildroot}%{_libdir}/%{name}/pepper
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
 cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
 
 # desktop file
 mkdir -p %{buildroot}%{_datadir}/applications
-install -m 644 %{SOURCE2} %{buildroot}%{_datadir}/applications/
+install -m 644 %{SOURCE20} %{buildroot}%{_datadir}/applications/
 
 # icon
 for i in 22 24 48 64 128 256; do
@@ -274,13 +411,10 @@ mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 install -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/%{name}/
 install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
 
-%clean
-rm -rf %{buildroot}
 
 %post
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 update-desktop-database &> /dev/null || :
-
 
 %postun
 if [ $1 -eq 0 ] ; then
@@ -298,27 +432,23 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
 %config %{_sysconfdir}/%{name}
+%config %{_sysconfdir}/default/%{name}
 %{_bindir}/%{name}
 %{_libdir}/%{name}/chromium-wrapper
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
-%{_libdir}/%{name}/chrome.pak
-%{_libdir}/%{name}/libffmpegsumo.so
-%ifnarch armv7l
-%{_libdir}/%{name}/libppGoogleNaClPluginChrome.so
-%{_libdir}/%{name}/nacl_helper_bootstrap
-%{_libdir}/%{name}/nacl_helper
-%{_libdir}/%{name}/nacl_irt_*.nexe
-%endif
+%{_libdir}/%{name}/lib
 %{_libdir}/%{name}/locales
-%{_libdir}/%{name}/chrome_100_percent.pak
+%{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
+%{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/icudtl.dat
+%{_libdir}/%{name}/*_blob.bin
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
 %{_libdir}/%{name}/default_apps
-#%{_libdir}/%{name}/xdg-mime
-#%{_libdir}/%{name}/xdg-settings
+%dir %{_libdir}/%{name}/pepper
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -332,8 +462,227 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Tue Jul 16 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.71-1.1.R
-- build with use_aura
+* Wed Nov 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.86-1.R
+- update to 46.0.2490.86
+
+* Sun Oct 25 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.80-1.R
+- update to 46.0.2490.80
+
+* Wed Oct 21 2015 Arkady L. Shane <ashejn@russianfedora.pro> 46.0.2490.71-1.R
+- update to 46.0.2490.71
+
+* Thu Sep 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 45.0.2454.99-1.R
+- update to 45.0.2454.99
+- use gcc for Fedora 23 and later as chromium does bot build with new llvm
+
+* Sat Sep 19 2015 Arkady L. Shane <ashejn@russianfedora.pro> 45.0.2454.93-1.R
+- update to 45.0.2454.93
+
+* Wed Sep  2 2015 Arkady L. Shane <ashejn@russianfedora.pro> 45.0.2454.85-1.R
+- update to 45.0.2454.85
+
+* Wed Aug 12 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.155-1.R
+- update to 44.0.2403.155
+
+* Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-2.R
+- drop BR: chromium-widevinecdm-plugin
+- change homepage to http://start.fedoraproject.org
+- added -Denable_hidpi=1 and -Denable_touch_ui=1
+
+* Tue Aug 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.130-1.R
+- update to 44.0.2403.130
+
+* Wed Jul 29 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.125-1.R
+- update to 44.0.2403.125
+- drop nonfree widevinecdm require
+
+* Tue Jul 28 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.107-1.R
+- update to 44.0.2403.107
+
+* Wed Jul 22 2015 Arkady L. Shane <ashejn@russianfedora.pro> 44.0.2403.89-1.R
+- update to 44.0.2403.89
+
+* Wed Jul 15 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.134-1.R
+- update to 43.0.2357.134
+
+* Sat Jul 11 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.132-1.R
+- update to 43.0.2357.132
+
+* Fri Jul  3 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.130-1.R
+- update to 43.0.2357.130
+
+* Sun Jun 14 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.125-1.R
+- update to 43.0.2357.125
+
+* Mon May 25 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.85-1.R
+- update to 43.0.2357.85
+
+* Fri May 22 2015 Arkady L. Shane <ashejn@russianfedora.pro> 43.0.2357.65-1.R
+- update to 43.0.2357.65
+
+* Thu May 14 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.153-1.R
+- update to 42.0.2311.153
+
+* Thu Apr 30 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.135-1.R
+- update to 42.0.2311.135
+
+* Wed Apr 15 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.90-2.R
+- added O: chromium-pdf-plugin < 17.0.0.169
+
+* Wed Apr 15 2015 Arkady L. Shane <ashejn@russianfedora.pro> 42.0.2311.90-1.R
+- update to 42.0.2311.90
+
+* Fri Apr  3 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.118-1.R
+- update to 41.0.2272.118
+- fix CVE-2015-1233
+
+* Mon Mar 23 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.101-1.R
+- update to 41.0.2272.101
+
+* Thu Mar 12 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.89-1.R
+- update to 41.0.2272.89
+
+* Thu Mar 12 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.76-2.R
+- disable system xml
+
+* Thu Mar  5 2015 Arkady L. Shane <ashejn@russianfedora.pro> 41.0.2272.76-1.R
+- update to 41.0.2272.76
+
+* Thu Feb 26 2015 Arkady L. Shane <ashejn@russianfedora.pro> 40.0.2214.115-4.R
+- build with clang for fedora older then 20
+
+* Tue Feb 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 40.0.2214.115-3.R
+- write widevine plugin version into header
+
+* Mon Feb 23 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.115-2.R
+- support widevine
+
+* Sun Feb 22 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.115-1.R
+- update to 40.0.2214.115
+
+* Tue Feb 10 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.111-2.R
+- rebuilt with internal icu
+
+* Mon Feb  9 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.111-1.R
+- update to 40.0.2214.111
+
+* Mon Feb  9 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.94-1.R
+- update to 40.0.2214.94
+- update depends and build parameters
+- fix crash with google hangouts
+- fix webrtc calls (rf#1418)
+
+* Thu Jan 22 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 40.0.2214.91-1.R
+- update to 40.0.2214.91
+
+* Tue Jan 20 2015 Arkady L. Shane <arkady.shane@rosalab.ru> 39.0.2171.99-1.R
+- update to 39.0.2171.99
+
+* Mon Dec 29 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 39.0.2171.95-1.R
+- update to 39.0.2171.95
+
+* Mon Dec  1 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 39.0.2171.71-1.R
+- update to 39.0.2171.71
+
+* Wed Nov 19 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 39.0.2171.65-1.R
+- update to 39.0.2171.65
+- drop issue566583002 patch
+
+* Mon Nov 17 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 38.0.2125.122-1.R
+- update to 38.0.2125.122
+
+* Wed Oct 08 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 38.0.2125.101-1.R
+- update to 38.0.2125.101
+- drop gcc 4.9 patch
+
+* Tue Sep 16 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 37.0.2062.120-1.R
+- update to 37.0.2062.120
+- fix crash on 32bit gcc 4.9 builds
+  https://code.google.com/p/chromium/issues/detail?id=412967
+
+* Wed Aug 27 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 37.0.2062.94-1.R
+- update to 37.0.2062.94
+
+* Thu Aug 14 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 36.0.1985.143-1.R
+- update to 36.0.1985.143
+
+* Thu Jul 17 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 36.0.1985.125-1.R
+- update to 36.0.1985.125
+
+* Mon Jun 23 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 35.0.1916.153-2.R
+- build with internal xml, xslt
+
+* Wed Jun 11 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 35.0.1916.153-1.R
+- update to 35.0.1916.153
+
+* Wed May 21 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 35.0.1916.114-1.R
+- update to 35.0.1916.114
+
+* Fri May 16 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.137-1.R
+- update to 34.0.1847.137
+- enable fullscreen-within-tab by default
+
+* Fri Apr 25 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.132-1.R
+- update to 34.0.1847.132
+
+* Wed Apr 23 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-6.R
+- build with ninja
+- use new run wapper and default file
+
+* Tue Apr 22 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-5.R
+- rebuilt
+
+* Tue Apr 22 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-4.R
+- disable system protobuf. It crashes browser
+
+* Tue Apr 15 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-3.R
+- build with enabled aura
+
+* Thu Apr 10 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-2.R
+- install icudtl.dat to avoid segfault
+- clean up spec
+
+* Tue Apr  8 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 34.0.1847.116-1.R
+- update to 34.0.1847.116
+
+* Wed Mar  5 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.146-1.R
+- update to 32.0.1750.146
+
+* Mon Feb 24 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.117-1.R
+- update to 32.0.1750.117
+
+* Thu Feb 20 2014 Arkady L. Shane <arkady.shane@rosalab.ru> 33.0.1750.115-1.R
+- update to 32.0.1750.115
+
+* Wed Feb 19 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 32.0.1700.107-1.R
+- update to 32.0.1700.107
+
+* Wed Jan 29 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 32.0.1700.102-1.R
+- update to 32.0.1700.102
+
+* Wed Jan 15 2014 Arkady L. Shane <ashejn@russianfedora.ru> - 32.0.1700.76-1.R
+- update to 32.0.1700.76
+
+* Thu Dec  5 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 31.0.1650.63-1.R
+- update to 31.0.1650.63
+
+* Thu Nov 14 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 31.0.1650.48-1.R
+- update to 31.0.1650.48
+
+* Thu Oct 31 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 30.0.1599.114-1.R
+- update to 30.0.1599.114
+
+* Wed Sep  4 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 29.0.1547.65-1.R
+- update to 29.0.1547.65
+
+* Mon Sep  2 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 29.0.1547.62-1.R
+- update to 29.0.1547.62
+
+* Thu Aug 22 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 29.0.1547.57-1.R
+- update to 29.0.1547.57
+
+* Wed Jul 31 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.95-1.R
+- update to 28.0.1500.95
 
 * Wed Jul 10 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.71-1.R
 - update to 28.0.1500.71
@@ -344,7 +693,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Wed Jun 19 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 28.0.1500.45-1.R
 - update to 28.0.1500.45
 
-* Thu Jun  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.110-1.R
+* Sat Jun  8 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.110-1.R
 - update to 27.0.1453.110
 
 * Thu May 23 2013 Arkady L. Shane <ashejn@russianfedora.ru> - 27.0.1453.93-1.R
