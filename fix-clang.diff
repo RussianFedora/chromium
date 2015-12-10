@@ -1,0 +1,35 @@
+--- build/common.gypi	2014-11-20 12:53:54.000000000 +0100
++++ build/common.gypi	2014-11-20 12:53:54.000000000 +0100
+@@ -2320,8 +2320,8 @@
+       }],
+ 
+       ['host_clang==1', {
+-        'host_cc': '<(make_clang_dir)/bin/clang',
+-        'host_cxx': '<(make_clang_dir)/bin/clang++',
++        'host_cc': '<!(which clang)',
++        'host_cxx': '<!(which clang++)',
+       }, {
+         'host_cc': '<!(which gcc)',
+         'host_cxx': '<!(which g++)',
+@@ -4877,8 +4877,8 @@
+               ],
+               'conditions': [
+                 ['clang_xcode==0', {
+-                  'CC': '$(SOURCE_ROOT)/<(clang_dir)/clang',
+-                  'LDPLUSPLUS': '$(SOURCE_ROOT)/<(clang_dir)/clang++',
++                  'CC': '<!(which clang)',
++                  'LDPLUSPLUS': '<!(which clang++)',
+                 }],
+               ],
+             }],
+@@ -5719,8 +5719,8 @@
+     ['clang==1 and ((OS!="mac" and OS!="ios") or clang_xcode==0) '
+         'and OS!="win"', {
+       'make_global_settings': [
+-        ['CC', '<(make_clang_dir)/bin/clang'],
+-        ['CXX', '<(make_clang_dir)/bin/clang++'],
++        ['CC', '<!(which clang)'],
++        ['CXX', '<!(which clang++)'],
+         ['CC.host', '$(CC)'],
+         ['CXX.host', '$(CXX)'],
+       ],
