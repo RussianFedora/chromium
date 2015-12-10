@@ -462,7 +462,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu Dec 10 2015 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.80-1.R
 - update to 47.0.2526.80
-- fix build with clang
 
 * Wed Dec  2 2015 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.73-1.R
 - update to 47.0.2526.73
