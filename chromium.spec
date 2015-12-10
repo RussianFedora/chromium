@@ -51,9 +51,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
-# fix build with clang
-Patch200:	fix-clang.diff
-
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -217,9 +214,6 @@ members of the Chromium and WebDriver teams.
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
-
-# fix build with clang
-%patch200 -p0
 
 ### build with widevine support
 
