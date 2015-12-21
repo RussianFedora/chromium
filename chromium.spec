@@ -3,7 +3,7 @@
 %global debug_package %{nil}
 %endif
 
-%define chromium_system_libs 0
+%define chromium_system_libs 1
 
 #if 0%{?fedora} >= 22
 #define clang 1
@@ -14,7 +14,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	47.0.2526.106
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
