@@ -289,7 +289,7 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
-                -Duse_system_protobuf=1
+                -Duse_system_protobuf=0
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
