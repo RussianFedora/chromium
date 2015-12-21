@@ -274,7 +274,7 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=1
+buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_libexif=1
