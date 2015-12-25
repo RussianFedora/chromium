@@ -216,8 +216,6 @@ rm -rf ppapi/native_client/tests/
 rm -rf third_party/apache-win32/
 rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
-rm -rf third_party/ffmpeg/*/*
-rm -rf third_party/ffmpeg/*.[ch]
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
 rm -rf third_party/icu/android
@@ -319,6 +317,7 @@ buildconfig+=" -Dclang=0"
 buildconfig+=" -Duse_system_icu=1
 		-Duse_system_flac=1
                 -Duse_system_speex=1
+                -Duse_system_expat=1
                 -Duse_system_libexif=1
                 -Duse_system_libevent=1
                 -Duse_system_libmtp=1
@@ -332,11 +331,13 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
                 -Duse_system_protobuf=1
+                -Duse_system_libvpx=1
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
                 -Duse_system_speex=0
+                -Duse_system_expat=0
                 -Duse_system_libexif=0
                 -Duse_system_libevent=0
                 -Duse_system_libmtp=0
@@ -350,6 +351,7 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libyuv=0
                 -Duse_system_nspr=0
                 -Duse_system_protobuf=0
+                -Duse_system_libvpx=0
                 -Duse_system_yasm=0"
 %endif
 
