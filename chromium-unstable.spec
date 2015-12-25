@@ -39,8 +39,15 @@ Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch6:         chromium-more-codec-aliases.patch
+# (cjw) Recognize mimetypes for matroska (.mkv) and AVI (.avi) formats (video/x-matroska and audio/x-matroska, video/x-msvideo)
+Patch7:		chromium-40-matroska-avi.patch
 # PATCH-FIX-OPENSUSE Adjust ldflags for better building
 Patch8:         adjust-ldflags-no-keep-memory.patch
+# (cjw) fix build problem with system libvpx due to usage of private header file
+Patch12:	chromium-46-svc_context.patch
+# (cjw) fix build with system libvpx due to bug in support build scripting
+#       From: http://code.google.com/p/chromium/issues/detail?id=541273
+Patch13:	unbundle-libvpx_new-fix.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
@@ -251,7 +258,10 @@ rm -rf v8/test/
 
 # openSUSE patches
 %patch6 -p0
+%patch7 -p1
 %patch8 -p1
+%patch12 -p1
+%patch13 -p1
 #patch14 -p1
 %patch15 -p1
 
