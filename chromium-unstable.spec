@@ -3,7 +3,7 @@
 %global debug_package %{nil}
 %endif
 
-%define chromium_system_libs 0
+%define chromium_system_libs 1
 
 %if 0%{?fedora} >= 22
 %define clang 1
@@ -13,7 +13,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium-unstable
-Version:	48.0.2564.10
+Version:	49.0.2593.0
 Release:	1%{?dist}
 Epoch:		1
 
@@ -452,6 +452,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Dec 54 2015 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2593.0-1.R
+- update to 49.0.2593.0
+
 * Tue Nov 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.10-1.R
 - change channel to unstable
 
