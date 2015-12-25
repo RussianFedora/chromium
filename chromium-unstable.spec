@@ -500,7 +500,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Fri Dec 54 2015 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2593.0-1.R
+* Fri Dec 25 2015 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2593.0-1.R
 - update to 49.0.2593.0
 
 * Tue Nov 24 2015 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.10-1.R
