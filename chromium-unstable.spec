@@ -41,9 +41,6 @@ Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 Patch6:         chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Adjust ldflags for better building
 Patch8:         adjust-ldflags-no-keep-memory.patch
-# (cjw) fix build with system libvpx due to bug in support build scripting
-#       From: http://code.google.com/p/chromium/issues/detail?id=541273
-Patch13:	unbundle-libvpx_new-fix.patch
 # PATCH-FIX-OPENSUSE removes build part for courgette
 Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
@@ -91,7 +88,6 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-BuildRequires:  libvpx-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
 BuildRequires:  pam-devel
@@ -121,6 +117,7 @@ BuildRequires:  pkgconfig(xrender)
 BuildRequires:  pkgconfig(xscrnsaver)
 BuildRequires:  pkgconfig(xt)
 BuildRequires:  pkgconfig(xtst)
+BuildRequires:  libffi-devel
 BuildRequires:  pulseaudio-libs-devel
 BuildRequires:  python
 BuildRequires:  python-devel
@@ -145,7 +142,6 @@ BuildRequires:  pkgconfig(libusb-1.0)
 BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(opus)
-BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(speex)
 %endif
 
@@ -221,17 +217,9 @@ rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
-rm -rf third_party/icu/android
-rm -rf third_party/icu/linux
-rm -rf third_party/icu/mac
-rm -rf third_party/icu/patches
-rm -rf third_party/icu/public
-rm -rf third_party/icu/source
-rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
-rm -rf third_party/libvpx/source/libvpx
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
@@ -255,7 +243,6 @@ rm -rf v8/test/
 # openSUSE patches
 %patch6 -p0
 %patch8 -p1
-%patch13 -p1
 #patch14 -p1
 %patch15 -p1
 
@@ -308,7 +295,8 @@ buildconfig+="-Dwerror=
 		-Denable_widevine=1
 		-Duse_aura=1
 		-Denable_hidpi=1
-		-Denable_touch_ui=1"
+		-Denable_touch_ui=1
+		-Duse_sysroot=0"
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
@@ -318,7 +306,7 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=1
+buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_expat=1
@@ -334,8 +322,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
-                -Duse_system_protobuf=1
-                -Duse_system_libvpx=1
+                -Duse_system_protobuf=0
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
@@ -355,7 +342,6 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libyuv=0
                 -Duse_system_nspr=0
                 -Duse_system_protobuf=0
-                -Duse_system_libvpx=0
                 -Duse_system_yasm=0"
 %endif
 
