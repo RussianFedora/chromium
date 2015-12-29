@@ -14,7 +14,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium-unstable
 Version:	49.0.2593.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -49,6 +49,11 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 # archlinux arm enhancement patches
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
+
+Patch200:	enable_vaapi_on_linux-r3.diff
+# Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
+# :P
+Patch201:	chromium-45.0.2454.101-system-icu-54-does-not-have-detectHostTimeZone.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -128,9 +133,12 @@ BuildRequires:  sqlite-devel
 BuildRequires:  texinfo
 BuildRequires:  util-linux
 BuildRequires:  valgrind-devel
+BuildRequires:  python-jinja2
+BuildRequires:	python-markupsafe
+BuildRequires:	python-ply
 
 %if 0%{?chromium_system_libs}
-BuildRequires:  libicu-devel >= 4.0
+BuildRequires:  libicu-devel >= 5.4
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  perl-JSON
 BuildRequires:  usbutils
@@ -143,6 +151,11 @@ BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(libxml-2.0)
 BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(speex)
+BuildRequires:  snappy-devel
+BuildRequires:  re2-devel
+BuildRequires:  fontconfig-devel
+BuildRequires:  pkgconfig(jsoncpp)
+BuildRequires:  pkgconfig(minizip)
 %endif
 
 %if ! %{defined rhel}
@@ -250,6 +263,9 @@ rm -rf v8/test/
 %patch100 -p0
 %patch101 -p0
 
+%patch200 -p1
+%patch201 -p1 -b .system-icu
+
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
@@ -276,6 +292,8 @@ touch chrome/test/data/webui_test_resources.grd
 
 buildconfig+="-Dwerror=
 		-Dlinux_sandbox_chrome_path=%{_libdir}/chromium/chrome
+		-Dlinux_strip_binary=1
+		-Dv8_no_strict_aliasing=1
                 -Duse_system_ffmpeg=0
                 -Dbuild_ffmpegsumo=1
                 -Dproprietary_codecs=1
@@ -296,7 +314,9 @@ buildconfig+="-Dwerror=
 		-Duse_aura=1
 		-Denable_hidpi=1
 		-Denable_touch_ui=1
-		-Duse_sysroot=0"
+		-Duse_gnome_keyring=1
+		-Duse_gconf=0
+                -Duse_sysroot=0"
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
@@ -306,9 +326,12 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=0
+buildconfig+=" -Duse_system_icu=1
+		-Dicu_use_data_file_flag=0
 		-Duse_system_flac=1
                 -Duse_system_speex=1
+                -Duse_system_fontconfig=1
+		-Duse_system_jsoncpp=1
                 -Duse_system_expat=1
                 -Duse_system_libexif=1
                 -Duse_system_libevent=1
@@ -323,6 +346,9 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
                 -Duse_system_protobuf=0
+                -Duse_system_re2=1
+                -Duse_system_snappy=1
+                -Duse_system_zlib=1
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
@@ -356,12 +382,17 @@ buildconfig+=" -Duse_pulseaudio=1
                 -Dlinux_link_gsettings=1
                 -Dlinux_link_libgps=1
 		-Dlinux_link_libspeechd=1
+		-Dlinux_link_libbrlapi=1
                 -Djavascript_engine=v8
                 -Dlinux_use_gold_binary=0
-                -Dlinux_use_gold_flags=0
-                -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
-                -Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
-                -Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
+                -Dlinux_use_gold_flags=0"
+### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
+### Note: These are for Fedora use ONLY.
+### For your own distribution, please get your own set of keys.
+### http://lists.debian.org/debian-legal/2013/11/msg00006.html
+buildconfig+=" -Dgoogle_api_key=AIzaSyDUIXvzVrt5OkVsgXhQ6NFfvWlA44by-aw
+                -Dgoogle_default_client_id=449907151817.apps.googleusercontent.com
+                -Dgoogle_default_client_secret=miEreAep8nuvTdvLums6qyLK"
 
 %if 0%{?fedora} >= 20
 buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
@@ -373,6 +404,13 @@ export CXX=/usr/bin/clang++
 # Modern Clang produces a *lot* of warnings 
 export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option -Wno-unused-local-typedef -Wunknown-attributes -Wno-tautological-undefined-compare"
 export GYP_DEFINES="clang=1"
+%endif
+
+%if 0%{?fedora}
+# Look, I don't know. This package is spit and chewing gum. Sorry.
+rm -rf third_party/jinja2 third_party/markupsafe
+ln -s %{python_sitelib}/jinja2 third_party/jinja2
+ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 %endif
 
 build/linux/unbundle/replace_gyp_files.py $buildconfig
@@ -396,7 +434,7 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/chromium/chrom
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/chromium/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/chromium.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/chromium/
-install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/chromium/
+#install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/chromium/
 cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/chromium/
 
 # chromium components
@@ -473,7 +511,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/chromium/content_resources.pak
 %{_libdir}/chromium/keyboard_resources.pak
 %{_libdir}/chromium/resources.pak
-%{_libdir}/chromium/icudtl.dat
+#%{_libdir}/chromium/icudtl.dat
 %{_libdir}/chromium/*_blob.bin
 %{_libdir}/chromium/resources
 %{_libdir}/chromium/themes
