@@ -136,20 +136,27 @@ BuildRequires:  util-linux
 BuildRequires:  valgrind-devel
 
 %if 0%{?chromium_system_libs}
+BuildRequires:  fontconfig-devel
 BuildRequires:  libicu-devel >= 5.4
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  perl-JSON
-BuildRequires:  usbutils
-BuildRequires:  yasm
+BuildRequires:  pkgconfig(jsoncpp)
 BuildRequires:  pkgconfig(libevent)
 BuildRequires:  pkgconfig(libmtp)
 BuildRequires:  pkgconfig(libpng)
 BuildRequires:  pkgconfig(libusb-1.0)
-BuildRequires:  pkgconfig(libxslt)
 BuildRequires:  pkgconfig(libxml-2.0)
+BuildRequires:  pkgconfig(libxslt)
+BuildRequires:  pkgconfig(minizip)
+BuildRequires:  pkgconfig(minizip)
 BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(speex)
+BuildRequires:  pkgconfig(zlib)
+BuildRequires:  re2-devel
+BuildRequires:  snappy-devel
+BuildRequires:  usbutils
+BuildRequires:  yasm
 %endif
 
 %if ! %{defined rhel}
@@ -273,6 +280,9 @@ buildconfig+="-Dwerror=
 		-Duse_aura=1
 		-Denable_hidpi=1
 		-Denable_touch_ui=1
+		-Duse_gnome_keyring=1
+		-Duse_gconf=0
+		-Duse_sysroot=0
 		-Dicu_use_data_file_flag=0"
 
 %if 0%{?clang}
@@ -286,6 +296,8 @@ buildconfig+=" -Dclang=0"
 buildconfig+=" -Duse_system_icu=1
 		-Duse_system_flac=1
                 -Duse_system_speex=1
+                -Duse_system_fontconfig=1
+                -Duse_system_jsoncpp=1
                 -Duse_system_libexif=1
                 -Duse_system_libevent=1
                 -Duse_system_libmtp=1
@@ -299,6 +311,9 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
                 -Duse_system_protobuf=0
+                -Duse_system_re2=1
+                -Duse_system_snappy=1
+                -Duse_system_zlib=1
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
