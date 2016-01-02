@@ -227,8 +227,42 @@ members of the Chromium and WebDriver teams.
 %prep
 %setup -q -a 998 -a 997
 
-# remove some third_party
+# files we do not want from upstream source bundles
+rm -rf breakpad/src/processor/testdata/
+rm -rf chrome/app/test_data/dlls/
+rm -rf chrome/common/extensions/docs/
+#rm -rf chrome/test/data/
+rm -rf chrome/tools/test/reference_build/chrome_linux/
+rm -rf components/test/data/component_updater/jebgalgnebhfojomionfpkfelancnnkf/component1.dll
+rm -rf content/test/data/
+rm -rf net/data/
+rm -rf ppapi/examples/
+rm -rf ppapi/native_client/tests/
+rm -rf third_party/apache-win32/
 rm -rf third_party/binutils/
+rm -rf third_party/expat/files/
+rm -rf third_party/flac/include
+rm -rf third_party/flac/src
+rm -rf third_party/lcov
+rm -rf third_party/libevent/*/*
+rm -rf third_party/libevent/*.[ch]
+rm -rf libexif/sources
+rm -rf libjpeg/*.[ch]
+rm -rf libjpeg_turbo
+rm -rf libpng/*.[ch]
+rm -rf libxslt/libexslt
+rm -rf libxslt/libxslt
+rm -rf libxslt/linux
+rm -rf libxslt/mac
+rm -rf libxslt/win32
+rm -rf mesa/src/src
+rm -rf swig
+rm -rf third_party/WebKit/LayoutTests/
+rm -rf third_party/WebKit/Tools/Scripts/
+rm -rf third_party/xdg-utils/tests/
+rm -rf third_party/yasm/source/
+rm -rf tools/gyp/test/
+rm -rf v8/test/
 
 %patch0 -p1 -b .master-prefs
 
