@@ -51,6 +51,7 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+Patch200:       enable_vaapi_on_linux-r3.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
 Patch201:       chromium-45.0.2454.101-system-icu-54-does-not-have-detectHostTimeZone.patch
@@ -223,6 +224,7 @@ rm -rf third_party/binutils/
 %patch100 -p0
 %patch101 -p0
 
+%patch200 -p1
 %patch201 -p1 -b .system-icu
 
 ### build with widevine support
