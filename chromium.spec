@@ -3,7 +3,9 @@
 %global debug_package %{nil}
 %endif
 
+%if 0%{?fedora} >= 22
 %define chromium_system_libs 1
+%endif
 
 #if 0%{?fedora} >= 22
 #define clang 1
@@ -134,6 +136,11 @@ BuildRequires:  sqlite-devel
 BuildRequires:  texinfo
 BuildRequires:  util-linux
 BuildRequires:  valgrind-devel
+%if 0%{?fedora}
+BuildRequires:  python-jinja2
+BuildRequires:  python-markupsafe
+BuildRequires:  python-ply
+%endif
 
 %if 0%{?chromium_system_libs}
 BuildRequires:  fontconfig-devel
@@ -363,6 +370,13 @@ export CXX=/usr/bin/clang++
 # Modern Clang produces a *lot* of warnings 
 export CXXFLAGS="${CXXFLAGS} -Wno-unknown-warning-option -Wno-unused-local-typedef -Wunknown-attributes -Wno-tautological-undefined-compare"
 export GYP_DEFINES="clang=1"
+%endif
+
+%if 0%{?fedora}
+# Look, I don't know. This package is spit and chewing gum. Sorry.
+rm -rf third_party/jinja2 third_party/markupsafe
+ln -s %{python_sitelib}/jinja2 third_party/jinja2
+ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 %endif
 
 build/linux/unbundle/replace_gyp_files.py $buildconfig
