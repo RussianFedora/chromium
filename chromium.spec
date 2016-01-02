@@ -144,7 +144,6 @@ BuildRequires:  python-jinja2
 BuildRequires:  python-markupsafe
 BuildRequires:  python-ply
 %endif
-BuildRequires:  pkgconfig(xkbcommon)
 
 %if 0%{?chromium_system_libs}
 BuildRequires:  fontconfig-devel
@@ -388,7 +387,6 @@ buildconfig+=" -Dsystem_libdir=lib64
 %endif
 
 buildconfig+=" -Duse_pulseaudio=1
-                -Duse_xkbcommon=1
                 -Dlinux_link_libpci=1
                 -Dlinux_link_gnome_keyring=1
                 -Dlinux_link_gsettings=1
