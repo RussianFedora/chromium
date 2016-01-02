@@ -57,6 +57,9 @@ Patch200:       enable_vaapi_on_linux-r3.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
 Patch201:       chromium-45.0.2454.101-system-icu-54-does-not-have-detectHostTimeZone.patch
+# Patch to fix build with use_system_libvpx
+# Chromium bug #541273
+Patch202:       unbundle-libvpx_new-fix.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -240,6 +243,7 @@ rm -rf third_party/binutils/
 
 %patch200 -p1
 %patch201 -p1 -b .system-icu
+%patch202 -p1 -b .system-libvpx
 
 ### build with widevine support
 
@@ -321,6 +325,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
+                -Duse_system_libvpx=1
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
@@ -496,6 +501,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sat Jan  2 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.106-2.R
+- build with system libraries
+
 * Wed Dec 16 2015 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.106-1.R
 - update to 47.0.2526.106
 
