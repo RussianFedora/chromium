@@ -99,7 +99,7 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-BuildRequires:  libvpx-devel
+#BuildRequires:  libvpx-devel >= 1.5.0
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
 BuildRequires:  pam-devel
@@ -278,7 +278,7 @@ rm -rf v8/test/
 
 %patch200 -p1
 %patch201 -p1 -b .system-icu
-%patch202 -p1 -b .system-libvpx
+#patch202 -p1 -b .system-libvpx
 
 ### build with widevine support
 
@@ -360,7 +360,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
-                -Duse_system_libvpx=1
+                -Duse_system_libvpx=0
                 -Duse_system_yasm=1"
 %else
 buildconfig+=" -Duse_system_icu=0
