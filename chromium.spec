@@ -259,7 +259,9 @@ rm -rf swig
 rm -rf third_party/WebKit/LayoutTests/
 rm -rf third_party/WebKit/Tools/Scripts/
 rm -rf third_party/xdg-utils/tests/
+%if ! %{defined rhel}
 rm -rf third_party/yasm/source/
+%endif
 rm -rf tools/gyp/test/
 rm -rf v8/test/
 
@@ -359,8 +361,13 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
-                -Duse_system_libvpx=0
-                -Duse_system_yasm=1"
+                -Duse_system_libvpx=0"
+
+%if %{defined rhel}
+buildconfig+=" -Duse_system_yasm=0"
+%else
+buildconfig+=" -Duse_system_yasm=1"
+%endif
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
