@@ -342,8 +342,12 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=1
-		-Duse_system_flac=1
+%if 0%{?fedora} >= 24
+buildconfig+=" -Duse_system_icu=0"
+%else
+buildconfig+=" -Duse_system_icu=1"
+%endif
+buildconfig+=" -Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_fontconfig=1
                 -Duse_system_jsoncpp=1
@@ -443,7 +447,6 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
-#install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
 cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
 
 # chromium components
@@ -520,7 +523,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
-#%{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/*_blob.bin
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
@@ -541,6 +543,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Sat Jan  2 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.106-2.R
 - build with system libraries
+- EL builds with internal libraries
 
 * Wed Dec 16 2015 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.106-1.R
 - update to 47.0.2526.106
