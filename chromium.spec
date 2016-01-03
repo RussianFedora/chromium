@@ -46,8 +46,6 @@ Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 Patch6:         chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Adjust ldflags for better building
 Patch8:         adjust-ldflags-no-keep-memory.patch
-# PATCH-FIX-OPENSUSE removes build part for courgette
-Patch14:	chromium-25.0.1364.172-no-courgette.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
@@ -272,7 +270,6 @@ rm -rf v8/test/
 # openSUSE patches
 %patch6 -p0
 %patch8 -p1
-#patch14 -p1
 %patch15 -p1
 
 # archlinux arm enhancements
