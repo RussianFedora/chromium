@@ -56,7 +56,7 @@ Patch101:       chromium-arm-r0.patch
 Patch200:       enable_vaapi_on_linux.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
-Patch201:       chromium-45.0.2454.101-system-icu-54-does-not-have-detectHostTimeZone.patch
+Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTimeZone.patch
 # Patch to fix build with use_system_libvpx
 # Chromium bug #541273
 Patch202:       unbundle-libvpx_new-fix.patch
