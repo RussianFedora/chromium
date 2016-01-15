@@ -373,7 +373,6 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
-%endif
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
