@@ -247,6 +247,13 @@ rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
+rm -rf third_party/icu/android
+rm -rf third_party/icu/linux
+rm -rf third_party/icu/mac
+rm -rf third_party/icu/patches
+rm -rf third_party/icu/public
+rm -rf third_party/icu/source
+rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
