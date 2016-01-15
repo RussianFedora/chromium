@@ -18,7 +18,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	47.0.2526.111
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -60,6 +60,8 @@ Patch201:       chromium-45.0.2454.101-system-icu-54-does-not-have-detectHostTim
 # Patch to fix build with use_system_libvpx
 # Chromium bug #541273
 Patch202:       unbundle-libvpx_new-fix.patch
+# (cjw) fix build problem with system libvpx due to usage of private header file
+Patch203:	chromium-46-svc_context.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -99,7 +101,9 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-#BuildRequires:  libvpx-devel >= 1.5.0
+%if 0%{?fedora} >= 24
+BuildRequires:  libvpx-devel >= 1.5.0
+%endif
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
 BuildRequires:  pam-devel
@@ -278,7 +282,10 @@ rm -rf v8/test/
 
 %patch200 -p1
 %patch201 -p1 -b .system-icu
-#patch202 -p1 -b .system-libvpx
+%if 0%{?fedora} >= 24
+%patch202 -p1 -b .system-libvpx
+%patch203 -p1
+%endif
 
 ### build with widevine support
 
@@ -329,7 +336,8 @@ buildconfig+="-Dwerror=
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0
-		-Dicu_use_data_file_flag=0"
+		-Dicu_use_data_file_flag=0
+                -Dlibspeechd_h_prefix=speech-dispatcher/"
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
@@ -339,12 +347,8 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-%if 0%{?fedora} >= 24
-buildconfig+=" -Duse_system_icu=0"
-%else
-buildconfig+=" -Duse_system_icu=1"
-%endif
-buildconfig+=" -Duse_system_flac=1
+buildconfig+=" -Duse_system_icu=1
+                -Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_fontconfig=1
                 -Duse_system_jsoncpp=1
@@ -360,12 +364,16 @@ buildconfig+=" -Duse_system_flac=1
                 -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
-                -Duse_system_protobuf=0
+                -Duse_system_protobuf=1
                 -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
-                -Duse_system_libvpx=0
                 -Duse_system_yasm=1"
+%if 0%{?fedora} >= 24
+buildconfig+=" -Duse_system_libvpx=1"
+%else
+buildconfig+=" -Duse_system_libvpx=0"
+%endif
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
@@ -403,10 +411,6 @@ buildconfig+=" -Duse_pulseaudio=1
                 -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
                 -Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
                 -Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
-
-%if 0%{?fedora} >= 20
-buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
-%endif
 
 %if 0%{?clang}
 export CC=/usr/bin/clang
@@ -538,6 +542,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Jan 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.111-2.R
+- build with system libxpv for Fedora >= 24
+- build with system icu for Fedora >= 24
+- build with system protobuf
+
 * Thu Jan 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.111-1.R
 - update to 47.0.2526.111
 
