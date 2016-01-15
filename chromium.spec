@@ -101,7 +101,9 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-BuildRequires:  libvpx-devel
+%if 0%{?fedora} >= 24
+BuildRequires:  libvpx-devel >= 1.5.0
+%endif
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
 BuildRequires:  pam-devel
@@ -255,7 +257,9 @@ rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
+%if 0%{?fedora} >= 24
 rm -rf third_party/libvpx/source/libvpx
+%endif
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
@@ -288,8 +292,10 @@ rm -rf v8/test/
 
 %patch200 -p1
 %patch201 -p1 -b .system-icu
+%if 0%{?fedora} >= 24
 %patch202 -p1 -b .system-libvpx
 %patch203 -p1
+%endif
 
 ### build with widevine support
 
@@ -359,7 +365,6 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libexif=1
                 -Duse_system_libevent=1
                 -Duse_system_libmtp=1
-                -Duse_system_libvpx=1
                 -Duse_system_opus=1
                 -Duse_system_bzip2=1
                 -Duse_system_harfbuzz=1
@@ -374,6 +379,11 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
+%if 0%{?fedora} >= 24
+buildconfig+=" -Duse_system_libvpx=1"
+else
+buildconfig+=" -Duse_system_libvpx=0"
+%endif
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
