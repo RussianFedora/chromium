@@ -174,9 +174,7 @@ BuildRequires:  yasm
 %endif
 
 %if ! %{defined rhel}
-%if 0%{?fedora} < 22
 BuildRequires:  faac-devel >= 1.28
-%endif
 BuildRequires:  lame-devel
 BuildRequires:  opencore-amr-devel
 BuildRequires:  wdiff
