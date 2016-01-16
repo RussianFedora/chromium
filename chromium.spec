@@ -9,11 +9,7 @@
 %define chromium_system_libs 1
 %endif
 
-#if 0%{?fedora} >= 22
-#define clang 1
-#else
 %define clang 1
-#endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
@@ -349,9 +345,11 @@ buildconfig+="-Dwerror=
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
-		-Dclang_use_chrome_plugins=0"
+		-Dclang_use_chrome_plugins=0
+                -Duse_system_protobuf=0"
 %else
-buildconfig+=" -Dclang=0"
+buildconfig+=" -Dclang=0
+                -Duse_system_protobuf=1"
 %endif
 
 %if 0%{?chromium_system_libs}
@@ -372,7 +370,6 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
-                -Duse_system_protobuf=1
                 -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
@@ -398,7 +395,6 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libxml=0
                 -Duse_system_libyuv=0
                 -Duse_system_nspr=0
-                -Duse_system_protobuf=0
                 -Duse_system_yasm=0"
 %endif
 
