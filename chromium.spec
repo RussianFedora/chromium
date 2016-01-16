@@ -12,7 +12,7 @@
 #if 0%{?fedora} >= 22
 #define clang 1
 #else
-%define clang 0
+%define clang 1
 #endif
 
 Summary:	A fast webkit-based web browser
