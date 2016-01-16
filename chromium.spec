@@ -377,11 +377,9 @@ buildconfig+=" -Duse_system_libvpx=1"
 %else
 buildconfig+=" -Duse_system_libvpx=0"
 %endif
-%if 0%{?clang}
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764911
+# Segfault with system protobuf at this time
 buildconfig+=" -Duse_system_protobuf=0"
-%else
-buildconfig+=" -Duse_system_protobuf=1"
-%endif
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
