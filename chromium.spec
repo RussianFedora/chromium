@@ -9,7 +9,7 @@
 %define chromium_system_libs 1
 %endif
 
-%define clang 1
+%define clang 0
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
@@ -345,11 +345,9 @@ buildconfig+="-Dwerror=
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
-		-Dclang_use_chrome_plugins=0
-                -Duse_system_protobuf=0"
+		-Dclang_use_chrome_plugins=0"
 %else
-buildconfig+=" -Dclang=0
-                -Duse_system_protobuf=1"
+buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
@@ -379,6 +377,11 @@ buildconfig+=" -Duse_system_libvpx=1"
 %else
 buildconfig+=" -Duse_system_libvpx=0"
 %endif
+%if 0%{?clang}
+buildconfig+=" -Duse_system_protobuf=0"
+%else
+buildconfig+=" -Duse_system_protobuf=1"
+%endif
 %else
 buildconfig+=" -Duse_system_icu=0
 		-Duse_system_flac=0
@@ -395,6 +398,7 @@ buildconfig+=" -Duse_system_icu=0
                 -Duse_system_libxml=0
                 -Duse_system_libyuv=0
                 -Duse_system_nspr=0
+                -Duse_system_protobuf=0
                 -Duse_system_yasm=0"
 %endif
 
