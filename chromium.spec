@@ -22,7 +22,6 @@ License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
 Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
-NoSource:	0
 
 Source10:	chromium-wrapper
 Source20:	chromium-browser.desktop
