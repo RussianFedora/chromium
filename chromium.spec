@@ -379,7 +379,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_yasm=1"
 %if 0%{?fedora} >= 24
 buildconfig+=" -Duse_system_libvpx=1"
-else
+%else
 buildconfig+=" -Duse_system_libvpx=0"
 %endif
 %else
