@@ -14,7 +14,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	47.0.2526.111
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -183,6 +183,7 @@ BuildRequires:	clang
 %endif
 
 Requires:	hicolor-icon-theme
+Requires:	chromium-libffmpeg = %{epoch}:%{version}-%{release}
 
 Obsoletes:	chromium-ffmpeg
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
@@ -219,6 +220,17 @@ browsers. It provides capabilities for navigating to web pages, user input,
 JavaScript execution, and more. ChromeDriver is a standalone server which
 implements WebDriver's wire protocol for Chromium. It is being developed by
 members of the Chromium and WebDriver teams.
+
+
+%package libffmpeg
+Summary:        FFmpeg library for Google Chrome/Chromium and Opera
+Group:          Development/Libraries
+Provides:       chromium-libffmpeg-stable
+Conflicts:      chromium-libffmpeg-testing
+Conflicts:      chromium-libffmpeg-unstable
+
+%description libffmpeg
+FFmpeg library built from the chromium sources.
 
 
 %prep
@@ -525,6 +537,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/lib
+%exclude %{_libdir}/%{name}/lib/libffmpeg.so
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
@@ -546,8 +559,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_bindir}/chromedriver
 %{_libdir}/%{name}/chromedriver
 
+%files libffmpeg
+%defattr(-,root,root,-)
+%doc LICENSE AUTHORS
+%{_libdir}/%{name}/lib/libffmpeg.so
+
 
 %changelog
+* Tue Jan 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.111-3.R
+- create subpackage with libffmpeg library
+
 * Fri Jan 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.111-2.R
 - build with system libxpv for Fedora >= 24
 - build with system icu for Fedora >= 24
