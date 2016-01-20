@@ -352,8 +352,11 @@ buildconfig+="-Dwerror=
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0
-		-Dicu_use_data_file_flag=0
-                -Dlibspeechd_h_prefix=speech-dispatcher/"
+		-Dicu_use_data_file_flag=0"
+
+%if ! %{defined rhel}
+buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
+%endif
 
 %if 0%{?clang}
 buildconfig+=" -Dclang=1
