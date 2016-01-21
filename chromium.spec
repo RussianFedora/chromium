@@ -10,6 +10,7 @@
 %endif
 
 %define clang 0
+%define libva 0
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
@@ -182,6 +183,10 @@ BuildRequires:  xvidcore-devel
 BuildRequires:	clang
 %endif
 
+%if 0%{?libva}
+BuildRequires:	libva-devel
+%endif
+
 Requires:	hicolor-icon-theme
 Requires:	chromium-libffmpeg = %{epoch}:%{version}-%{release}
 
@@ -296,7 +301,9 @@ rm -rf v8/test/
 %patch100 -p0
 %patch101 -p0
 
+%if 0%{?libva}
 %patch200 -p1
+%endif
 %patch201 -p1 -b .system-icu
 %if 0%{?fedora} >= 24
 %patch202 -p1 -b .system-libvpx
@@ -571,6 +578,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu Jan 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-1.R
 - update to 48.0.2564.82
+- disable vaapi support
 
 * Tue Jan 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.111-3.R
 - create subpackage with libffmpeg library
