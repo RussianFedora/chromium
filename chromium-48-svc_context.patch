@@ -46,4 +46,3 @@ diff -urN chromium-48.0.2564.82.orig/third_party/webrtc/modules/video_coding/cod
  namespace webrtc {
  
  class ScreenshareLayersVP9;
-Binary files chromium-48.0.2564.82.orig/third_party/webrtc/modules/video_coding/codecs/vp9/.vp9_impl.h.swp and chromium-48.0.2564.82/third_party/webrtc/modules/video_coding/codecs/vp9/.vp9_impl.h.swp differ
