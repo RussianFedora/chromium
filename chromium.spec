@@ -271,8 +271,8 @@ rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
 #%if 0%{?libvpx}
 rm -rf third_party/libvpx/source/libvpx
-rm -rf third_party/libvpx_new
-rm -rf third_party/libvpx_new/source/libvpx/third_party/x86inc
+#rm -rf third_party/libvpx_new
+#rm -rf third_party/libvpx_new/source/libvpx/third_party/x86inc
 #%endif
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
