@@ -294,7 +294,8 @@ rm -rf v8/test/
 
 build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/libvpx_new' \
-        'third_party/libvpx_new/source/libvpx/third_party/x86inc'
+        'third_party/libvpx_new/source/libvpx/third_party/x86inc' \
+	--do-remove || :
 
 %endif
 
