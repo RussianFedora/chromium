@@ -99,9 +99,9 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-%if 0%{?libvpx}
+#%if 0%{?libvpx}
 BuildRequires:  libvpx-devel >= 1.5.0
-%endif
+#%endif
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
 BuildRequires:  pam-devel
@@ -269,9 +269,11 @@ rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
-%if 0%{?libvpx}
+#%if 0%{?libvpx}
 rm -rf third_party/libvpx/source/libvpx
-%endif
+rm -rf third_party/libvpx_new
+rm -rf third_party/libvpx_new/source/libvpx/third_party/x86inc
+#%endif
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
@@ -398,7 +400,7 @@ buildconfig+=" -Duse_system_icu=1
 %if 0%{?libvpx}
 buildconfig+=" -Duse_system_libvpx=1"
 %else
-buildconfig+=" -Duse_system_libvpx=0"
+buildconfig+=" -Duse_system_libvpx=1"
 %endif
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764911
 # Segfault with system protobuf at this time
