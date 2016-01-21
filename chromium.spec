@@ -10,7 +10,7 @@
 %endif
 
 %define clang 0
-%define libva 0
+%define libva 1
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
