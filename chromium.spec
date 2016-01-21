@@ -11,6 +11,7 @@
 
 %define clang 0
 %define libva 1
+%define libvpx 0
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
@@ -98,7 +99,7 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-%if 0%{?fedora} >= 24
+%if 0%{?libvpx}
 BuildRequires:  libvpx-devel >= 1.5.0
 %endif
 BuildRequires:  ncurses-devel
@@ -268,7 +269,7 @@ rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
-%if 0%{?fedora} >= 24
+%if 0%{?libvpx}
 rm -rf third_party/libvpx/source/libvpx
 %endif
 rm -rf libexif/sources
@@ -305,7 +306,7 @@ rm -rf v8/test/
 %patch200 -p1
 %endif
 %patch201 -p1 -b .system-icu
-%if 0%{?fedora} >= 24
+%if 0%{?libvpx}
 %patch202 -p1 -b .system-libvpx
 %patch203 -p1
 %endif
@@ -394,7 +395,7 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
-%if 0%{?fedora} >= 24
+%if 0%{?libvpx}
 buildconfig+=" -Duse_system_libvpx=1"
 %else
 buildconfig+=" -Duse_system_libvpx=0"
