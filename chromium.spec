@@ -58,7 +58,7 @@ Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTim
 # Chromium bug #541273
 Patch202:       unbundle-libvpx_new-fix.patch
 # (cjw) fix build problem with system libvpx due to usage of private header file
-Patch203:	chromium-46-svc_context.patch
+Patch203:	chromium-48-svc_context.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel

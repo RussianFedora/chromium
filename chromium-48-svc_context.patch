@@ -1,5 +1,6 @@
---- chromium-46.0.2486.0/third_party/webrtc/modules/video_coding/codecs/vp9/vp9_impl.h.svc_context	2015-08-17 21:09:21.000000000 +0200
-+++ chromium-46.0.2486.0/third_party/webrtc/modules/video_coding/codecs/vp9/vp9_impl.h	2015-08-24 21:15:26.454324321 +0200
+diff -urN chromium-48.0.2564.82.orig/third_party/webrtc/modules/video_coding/codecs/vp9/vp9_impl.h chromium-48.0.2564.82/third_party/webrtc/modules/video_coding/codecs/vp9/vp9_impl.h
+--- chromium-48.0.2564.82.orig/third_party/webrtc/modules/video_coding/codecs/vp9/vp9_impl.h	2016-01-21 16:30:56.867484752 +0300
++++ chromium-48.0.2564.82/third_party/webrtc/modules/video_coding/codecs/vp9/vp9_impl.h	2016-01-21 16:32:14.113681014 +0300
 @@ -15,10 +15,43 @@
  #include "webrtc/modules/video_coding/codecs/vp9/include/vp9.h"
  #include "webrtc/modules/video_coding/codecs/vp9/vp9_frame_buffer_pool.h"
@@ -44,4 +45,5 @@
 +
  namespace webrtc {
  
- class VP9EncoderImpl : public VP9Encoder {
+ class ScreenshareLayersVP9;
+Binary files chromium-48.0.2564.82.orig/third_party/webrtc/modules/video_coding/codecs/vp9/.vp9_impl.h.swp and chromium-48.0.2564.82/third_party/webrtc/modules/video_coding/codecs/vp9/.vp9_impl.h.swp differ
