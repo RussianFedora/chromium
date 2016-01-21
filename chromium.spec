@@ -270,7 +270,7 @@ rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
 #%if 0%{?libvpx}
-rm -rf third_party/libvpx/source/libvpx
+#rm -rf third_party/libvpx/source/libvpx
 #rm -rf third_party/libvpx_new
 #rm -rf third_party/libvpx_new/source/libvpx/third_party/x86inc
 #%endif
@@ -291,6 +291,11 @@ rm -rf third_party/xdg-utils/tests/
 rm -rf third_party/yasm/source/
 rm -rf tools/gyp/test/
 rm -rf v8/test/
+
+build/linux/unbundle/remove_bundled_libraries.py \
+	'third_party/libvpx_new' \
+        'third_party/libvpx_new/source/libvpx/third_party/x86inc'
+
 %endif
 
 %patch0 -p1 -b .master-prefs
