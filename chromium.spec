@@ -291,12 +291,6 @@ rm -rf third_party/xdg-utils/tests/
 rm -rf third_party/yasm/source/
 rm -rf tools/gyp/test/
 rm -rf v8/test/
-
-build/linux/unbundle/remove_bundled_libraries.py \
-	'third_party/libvpx_new' \
-        'third_party/libvpx_new/source/libvpx/third_party/x86inc' \
-	--do-remove || :
-
 %endif
 
 %patch0 -p1 -b .master-prefs
@@ -318,6 +312,12 @@ build/linux/unbundle/remove_bundled_libraries.py \
 %patch202 -p1 -b .system-libvpx
 %patch203 -p1
 %endif
+
+build/linux/unbundle/remove_bundled_libraries.py \
+	'third_party/libvpx_new' \
+        'third_party/libvpx_new/source/libvpx/third_party/x86inc' \
+	--do-remove || :
+
 
 ### build with widevine support
 
