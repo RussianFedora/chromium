@@ -11,7 +11,12 @@
 
 %define clang 0
 %define libva 1
+%if 0%{?fedora} >= 24
+%define libvpx 1
+%else
 %define libvpx 0
+%endif
+
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
@@ -58,8 +63,6 @@ Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTim
 # Patch to fix build with use_system_libvpx
 # Chromium bug #541273
 Patch202:       unbundle-libvpx_new-fix.patch
-# (cjw) fix build problem with system libvpx due to usage of private header file
-Patch203:	chromium-48-svc_context.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
 
@@ -102,7 +105,9 @@ BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
 %if 0%{?libvpx}
-BuildRequires:  libvpx-devel >= 1.5.0
+# requires patched version of libvpx with svc_context.h file
+# http://github.com/RussianFedora/libvpx/commit/aad752872cc0a05f15419aa915f108ad75f6a2fe
+BuildRequires:  libvpx-devel >= 1.5.0-1.R
 %endif
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
@@ -310,7 +315,6 @@ rm -rf v8/test/
 %patch201 -p1 -b .system-icu
 %if 0%{?libvpx}
 %patch202 -p1 -b .system-libvpx
-%patch203 -p1
 %endif
 %if 0%{?fedora} >= 24
 %patch204 -p0 -b .icu-ver
@@ -582,6 +586,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Jan 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-2.R
+- fix build with system vpx. Requires patched libvpx
+  https://github.com/RussianFedora/libvpx/commit/aad752872cc0a05f15419aa915f108ad75f6a2fe
+
 * Thu Jan 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-1.R
 - update to 48.0.2564.82
 - fix build with icu other than 54
