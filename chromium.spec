@@ -11,12 +11,17 @@
 
 %define clang 0
 %define libva 1
+%if 0%{?fedora} >= 24
+%define libvpx 1
+%else
 %define libvpx 0
+%endif
+
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	48.0.2564.82
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -58,8 +63,6 @@ Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTim
 # Patch to fix build with use_system_libvpx
 # Chromium bug #541273
 Patch202:       unbundle-libvpx_new-fix.patch
-# (cjw) fix build problem with system libvpx due to usage of private header file
-Patch203:	chromium-48-svc_context.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
 
@@ -101,9 +104,11 @@ BuildRequires:  libtheora-devel >= 1.1
 BuildRequires:  libusbx-devel
 BuildRequires:  libvdpau-devel
 BuildRequires:  libvorbis-devel
-#%if 0%{?libvpx}
-BuildRequires:  libvpx-devel >= 1.5.0
-#%endif
+%if 0%{?libvpx}
+# requires patched version of libvpx with svc_context.h file
+# http://github.com/RussianFedora/libvpx/commit/aad752872cc0a05f15419aa915f108ad75f6a2fe
+BuildRequires:  libvpx-devel >= 1.5.0-1.R
+%endif
 BuildRequires:  ncurses-devel
 BuildRequires:  ninja-build
 BuildRequires:  pam-devel
@@ -271,11 +276,9 @@ rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
-#%if 0%{?libvpx}
-#rm -rf third_party/libvpx/source/libvpx
-#rm -rf third_party/libvpx_new
-#rm -rf third_party/libvpx_new/source/libvpx/third_party/x86inc
-#%endif
+%if 0%{?libvpx}
+rm -rf third_party/libvpx/source/libvpx
+%endif
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
@@ -310,10 +313,9 @@ rm -rf v8/test/
 %patch200 -p1
 %endif
 %patch201 -p1 -b .system-icu
-#%if 0%{?libvpx}
+%if 0%{?libvpx}
 %patch202 -p1 -b .system-libvpx
-#%patch203 -p1
-#%endif
+%endif
 %if 0%{?fedora} >= 24
 %patch204 -p0 -b .icu-ver
 %endif
@@ -405,7 +407,7 @@ buildconfig+=" -Duse_system_icu=1
 %if 0%{?libvpx}
 buildconfig+=" -Duse_system_libvpx=1"
 %else
-buildconfig+=" -Duse_system_libvpx=1"
+buildconfig+=" -Duse_system_libvpx=0"
 %endif
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764911
 # Segfault with system protobuf at this time
@@ -584,9 +586,13 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Jan 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-2.R
+- fix build with system vpx. Requires patched libvpx
+  https://github.com/RussianFedora/libvpx/commit/aad752872cc0a05f15419aa915f108ad75f6a2fe
+
 * Thu Jan 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-1.R
 - update to 48.0.2564.82
-- disable vaapi support
+- fix build with icu other than 54
 
 * Tue Jan 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 47.0.2526.111-3.R
 - create subpackage with libffmpeg library
