@@ -318,12 +318,6 @@ rm -rf v8/test/
 %patch204 -p0 -b .icu-ver
 %endif
 
-build/linux/unbundle/remove_bundled_libraries.py \
-	'third_party/libvpx_new' \
-        'third_party/libvpx_new/source/libvpx/third_party/x86inc' \
-	--do-remove || :
-
-
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
