@@ -9,7 +9,7 @@
 %define chromium_system_libs 1
 %endif
 
-%define clang 0
+%define clang 1
 %define libva 1
 %if 0%{?fedora} >= 24
 %define libvpx 1
