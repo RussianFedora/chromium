@@ -310,10 +310,10 @@ rm -rf v8/test/
 %patch200 -p1
 %endif
 %patch201 -p1 -b .system-icu
-%if 0%{?libvpx}
+#%if 0%{?libvpx}
 %patch202 -p1 -b .system-libvpx
-%patch203 -p1
-%endif
+#%patch203 -p1
+#%endif
 %if 0%{?fedora} >= 24
 %patch204 -p0 -b .icu-ver
 %endif
