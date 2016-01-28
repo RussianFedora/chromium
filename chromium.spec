@@ -21,7 +21,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	48.0.2564.97
-Release:	1{?dist}
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
