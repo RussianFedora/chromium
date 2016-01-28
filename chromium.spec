@@ -20,8 +20,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	48.0.2564.82
-Release:	2%{?dist}
+Version:	48.0.2564.97
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -586,6 +586,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-1.R
+- update to 48.0.2564.97
+
+* Sat Jan 23 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-3.R
+- build chromium with clang
+
 * Thu Jan 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-2.R
 - fix build with system vpx. Requires patched libvpx
   https://github.com/RussianFedora/libvpx/commit/aad752872cc0a05f15419aa915f108ad75f6a2fe
