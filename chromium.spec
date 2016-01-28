@@ -20,8 +20,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	48.0.2564.82
-Release:	3{?dist}
+Version:	48.0.2564.97
+Release:	1{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -586,6 +586,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-1.R
+- update to 48.0.2564.97
+
 * Sat Jan 23 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.82-3.R
 - build chromium with clang
 
