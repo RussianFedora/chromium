@@ -13,6 +13,8 @@
 %define libva 1
 %if 0%{?fedora} >= 24
 %define libvpx 1
+# something goes wrong in llvm 3.7.1
+%define clang 0
 %else
 %define libvpx 0
 %endif
