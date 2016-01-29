@@ -23,7 +23,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	48.0.2564.97
-Release:	2%{?dist}
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -58,7 +58,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
-# http://www.slackware.com/~alien/slackbuilds/chromium/build/patches/chromium_vaapi.patch
 Patch200:       enable_vaapi_on_linux.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
@@ -589,10 +588,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-2.R
-- rebase vaapi patch from
-  http://www.slackware.com/~alien/slackbuilds/chromium/build/patches/chromium_vaapi.patch
-
 * Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-1.R
 - update to 48.0.2564.97
 
