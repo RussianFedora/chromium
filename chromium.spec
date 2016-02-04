@@ -13,6 +13,8 @@
 %define libva 1
 %if 0%{?fedora} >= 24
 %define libvpx 1
+# something goes wrong in llvm 3.7.1
+%define clang 0
 %else
 %define libvpx 0
 %endif
@@ -21,7 +23,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	48.0.2564.97
-Release:	2%{?dist}
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -65,8 +67,6 @@ Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTim
 Patch202:       unbundle-libvpx_new-fix.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
-# fix https://codereview.chromium.org/15955009/
-Patch205:	chromium-48.0.2564.97-issue15955009.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -313,7 +313,6 @@ rm -rf v8/test/
 
 %if 0%{?libva}
 %patch200 -p1
-%patch205 -p1
 %endif
 %patch201 -p1 -b .system-icu
 %if 0%{?libvpx}
@@ -589,9 +588,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
-* Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-2.R
-- fix https://codereview.chromium.org/15955009/
-
 * Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-1.R
 - update to 48.0.2564.97
 
