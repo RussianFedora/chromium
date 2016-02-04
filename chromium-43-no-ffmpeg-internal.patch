@@ -1,0 +1,40 @@
+diff -up chromium-43.0.2357.2/media/ffmpeg/ffmpeg_common.h.no-ffmpeg-internal chromium-43.0.2357.2/media/ffmpeg/ffmpeg_common.h
+--- chromium-43.0.2357.2/media/ffmpeg/ffmpeg_common.h.no-ffmpeg-internal	2015-04-06 22:56:30.611343967 +0200
++++ chromium-43.0.2357.2/media/ffmpeg/ffmpeg_common.h	2015-04-06 22:57:29.507220212 +0200
+@@ -25,7 +25,6 @@ extern "C" {
+ MSVC_PUSH_DISABLE_WARNING(4244);
+ #include <libavcodec/avcodec.h>
+ #include <libavformat/avformat.h>
+-#include <libavformat/internal.h>
+ #include <libavformat/avio.h>
+ #include <libavutil/avutil.h>
+ #include <libavutil/imgutils.h>
+diff -up chromium-43.0.2357.2/media/filters/ffmpeg_demuxer.cc.no-ffmpeg-internal chromium-43.0.2357.2/media/filters/ffmpeg_demuxer.cc
+--- chromium-43.0.2357.2/media/filters/ffmpeg_demuxer.cc.no-ffmpeg-internal	2015-04-04 11:58:19.000000000 +0200
++++ chromium-43.0.2357.2/media/filters/ffmpeg_demuxer.cc	2015-04-06 23:03:42.158107294 +0200
+@@ -838,25 +838,6 @@ void FFmpegDemuxer::OnFindStreamInfoDone
+   // If no estimate is found, the stream entry will be kInfiniteDuration().
+   std::vector<base::TimeDelta> start_time_estimates(format_context->nb_streams,
+                                                     kInfiniteDuration());
+-  const AVFormatInternal* internal = format_context->internal;
+-  if (internal && internal->packet_buffer &&
+-      format_context->start_time != static_cast<int64>(AV_NOPTS_VALUE)) {
+-    struct AVPacketList* packet_buffer = internal->packet_buffer;
+-    while (packet_buffer != internal->packet_buffer_end) {
+-      DCHECK_LT(static_cast<size_t>(packet_buffer->pkt.stream_index),
+-                start_time_estimates.size());
+-      const AVStream* stream =
+-          format_context->streams[packet_buffer->pkt.stream_index];
+-      if (packet_buffer->pkt.pts != static_cast<int64>(AV_NOPTS_VALUE)) {
+-        const base::TimeDelta packet_pts =
+-            ConvertFromTimeBase(stream->time_base, packet_buffer->pkt.pts);
+-        if (packet_pts < start_time_estimates[stream->index])
+-          start_time_estimates[stream->index] = packet_pts;
+-      }
+-      packet_buffer = packet_buffer->next;
+-    }
+-  }
+-
+   AVStream* audio_stream = NULL;
+   AudioDecoderConfig audio_config;
+   AVStream* video_stream = NULL;

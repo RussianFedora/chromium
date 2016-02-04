@@ -1,0 +1,42 @@
+diff -up chromium-48.0.2564.8/media/ffmpeg/ffmpeg_common.h.disable_ffmpeg_api_change chromium-48.0.2564.8/media/ffmpeg/ffmpeg_common.h
+--- chromium-48.0.2564.8/media/ffmpeg/ffmpeg_common.h.disable_ffmpeg_api_change	2015-11-18 13:16:05.867971946 +0100
++++ chromium-48.0.2564.8/media/ffmpeg/ffmpeg_common.h	2015-11-18 13:19:20.130249467 +0100
+@@ -19,18 +19,6 @@
+ 
+ // Include FFmpeg header files.
+ extern "C" {
+-// Disable deprecated features which result in spammy compile warnings.  This
+-// list of defines must mirror those in the 'defines' section of BUILD.gn file &
+-// ffmpeg.gyp file or the headers below will generate different structures!
+-#define FF_API_CONVERGENCE_DURATION 0
+-// Upstream libavcodec/utils.c still uses the deprecated
+-// av_dup_packet(), causing deprecation warnings.
+-// The normal fix for such things is to disable the feature as below,
+-// but the upstream code does not yet compile with it disabled.
+-// (In this case, the fix is replacing the call with a new function.)
+-// In the meantime, we directly disable those warnings in the C file.
+-//#define FF_API_AVPACKET_OLD_API 0
+-
+ // Temporarily disable possible loss of data warning.
+ // TODO(scherkus): fix and upstream the compiler warnings.
+ MSVC_PUSH_DISABLE_WARNING(4244);
+diff -up chromium-48.0.2564.8/third_party/ffmpeg/ffmpeg.gyp.disable_ffmpeg_api_change chromium-48.0.2564.8/third_party/ffmpeg/ffmpeg.gyp
+--- chromium-48.0.2564.8/third_party/ffmpeg/ffmpeg.gyp.disable_ffmpeg_api_change	2015-11-18 13:16:05.869971908 +0100
++++ chromium-48.0.2564.8/third_party/ffmpeg/ffmpeg.gyp	2015-11-18 13:19:31.344034578 +0100
+@@ -199,16 +199,6 @@
+             '_POSIX_C_SOURCE=200112',
+             '_XOPEN_SOURCE=600',
+             'PIC',
+-            # Disable deprecated features that generate spammy warnings.
+-            # BUILD.gn & media/ffmpeg/ffmpeg_common.h must be kept in sync.
+-            'FF_API_CONVERGENCE_DURATION=0',
+-            # Upstream libavcodec/utils.c still uses the deprecated
+-            # av_dup_packet(), causing deprecation warnings.
+-            # The normal fix for such things is to disable the feature as below,
+-            # but the upstream code does not yet compile with it disabled.
+-            # (In this case, the fix is replacing the call with a new function.)
+-            # In the meantime, we directly disable those warnings in the C file.
+-            # 'FF_API_AVPACKET_OLD_API=0',
+           ],
+           'variables': {
+             'clang_warning_flags': [

@@ -19,11 +19,13 @@
 %define libvpx 0
 %endif
 
+%define ffmpeg 1
+
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	48.0.2564.97
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -67,6 +69,11 @@ Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTim
 Patch202:       unbundle-libvpx_new-fix.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
+# (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
+#       From debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=763632
+Patch205:		fix_for_system_ffmpeg_ABI.patch
+# (cjw) Do not use ffmpeg internal header(s)
+Patch206:	chromium-43-no-ffmpeg-internal.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -149,6 +156,9 @@ BuildRequires:  speech-dispatcher-devel
 BuildRequires:  sqlite-devel
 BuildRequires:  texinfo
 BuildRequires:  util-linux
+%if 0%{?ffmpeg}
+BuildRequires:	ffmpeg-devel
+%endif
 BuildRequires:  valgrind-devel
 %if 0%{?fedora}
 BuildRequires:  python-jinja2
@@ -198,7 +208,12 @@ BuildRequires:	libva-devel
 %endif
 
 Requires:	hicolor-icon-theme
+
+%if 0%{?ffmpeg}
+Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
+%else
 Requires:	chromium-libffmpeg = %{epoch}:%{version}-%{release}
+%endif
 
 Obsoletes:	chromium-ffmpeg
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
@@ -237,6 +252,7 @@ implements WebDriver's wire protocol for Chromium. It is being developed by
 members of the Chromium and WebDriver teams.
 
 
+%if ! 0%{?ffmpeg}
 %package libffmpeg
 Summary:        FFmpeg library for Google Chrome/Chromium and Opera
 Group:          Development/Libraries
@@ -246,7 +262,7 @@ Conflicts:      chromium-libffmpeg-unstable
 
 %description libffmpeg
 FFmpeg library built from the chromium sources.
-
+%endif
 
 %prep
 %setup -q -a 998 -a 997
@@ -266,6 +282,10 @@ rm -rf ppapi/native_client/tests/
 rm -rf third_party/apache-win32/
 rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
+%if 0%{?ffmpeg}
+rm -rf third_party/ffmpeg/*/*
+rm -rf third_party/ffmpeg/*.[ch]
+%endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
 rm -rf third_party/icu/android
@@ -322,6 +342,11 @@ rm -rf v8/test/
 %patch204 -p0 -b .icu-ver
 %endif
 
+%if 0%{?ffmpeg}
+%patch205 -p1
+%patch206 -p1
+%endif
+
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
@@ -348,8 +373,6 @@ touch chrome/test/data/webui_test_resources.grd
 
 buildconfig+="-Dwerror=
 		-Dlinux_sandbox_chrome_path=%{_libdir}/%{name}/chrome
-                -Duse_system_ffmpeg=0
-                -Dbuild_ffmpegsumo=1
                 -Dproprietary_codecs=1
                 -Dremove_webcore_debug_symbols=1
                 -Dlogging_like_official_build=1
@@ -357,7 +380,6 @@ buildconfig+="-Dwerror=
                 -Ddisable_sse2=1
                 -Dcomponent=shared_library
                 -Dtoolkit_uses_gtk=0
-                -Dffmpeg_branding=Chrome
                 -Ddisable_nacl=1
 		-Ddisable_glibc=0
 		-Ddisable_pnacl=1
@@ -372,6 +394,15 @@ buildconfig+="-Dwerror=
 		-Duse_gconf=0
 		-Duse_sysroot=0
 		-Dicu_use_data_file_flag=0"
+
+%if 0%{?ffmpeg}
+buildconfig+=" -Duse_system_ffmpeg=1"
+%else
+buildconfig+=" -Duse_system_ffmpeg=0
+		-Dbuild_ffmpegsumo=1
+		-Dffmpeg_branding=Chrome"
+%endif
+
 
 %if ! %{defined rhel}
 buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
@@ -559,7 +590,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/lib
+%if ! 0%{?ffmpeg}
 %exclude %{_libdir}/%{name}/lib/libffmpeg.so
+%endif
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
@@ -581,13 +614,17 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_bindir}/chromedriver
 %{_libdir}/%{name}/chromedriver
 
+%if ! 0%{?ffmpeg}
 %files libffmpeg
 %defattr(-,root,root,-)
 %doc LICENSE AUTHORS
 %{_libdir}/%{name}/lib/libffmpeg.so
-
+%endif
 
 %changelog
+* Thu Feb  4 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-2.R
+- rebuilt with system ffmpeg
+
 * Thu Jan 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.97-1.R
 - update to 48.0.2564.97
 
