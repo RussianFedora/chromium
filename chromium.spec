@@ -5,8 +5,10 @@
 
 %if %{defined rhel}
 %define chromium_system_libs 0
+%define ffmpeg 0
 %else
 %define chromium_system_libs 1
+%define ffmpeg 1
 %endif
 
 %define clang 1
@@ -18,9 +20,6 @@
 %else
 %define libvpx 0
 %endif
-
-%define ffmpeg 1
-
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
