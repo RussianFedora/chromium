@@ -1,24 +1,22 @@
+%global ffmpeg 0
+%global clang 1
+%global libva 1
+%global libvpx 0
+
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
 %global debug_package %{nil}
-%endif
-
-%if %{defined rhel}
-%define chromium_system_libs 0
-%define ffmpeg 0
+%global chromium_system_libs 0
 %else
-%define chromium_system_libs 1
-%define ffmpeg 1
+%global chromium_system_libs 1
+%if 0%{?fedora} >= 23
+%global ffmpeg 1
 %endif
-
-%define clang 1
-%define libva 1
 %if 0%{?fedora} >= 24
-%define libvpx 1
+%global libvpx 1
 # something goes wrong in llvm 3.7.1
-%define clang 0
-%else
-%define libvpx 0
+%global clang 0
+%endif
 %endif
 
 Summary:	A fast webkit-based web browser
