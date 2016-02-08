@@ -52,8 +52,6 @@ Patch8:         adjust-ldflags-no-keep-memory.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
-Patch20:	chromium-48.0.2564.103-gcc6.0-fix.patch
-
 # archlinux arm enhancement patches
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
@@ -324,10 +322,6 @@ rm -rf v8/test/
 %patch6 -p0
 %patch8 -p1
 %patch15 -p1
-
-%if 0%{?fedora} >= 24
-%patch20 -p1
-%endif
 
 # archlinux arm enhancements
 %patch100 -p0
