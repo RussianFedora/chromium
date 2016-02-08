@@ -15,7 +15,6 @@
 %if 0%{?fedora} >= 24
 %global libvpx 1
 # something goes wrong in llvm 3.7.1
-%global clang 0
 %endif
 %endif
 
