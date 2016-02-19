@@ -14,7 +14,7 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
-# something goes wrong in llvm 3.7.1
+%global clang 0
 %endif
 %endif
 
@@ -44,6 +44,8 @@ Conflicts:	chromium-testing
 Conflicts:	chromium-unstable
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
+# UPSTREAM-PATCH https://skia.googlesource.com/skia.git/+/29d60e5ab594b39d1f533bff090877b1bb821e06%5E%21/
+Patch1:		skia-Revert-float-xfermodes-back-to-Sk4f-from-Sk8f.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch6:         chromium-more-codec-aliases.patch
@@ -317,6 +319,12 @@ rm -rf v8/test/
 %endif
 
 %patch0 -p1 -b .master-prefs
+
+%if 0%{?fedora} >= 24
+cd third_party/skia
+%patch1 -p1 -b .skia
+cd -
+%endif
 
 # openSUSE patches
 %patch6 -p0
@@ -620,6 +628,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Wed Feb 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-1.R
 - update to 48.0.2564.116
+- drop llvm-libs BR
+- apply patch from upstream to build skia with gcc 6.0
+- build with gcc for Rawhide
 
 * Wed Feb 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.109-1.R
 - update to 48.0.2564.109
