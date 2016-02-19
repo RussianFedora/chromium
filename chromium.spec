@@ -197,7 +197,6 @@ BuildRequires:  xvidcore-devel
 
 %if 0%{?clang}
 BuildRequires:	clang
-BuildRequires:	llvm-libs
 %endif
 
 %if 0%{?libva}
@@ -624,7 +623,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 * Wed Feb 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.109-1.R
 - update to 48.0.2564.109
-- added BR: llvm-libs
 
 * Sun Feb  7 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.103-1.R
 - update to 48.0.2564.103
