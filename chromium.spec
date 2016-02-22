@@ -14,16 +14,14 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
-%global ffmpeg 0
-# something goes wrong in llvm 3.7.1
 %global clang 0
 %endif
 %endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	48.0.2564.103
-Release:	1%{?dist}
+Version:	48.0.2564.116
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -46,6 +44,8 @@ Conflicts:	chromium-testing
 Conflicts:	chromium-unstable
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
+# UPSTREAM-PATCH https://skia.googlesource.com/skia.git/+/29d60e5ab594b39d1f533bff090877b1bb821e06%5E%21/
+Patch1:		skia-Revert-float-xfermodes-back-to-Sk4f-from-Sk8f.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch6:         chromium-more-codec-aliases.patch
@@ -58,6 +58,9 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+# fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
+# vaInitialize failed VA error: unknown libva error
+Patch199:	issue1688073002_40001.diff
 Patch200:       enable_vaapi_on_linux.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
@@ -320,6 +323,12 @@ rm -rf v8/test/
 
 %patch0 -p1 -b .master-prefs
 
+%if 0%{?fedora} >= 24
+cd third_party/skia
+%patch1 -p1 -b .skia
+cd -
+%endif
+
 # openSUSE patches
 %patch6 -p0
 %patch8 -p1
@@ -330,6 +339,7 @@ rm -rf v8/test/
 %patch101 -p0
 
 %if 0%{?libva}
+%patch199 -p1
 %patch200 -p1
 %endif
 %patch201 -p1 -b .system-icu
@@ -620,6 +630,19 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Mon Feb 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-2.R
+- fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
+  vaInitialize failed VA error: unknown libva error
+
+* Wed Feb 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-1.R
+- update to 48.0.2564.116
+- drop llvm-libs BR
+- apply patch from upstream to build skia with gcc 6.0
+- build with gcc for Rawhide
+
+* Wed Feb 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.109-1.R
+- update to 48.0.2564.109
+
 * Sun Feb  7 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.103-1.R
 - update to 48.0.2564.103
 
