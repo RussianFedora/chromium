@@ -133,6 +133,7 @@ BuildRequires:  pkgconfig(gtk+-2.0)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libffi)
 BuildRequires:  pkgconfig(libudev)
 BuildRequires:  pkgconfig(nspr) >= 4.9.5
 BuildRequires:  pkgconfig(nss) >= 3.14
