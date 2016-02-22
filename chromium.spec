@@ -331,7 +331,7 @@ cd -
 
 # openSUSE patches
 %patch6 -p0
-%patch8 -p1
+#patch8 -p1
 %patch15 -p1
 
 # archlinux arm enhancements
