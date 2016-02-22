@@ -20,8 +20,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	48.0.2564.116
-Release:	2%{?dist}
+Version:	49.0.2623.56
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -630,6 +630,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Mon Feb 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.56-1.R
+- update to 49.0.2623.56
+
 * Mon Feb 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-2.R
 - fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
   vaInitialize failed VA error: unknown libva error
