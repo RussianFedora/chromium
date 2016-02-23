@@ -21,7 +21,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	48.0.2564.116
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -61,6 +61,7 @@ Patch101:       chromium-arm-r0.patch
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
 Patch199:	issue1688073002_40001.diff
+# http://bazaar.launchpad.net/~saiarcot895/chromium-browser/chromium-browser.trusty.beta/revision/230#debian/patches/enable_vaapi_on_linux.diff
 Patch200:       enable_vaapi_on_linux.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
@@ -630,11 +631,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Tue Feb 23 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-3.R
+- update vaapi patch from
+  http://bazaar.launchpad.net/~saiarcot895/chromium-browser/chromium-browser.trusty.beta/revision/230#debian/patches/enable_vaapi_on_linux.diff
+
 * Mon Feb 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-2.R
 - fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
   vaInitialize failed VA error: unknown libva error
 
-* Wed Feb 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-1.R
+* Fri Feb 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-1.R
 - update to 48.0.2564.116
 - drop llvm-libs BR
 - apply patch from upstream to build skia with gcc 6.0
