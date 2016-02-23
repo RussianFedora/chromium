@@ -290,13 +290,13 @@ rm -rf third_party/ffmpeg/*.[ch]
 %endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
-rm -rf third_party/icu/android
-rm -rf third_party/icu/linux
-rm -rf third_party/icu/mac
-rm -rf third_party/icu/patches
-rm -rf third_party/icu/public
-rm -rf third_party/icu/source
-rm -rf third_party/icu/windows
+#rm -rf third_party/icu/android
+#rm -rf third_party/icu/linux
+#rm -rf third_party/icu/mac
+#rm -rf third_party/icu/patches
+#rm -rf third_party/icu/public
+#rm -rf third_party/icu/source
+#rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
@@ -343,7 +343,7 @@ cd -
 %patch199 -p1
 #patch200 -p1
 %endif
-%patch201 -p1 -b .system-icu
+#patch201 -p1 -b .system-icu
 %if 0%{?libvpx}
 %patch202 -p1 -b .system-libvpx
 %endif
@@ -425,7 +425,7 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=1
+buildconfig+=" -Duse_system_icu=0
                 -Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_fontconfig=1
