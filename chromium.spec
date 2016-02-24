@@ -486,6 +486,7 @@ buildconfig+=" -Duse_pulseaudio=1
                 -Dlinux_link_libgps=1
 		-Dlinux_link_libspeechd=1
                 -Djavascript_engine=v8
+                -Dlinux_use_bundled_binutils=0
                 -Dlinux_use_gold_binary=0
                 -Dlinux_use_gold_flags=0
                 -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
