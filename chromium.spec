@@ -76,6 +76,8 @@ Patch205:		fix_for_system_ffmpeg_ABI.patch
 # (cjw) Do not use ffmpeg internal header(s)
 Patch206:	chromium-43-no-ffmpeg-internal.patch
 
+Patch207:	chromium-icu.patch
+
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -355,6 +357,8 @@ cd -
 %patch205 -p1
 %patch206 -p1
 %endif
+
+%patch207 -p1
 
 ### build with widevine support
 
@@ -638,7 +642,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
   vaInitialize failed VA error: unknown libva error
 
-* Wed Feb 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-1.R
+* Thu Feb 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-1.R
 - update to 48.0.2564.116
 - drop llvm-libs BR
 - apply patch from upstream to build skia with gcc 6.0

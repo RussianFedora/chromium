@@ -1,0 +1,12 @@
+diff -urN chromium-49.0.2623.56.orig/mojo/shell/public/cpp/initialize_base_and_icu.cc chromium-49.0.2623.56/mojo/shell/public/cpp/initialize_base_and_icu.cc
+--- chromium-49.0.2623.56.orig/mojo/shell/public/cpp/initialize_base_and_icu.cc	2016-02-24 17:40:19.847061364 +0300
++++ chromium-49.0.2623.56/mojo/shell/public/cpp/initialize_base_and_icu.cc	2016-02-24 17:43:06.225739581 +0300
+@@ -25,7 +25,7 @@
+ #else
+ void __attribute__((visibility("default")))
+ #endif
+-InitializeBase(const uint8_t* icu_data) {
++InitializeBase(const uint8* icu_data) {
+   base::RandUint64();
+   base::SysInfo::AmountOfPhysicalMemory();
+   base::SysInfo::NumberOfProcessors();
