@@ -341,7 +341,7 @@ cd -
 
 %if 0%{?libva}
 #patch199 -p1
-%patch200 -p1
+#patch200 -p1
 %endif
 #patch201 -p1 -b .system-icu
 %if 0%{?libvpx}
