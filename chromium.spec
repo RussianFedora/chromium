@@ -2,6 +2,7 @@
 %global clang 1
 %global libva 1
 %global libvpx 0
+%global icu 0
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -175,7 +176,9 @@ BuildRequires:  python-ply
 
 %if 0%{?chromium_system_libs}
 BuildRequires:  fontconfig-devel
+%if 0%{icu}
 BuildRequires:  libicu-devel >= 5.4
+%endif
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  perl-JSON
 BuildRequires:  pkgconfig(jsoncpp)
@@ -295,6 +298,7 @@ rm -rf third_party/ffmpeg/*.[ch]
 %endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
+%if 0%{icu}
 rm -rf third_party/icu/android
 rm -rf third_party/icu/linux
 rm -rf third_party/icu/mac
@@ -302,6 +306,7 @@ rm -rf third_party/icu/patches
 rm -rf third_party/icu/public
 rm -rf third_party/icu/source
 rm -rf third_party/icu/windows
+%endif
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
@@ -348,14 +353,17 @@ cd -
 %patch199 -p1
 %patch200 -p1
 %endif
+
+%if 0%{icu}
 %patch201 -p1 -b .system-icu
-%if 0%{?libvpx}
-%patch202 -p1 -b .system-libvpx
-%endif
 %if 0%{?fedora} >= 24
 %patch204 -p0 -b .icu-ver
 %endif
+%endif
 
+%if 0%{?libvpx}
+%patch202 -p1 -b .system-libvpx
+%endif
 %if 0%{?ffmpeg}
 %patch205 -p1
 %endif
@@ -411,8 +419,11 @@ buildconfig+="-Dwerror=
 		-Denable_touch_ui=1
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
-		-Duse_sysroot=0
-		-Dicu_use_data_file_flag=0"
+		-Duse_sysroot=0"
+
+%if 0%{icu}
+buildconfig+=" -Dicu_use_data_file_flag=0
+		-Duse_system_icu=1"
 
 %if 0%{?ffmpeg}
 buildconfig+=" -Duse_system_ffmpeg=1"
@@ -421,7 +432,6 @@ buildconfig+=" -Duse_system_ffmpeg=0
 		-Dbuild_ffmpegsumo=1
 		-Dffmpeg_branding=Chrome"
 %endif
-
 
 %if ! %{defined rhel}
 buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
@@ -435,8 +445,7 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=1
-                -Duse_system_flac=1
+buildconfig+=" -Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_fontconfig=1
                 -Duse_system_jsoncpp=1
@@ -464,8 +473,7 @@ buildconfig+=" -Duse_system_libvpx=0"
 # Segfault with system protobuf at this time
 buildconfig+=" -Duse_system_protobuf=0"
 %else
-buildconfig+=" -Duse_system_icu=0
-		-Duse_system_flac=0
+buildconfig+=" -Duse_system_flac=0
                 -Duse_system_speex=0
                 -Duse_system_libexif=0
                 -Duse_system_libevent=0
@@ -645,6 +653,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - enable gtk3 support
 - disable re2 support
 - update VAAPI and FFmpeg patches
+- disable system icu
 
 * Tue Feb 23 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-3.R
 - update vaapi patch from
