@@ -193,7 +193,7 @@ BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(speex)
 BuildRequires:  pkgconfig(zlib)
-BuildRequires:  re2-devel
+#BuildRequires:  re2-devel
 BuildRequires:  snappy-devel
 BuildRequires:  usbutils
 BuildRequires:  yasm
@@ -455,7 +455,6 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
-                -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
