@@ -20,8 +20,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	48.0.2564.116
-Release:	3%{?dist}
+Version:	49.0.2623.64
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -631,6 +631,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
+- update to 49.0.2623.64
+
 * Tue Feb 23 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-3.R
 - update vaapi patch from
   http://bazaar.launchpad.net/~saiarcot895/chromium-browser/chromium-browser.trusty.beta/revision/230#debian/patches/enable_vaapi_on_linux.diff
