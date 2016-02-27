@@ -50,8 +50,6 @@ Patch1:		skia-Revert-float-xfermodes-back-to-Sk4f-from-Sk8f.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch6:         chromium-more-codec-aliases.patch
-# PATCH-FIX-OPENSUSE Adjust ldflags for better building
-Patch8:         adjust-ldflags-no-keep-memory.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
@@ -342,7 +340,6 @@ cd -
 
 # openSUSE patches
 %patch6 -p0
-%patch8 -p1
 %patch15 -p1
 
 # archlinux arm enhancements
