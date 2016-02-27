@@ -72,10 +72,8 @@ Patch202:       unbundle-libvpx_new-fix.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
-#       From debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=763632
-Patch205:		fix_for_system_ffmpeg_ABI.patch
-# (cjw) Do not use ffmpeg internal header(s)
-Patch206:	chromium-43-no-ffmpeg-internal.patch
+#       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
+Patch205:       chromium-system-ffmpeg-r2.patch`
 
 # AUR patches
 # https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
@@ -360,7 +358,6 @@ cd -
 
 %if 0%{?ffmpeg}
 %patch205 -p1
-%patch206 -p1
 %endif
 
 # AUR patches
