@@ -81,6 +81,9 @@ Patch206:	chromium-43-no-ffmpeg-internal.patch
 # https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
 Patch300:       gtk2_ui.patch
 
+# PATCH-FIX-UPSTREAM Fixes that were already committed upstream
+Patch400:	build.patch
+
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -362,6 +365,9 @@ cd -
 
 # AUR patches
 %patch300 -p1
+
+# upstream patches
+%patch400 -p1
 
 ### build with widevine support
 
