@@ -642,6 +642,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
 - update to 49.0.2623.64
+- enable gtk3 support
+- disable re2 support
+- update VAAPI and FFmpeg patches
 
 * Tue Feb 23 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-3.R
 - update vaapi patch from
