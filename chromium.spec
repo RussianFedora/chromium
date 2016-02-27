@@ -77,6 +77,10 @@ Patch205:		fix_for_system_ffmpeg_ABI.patch
 # (cjw) Do not use ffmpeg internal header(s)
 Patch206:	chromium-43-no-ffmpeg-internal.patch
 
+# AUR patches
+# https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
+Patch300:       gtk2_ui.patch
+
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -130,7 +134,7 @@ BuildRequires:  pkgconfig(cairo) >= 1.6
 BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(gconf-2.0)
 BuildRequires:  pkgconfig(glib-2.0)
-BuildRequires:  pkgconfig(gtk+-2.0)
+BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libexif)
 BuildRequires:  pkgconfig(libexif)
@@ -356,6 +360,9 @@ cd -
 %patch206 -p1
 %endif
 
+# AUR patches
+%patch300 -p1
+
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
@@ -388,7 +395,7 @@ buildconfig+="-Dwerror=
                 -Dlinux_fpic=1
                 -Ddisable_sse2=1
                 -Dcomponent=shared_library
-                -Dtoolkit_uses_gtk=0
+                -Duse_gtk3=1
                 -Ddisable_nacl=1
 		-Ddisable_glibc=0
 		-Ddisable_pnacl=1
