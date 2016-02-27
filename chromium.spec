@@ -424,6 +424,9 @@ buildconfig+="-Dwerror=
 %if 0%{icu}
 buildconfig+=" -Dicu_use_data_file_flag=0
 		-Duse_system_icu=1"
+%else
+buildconfig+=" -Duse_system_icu=0"
+%endif
 
 %if 0%{?ffmpeg}
 buildconfig+=" -Duse_system_ffmpeg=1"
@@ -545,6 +548,11 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
+
+%if ! 0%{icu}
+install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
+%endif
+
 cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
 
 # chromium components
@@ -624,6 +632,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
+%if 0%{icu}
+%{_libdir}/%{name}/icudtl.dat
+%endif
 %{_libdir}/%{name}/*_blob.bin
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
