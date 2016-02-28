@@ -74,10 +74,6 @@ Patch204:	chromium-system-icu-r0.patch
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r2.patch
 
-# AUR patches
-# https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
-Patch300:       gtk2_ui.patch
-
 # PATCH-FIX-UPSTREAM Fixes that were already committed upstream
 Patch400:	build.patch
 
@@ -365,9 +361,6 @@ cd -
 %if 0%{?ffmpeg}
 %patch205 -p1
 %endif
-
-# AUR patches
-%patch300 -p1
 
 # upstream patches
 %patch400 -p1
