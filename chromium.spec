@@ -630,7 +630,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
-%if 0%{icu}
+%if ! 0%{icu}
 %{_libdir}/%{name}/icudtl.dat
 %endif
 %{_libdir}/%{name}/*_blob.bin
