@@ -348,7 +348,7 @@ cd -
 %patch101 -p0
 
 %if 0%{?libva}
-%patch199 -p1
+#patch199 -p1
 %patch200 -p1
 %endif
 
