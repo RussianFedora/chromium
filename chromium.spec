@@ -74,9 +74,6 @@ Patch204:	chromium-system-icu-r0.patch
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r2.patch
 
-# PATCH-FIX-UPSTREAM Fixes that were already committed upstream
-Patch400:	build.patch
-
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -361,9 +358,6 @@ cd -
 %if 0%{?ffmpeg}
 %patch205 -p1
 %endif
-
-# upstream patches
-%patch400 -p1
 
 ### build with widevine support
 
