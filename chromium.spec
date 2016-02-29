@@ -57,6 +57,7 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+Patch198:	issue1637423004_100001.diff
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
 Patch199:	issue1688073002_40001.diff
@@ -348,6 +349,7 @@ cd -
 %patch101 -p0
 
 %if 0%{?libva}
+%patch198 -p1
 %patch199 -p1
 %patch200 -p1
 %endif
@@ -415,6 +417,9 @@ buildconfig+="-Dwerror=
 		-Duse_aura=1
 		-Denable_hidpi=1
 		-Denable_touch_ui=1
+		-Denable_pepper_cdms=1 
+                -Denable_webrtc=1
+                -Drtc_use_h264=1
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0"
