@@ -406,7 +406,7 @@ buildconfig+="-Dwerror=
                 -Dcomponent=shared_library
                 -Duse_gtk3=1
                 -Ddisable_nacl=1
-		-Ddisable_glibc=0
+		-Ddisable_glibc=1
 		-Ddisable_pnacl=1
 		-Ddisable_newlib_untar=0
 		-Duse_system_xdg_utils=1
