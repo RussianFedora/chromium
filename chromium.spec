@@ -477,6 +477,7 @@ buildconfig+=" -Duse_system_flac=0
                 -Duse_system_libxslt=0
                 -Duse_system_libxml=0
                 -Duse_system_libyuv=0
+                -Duse_system_sqlite=0
                 -Duse_system_nspr=0
                 -Duse_system_protobuf=0
                 -Duse_system_yasm=0"
