@@ -79,9 +79,6 @@ Patch205:       chromium-system-ffmpeg-r2.patch
 # https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
 Patch300:       gtk2_ui.patch
 
-# PATCH-FIX-UPSTREAM Fixes that were already committed upstream
-Patch400:	build.patch
-
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -371,9 +368,6 @@ cd -
 # AUR patches
 %patch300 -p1
 
-# upstream patches
-%patch400 -p1
-
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
@@ -659,6 +653,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-1.R
 - update to 49.0.2623.75
 - build with system icu
+- drop upstream patch
 
 * Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
 - update to 49.0.2623.64
