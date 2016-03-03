@@ -3,6 +3,9 @@
 %global libva 1
 %global libvpx 0
 %global icu 0
+# disable libxml to avoid not opening
+#http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
+%global xml 0
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -22,7 +25,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	49.0.2623.75
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -449,12 +452,18 @@ buildconfig+=" -Duse_system_flac=1
                 -Duse_system_libjpeg=1
                 -Duse_system_libpng=1
                 -Duse_system_libxslt=1
-                -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
+
+%if 0%{xml}
+buildconfig+=" -Duse_system_libxml=1"
+%else
+buildconfig+=" -Duse_system_libxml=0"
+%endif
+
 %if 0%{?libvpx}
 buildconfig+=" -Duse_system_libvpx=1"
 %else
@@ -475,7 +484,6 @@ buildconfig+=" -Duse_system_flac=0
                 -Duse_system_libjpeg=0
                 -Duse_system_libpng=0
                 -Duse_system_libxslt=0
-                -Duse_system_libxml=0
                 -Duse_system_libyuv=0
                 -Duse_system_sqlite=0
                 -Duse_system_nspr=0
@@ -643,6 +651,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-2.R
+- stop experiments. Build with gcc
+- build with internal libxml to avoid not opening page in base.consultant.ru
+
 * Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-1.R
 - update to 49.0.2623.75
 - drop upstream patch
