@@ -2,7 +2,7 @@
 %global clang 1
 %global libva 1
 %global libvpx 0
-%global icu 1
+%global icu 0
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -652,7 +652,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-1.R
 - update to 49.0.2623.75
-- build with system icu
 - drop upstream patch
 
 * Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
