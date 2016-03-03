@@ -649,7 +649,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - disable pdf support as it obsolete
 - enable vaapi
 
-* Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
+* Wed Mar  2 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
 - update to 49.0.2623.64
 - enable gtk3 support
 - disable re2 support
