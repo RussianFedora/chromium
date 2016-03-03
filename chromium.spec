@@ -536,7 +536,7 @@ export GYP_GENERATORS='ninja'
 
 mkdir -p out/Release
 
-ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm pdf
+ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm
 
 %install
 mkdir -p %{buildroot}%{_bindir}
