@@ -1,7 +1,8 @@
 %global ffmpeg 0
 %global clang 1
-%global libva 0
+%global libva 1
 %global libvpx 0
+%global icu 0
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -20,8 +21,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	48.0.2564.116
-Release:	4%{?dist}
+Version:	49.0.2623.75
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -49,8 +50,6 @@ Patch1:		skia-Revert-float-xfermodes-back-to-Sk4f-from-Sk8f.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch6:         chromium-more-codec-aliases.patch
-# PATCH-FIX-OPENSUSE Adjust ldflags for better building
-Patch8:         adjust-ldflags-no-keep-memory.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
@@ -58,6 +57,7 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+Patch198:	issue1637423004_100001.diff
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
 Patch199:	issue1688073002_40001.diff
@@ -72,10 +72,12 @@ Patch202:       unbundle-libvpx_new-fix.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
-#       From debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=763632
-Patch205:		fix_for_system_ffmpeg_ABI.patch
-# (cjw) Do not use ffmpeg internal header(s)
-Patch206:	chromium-43-no-ffmpeg-internal.patch
+#       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
+Patch205:       chromium-system-ffmpeg-r2.patch
+
+# AUR patches
+# https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
+Patch300:       gtk2_ui.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -131,9 +133,10 @@ BuildRequires:  pkgconfig(dbus-1)
 BuildRequires:  pkgconfig(gconf-2.0)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(gtk+-2.0)
+BuildRequires:  pkgconfig(gtk+-3.0)
 BuildRequires:  pkgconfig(libcrypto)
 BuildRequires:  pkgconfig(libexif)
-BuildRequires:  pkgconfig(libexif)
+BuildRequires:  pkgconfig(libffi)
 BuildRequires:  pkgconfig(libudev)
 BuildRequires:  pkgconfig(nspr) >= 4.9.5
 BuildRequires:  pkgconfig(nss) >= 3.14
@@ -170,7 +173,9 @@ BuildRequires:  python-ply
 
 %if 0%{?chromium_system_libs}
 BuildRequires:  fontconfig-devel
+%if 0%{icu}
 BuildRequires:  libicu-devel >= 5.4
+%endif
 BuildRequires:  libjpeg-turbo-devel
 BuildRequires:  perl-JSON
 BuildRequires:  pkgconfig(jsoncpp)
@@ -186,7 +191,7 @@ BuildRequires:  pkgconfig(opus)
 BuildRequires:  pkgconfig(protobuf)
 BuildRequires:  pkgconfig(speex)
 BuildRequires:  pkgconfig(zlib)
-BuildRequires:  re2-devel
+#BuildRequires:  re2-devel
 BuildRequires:  snappy-devel
 BuildRequires:  usbutils
 BuildRequires:  yasm
@@ -290,6 +295,7 @@ rm -rf third_party/ffmpeg/*.[ch]
 %endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
+%if 0%{icu}
 rm -rf third_party/icu/android
 rm -rf third_party/icu/linux
 rm -rf third_party/icu/mac
@@ -297,6 +303,7 @@ rm -rf third_party/icu/patches
 rm -rf third_party/icu/public
 rm -rf third_party/icu/source
 rm -rf third_party/icu/windows
+%endif
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
@@ -332,7 +339,6 @@ cd -
 
 # openSUSE patches
 %patch6 -p0
-%patch8 -p1
 %patch15 -p1
 
 # archlinux arm enhancements
@@ -340,21 +346,27 @@ cd -
 %patch101 -p0
 
 %if 0%{?libva}
+%patch198 -p1
 %patch199 -p1
 %patch200 -p1
 %endif
+
+%if 0%{icu}
 %patch201 -p1 -b .system-icu
-%if 0%{?libvpx}
-%patch202 -p1 -b .system-libvpx
-%endif
 %if 0%{?fedora} >= 24
 %patch204 -p0 -b .icu-ver
 %endif
+%endif
 
+%if 0%{?libvpx}
+%patch202 -p1 -b .system-libvpx
+%endif
 %if 0%{?ffmpeg}
 %patch205 -p1
-%patch206 -p1
 %endif
+
+# AUR patches
+%patch300 -p1
 
 ### build with widevine support
 
@@ -388,9 +400,9 @@ buildconfig+="-Dwerror=
                 -Dlinux_fpic=1
                 -Ddisable_sse2=1
                 -Dcomponent=shared_library
-                -Dtoolkit_uses_gtk=0
+                -Duse_gtk3=1
                 -Ddisable_nacl=1
-		-Ddisable_glibc=0
+		-Ddisable_glibc=1
 		-Ddisable_pnacl=1
 		-Ddisable_newlib_untar=0
 		-Duse_system_xdg_utils=1
@@ -399,10 +411,18 @@ buildconfig+="-Dwerror=
 		-Duse_aura=1
 		-Denable_hidpi=1
 		-Denable_touch_ui=1
+		-Denable_pepper_cdms=1 
+                -Denable_webrtc=1
+                -Drtc_use_h264=1
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
-		-Duse_sysroot=0
-		-Dicu_use_data_file_flag=0"
+		-Duse_sysroot=0"
+
+%if 0%{icu}
+buildconfig+=" -Duse_system_icu=1"
+%else
+buildconfig+=" -Duse_system_icu=0"
+%endif
 
 %if 0%{?ffmpeg}
 buildconfig+=" -Duse_system_ffmpeg=1"
@@ -411,7 +431,6 @@ buildconfig+=" -Duse_system_ffmpeg=0
 		-Dbuild_ffmpegsumo=1
 		-Dffmpeg_branding=Chrome"
 %endif
-
 
 %if ! %{defined rhel}
 buildconfig+=" -Dlibspeechd_h_prefix=speech-dispatcher/"
@@ -425,8 +444,7 @@ buildconfig+=" -Dclang=0"
 %endif
 
 %if 0%{?chromium_system_libs}
-buildconfig+=" -Duse_system_icu=1
-                -Duse_system_flac=1
+buildconfig+=" -Duse_system_flac=1
                 -Duse_system_speex=1
                 -Duse_system_fontconfig=1
                 -Duse_system_jsoncpp=1
@@ -442,7 +460,6 @@ buildconfig+=" -Duse_system_icu=1
                 -Duse_system_libxml=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
-                -Duse_system_re2=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
@@ -455,8 +472,7 @@ buildconfig+=" -Duse_system_libvpx=0"
 # Segfault with system protobuf at this time
 buildconfig+=" -Duse_system_protobuf=0"
 %else
-buildconfig+=" -Duse_system_icu=0
-		-Duse_system_flac=0
+buildconfig+=" -Duse_system_flac=0
                 -Duse_system_speex=0
                 -Duse_system_libexif=0
                 -Duse_system_libevent=0
@@ -528,6 +544,8 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
+install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
+
 cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
 
 # chromium components
@@ -607,6 +625,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
+%{_libdir}/%{name}/icudtl.dat
 %{_libdir}/%{name}/*_blob.bin
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
@@ -631,6 +650,19 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-1.R
+- update to 49.0.2623.75
+- drop upstream patch
+- disable pdf support as it obsolete
+- enable vaapi
+
+* Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
+- update to 49.0.2623.64
+- enable gtk3 support
+- disable re2 support
+- update VAAPI and FFmpeg patches
+- disable system icu
+
 * Tue Mar  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 48.0.2564.116-4.R
 - disable vaapi support as it crashes on NVIDIA cards
 - build with pdf support
