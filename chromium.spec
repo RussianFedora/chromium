@@ -45,8 +45,6 @@ Conflicts:	chromium-testing
 Conflicts:	chromium-unstable
 
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
-# UPSTREAM-PATCH https://skia.googlesource.com/skia.git/+/29d60e5ab594b39d1f533bff090877b1bb821e06%5E%21/
-Patch1:		skia-Revert-float-xfermodes-back-to-Sk4f-from-Sk8f.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
 Patch6:         chromium-more-codec-aliases.patch
@@ -330,12 +328,6 @@ rm -rf v8/test/
 %endif
 
 %patch0 -p1 -b .master-prefs
-
-%if 0%{?fedora} >= 24
-cd third_party/skia
-%patch1 -p1 -b .skia
-cd -
-%endif
 
 # openSUSE patches
 %patch6 -p0
