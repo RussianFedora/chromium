@@ -2,7 +2,7 @@
 %global clang 1
 %global libva 1
 %global libvpx 0
-%global icu 0
+%global icu 1
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -420,8 +420,7 @@ buildconfig+="-Dwerror=
 		-Duse_sysroot=0"
 
 %if 0%{icu}
-buildconfig+=" -Dicu_use_data_file_flag=0
-		-Duse_system_icu=1"
+buildconfig+=" -Duse_system_icu=1"
 %else
 buildconfig+=" -Duse_system_icu=0"
 %endif
@@ -546,10 +545,7 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_libdir}/%{name}/chrome
 cp -a out/Release/chromedriver %{buildroot}%{_libdir}/%{name}/chromedriver
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{name}.1
 install -m 644 out/Release/*.pak %{buildroot}%{_libdir}/%{name}/
-
-%if ! 0%{icu}
 install -m 644 out/Release/icudtl.dat %{buildroot}%{_libdir}/%{name}/
-%endif
 
 cp -a out/Release/*_blob.bin %{buildroot}%{_libdir}/%{name}/
 
@@ -630,9 +626,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/content_resources.pak
 %{_libdir}/%{name}/keyboard_resources.pak
 %{_libdir}/%{name}/resources.pak
-%if 0%{icu}
 %{_libdir}/%{name}/icudtl.dat
-%endif
 %{_libdir}/%{name}/*_blob.bin
 %{_libdir}/%{name}/resources
 %{_libdir}/%{name}/themes
@@ -659,6 +653,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-1.R
 - update to 49.0.2623.75
+- build with system icu
 
 * Sat Feb 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.64-1.R
 - update to 49.0.2623.64
