@@ -1,5 +1,5 @@
 %global ffmpeg 0
-%global clang 1
+%global clang 0
 %global libva 1
 %global libvpx 0
 %global icu 0
