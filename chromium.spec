@@ -1,6 +1,6 @@
 %global ffmpeg 0
 %global clang 0
-%global libva 1
+%global libva 0
 %global libvpx 0
 %global icu 0
 # disable libxml to avoid not opening
@@ -25,7 +25,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	49.0.2623.75
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -651,6 +651,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Fri Mar  4 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-3.R
+- disable vaapi
+
 * Thu Mar  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-2.R
 - stop experiments. Build with gcc
 - build with internal libxml to avoid not opening page in base.consultant.ru
