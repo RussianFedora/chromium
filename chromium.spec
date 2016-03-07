@@ -18,7 +18,7 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
-%global clang 0
+%global clang 1
 %endif
 %endif
 
