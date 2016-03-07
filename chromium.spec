@@ -1,5 +1,5 @@
 %global ffmpeg 0
-%global clang 0
+%global clang 1
 %global libva 0
 %global libvpx 0
 %global icu 0
@@ -18,14 +18,13 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
-%global clang 0
 %endif
 %endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	49.0.2623.75
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -651,6 +650,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Mon Mar  7 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-4.R
+- chromium crashes if built with gcc 6.0. Rebuilt with clang for F24/Rawhide
+  first of all. And for other distributions too.
+
 * Fri Mar  4 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-3.R
 - disable vaapi
 
