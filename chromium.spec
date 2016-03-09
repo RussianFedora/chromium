@@ -11,6 +11,9 @@
 %global _missing_build_ids_terminate_build 0
 %global debug_package %{nil}
 %global chromium_system_libs 0
+# build with gcc for RHEL to avoid
+# http://koji.russianfedora.pro/koji/getfile?taskID=67919&name=build.log&offset=-4000
+%global clang 0
 %else
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
@@ -652,6 +655,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Wed Mar  9 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.87-1.R
 - update to 49.0.2623.87
+- build with gcc for RHEL
 
 * Mon Mar  7 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-4.R
 - chromium crashes if built with gcc 6.0. Rebuilt with clang for F24/Rawhide
