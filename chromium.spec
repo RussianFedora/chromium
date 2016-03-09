@@ -23,8 +23,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	49.0.2623.75
-Release:	4%{?dist}
+Version:	49.0.2623.87
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -650,6 +650,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Wed Mar  9 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.87-1.R
+- update to 49.0.2623.87
+
 * Mon Mar  7 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.75-4.R
 - chromium crashes if built with gcc 6.0. Rebuilt with clang for F24/Rawhide
   first of all. And for other distributions too.
