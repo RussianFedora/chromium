@@ -107,6 +107,7 @@ BuildRequires:  hunspell-devel
 BuildRequires:  imlib2-devel
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  krb5-devel
+BuildRequires:  libatomic
 BuildRequires:  libcap-devel
 BuildRequires:  libdc1394
 BuildRequires:  libdc1394-devel
