@@ -293,10 +293,9 @@ rm -rf ppapi/native_client/tests/
 rm -rf third_party/apache-win32/
 rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
-#%if 0%{?ffmpeg}
-#rm -rf third_party/ffmpeg/*/*
-#rm -rf third_party/ffmpeg/*.[ch]
-#%endif
+%if 0%{?ffmpeg}
+rm -rf third_party/ffmpeg
+%endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
 %if 0%{icu}
