@@ -410,8 +410,6 @@ buildconfig+="-Dwerror=
 		-Denable_hidpi=1
 		-Denable_touch_ui=1
 		-Denable_pepper_cdms=1 
-                -Denable_webrtc=1
-                -Drtc_use_h264=1
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0"
