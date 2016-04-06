@@ -228,6 +228,7 @@ Requires:	chromium-libffmpeg = %{epoch}:%{version}-%{release}
 
 Obsoletes:	chromium-ffmpeg
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
+Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
 
 ExclusiveArch: i686 x86_64 armv7l
 
@@ -262,18 +263,6 @@ JavaScript execution, and more. ChromeDriver is a standalone server which
 implements WebDriver's wire protocol for Chromium. It is being developed by
 members of the Chromium and WebDriver teams.
 
-
-%if ! 0%{?ffmpeg}
-%package libffmpeg
-Summary:        FFmpeg library for Google Chrome/Chromium and Opera
-Group:          Development/Libraries
-Provides:       chromium-libffmpeg-stable
-Conflicts:      chromium-libffmpeg-testing
-Conflicts:      chromium-libffmpeg-unstable
-
-%description libffmpeg
-FFmpeg library built from the chromium sources.
-%endif
 
 %prep
 %setup -q -a 998 -a 997
@@ -619,9 +608,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/lib
-%if ! 0%{?ffmpeg}
-%exclude %{_libdir}/%{name}/lib/libffmpeg.so
-%endif
+%{_libdir}/%{name}/lib/libffmpeg.so
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
@@ -643,13 +630,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc LICENSE AUTHORS
 %{_bindir}/chromedriver
 %{_libdir}/%{name}/chromedriver
-
-%if ! 0%{?ffmpeg}
-%files libffmpeg
-%defattr(-,root,root,-)
-%doc LICENSE AUTHORS
-%{_libdir}/%{name}/lib/libffmpeg.so
-%endif
 
 %changelog
 * Fri Apr  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.57-1.R
