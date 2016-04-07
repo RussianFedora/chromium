@@ -353,7 +353,7 @@ rm -rf v8/test/
 %endif
 
 # AUR patches
-%patch300 -p1
+#patch300 -p1
 
 ### build with widevine support
 
