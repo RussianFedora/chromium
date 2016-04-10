@@ -79,10 +79,6 @@ Patch204:	chromium-system-icu-r0.patch
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r2.patch
 
-# AUR patches
-# https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
-Patch300:       gtk2_ui.patch
-
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -352,9 +348,6 @@ rm -rf v8/test/
 %if 0%{?ffmpeg}
 %patch205 -p1
 %endif
-
-# AUR patches
-#patch300 -p1
 
 ### build with widevine support
 
@@ -635,6 +628,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Fri Apr  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.57-1.R
 - update to 50.0.2661.57
+- drop gtk patch
+- build with gcc
+- build with internal ffmpeg
 
 * Mon Mar 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.26-1.R
 - update to 50.0.2661.26
