@@ -61,6 +61,9 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+# fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
+# build on EL7
+Patch197:	issue1770693002_60001.diff
 Patch198:	issue1637423004_100001.diff
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
@@ -328,6 +331,10 @@ rm -rf v8/test/
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
+
+%if %{defined rhel}
+%patch197 -p1
+%endif
 
 %if 0%{?libva}
 %patch198 -p1
@@ -628,6 +635,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Sun Apr 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.66-1.R
 - update to 50.0.2661.66
+- apply patch to fix build on el7
+  https://bugs.chromium.org/p/chromium/issues/detail?id=548254
 
 * Fri Apr  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.57-1.R
 - update to 50.0.2661.57
