@@ -18,6 +18,7 @@
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
 %global ffmpeg 0
+%global clang 0
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
@@ -26,7 +27,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	50.0.2661.57
+Version:	50.0.2661.66
 Release:	1%{?dist}
 Epoch:		1
 
@@ -60,6 +61,9 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+# fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
+# build on EL7
+Patch197:	issue1770693002_60001.diff
 Patch198:	issue1637423004_100001.diff
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
@@ -77,10 +81,6 @@ Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r2.patch
-
-# AUR patches
-# https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
-Patch300:       gtk2_ui.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -326,6 +326,10 @@ rm -rf v8/test/
 %patch100 -p0
 %patch101 -p0
 
+%if %{defined rhel}
+%patch197 -p1
+%endif
+
 %if 0%{?libva}
 %patch198 -p1
 %patch199 -p1
@@ -345,9 +349,6 @@ rm -rf v8/test/
 %if 0%{?ffmpeg}
 %patch205 -p1
 %endif
-
-# AUR patches
-#patch300 -p1
 
 ### build with widevine support
 
@@ -626,8 +627,16 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Sun Apr 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.66-1.R
+- update to 50.0.2661.66
+- apply patch to fix build on el7
+  https://bugs.chromium.org/p/chromium/issues/detail?id=548254
+
 * Fri Apr  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.57-1.R
 - update to 50.0.2661.57
+- drop gtk patch
+- build with gcc
+- build with internal ffmpeg
 
 * Mon Mar 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.26-1.R
 - update to 50.0.2661.26
