@@ -3,6 +3,7 @@
 %global libva 0
 %global libvpx 0
 %global icu 0
+%global gtk3 1
 # disable libxml to avoid not opening
 #http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
 %global xml 0
@@ -21,12 +22,13 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
+%global gtk3 0
 %endif
 %endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	49.0.2623.110
+Version:	49.0.2623.112
 Release:	1%{?dist}
 Epoch:		1
 
@@ -363,7 +365,9 @@ rm -rf v8/test/
 %endif
 
 # AUR patches
+%if 0%{gtk3}
 %patch300 -p1
+%endif
 
 ### build with widevine support
 
@@ -397,7 +401,6 @@ buildconfig+="-Dwerror=
                 -Dlinux_fpic=1
                 -Ddisable_sse2=1
                 -Dcomponent=shared_library
-                -Duse_gtk3=1
                 -Ddisable_nacl=1
 		-Ddisable_glibc=1
 		-Ddisable_pnacl=1
@@ -414,6 +417,11 @@ buildconfig+="-Dwerror=
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0"
+%if 0%{gtk3}
+buildconfig+=" -Duse_gtk3=1"
+%else
+buildconfig+=" -Dtoolkit_uses_gtk=0"
+%endif
 
 %if 0%{icu}
 buildconfig+=" -Duse_system_icu=1"
@@ -653,6 +661,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %endif
 
 %changelog
+* Wed Apr 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.112-1.R
+- update to 49.0.2623.112
+- disable gtk3 for Fedora 24
+
 * Wed Mar 30 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.110-1.R
 - update to 49.0.2623.110
 
