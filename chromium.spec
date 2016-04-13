@@ -220,12 +220,6 @@ BuildRequires:	libva-devel
 
 Requires:	hicolor-icon-theme
 
-%if 0%{?ffmpeg}
-Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
-%else
-Requires:	chromium-libffmpeg = %{epoch}:%{version}-%{release}
-%endif
-
 Obsoletes:	chromium-ffmpeg
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
 Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
