@@ -18,7 +18,6 @@
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
 %global ffmpeg 0
-%global clang 0
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
