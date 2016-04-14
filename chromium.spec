@@ -1,4 +1,4 @@
-%global ffmpeg 1
+%global ffmpeg 0
 %global clang 1
 %global libva 0
 %global libvpx 0
@@ -17,8 +17,6 @@
 %global clang 0
 %else
 %global chromium_system_libs 1
-%if 0%{?fedora} >= 23
-%endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
 %global gtk3 0
@@ -634,6 +632,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Thu Apr 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-1.R
 - update to 50.0.2661.75
 - disable gtk3 for Fedora 24
+- disable system ffmpeg
 
 * Sun Apr 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.66-1.R
 - update to 50.0.2661.66
