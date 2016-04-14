@@ -646,9 +646,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - build with gcc
 - build with internal ffmpeg
 
-* Wed Apr 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.112-1.R
-- update to 49.0.2623.112
-
 * Wed Mar 30 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.110-1.R
 - update to 49.0.2623.110
 
