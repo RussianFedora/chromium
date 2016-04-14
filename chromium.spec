@@ -18,7 +18,7 @@
 %else
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
-%global ffmpeg 1
+%global ffmpeg 0
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
@@ -28,7 +28,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	49.0.2623.112
+Version:	50.0.2661.75
 Release:	1%{?dist}
 Epoch:		1
 
@@ -62,6 +62,9 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 Patch100:       arm-webrtc-fix.patch
 Patch101:       chromium-arm-r0.patch
 
+# fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
+# build on EL7
+Patch197:	issue1770693002_60001.diff
 Patch198:	issue1637423004_100001.diff
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
@@ -79,10 +82,6 @@ Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r2.patch
-
-# AUR patches
-# https://aur.archlinux.org/cgit/aur.git/plain/gtk2_ui.patch?h=chromium-dev
-Patch300:       gtk2_ui.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -109,6 +108,7 @@ BuildRequires:  hunspell-devel
 BuildRequires:  imlib2-devel
 BuildRequires:  jack-audio-connection-kit-devel
 BuildRequires:  krb5-devel
+BuildRequires:  libatomic
 BuildRequires:  libcap-devel
 BuildRequires:  libdc1394
 BuildRequires:  libdc1394-devel
@@ -221,14 +221,9 @@ BuildRequires:	libva-devel
 
 Requires:	hicolor-icon-theme
 
-%if 0%{?ffmpeg}
-Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
-%else
-Requires:	chromium-libffmpeg = %{epoch}:%{version}-%{release}
-%endif
-
 Obsoletes:	chromium-ffmpeg
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
+Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
 
 ExclusiveArch: i686 x86_64 armv7l
 
@@ -264,18 +259,6 @@ implements WebDriver's wire protocol for Chromium. It is being developed by
 members of the Chromium and WebDriver teams.
 
 
-%if ! 0%{?ffmpeg}
-%package libffmpeg
-Summary:        FFmpeg library for Google Chrome/Chromium and Opera
-Group:          Development/Libraries
-Provides:       chromium-libffmpeg-stable
-Conflicts:      chromium-libffmpeg-testing
-Conflicts:      chromium-libffmpeg-unstable
-
-%description libffmpeg
-FFmpeg library built from the chromium sources.
-%endif
-
 %prep
 %setup -q -a 998 -a 997
 
@@ -294,10 +277,10 @@ rm -rf ppapi/native_client/tests/
 rm -rf third_party/apache-win32/
 rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
-%if 0%{?ffmpeg}
-rm -rf third_party/ffmpeg/*/*
-rm -rf third_party/ffmpeg/*.[ch]
-%endif
+#%if 0%{?ffmpeg}
+#rm -rf third_party/ffmpeg/*/*
+#rm -rf third_party/ffmpeg/*.[ch]
+#%endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
 %if 0%{icu}
@@ -343,6 +326,10 @@ rm -rf v8/test/
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
+
+%if %{defined rhel}
+%patch197 -p1
+%endif
 
 %if 0%{?libva}
 %patch198 -p1
@@ -412,8 +399,6 @@ buildconfig+="-Dwerror=
 		-Denable_hidpi=1
 		-Denable_touch_ui=1
 		-Denable_pepper_cdms=1 
-                -Denable_webrtc=1
-                -Drtc_use_h264=1
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0"
@@ -628,9 +613,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/lib
-%if ! 0%{?ffmpeg}
-%exclude %{_libdir}/%{name}/lib/libffmpeg.so
-%endif
+%{_libdir}/%{name}/lib/libffmpeg.so
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
@@ -653,14 +636,24 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_bindir}/chromedriver
 %{_libdir}/%{name}/chromedriver
 
-%if ! 0%{?ffmpeg}
-%files libffmpeg
-%defattr(-,root,root,-)
-%doc LICENSE AUTHORS
-%{_libdir}/%{name}/lib/libffmpeg.so
-%endif
-
 %changelog
+* Thu Apr 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-1.R
+- update to 50.0.2661.75
+
+* Sun Apr 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.66-1.R
+- update to 50.0.2661.66
+- apply patch to fix build on el7
+  https://bugs.chromium.org/p/chromium/issues/detail?id=548254
+
+* Fri Apr  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.57-1.R
+- update to 50.0.2661.57
+- drop gtk patch
+- build with gcc
+- build with internal ffmpeg
+
+* Mon Mar 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.26-1.R
+- update to 50.0.2661.26
+
 * Wed Apr 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.112-1.R
 - update to 49.0.2623.112
 - disable gtk3 for Fedora 24
