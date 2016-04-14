@@ -350,11 +350,6 @@ rm -rf v8/test/
 %patch205 -p1
 %endif
 
-# AUR patches
-%if 0%{gtk3}
-%patch300 -p1
-%endif
-
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
