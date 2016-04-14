@@ -633,6 +633,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu Apr 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-1.R
 - update to 50.0.2661.75
+- disable gtk3 for Fedora 24
 
 * Sun Apr 10 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.66-1.R
 - update to 50.0.2661.66
@@ -645,12 +646,8 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 - build with gcc
 - build with internal ffmpeg
 
-* Mon Mar 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.26-1.R
-- update to 50.0.2661.26
-
 * Wed Apr 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.112-1.R
 - update to 49.0.2623.112
-- disable gtk3 for Fedora 24
 
 * Wed Mar 30 2016 Arkady L. Shane <ashejn@russianfedora.pro> 49.0.2623.110-1.R
 - update to 49.0.2623.110
