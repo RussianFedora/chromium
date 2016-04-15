@@ -395,12 +395,13 @@ buildconfig+="-Dwerror=
 		-Denable_pepper_cdms=1 
 		-Denable_webrtc=1
 		-Drtc_use_h264=1
-		-Dtoolkit_uses_gtk=0
 		-Duse_gnome_keyring=1
 		-Duse_gconf=0
 		-Duse_sysroot=0"
 %if 0%{gtk3}
 buildconfig+=" -Duse_gtk3=1"
+%else
+buildconfig+=" -Dtoolkit_uses_gtk=0"
 %endif
 
 %if 0%{icu}
