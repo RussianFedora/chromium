@@ -1,4 +1,4 @@
-%global ffmpeg 1
+%global ffmpeg 0
 %global clang 1
 %global libva 0
 %global libvpx 0
@@ -17,6 +17,9 @@
 %global clang 0
 %else
 %global chromium_system_libs 1
+%if 0%{?fedora} >= 23
+%global ffmpeg 1
+%endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
 %global gtk3 0
@@ -640,6 +643,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Tue Apr 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-2.R
 - build fixes for webrtc code with system ffmpeg
+- build with system ffmpeg for Fedora >= 23
 
 * Thu Apr 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-1.R
 - update to 50.0.2661.75
