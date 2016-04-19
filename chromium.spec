@@ -612,7 +612,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
 %{_libdir}/%{name}/lib
+%if ! 0%{?ffmpeg}
 %{_libdir}/%{name}/lib/libffmpeg.so
+%endif
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
