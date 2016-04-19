@@ -1,4 +1,4 @@
-%global ffmpeg 0
+%global ffmpeg 1
 %global clang 1
 %global libva 0
 %global libvpx 0
@@ -26,7 +26,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	50.0.2661.75
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -79,6 +79,8 @@ Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r2.patch
+# (cjw) fix webrtc build with system ffmpeg
+Patch206:       chromium-50-system-ffmpeg-3.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -276,10 +278,10 @@ rm -rf ppapi/native_client/tests/
 rm -rf third_party/apache-win32/
 rm -rf third_party/binutils/
 rm -rf third_party/expat/files/
-#%if 0%{?ffmpeg}
-#rm -rf third_party/ffmpeg/*/*
-#rm -rf third_party/ffmpeg/*.[ch]
-#%endif
+%if 0%{?ffmpeg}
+rm -rf third_party/ffmpeg/*/*
+rm -rf third_party/ffmpeg/*.[ch]
+%endif
 rm -rf third_party/flac/include
 rm -rf third_party/flac/src
 %if 0%{icu}
@@ -348,6 +350,7 @@ rm -rf v8/test/
 %endif
 %if 0%{?ffmpeg}
 %patch205 -p1
+%patch206 -p1
 %endif
 
 ### build with widevine support
@@ -633,6 +636,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Tue Apr 19 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-2.R
+- build fixes for webrtc code with system ffmpeg
+
 * Thu Apr 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 50.0.2661.75-1.R
 - update to 50.0.2661.75
 - disable gtk3 for Fedora 24
