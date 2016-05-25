@@ -27,7 +27,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	51.0.2704.54
+Version:	51.0.2704.61
 Release:	1%{?dist}
 Epoch:		1
 
@@ -35,7 +35,8 @@ Group:		Applications/Internet
 License:	BSD, LGPL
 URL:		http://www.chromium.org/
 
-Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
+#Source0:	https://commondatastorage.googleapis.com/chromium-browser-official/%{name}-%{version}.tar.xz
+Source0:	https://gsdview.appspot.com/chromium-browser-official/%{name}-%{version}.tar.xz
 
 Source10:	chromium-wrapper
 Source20:	chromium-browser.desktop
@@ -640,6 +641,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Wed May 25 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.61-1.R
+- update to 51.0.2704.61
+
 * Wed May 25 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.54-1.R
 - update to 51.0.2704.54
 
