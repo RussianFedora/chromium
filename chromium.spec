@@ -305,7 +305,7 @@ rm -rf third_party/libvpx/source/libvpx
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
-rm -rf libpng/*.[ch]
+#rm -rf libpng/*.[ch]
 rm -rf libxslt/libexslt
 rm -rf libxslt/libxslt
 rm -rf libxslt/linux
@@ -447,7 +447,7 @@ buildconfig+=" -Duse_system_flac=1
                 -Duse_system_bzip2=1
                 -Duse_system_harfbuzz=1
                 -Duse_system_libjpeg=1
-                -Duse_system_libpng=1
+                -Duse_system_libpng=0
                 -Duse_system_libxslt=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
