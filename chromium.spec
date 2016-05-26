@@ -83,7 +83,7 @@ Patch204:	chromium-system-icu-r0.patch
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
 Patch205:       chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
-Patch206:       chromium-50-system-ffmpeg-3.patch
+Patch206:       chromium-51-system-ffmpeg-3.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
