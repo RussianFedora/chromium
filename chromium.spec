@@ -18,6 +18,7 @@
 %else
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
+%global ffmpeg 1
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
@@ -80,7 +81,7 @@ Patch202:       unbundle-libvpx_new-fix.patch
 Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
 #       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
-Patch205:       chromium-system-ffmpeg-r2.patch
+Patch205:       chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
 Patch206:       chromium-50-system-ffmpeg-3.patch
 
