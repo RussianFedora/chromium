@@ -299,9 +299,9 @@ rm -rf third_party/icu/windows
 rm -rf third_party/lcov
 rm -rf third_party/libevent/*/*
 rm -rf third_party/libevent/*.[ch]
-#%if 0%{?libvpx}
-#rm -rf third_party/libvpx/source/libvpx
-#%endif
+%if 0%{?libvpx}
+rm -rf third_party/libvpx/source/libvpx
+%endif
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
@@ -348,9 +348,9 @@ rm -rf v8/test/
 %endif
 %endif
 
-%if 0%{?libvpx}
-%patch202 -p1 -b .system-libvpx
-%endif
+#%if 0%{?libvpx}
+#%patch202 -p1 -b .system-libvpx
+#%endif
 %if 0%{?ffmpeg}
 %patch205 -p1
 %patch206 -p1
