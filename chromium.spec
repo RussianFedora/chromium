@@ -4,6 +4,8 @@
 %global libvpx 0
 %global icu 0
 %global gtk3 1
+# build error in chromium 51
+%global libpng 0
 # disable libxml to avoid not opening
 #http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
 %global xml 0
@@ -305,7 +307,9 @@ rm -rf third_party/libvpx/source/libvpx
 rm -rf libexif/sources
 rm -rf libjpeg/*.[ch]
 rm -rf libjpeg_turbo
-#rm -rf libpng/*.[ch]
+%if 0%{?libpng}
+rm -rf libpng/*.[ch]
+%endif
 rm -rf libxslt/libexslt
 rm -rf libxslt/libxslt
 rm -rf libxslt/linux
@@ -447,13 +451,18 @@ buildconfig+=" -Duse_system_flac=1
                 -Duse_system_bzip2=1
                 -Duse_system_harfbuzz=1
                 -Duse_system_libjpeg=1
-                -Duse_system_libpng=0
                 -Duse_system_libxslt=1
                 -Duse_system_libyuv=1
                 -Duse_system_nspr=1
                 -Duse_system_snappy=1
                 -Duse_system_zlib=1
                 -Duse_system_yasm=1"
+
+%if 0%{?libpng}
+buildconfig+=" -Duse_system_libpng=1"
+%else
+buildconfig+=" -Duse_system_libpng=0"
+%endif
 
 %if 0%{xml}
 buildconfig+=" -Duse_system_libxml=1"
@@ -643,6 +652,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu May 26 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.63-1.R
 - update to 51.0.2704.63
+- build with internal libpng to avoid build error
 
 * Wed May 25 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.61-1.R
 - update to 51.0.2704.61
