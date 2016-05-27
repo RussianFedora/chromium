@@ -24,6 +24,7 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
+%global gtk3 0
 %endif
 %endif
 
