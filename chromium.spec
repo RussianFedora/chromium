@@ -76,9 +76,9 @@ Patch200:       enable_vaapi_on_linux.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
 Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTimeZone.patch
-# Patch to fix build with use_system_libvpx
-# Chromium bug #541273
-Patch202:       unbundle-libvpx_new-fix.patch
+# (cjw) fix build problem with system libvpx due to usage of private header file
+# mageia patch
+Patch202:       chromium-46-svc_context.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
@@ -352,9 +352,10 @@ rm -rf v8/test/
 %endif
 %endif
 
-#%if 0%{?libvpx}
-#%patch202 -p1 -b .system-libvpx
-#%endif
+%if 0%{?libvpx}
+%patch202 -p1 -b .system-libvpx
+%endif
+
 %if 0%{?ffmpeg}
 %patch205 -p1
 %patch206 -p1
@@ -653,6 +654,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 * Thu May 26 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.63-1.R
 - update to 51.0.2704.63
 - build with internal libpng to avoid build error
+- fix build with new libvpx packed without svc_context.h header
 
 * Wed May 25 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.61-1.R
 - update to 51.0.2704.61
