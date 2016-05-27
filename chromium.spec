@@ -4,8 +4,7 @@
 %global libvpx 0
 %global icu 0
 %global gtk3 1
-# build error in chromium 51
-%global libpng 0
+%global libpng 1
 # disable libxml to avoid not opening
 #http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
 %global xml 0
@@ -87,6 +86,9 @@ Patch204:	chromium-system-icu-r0.patch
 Patch205:       chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
 Patch206:       chromium-51-system-ffmpeg-3.patch
+# https://aur.archlinux.org/cgit/aur.git/plain/PNGImageDecoder.patch?h=chromium-gtk3
+# fix build with system libpng
+Patch207:	PNGImageDecoder.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -360,6 +362,10 @@ rm -rf v8/test/
 %if 0%{?ffmpeg}
 %patch205 -p1
 %patch206 -p1
+%endif
+
+%if 0%{?libpng}
+%patch207 -p1
 %endif
 
 ### build with widevine support
@@ -654,7 +660,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Thu May 26 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.63-1.R
 - update to 51.0.2704.63
-- build with internal libpng to avoid build error
 - fix build with new libvpx packed without svc_context.h header
 
 * Wed May 25 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.61-1.R
