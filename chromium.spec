@@ -338,9 +338,9 @@ rm -rf v8/test/
 %patch100 -p0
 %patch101 -p0
 
-%if %{defined rhel}
-%patch197 -p1
-%endif
+#if %{defined rhel}
+#patch197 -p1
+#endif
 
 %if 0%{?libva}
 %patch198 -p1
