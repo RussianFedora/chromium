@@ -29,7 +29,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	51.0.2704.63
+Version:	51.0.2704.79
 Release:	1%{?dist}
 Epoch:		1
 
@@ -658,6 +658,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Fri Jun  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.79-1.R
+- update to 51.0.2704.79
+
 * Thu May 26 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.63-1.R
 - update to 51.0.2704.63
 - fix build with new libvpx packed without svc_context.h header
