@@ -228,6 +228,8 @@ BuildRequires:	libva-devel
 %endif
 
 Requires:	hicolor-icon-theme
+# Missing libva in AutoRequires
+Requires:	libva
 
 Obsoletes:	chromium-ffmpeg
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
