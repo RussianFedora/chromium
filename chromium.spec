@@ -23,7 +23,6 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
-%global gtk3 0
 %endif
 %endif
 
@@ -666,6 +665,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Mon Jun 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.103-2.R
 - apply Ubuntu titlebar patch
+- enable gtk3 support for Fedora >= 24
 
 * Fri Jun 17 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.103-1.R
 - update to 51.0.2704.103
