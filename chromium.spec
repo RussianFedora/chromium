@@ -30,7 +30,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	51.0.2704.103
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -88,6 +88,9 @@ Patch206:       chromium-51-system-ffmpeg-3.patch
 # https://aur.archlinux.org/cgit/aur.git/plain/PNGImageDecoder.patch?h=chromium-gtk3
 # fix build with system libpng
 Patch207:	PNGImageDecoder.patch
+
+# Ubuntu
+Patch300:	title-bar-default-system.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -368,6 +371,8 @@ rm -rf v8/test/
 %if 0%{?libpng}
 %patch207 -p1
 %endif
+
+%patch300 -p1 -b .system-titlebar
 
 ### build with widevine support
 
@@ -659,6 +664,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Mon Jun 20 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.103-2.R
+- apply Ubuntu titlebar patch
+
 * Fri Jun 17 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.103-1.R
 - update to 51.0.2704.103
 
