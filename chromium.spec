@@ -48,7 +48,7 @@ Source32:	chromium.default
 Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
 
-Provides:	chromium-stable
+Provides:	chromium-stable = %{epoch}:%{version}-%{release}
 Conflicts:	chromium-testing
 Conflicts:	chromium-unstable
 
@@ -230,7 +230,7 @@ Requires:	hicolor-icon-theme
 # Missing libva in AutoRequires
 Requires:	libva
 
-Obsoletes:	chromium-ffmpeg
+Obsoletes:	chromium-ffmpeg < %{epoch}:%{version}-%{release}
 Obsoletes:	chromium-pdf-plugin < 17.0.0.169
 Obsoletes:	chromium-libffmpeg < %{epoch}:%{version}-%{release}
 
@@ -256,7 +256,7 @@ your profile before changing channels.
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
 Requires:	%{name} = %{epoch}:%{version}-%{release}
-Provides:	chromedriver-stable
+Provides:	chromedriver-stable = %{epoch}:%{version}-%{release}
 Conflicts:	chromedriver-testing
 Conflicts:	chromedriver-unstable
 
