@@ -55,13 +55,13 @@ Conflicts:	chromium-unstable
 Patch0:		chromium-30.0.1599.66-master-prefs-path.patch
 
 # PATCH-FIX-UPSTREAM Add more charset aliases
-Patch6:         chromium-more-codec-aliases.patch
+Patch6:		chromium-more-codec-aliases.patch
 # PATCH-FIX-OPENSUSE Compile the sandbox with -fPIE settings
 Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
 # archlinux arm enhancement patches
-Patch100:       arm-webrtc-fix.patch
-Patch101:       chromium-arm-r0.patch
+Patch100:	arm-webrtc-fix.patch
+Patch101:	chromium-arm-r0.patch
 
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
 # build on EL7
@@ -70,151 +70,151 @@ Patch198:	issue1637423004_100001.diff
 # vaInitialize failed VA error: unknown libva error
 Patch199:	issue1688073002_40001.diff
 # http://bazaar.launchpad.net/~saiarcot895/chromium-browser/chromium-browser.trusty.beta/revision/230#debian/patches/enable_vaapi_on_linux.diff
-Patch200:       enable_vaapi_on_linux.diff
+Patch200:	enable_vaapi_on_linux.diff
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
-Patch201:       chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTimeZone.patch
+Patch201:	chromium-45.0.2454.101-system-icu-56-does-not-have-detectHostTimeZone.patch
 # (cjw) fix build problem with system libvpx due to usage of private header file
 # mageia patch
-Patch202:       chromium-46-svc_context.patch
+Patch202:	chromium-46-svc_context.patch
 # fix build with icu other than 54
 Patch204:	chromium-system-icu-r0.patch
 # (cjw) Don't disable deprecated APIs in ffmpeg header files, some of which change the ABI.
-#       From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
-Patch205:       chromium-system-ffmpeg-r3.patch
+#	From Gentoo: http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-system-ffmpeg-r2.patch
+Patch205:	chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
-Patch206:       chromium-51-system-ffmpeg-3.patch
+Patch206:	chromium-51-system-ffmpeg-3.patch
 # https://aur.archlinux.org/cgit/aur.git/plain/PNGImageDecoder.patch?h=chromium-gtk3
 # fix build with system libpng
 Patch207:	PNGImageDecoder.patch
 
-BuildRequires:  SDL-devel
-BuildRequires:  alsa-lib-devel
-BuildRequires:  bison
-BuildRequires:  bzip2-devel
-BuildRequires:  cups-devel
-BuildRequires:  desktop-file-utils
-BuildRequires:  dirac-devel >= 1.0.0
-BuildRequires:  elfutils-libelf-devel
-BuildRequires:  elfutils-devel
-BuildRequires:  expat-devel
-BuildRequires:  fdupes
-BuildRequires:  flac-devel
-BuildRequires:  flex
-BuildRequires:  freetype-devel
-BuildRequires:  gperf
-BuildRequires:  gsm
-BuildRequires:  gsm-devel
-BuildRequires:  gstreamer1-devel
-BuildRequires:  gstreamer1-plugins-base-devel
-BuildRequires:  gyp
-BuildRequires:  hicolor-icon-theme
-BuildRequires:  hunspell-devel
-BuildRequires:  imlib2-devel
-BuildRequires:  jack-audio-connection-kit-devel
-BuildRequires:  krb5-devel
-BuildRequires:  libatomic
-BuildRequires:  libcap-devel
-BuildRequires:  libdc1394
-BuildRequires:  libdc1394-devel
-BuildRequires:  libdrm-devel
-BuildRequires:  libdrm-devel
-BuildRequires:  libgcrypt-devel
-BuildRequires:  libgnome-keyring-devel
-BuildRequires:  libogg-devel
-BuildRequires:  liboil-devel >= 0.3.15
-BuildRequires:  libtheora-devel >= 1.1
-BuildRequires:  libusbx-devel
-BuildRequires:  libvdpau-devel
-BuildRequires:  libvorbis-devel
+BuildRequires:	SDL-devel
+BuildRequires:	alsa-lib-devel
+BuildRequires:	bison
+BuildRequires:	bzip2-devel
+BuildRequires:	cups-devel
+BuildRequires:	desktop-file-utils
+BuildRequires:	dirac-devel >= 1.0.0
+BuildRequires:	elfutils-libelf-devel
+BuildRequires:	elfutils-devel
+BuildRequires:	expat-devel
+BuildRequires:	fdupes
+BuildRequires:	flac-devel
+BuildRequires:	flex
+BuildRequires:	freetype-devel
+BuildRequires:	gperf
+BuildRequires:	gsm
+BuildRequires:	gsm-devel
+BuildRequires:	gstreamer1-devel
+BuildRequires:	gstreamer1-plugins-base-devel
+BuildRequires:	gyp
+BuildRequires:	hicolor-icon-theme
+BuildRequires:	hunspell-devel
+BuildRequires:	imlib2-devel
+BuildRequires:	jack-audio-connection-kit-devel
+BuildRequires:	krb5-devel
+BuildRequires:	libatomic
+BuildRequires:	libcap-devel
+BuildRequires:	libdc1394
+BuildRequires:	libdc1394-devel
+BuildRequires:	libdrm-devel
+BuildRequires:	libdrm-devel
+BuildRequires:	libgcrypt-devel
+BuildRequires:	libgnome-keyring-devel
+BuildRequires:	libogg-devel
+BuildRequires:	liboil-devel >= 0.3.15
+BuildRequires:	libtheora-devel >= 1.1
+BuildRequires:	libusbx-devel
+BuildRequires:	libvdpau-devel
+BuildRequires:	libvorbis-devel
 %if 0%{?libvpx}
 # requires patched version of libvpx with svc_context.h file
 # http://github.com/RussianFedora/libvpx/commit/aad752872cc0a05f15419aa915f108ad75f6a2fe
-BuildRequires:  libvpx-devel >= 1.5.0-1.R
+BuildRequires:	libvpx-devel >= 1.5.0-1.R
 %endif
-BuildRequires:  ncurses-devel
-BuildRequires:  ninja-build
-BuildRequires:  pam-devel
-BuildRequires:  pciutils-devel
-BuildRequires:  perl(Switch)
-BuildRequires:  pkgconfig
-BuildRequires:  pkgconfig(cairo) >= 1.6
-BuildRequires:  pkgconfig(dbus-1)
-BuildRequires:  pkgconfig(gconf-2.0)
-BuildRequires:  pkgconfig(glib-2.0)
-BuildRequires:  pkgconfig(gtk+-2.0)
+BuildRequires:	ncurses-devel
+BuildRequires:	ninja-build
+BuildRequires:	pam-devel
+BuildRequires:	pciutils-devel
+BuildRequires:	perl(Switch)
+BuildRequires:	pkgconfig
+BuildRequires:	pkgconfig(cairo) >= 1.6
+BuildRequires:	pkgconfig(dbus-1)
+BuildRequires:	pkgconfig(gconf-2.0)
+BuildRequires:	pkgconfig(glib-2.0)
+BuildRequires:	pkgconfig(gtk+-2.0)
 %if 0%{gtk3}
-BuildRequires:  pkgconfig(gtk+-3.0)
+BuildRequires:	pkgconfig(gtk+-3.0)
 %endif
-BuildRequires:  pkgconfig(libcrypto)
-BuildRequires:  pkgconfig(libexif)
-BuildRequires:  pkgconfig(libffi)
-BuildRequires:  pkgconfig(libudev)
-BuildRequires:  pkgconfig(nspr) >= 4.9.5
-BuildRequires:  pkgconfig(nss) >= 3.14
-BuildRequires:  pkgconfig(x11)
-BuildRequires:  pkgconfig(xcomposite)
-BuildRequires:  pkgconfig(xcursor)
-BuildRequires:  pkgconfig(xdamage)
-BuildRequires:  pkgconfig(xext)
-BuildRequires:  pkgconfig(xfixes)
-BuildRequires:  pkgconfig(xi)
-BuildRequires:  pkgconfig(xrandr)
-BuildRequires:  pkgconfig(xrender)
-BuildRequires:  pkgconfig(xscrnsaver)
-BuildRequires:  pkgconfig(xt)
-BuildRequires:  pkgconfig(xtst)
-BuildRequires:  pulseaudio-libs-devel
-BuildRequires:  python
-BuildRequires:  python-devel
-BuildRequires:  schroedinger-devel
-BuildRequires:  slang-devel
-BuildRequires:  speech-dispatcher-devel
-BuildRequires:  sqlite-devel
-BuildRequires:  texinfo
-BuildRequires:  util-linux
+BuildRequires:	pkgconfig(libcrypto)
+BuildRequires:	pkgconfig(libexif)
+BuildRequires:	pkgconfig(libffi)
+BuildRequires:	pkgconfig(libudev)
+BuildRequires:	pkgconfig(nspr) >= 4.9.5
+BuildRequires:	pkgconfig(nss) >= 3.14
+BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(xcomposite)
+BuildRequires:	pkgconfig(xcursor)
+BuildRequires:	pkgconfig(xdamage)
+BuildRequires:	pkgconfig(xext)
+BuildRequires:	pkgconfig(xfixes)
+BuildRequires:	pkgconfig(xi)
+BuildRequires:	pkgconfig(xrandr)
+BuildRequires:	pkgconfig(xrender)
+BuildRequires:	pkgconfig(xscrnsaver)
+BuildRequires:	pkgconfig(xt)
+BuildRequires:	pkgconfig(xtst)
+BuildRequires:	pulseaudio-libs-devel
+BuildRequires:	python
+BuildRequires:	python-devel
+BuildRequires:	schroedinger-devel
+BuildRequires:	slang-devel
+BuildRequires:	speech-dispatcher-devel
+BuildRequires:	sqlite-devel
+BuildRequires:	texinfo
+BuildRequires:	util-linux
 %if 0%{?ffmpeg}
 BuildRequires:	ffmpeg-devel
 %endif
-BuildRequires:  valgrind-devel
+BuildRequires:	valgrind-devel
 %if 0%{?fedora}
-BuildRequires:  python-jinja2
-BuildRequires:  python-markupsafe
-BuildRequires:  python-ply
+BuildRequires:	python-jinja2
+BuildRequires:	python-markupsafe
+BuildRequires:	python-ply
 %endif
 
 %if 0%{?chromium_system_libs}
-BuildRequires:  fontconfig-devel
+BuildRequires:	fontconfig-devel
 %if 0%{icu}
-BuildRequires:  libicu-devel >= 5.4
+BuildRequires:	libicu-devel >= 5.4
 %endif
-BuildRequires:  libjpeg-turbo-devel
-BuildRequires:  perl-JSON
-BuildRequires:  pkgconfig(jsoncpp)
-BuildRequires:  pkgconfig(libevent)
-BuildRequires:  pkgconfig(libmtp)
-BuildRequires:  pkgconfig(libpng)
-BuildRequires:  pkgconfig(libusb-1.0)
-BuildRequires:  pkgconfig(libxml-2.0)
-BuildRequires:  pkgconfig(libxslt)
-BuildRequires:  pkgconfig(minizip)
-BuildRequires:  pkgconfig(minizip)
-BuildRequires:  pkgconfig(opus)
-BuildRequires:  pkgconfig(protobuf)
-BuildRequires:  pkgconfig(speex)
-BuildRequires:  pkgconfig(zlib)
-#BuildRequires:  re2-devel
-BuildRequires:  snappy-devel
-BuildRequires:  usbutils
-BuildRequires:  yasm
+BuildRequires:	libjpeg-turbo-devel
+BuildRequires:	perl-JSON
+BuildRequires:	pkgconfig(jsoncpp)
+BuildRequires:	pkgconfig(libevent)
+BuildRequires:	pkgconfig(libmtp)
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(libusb-1.0)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libxslt)
+BuildRequires:	pkgconfig(minizip)
+BuildRequires:	pkgconfig(minizip)
+BuildRequires:	pkgconfig(opus)
+BuildRequires:	pkgconfig(protobuf)
+BuildRequires:	pkgconfig(speex)
+BuildRequires:	pkgconfig(zlib)
+#BuildRequires:	re2-devel
+BuildRequires:	snappy-devel
+BuildRequires:	usbutils
+BuildRequires:	yasm
 %endif
 
 %if ! %{defined rhel}
-BuildRequires:  lame-devel
-BuildRequires:  opencore-amr-devel
-BuildRequires:  wdiff
-BuildRequires:  x264-devel
-BuildRequires:  xvidcore-devel
+BuildRequires:	lame-devel
+BuildRequires:	opencore-amr-devel
+BuildRequires:	wdiff
+BuildRequires:	x264-devel
+BuildRequires:	xvidcore-devel
 %endif
 
 %if 0%{?clang}
@@ -389,13 +389,13 @@ touch chrome/test/data/webui_test_resources.grd
 
 buildconfig+="-Dwerror=
 		-Dlinux_sandbox_chrome_path=%{_libdir}/%{name}/chrome
-                -Dproprietary_codecs=1
-                -Dremove_webcore_debug_symbols=1
-                -Dlogging_like_official_build=1
-                -Dlinux_fpic=1
-                -Ddisable_sse2=1
-                -Dcomponent=shared_library
-                -Ddisable_nacl=1
+		-Dproprietary_codecs=1
+		-Dremove_webcore_debug_symbols=1
+		-Dlogging_like_official_build=1
+		-Dlinux_fpic=1
+		-Ddisable_sse2=1
+		-Dcomponent=shared_library
+		-Ddisable_nacl=1
 		-Ddisable_glibc=1
 		-Ddisable_pnacl=1
 		-Ddisable_newlib_untar=0
@@ -444,22 +444,22 @@ buildconfig+=" -Dclang=0"
 
 %if 0%{?chromium_system_libs}
 buildconfig+=" -Duse_system_flac=1
-                -Duse_system_speex=1
-                -Duse_system_fontconfig=1
-                -Duse_system_jsoncpp=1
-                -Duse_system_libexif=1
-                -Duse_system_libevent=1
-                -Duse_system_libmtp=1
-                -Duse_system_opus=1
-                -Duse_system_bzip2=1
-                -Duse_system_harfbuzz=1
-                -Duse_system_libjpeg=1
-                -Duse_system_libxslt=1
-                -Duse_system_libyuv=1
-                -Duse_system_nspr=1
-                -Duse_system_snappy=1
-                -Duse_system_zlib=1
-                -Duse_system_yasm=1"
+		-Duse_system_speex=1
+		-Duse_system_fontconfig=1
+		-Duse_system_jsoncpp=1
+		-Duse_system_libexif=1
+		-Duse_system_libevent=1
+		-Duse_system_libmtp=1
+		-Duse_system_opus=1
+		-Duse_system_bzip2=1
+		-Duse_system_harfbuzz=1
+		-Duse_system_libjpeg=1
+		-Duse_system_libxslt=1
+		-Duse_system_libyuv=1
+		-Duse_system_nspr=1
+		-Duse_system_snappy=1
+		-Duse_system_zlib=1
+		-Duse_system_yasm=1"
 
 %if 0%{?libpng}
 buildconfig+=" -Duse_system_libpng=1"
@@ -483,21 +483,21 @@ buildconfig+=" -Duse_system_libvpx=0"
 buildconfig+=" -Duse_system_protobuf=0"
 %else
 buildconfig+=" -Duse_system_flac=0
-                -Duse_system_speex=0
-                -Duse_system_libexif=0
-                -Duse_system_libevent=0
-                -Duse_system_libmtp=0
-                -Duse_system_opus=0
-                -Duse_system_bzip2=0
-                -Duse_system_harfbuzz=0
-                -Duse_system_libjpeg=0
-                -Duse_system_libpng=0
-                -Duse_system_libxslt=0
-                -Duse_system_libyuv=0
-                -Duse_system_sqlite=0
-                -Duse_system_nspr=0
-                -Duse_system_protobuf=0
-                -Duse_system_yasm=0"
+		-Duse_system_speex=0
+		-Duse_system_libexif=0
+		-Duse_system_libevent=0
+		-Duse_system_libmtp=0
+		-Duse_system_opus=0
+		-Duse_system_bzip2=0
+		-Duse_system_harfbuzz=0
+		-Duse_system_libjpeg=0
+		-Duse_system_libpng=0
+		-Duse_system_libxslt=0
+		-Duse_system_libyuv=0
+		-Duse_system_sqlite=0
+		-Duse_system_nspr=0
+		-Duse_system_protobuf=0
+		-Duse_system_yasm=0"
 %endif
 
 %ifarch x86_64
@@ -506,17 +506,17 @@ buildconfig+=" -Dsystem_libdir=lib64
 %endif
 
 buildconfig+=" -Duse_pulseaudio=1
-                -Dlinux_link_libpci=1
-                -Dlinux_link_gnome_keyring=1
-                -Dlinux_link_gsettings=1
-                -Dlinux_link_libgps=1
+		-Dlinux_link_libpci=1
+		-Dlinux_link_gnome_keyring=1
+		-Dlinux_link_gsettings=1
+		-Dlinux_link_libgps=1
 		-Dlinux_link_libspeechd=1
-                -Djavascript_engine=v8
-                -Dlinux_use_gold_binary=0
-                -Dlinux_use_gold_flags=0
-                -Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
-                -Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
-                -Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
+		-Djavascript_engine=v8
+		-Dlinux_use_gold_binary=0
+		-Dlinux_use_gold_flags=0
+		-Dgoogle_api_key=AIzaSyD1hTe85_a14kr1Ks8T3Ce75rvbR1_Dx7Q
+		-Dgoogle_default_client_id=4139804441.apps.googleusercontent.com
+		-Dgoogle_default_client_secret=KDTRKEZk2jwT_7CDpcmMA--P"
 
 %if 0%{?clang}
 export CC=/usr/bin/clang
