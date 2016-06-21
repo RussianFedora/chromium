@@ -65,7 +65,6 @@ Patch101:       chromium-arm-r0.patch
 
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
 # build on EL7
-Patch197:	issue1770693002_60001.diff
 Patch198:	issue1637423004_100001.diff
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=585513
 # vaInitialize failed VA error: unknown libva error
@@ -337,10 +336,6 @@ rm -rf v8/test/
 # archlinux arm enhancements
 %patch100 -p0
 %patch101 -p0
-
-#if %{defined rhel}
-#patch197 -p1
-#endif
 
 %if 0%{?libva}
 %patch198 -p1
