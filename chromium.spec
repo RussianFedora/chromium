@@ -19,7 +19,7 @@
 %else
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
-%global ffmpeg 1
+%global ffmpeg 0
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
@@ -28,8 +28,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	51.0.2704.106
-Release:	2%{?dist}
+Version:	52.0.2743.41
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -691,7 +691,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
-* Mon Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.106-2.R
+* Tue Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.41-1
+- update to 52.0.2743.41
+- build with internal ffmpeg
+
+* Mon Jun 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.106-2.R
 - apply Ubuntu titlebar patch
 - enable gtk3 support for Fedora >= 24
 
