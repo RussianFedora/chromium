@@ -28,7 +28,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	52.0.2743.41
+Version:	53.0.2774.3
 Release:	1%{?dist}
 Epoch:		1
 
@@ -83,9 +83,6 @@ Patch204:	chromium-system-icu-r0.patch
 Patch205:	chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
 Patch206:	chromium-51-system-ffmpeg-3.patch
-# https://aur.archlinux.org/cgit/aur.git/plain/PNGImageDecoder.patch?h=chromium-gtk3
-# fix build with system libpng
-Patch207:	PNGImageDecoder.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -397,10 +394,6 @@ rm -rf v8/test/
 %patch206 -p1
 %endif
 
-%if 0%{?libpng}
-%patch207 -p1
-%endif
-
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
@@ -691,6 +684,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Tue Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2774.3-1
+- update to 53.0.2774.3
+- drop PNG patch
+
 * Tue Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.41-1
 - update to 52.0.2743.41
 - build with internal ffmpeg
