@@ -87,9 +87,6 @@ Patch206:	chromium-51-system-ffmpeg-3.patch
 # fix build with system libpng
 Patch207:	PNGImageDecoder.patch
 
-# Ubuntu
-Patch300:	title-bar-default-system.patch
-
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -403,8 +400,6 @@ rm -rf v8/test/
 %if 0%{?libpng}
 %patch207 -p1
 %endif
-
-%patch300 -p1 -b .system-titlebar
 
 ### build with widevine support
 
