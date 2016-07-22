@@ -19,7 +19,7 @@
 %else
 %global chromium_system_libs 1
 %if 0%{?fedora} >= 23
-%global ffmpeg 1
+%global ffmpeg 0
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
@@ -28,7 +28,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	51.0.2704.106
+Version:	52.0.2743.82
 Release:	1%{?dist}
 Epoch:		1
 
@@ -87,6 +87,45 @@ Patch206:	chromium-51-system-ffmpeg-3.patch
 # fix build with system libpng
 Patch207:	PNGImageDecoder.patch
 
+BuildRequires:  SDL-devel
+BuildRequires:  alsa-lib-devel
+BuildRequires:  bison
+BuildRequires:  bzip2-devel
+BuildRequires:  cups-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  dirac-devel >= 1.0.0
+BuildRequires:  elfutils-libelf-devel
+BuildRequires:  elfutils-devel
+BuildRequires:  expat-devel
+BuildRequires:  fdupes
+BuildRequires:  flac-devel
+BuildRequires:  flex
+BuildRequires:  freetype-devel
+BuildRequires:  gperf
+BuildRequires:  gsm
+BuildRequires:  gsm-devel
+BuildRequires:  gstreamer1-devel
+BuildRequires:  gstreamer1-plugins-base-devel
+BuildRequires:  gyp
+BuildRequires:  hicolor-icon-theme
+BuildRequires:  hunspell-devel
+BuildRequires:  imlib2-devel
+BuildRequires:  jack-audio-connection-kit-devel
+BuildRequires:  krb5-devel
+BuildRequires:  libatomic
+BuildRequires:  libcap-devel
+BuildRequires:  libdc1394
+BuildRequires:  libdc1394-devel
+BuildRequires:  libdrm-devel
+BuildRequires:  libdrm-devel
+BuildRequires:  libgcrypt-devel
+BuildRequires:  libgnome-keyring-devel
+BuildRequires:  libogg-devel
+BuildRequires:  liboil-devel >= 0.3.15
+BuildRequires:  libtheora-devel >= 1.1
+BuildRequires:  libusbx-devel
+BuildRequires:  libvdpau-devel
+BuildRequires:  libvorbis-devel
 BuildRequires:	SDL-devel
 BuildRequires:	alsa-lib-devel
 BuildRequires:	bison
@@ -652,6 +691,23 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Fri Jul 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-1
+- update to 52.0.2743.82
+
+* Thu Jul 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.75-1
+- update to 52.0.2743.75
+
+* Mon Jul  4 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.60-1
+- update to 52.0.2743.60
+
+* Tue Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.41-1
+- update to 52.0.2743.41
+- build with internal ffmpeg
+
+* Mon Jun 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.106-2.R
+- apply Ubuntu titlebar patch
+- enable gtk3 support for Fedora >= 24
+
 * Tue Jun 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 51.0.2704.106-1.R
 - update to 51.0.2704.106
 
