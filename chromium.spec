@@ -87,6 +87,8 @@ Patch206:	chromium-51-system-ffmpeg-3.patch
 # fix build with system libpng
 Patch207:	PNGImageDecoder.patch
 
+Patch208:	chromium-52.0.2743.82-cups22.patch
+
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
 BuildRequires:  bison
@@ -401,6 +403,8 @@ rm -rf v8/test/
 %patch207 -p1
 %endif
 
+%patch208 -p1
+
 ### build with widevine support
 
 # Patch from crbug (chromium bugtracker)
@@ -693,6 +697,7 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %changelog
 * Fri Jul 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-1
 - update to 52.0.2743.82
+- fix build with cups 2.2
 
 * Thu Jul 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.75-1
 - update to 52.0.2743.75
