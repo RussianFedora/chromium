@@ -797,7 +797,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Wed Jul 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-2
 - create separate libs package
 - build with chromium-remote-desktop
-- create chrome-remote-desktop package
 
 * Fri Jul 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-1
 - update to 52.0.2743.82
