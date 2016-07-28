@@ -8,6 +8,7 @@
 # disable libxml to avoid not opening
 #http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
 %global xml 0
+%global crd_path %{_libdir}/chrome-remote-desktop
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -29,7 +30,7 @@
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	52.0.2743.82
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -43,6 +44,7 @@ Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 Source32:	chromium.default
+Source33:	chrome-remote-desktop.service
 
 Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
@@ -265,6 +267,10 @@ BuildRequires:	clang
 BuildRequires:	libva-devel
 %endif
 
+# remote desktop needs this
+BuildRequires:	pam-devel
+BuildRequires:	systemd
+
 Requires:	hicolor-icon-theme
 # Missing libva in AutoRequires
 Requires:	libva
@@ -290,11 +296,30 @@ during the first launch due to a change in how tab state is stored.
 See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
 
+%package libs
+Summary: Shared libraries used by chromium (and chrome-remote-desktop)
+
+%description libs
+Shared libraries used by chromium (and chrome-remote-desktop).
+
+%package -n chrome-remote-desktop
+Summary: Remote desktop support for google-chrome & chromium
+Requires(pre):	shadow-utils
+Requires(post):	systemd
+Requires(preun): systemd
+Requires(postun): systemd
+Requires:	xorg-x11-server-Xvfb
+
+Requires:	%{name}-libs%{_isa} = %{?epoch}:%{version}-%{release}
+
+%description -n chrome-remote-desktop
+Remote desktop support for google-chrome & chromium.
+
 
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs%{_isa} = %{?epoch}:%{version}-%{release}
 Provides:	chromedriver-stable = %{epoch}:%{version}-%{release}
 Conflicts:	chromedriver-testing
 Conflicts:	chromedriver-unstable
@@ -575,6 +600,9 @@ ln -s %{python_sitelib}/jinja2 third_party/jinja2
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 %endif
 
+# Fix hardcoded path in remoting code
+sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/daemon_controller_delegate_linux.cc
+
 build/linux/unbundle/replace_gyp_files.py $buildconfig
 
 export GYP_GENERATORS='ninja'
@@ -583,6 +611,11 @@ export GYP_GENERATORS='ninja'
 mkdir -p out/Release
 
 ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm
+
+# remote client
+pushd remoting
+ninja-build -C ../out/Release -vvv remoting_me2me_host remoting_start_host remoting_it2me_native_messaging_host remoting_me2me_native_messaging_host remoting_native_messaging_manifests remoting_resources
+popd
 
 %install
 mkdir -p %{buildroot}%{_bindir}
@@ -642,6 +675,46 @@ mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 install -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/%{name}/
 install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
 
+# Remote desktop bits
+mkdir -p %{buildroot}%{crd_path}
+
+pushd %{buildroot}%{crd_path}
+ln -s %{_libdir}/%{name}/lib lib
+popd
+
+# See remoting/host/installer/linux/Makefile for logic
+cp -a out/Release/native_messaging_host %{buildroot}%{crd_path}/native-messaging-host
+cp -a out/Release/remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
+cp -a out/Release/remoting_locales %{buildroot}%{crd_path}/
+cp -a out/Release/remoting_me2me_host %{buildroot}%{crd_path}/chrome-remote-desktop-host
+cp -a out/Release/remoting_start_host %{buildroot}%{crd_path}/start-host
+
+# chromium
+mkdir -p %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts
+# google-chrome
+mkdir -p %{buildroot}%{_sysconfdir}/opt/chrome/
+cp -a out/Release/remoting/* %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/
+for i in %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/*.json; do
+	sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' $i
+done
+pushd %{buildroot}%{_sysconfdir}/opt/chrome/
+ln -s ../../chromium/native-messaging-hosts native-messaging-hosts
+popd
+
+mkdir -p %{buildroot}/var/lib/chrome-remote-desktop
+touch %{buildroot}/var/lib/chrome-remote-desktop/hashes
+
+mkdir -p %{buildroot}%{_sysconfdir}/pam.d/
+pushd %{buildroot}%{_sysconfdir}/pam.d/
+ln -s system-auth chrome-remote-desktop
+popd
+
+cp -a remoting/host/linux/linux_me2me_host.py %{buildroot}%{crd_path}/chrome-remote-desktop
+cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
+
+mkdir -p %{buildroot}%{_unitdir}
+cp -a %{SOURCE33} %{buildroot}%{_unitdir}/
+sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop.service
 
 %post
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -654,10 +727,20 @@ if [ $1 -eq 0 ] ; then
 fi
 update-desktop-database &> /dev/null || :
 
-
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%pre -n chrome-remote-desktop
+getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-desktop
+
+%post -n chrome-remote-desktop
+%systemd_post chrome-remote-desktop.service
+
+%preun -n chrome-remote-desktop
+%systemd_preun chrome-remote-desktop.service
+
+%postun -n chrome-remote-desktop
+%systemd_postun_with_restart chrome-remote-desktop.service
 
 %files
 %defattr(-,root,root,-)
@@ -668,10 +751,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromium-wrapper
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
-%{_libdir}/%{name}/lib
-%if ! 0%{?ffmpeg}
-%{_libdir}/%{name}/lib/libffmpeg.so
-%endif
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
@@ -687,6 +766,26 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
 
+%files libs
+%{_libdir}/%{name}/lib
+%if ! 0%{?ffmpeg}
+%{_libdir}/%{name}/lib/libffmpeg.so
+%endif
+
+%files -n chrome-remote-desktop
+%{crd_path}/chrome-remote-desktop
+%{crd_path}/chrome-remote-desktop-host
+%{crd_path}/is-remoting-session
+%{crd_path}/lib
+%{crd_path}/native-messaging-host
+%{crd_path}/remote-assistance-host
+%{_sysconfdir}/pam.d/chrome-remote-desktop
+%{_sysconfdir}/chromium/native-messaging-hosts/
+%{_sysconfdir}/opt/chrome/
+%{crd_path}/remoting_locales/
+%{crd_path}/start-host
+%{_unitdir}/chrome-remote-desktop.service
+/var/lib/chrome-remote-desktop/
 
 %files -n chromedriver
 %defattr(-,root,root,-)
@@ -695,6 +794,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Wed Jul 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-2
+- create separate libs package
+- build with chromium-remote-desktop
+- create chrome-remote-desktop package
+
 * Fri Jul 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-1
 - update to 52.0.2743.82
 - fix build with cups 2.2
