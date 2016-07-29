@@ -45,6 +45,7 @@ Source30:	master_preferences
 Source31:	default_bookmarks.html
 Source32:	chromium.default
 Source33:	chrome-remote-desktop.service
+Source34:	chromium-browser.appdata.xml
 
 Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
@@ -270,6 +271,9 @@ BuildRequires:	libva-devel
 # remote desktop needs this
 BuildRequires:	pam-devel
 BuildRequires:	systemd
+
+# for /usr/bin/appstream-util
+BuildRequires:	libappstream-glib
 
 Requires:	hicolor-icon-theme
 # Missing libva in AutoRequires
@@ -663,6 +667,9 @@ cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/applications
 install -m 644 %{SOURCE20} %{buildroot}%{_datadir}/applications/
 
+install -D -m0644 %{SOURCE34} ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{name}.appdata.xml
+appstream-util validate-relax --nonet ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{name}.appdata.xml
+
 # icon
 for i in 22 24 48 64 128 256; do
 	mkdir -p %{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps
@@ -765,6 +772,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/appdata/*.appdata.xml
 
 %files libs
 %{_libdir}/%{name}/lib
@@ -794,6 +802,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Fri Jul 29 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-3
+- added appdata file from Fedora
+
 * Wed Jul 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-2
 - create separate libs package
 - build with chromium-remote-desktop
