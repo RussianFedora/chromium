@@ -29,8 +29,8 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	52.0.2743.82
-Release:	2%{?dist}
+Version:	52.0.2743.116
+Release:	1%{?dist}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -802,6 +802,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Wed Aug  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.116-1
+- update to 52.0.2743.116
+
 * Fri Jul 29 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-3
 - added appdata file from Fedora
 
