@@ -27,10 +27,14 @@
 %endif
 %endif
 
+%if 0%{?fedora} >= 25
+%global pre .R
+%endif
+
 Summary:	A fast webkit-based web browser
 Name:		chromium
 Version:	52.0.2743.116
-Release:	1%{?dist}
+Release:	1%{?dist}%{?pre}
 Epoch:		1
 
 Group:		Applications/Internet
