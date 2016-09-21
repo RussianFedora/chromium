@@ -34,7 +34,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	55.0.2859.0
+Version:	54.0.2840.27
 Release:	1%{?dist}%{?pre}
 Epoch:		1
 
@@ -68,6 +68,7 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
 # archlinux arm enhancement patches
 Patch100:	arm-webrtc-fix.patch
+Patch101:	chromium-arm-r0.patch
 
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
 # build on EL7
@@ -405,6 +406,7 @@ rm -rf v8/test/
 
 # archlinux arm enhancements
 %patch100 -p0
+%patch101 -p0
 
 %if 0%{?libva}
 %patch198 -p1
@@ -798,10 +800,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_libdir}/%{name}/chromedriver
 
 %changelog
-* Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2859.0-1
-- update to 55.0.2859.0
-- drop arm patch
-
 * Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.27-1
 - update to 54.0.2840.27
 
