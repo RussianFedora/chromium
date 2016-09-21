@@ -1,5 +1,5 @@
 %global ffmpeg 0
-%global clang 1
+%global clang 0
 %global libva 0
 %global libvpx 0
 %global icu 0
@@ -8,6 +8,7 @@
 # disable libxml to avoid not opening
 #http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
 %global xml 0
+%global crd_path %{_libdir}/chrome-remote-desktop
 
 %if %{defined rhel}
 %global _missing_build_ids_terminate_build 0
@@ -23,13 +24,18 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
+%global clang 1
 %endif
+%endif
+
+%if 0%{?fedora} >= 25
+%global pre .R
 %endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	53.0.2774.3
-Release:	1%{?dist}
+Version:	54.0.2840.27
+Release:	1%{?dist}%{?pre}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -43,6 +49,8 @@ Source20:	chromium-browser.desktop
 Source30:	master_preferences
 Source31:	default_bookmarks.html
 Source32:	chromium.default
+Source33:	chrome-remote-desktop.service
+Source34:	chromium-browser.appdata.xml
 
 Source997:	depot_tools.tar.xz
 Source998:	gn-binaries.tar.xz
@@ -83,6 +91,8 @@ Patch204:	chromium-system-icu-r0.patch
 Patch205:	chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
 Patch206:	chromium-51-system-ffmpeg-3.patch
+
+Patch208:	chromium-52.0.2743.82-cups22.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  alsa-lib-devel
@@ -260,6 +270,13 @@ BuildRequires:	clang
 BuildRequires:	libva-devel
 %endif
 
+# remote desktop needs this
+BuildRequires:	pam-devel
+BuildRequires:	systemd
+
+# for /usr/bin/appstream-util
+BuildRequires:	libappstream-glib
+
 Requires:	hicolor-icon-theme
 # Missing libva in AutoRequires
 Requires:	libva
@@ -285,11 +302,30 @@ during the first launch due to a change in how tab state is stored.
 See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
 
+%package libs
+Summary: Shared libraries used by chromium (and chrome-remote-desktop)
+
+%description libs
+Shared libraries used by chromium (and chrome-remote-desktop).
+
+%package -n chrome-remote-desktop
+Summary: Remote desktop support for google-chrome & chromium
+Requires(pre):	shadow-utils
+Requires(post):	systemd
+Requires(preun): systemd
+Requires(postun): systemd
+Requires:	xorg-x11-server-Xvfb
+
+Requires:	%{name}-libs%{_isa} = %{?epoch}:%{version}-%{release}
+
+%description -n chrome-remote-desktop
+Remote desktop support for google-chrome & chromium.
+
 
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
 Group:		Development/Libraries
-Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	%{name}-libs%{_isa} = %{?epoch}:%{version}-%{release}
 Provides:	chromedriver-stable = %{epoch}:%{version}-%{release}
 Conflicts:	chromedriver-testing
 Conflicts:	chromedriver-unstable
@@ -393,6 +429,8 @@ rm -rf v8/test/
 %patch205 -p1
 %patch206 -p1
 %endif
+
+%patch208 -p1
 
 ### build with widevine support
 
@@ -564,6 +602,9 @@ ln -s %{python_sitelib}/jinja2 third_party/jinja2
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 %endif
 
+# Fix hardcoded path in remoting code
+sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/daemon_controller_delegate_linux.cc
+
 build/linux/unbundle/replace_gyp_files.py $buildconfig
 
 export GYP_GENERATORS='ninja'
@@ -572,6 +613,11 @@ export GYP_GENERATORS='ninja'
 mkdir -p out/Release
 
 ninja-build -C out/Release chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm
+
+# remote client
+pushd remoting
+ninja-build -C ../out/Release -vvv remoting_me2me_host remoting_start_host remoting_it2me_native_messaging_host remoting_me2me_native_messaging_host remoting_native_messaging_manifests remoting_resources
+popd
 
 %install
 mkdir -p %{buildroot}%{_bindir}
@@ -619,6 +665,9 @@ cp -r out/Release/resources %{buildroot}%{_libdir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/applications
 install -m 644 %{SOURCE20} %{buildroot}%{_datadir}/applications/
 
+install -D -m0644 %{SOURCE34} ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{name}.appdata.xml
+appstream-util validate-relax --nonet ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{name}.appdata.xml
+
 # icon
 for i in 22 24 48 64 128 256; do
 	mkdir -p %{buildroot}%{_datadir}/icons/hicolor/${i}x${i}/apps
@@ -631,6 +680,46 @@ mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 install -m 0644 %{SOURCE30} %{buildroot}%{_sysconfdir}/%{name}/
 install -m 0644 %{SOURCE31} %{buildroot}%{_sysconfdir}/%{name}/
 
+# Remote desktop bits
+mkdir -p %{buildroot}%{crd_path}
+
+pushd %{buildroot}%{crd_path}
+ln -s %{_libdir}/%{name}/lib lib
+popd
+
+# See remoting/host/installer/linux/Makefile for logic
+cp -a out/Release/native_messaging_host %{buildroot}%{crd_path}/native-messaging-host
+cp -a out/Release/remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
+cp -a out/Release/remoting_locales %{buildroot}%{crd_path}/
+cp -a out/Release/remoting_me2me_host %{buildroot}%{crd_path}/chrome-remote-desktop-host
+cp -a out/Release/remoting_start_host %{buildroot}%{crd_path}/start-host
+
+# chromium
+mkdir -p %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts
+# google-chrome
+mkdir -p %{buildroot}%{_sysconfdir}/opt/chrome/
+cp -a out/Release/remoting/* %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/
+for i in %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/*.json; do
+	sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' $i
+done
+pushd %{buildroot}%{_sysconfdir}/opt/chrome/
+ln -s ../../chromium/native-messaging-hosts native-messaging-hosts
+popd
+
+mkdir -p %{buildroot}/var/lib/chrome-remote-desktop
+touch %{buildroot}/var/lib/chrome-remote-desktop/hashes
+
+mkdir -p %{buildroot}%{_sysconfdir}/pam.d/
+pushd %{buildroot}%{_sysconfdir}/pam.d/
+ln -s system-auth chrome-remote-desktop
+popd
+
+cp -a remoting/host/linux/linux_me2me_host.py %{buildroot}%{crd_path}/chrome-remote-desktop
+cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
+
+mkdir -p %{buildroot}%{_unitdir}
+cp -a %{SOURCE33} %{buildroot}%{_unitdir}/
+sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop.service
 
 %post
 touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -643,10 +732,20 @@ if [ $1 -eq 0 ] ; then
 fi
 update-desktop-database &> /dev/null || :
 
-
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%pre -n chrome-remote-desktop
+getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-desktop
+
+%post -n chrome-remote-desktop
+%systemd_post chrome-remote-desktop.service
+
+%preun -n chrome-remote-desktop
+%systemd_preun chrome-remote-desktop.service
+
+%postun -n chrome-remote-desktop
+%systemd_postun_with_restart chrome-remote-desktop.service
 
 %files
 %defattr(-,root,root,-)
@@ -657,10 +756,6 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromium-wrapper
 %{_libdir}/%{name}/chrome
 %{_libdir}/%{name}/chrome-sandbox
-%{_libdir}/%{name}/lib
-%if ! 0%{?ffmpeg}
-%{_libdir}/%{name}/lib/libffmpeg.so
-%endif
 %{_libdir}/%{name}/locales
 %{_libdir}/%{name}/chrome_*_percent.pak
 %{_libdir}/%{name}/content_resources.pak
@@ -675,7 +770,28 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_mandir}/man1/%{name}*
 %{_datadir}/applications/*.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/appdata/*.appdata.xml
 
+%files libs
+%{_libdir}/%{name}/lib
+%if ! 0%{?ffmpeg}
+%{_libdir}/%{name}/lib/libffmpeg.so
+%endif
+
+%files -n chrome-remote-desktop
+%{crd_path}/chrome-remote-desktop
+%{crd_path}/chrome-remote-desktop-host
+%{crd_path}/is-remoting-session
+%{crd_path}/lib
+%{crd_path}/native-messaging-host
+%{crd_path}/remote-assistance-host
+%{_sysconfdir}/pam.d/chrome-remote-desktop
+%{_sysconfdir}/chromium/native-messaging-hosts/
+%{_sysconfdir}/opt/chrome/
+%{crd_path}/remoting_locales/
+%{crd_path}/start-host
+%{_unitdir}/chrome-remote-desktop.service
+/var/lib/chrome-remote-desktop/
 
 %files -n chromedriver
 %defattr(-,root,root,-)
@@ -684,9 +800,43 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_libdir}/%{name}/chromedriver
 
 %changelog
-* Tue Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2774.3-1
-- update to 53.0.2774.3
-- drop PNG patch
+* Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.27-1
+- update to 54.0.2840.27
+
+* Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.116-1
+- update to 53.0.2785.116
+
+* Wed Sep 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.113-1
+- update to 53.0.2785.113
+
+* Thu Sep  8 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.101-1
+- update to 53.0.2785.101
+
+* Mon Sep  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.92-1
+- update to 53.0.2785.92
+
+* Thu Sep  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.89-1
+- update to 53.0.2785.89
+
+* Wed Aug  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.116-1
+- update to 52.0.2743.116
+
+* Fri Jul 29 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-3
+- added appdata file from Fedora
+
+* Wed Jul 27 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-2
+- create separate libs package
+- build with chromium-remote-desktop
+
+* Fri Jul 22 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.82-1
+- update to 52.0.2743.82
+- fix build with cups 2.2
+
+* Thu Jul 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.75-1
+- update to 52.0.2743.75
+
+* Mon Jul  4 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.60-1
+- update to 52.0.2743.60
 
 * Tue Jun 28 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.41-1
 - update to 52.0.2743.41
