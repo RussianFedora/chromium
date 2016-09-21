@@ -68,7 +68,6 @@ Patch15:	chromium-25.0.1364.172-sandbox-pie.patch
 
 # archlinux arm enhancement patches
 Patch100:	arm-webrtc-fix.patch
-Patch101:	chromium-arm-r0.patch
 
 # fix https://bugs.chromium.org/p/chromium/issues/detail?id=548254
 # build on EL7
@@ -406,7 +405,6 @@ rm -rf v8/test/
 
 # archlinux arm enhancements
 %patch100 -p0
-%patch101 -p0
 
 %if 0%{?libva}
 %patch198 -p1
@@ -802,6 +800,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.27-1
 - update to 54.0.2840.27
+- drop arm patch
 
 * Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.116-1
 - update to 53.0.2785.116
