@@ -1,5 +1,5 @@
 %global ffmpeg 0
-%global clang 1
+%global clang 0
 %global libva 0
 %global libvpx 0
 %global icu 0
@@ -24,13 +24,18 @@
 %endif
 %if 0%{?fedora} >= 24
 %global libvpx 1
+%global clang 1
 %endif
+%endif
+
+%if 0%{?fedora} >= 25
+%global pre .R
 %endif
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	52.0.2743.116
-Release:	1%{?dist}
+Version:	53.0.2785.116
+Release:	1%{?dist}%{?pre}
 Epoch:		1
 
 Group:		Applications/Internet
@@ -86,9 +91,6 @@ Patch204:	chromium-system-icu-r0.patch
 Patch205:	chromium-system-ffmpeg-r3.patch
 # (cjw) fix webrtc build with system ffmpeg
 Patch206:	chromium-51-system-ffmpeg-3.patch
-# https://aur.archlinux.org/cgit/aur.git/plain/PNGImageDecoder.patch?h=chromium-gtk3
-# fix build with system libpng
-Patch207:	PNGImageDecoder.patch
 
 Patch208:	chromium-52.0.2743.82-cups22.patch
 
@@ -426,10 +428,6 @@ rm -rf v8/test/
 %if 0%{?ffmpeg}
 %patch205 -p1
 %patch206 -p1
-%endif
-
-%if 0%{?libpng}
-%patch207 -p1
 %endif
 
 %patch208 -p1
@@ -802,6 +800,21 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.116-1
+- update to 53.0.2785.116
+
+* Wed Sep 14 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.113-1
+- update to 53.0.2785.113
+
+* Thu Sep  8 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.101-1
+- update to 53.0.2785.101
+
+* Mon Sep  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.92-1
+- update to 53.0.2785.92
+
+* Thu Sep  1 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.89-1
+- update to 53.0.2785.89
+
 * Wed Aug  3 2016 Arkady L. Shane <ashejn@russianfedora.pro> 52.0.2743.116-1
 - update to 52.0.2743.116
 

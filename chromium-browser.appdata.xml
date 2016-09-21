@@ -31,7 +31,7 @@
       <caption/>
     </screenshot>
   </screenshots>
-  <translation/>
+  <translation>chromium-browser</translation>
   <developer_name>Google</developer_name>
   <url type="bugtracker">https://www.chromium.org/for-testers/bug-reporting-guidelines</url>
   <url type="help">https://chromium.googlesource.com/chromium/src/+/master/docs/linux_debugging.md</url>
