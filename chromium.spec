@@ -34,7 +34,7 @@
 
 Summary:	A fast webkit-based web browser
 Name:		chromium
-Version:	53.0.2785.116
+Version:	53.0.2785.143
 Release:	1%{?dist}%{?pre}
 Epoch:		1
 
@@ -800,6 +800,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_libdir}/%{name}/chromedriver
 
 %changelog
+* Wed Oct  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.143-1
+- update to 53.0.2785.143
+
 * Wed Sep 21 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.116-1
 - update to 53.0.2785.116
 
