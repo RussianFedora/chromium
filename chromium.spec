@@ -1,5 +1,5 @@
 # NEVER EVER EVER turn this on in official builds
-%global freeworld 0
+%global freeworld 1
 
 # gn is the new new new buildtool. *sigh*
 %global use_gn 0
@@ -93,7 +93,7 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	53.0.2785.143
-Release:	1%{?dist}
+Release:	1%{?dist}.R
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
@@ -1677,6 +1677,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Oct  6 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.143-1.R
+- build freeworld version
+
 * Fri Sep 30 2016 Tom Callaway <spot@fedoraproject.org> 53.0.2785.143-1
 - 53.0.2785.143
 
