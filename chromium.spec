@@ -30,6 +30,7 @@
 
 %if 0%{?fedora} >= 25
 %global pre .R
+%global gtk3 0
 %endif
 
 Summary:	A fast webkit-based web browser
