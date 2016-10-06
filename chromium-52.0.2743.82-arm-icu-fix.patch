@@ -1,0 +1,12 @@
+diff -up chromium-52.0.2743.82/third_party/icu/icu.gyp.armfix chromium-52.0.2743.82/third_party/icu/icu.gyp
+--- chromium-52.0.2743.82/third_party/icu/icu.gyp.armfix	2016-08-03 09:39:02.159874067 +0200
++++ chromium-52.0.2743.82/third_party/icu/icu.gyp	2016-08-03 09:39:17.953765034 +0200
+@@ -44,7 +44,7 @@
+       }],
+       ['(OS=="linux" or OS=="freebsd" or OS=="openbsd" or OS=="solaris" \
+          or OS=="netbsd" or OS=="mac" or OS=="android" or OS=="qnx") and \
+-        (target_arch=="arm" or target_arch=="ia32" or \
++        (target_arch=="ia32" or \
+          target_arch=="mipsel")', {
+         'target_conditions': [
+           ['_toolset=="host"', {

@@ -1,0 +1,12 @@
+diff -up chromium-50.0.2661.94/build/linux/unbundle/re2.gyp.unbundle-fix chromium-50.0.2661.94/build/linux/unbundle/re2.gyp
+--- chromium-50.0.2661.94/build/linux/unbundle/re2.gyp.unbundle-fix	2016-03-25 09:04:44.000000000 -0400
++++ chromium-50.0.2661.94/build/linux/unbundle/re2.gyp	2016-05-03 12:24:38.850296350 -0400
+@@ -8,7 +8,7 @@
+       'target_name': 're2',
+       'type': 'none',
+       'variables': {
+-        'headers_root_path': '.',
++        'headers_root_path': 'src/',
+         'header_filenames': [
+           're2/filtered_re2.h',
+           're2/re2.h',
