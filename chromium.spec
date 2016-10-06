@@ -708,7 +708,7 @@ export CHROMIUM_BROWSER_GYP_DEFINES="\
 %else
 	-Duse_system_libusb=1 \
 %endif
-	-Duse_system_libxml=1 \
+	-Duse_system_libxml=0 \
 	-Duse_system_libxslt=1 \
 %if %{bundleopus}
 	-Duse_system_opus=0 \
@@ -1679,6 +1679,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Oct  6 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.143-1.R
 - build freeworld version
+- do not use system libxml to avoid not opening
+  http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
 
 * Fri Sep 30 2016 Tom Callaway <spot@fedoraproject.org> 53.0.2785.143-1
 - 53.0.2785.143
