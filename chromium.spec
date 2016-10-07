@@ -443,6 +443,7 @@ Shared libraries used by chromium (and chrome-remote-desktop).
 Summary: Chromium media libraries built with all possible codecs
 Provides: chromium-libs-media = %{version}-%{release}
 Provides: chromium-libs-media%{_isa} = %{version}-%{release}
+Obsoletes: chromium-libs-media < %{version}-%{release}
 
 %description libs-media-freeworld
 Chromium media libraries built with all possible codecs. Chromium is an
