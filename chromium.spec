@@ -70,7 +70,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 0
+%global gtk3 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -1681,6 +1681,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - build freeworld version
 - do not use system libxml to avoid not opening
   http://base.consultant.ru/cons/cgi/online.cgi?req=doc;base=LAW;n=160129;div=LAW;rnd=0.4700782325977544
+- enable gtk3
 
 * Fri Sep 30 2016 Tom Callaway <spot@fedoraproject.org> 53.0.2785.143-1
 - 53.0.2785.143
