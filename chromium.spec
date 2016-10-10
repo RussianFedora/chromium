@@ -70,7 +70,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 1
+%global gtk3 0
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -93,7 +93,7 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	53.0.2785.143
-Release:	1%{?dist}.R
+Release:	1.1%{?dist}.R
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
@@ -1678,6 +1678,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sat Oct  8 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.143-1.1.R
+- disable gtk3
+
 * Thu Oct  6 2016 Arkady L. Shane <ashejn@russianfedora.pro> 53.0.2785.143-1.R
 - build freeworld version
 - do not use system libxml to avoid not opening
