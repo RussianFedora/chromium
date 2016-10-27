@@ -1,0 +1,13 @@
+diff -up chromium-54.0.2840.59/build/toolchain/linux/BUILD.gn.ldmemory chromium-54.0.2840.59/build/toolchain/linux/BUILD.gn
+--- chromium-54.0.2840.59/build/toolchain/linux/BUILD.gn.ldmemory	2016-10-19 15:56:20.253096784 -0400
++++ chromium-54.0.2840.59/build/toolchain/linux/BUILD.gn	2016-10-19 15:58:17.940833948 -0400
+@@ -71,7 +71,8 @@ gcc_toolchain("x86") {
+   nm = "nm"
+   ar = "ar"
+   ld = cxx
+-  extra_cppflags = "-fno-delete-null-pointer-checks"
++  extra_cppflags = "-fno-delete-null-pointer-checks -g1"
++  extra_ldflags = "-fuse-ld=gold -Wl,--no-map-whole-files -Wl,--no-keep-memory"
+ 
+   toolchain_args = {
+     current_cpu = "x86"
