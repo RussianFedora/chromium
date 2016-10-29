@@ -92,9 +92,13 @@ BuildRequires:  libicu-devel >= 5.4
 %global default_client_secret miEreAep8nuvTdvLums6qyLK
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
+%if 0%{?fedora} >= 25
+%global suffix .R
+%endif
+
 Name:		chromium%{chromium_channel}
 Version:	54.0.2840.71
-Release:	2%{?dist}.R
+Release:	2%{?dist}%{?suffix}
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
