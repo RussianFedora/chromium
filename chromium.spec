@@ -94,7 +94,8 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	54.0.2840.71
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
+Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
@@ -332,24 +333,24 @@ Requires:	u2f-hidraw-policy
 %endif
 
 # Once upon a time, we tried to split these out... but that's not worth the effort anymore.
-Provides:	chromium-ffmpegsumo = %{version}-%{release}
+Provides:	chromium-ffmpegsumo = %{epoch}:%{version}-%{release}
 Obsoletes:	chromium-ffmpegsumo <= 35.0.1916.114
 # This is a lie. v8 has its own version... but I'm being lazy and not using it here.
 # Barring Google getting much faster on the v8 side (or much slower on the Chromium side)
 # the true v8 version will be much smaller than the Chromium version that it came from.
-Provides:	chromium-v8 = %{version}-%{release}
+Provides:	chromium-v8 = %{epoch}:%{version}-%{release}
 Obsoletes:	chromium-v8 <= 3.25.28.18
 # This is a lie. webrtc never had any real version. 0.2 is greater than 0.1
 Provides:	webrtc = 0.2
 Obsoletes:	webrtc <= 0.1
 %if 0%{?shared}
-Requires:       chromium-libs%{_isa} = %{version}-%{release}
+Requires:       chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 # This is broken out so it can be replaced.
-Requires:	chromium-libs-media%{_isa} = %{version}-%{release}
+Requires:	chromium-libs-media%{_isa} = %{epoch}:%{version}-%{release}
 # Nothing to do here. chromium-libs is real.
 %else
-Provides:	chromium-libs = %{version}-%{release}
-Obsoletes:	chromium-libs <= %{version}-%{release}
+Provides:	chromium-libs = %{epoch}:%{version}-%{release}
+Obsoletes:	chromium-libs <= %{epoch}:%{version}-%{release}
 %endif
 
 ExclusiveArch:	x86_64 i686
@@ -440,7 +441,7 @@ Chromium is an open-source web browser, powered by WebKit (Blink).
 %if 0%{?shared}
 %package libs
 Summary: Shared libraries used by chromium (and chrome-remote-desktop)
-Requires: chromium-libs-media%{_isa} = %{version}
+Requires: chromium-libs-media%{_isa} = %{epoch}:%{version}
 
 %description libs
 Shared libraries used by chromium (and chrome-remote-desktop).
@@ -448,9 +449,9 @@ Shared libraries used by chromium (and chrome-remote-desktop).
 %if %{freeworld}
 %package libs-media-freeworld
 Summary: Chromium media libraries built with all possible codecs
-Provides: chromium-libs-media = %{version}-%{release}
-Provides: chromium-libs-media%{_isa} = %{version}-%{release}
-Obsoletes: chromium-libs-media < %{version}-%{release}
+Provides: chromium-libs-media = %{epoch}:%{version}-%{release}
+Provides: chromium-libs-media%{_isa} = %{epoch}:%{version}-%{release}
+Obsoletes: chromium-libs-media < %{epoch}:%{version}-%{release}
 
 %description libs-media-freeworld
 Chromium media libraries built with all possible codecs. Chromium is an
@@ -460,7 +461,7 @@ can include.
 %else
 %package libs-media
 Summary: Shared libraries used by the chromium media subsystem
-Requires: chromium-libs%{_isa} = %{version}
+Requires: chromium-libs%{_isa} = %{epoch}:%{version}
 
 %description libs-media
 Shared libraries used by the chromium media subsystem.
@@ -474,7 +475,7 @@ Requires(preun): systemd
 Requires(postun): systemd
 Requires: xorg-x11-server-Xvfb
 %if 0%{?shared}
-Requires: chromium-libs%{_isa} = %{version}-%{release}
+Requires: chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 %endif
 Summary: Remote desktop support for google-chrome & chromium
 
@@ -484,10 +485,10 @@ Remote desktop support for google-chrome & chromium.
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
 %if 0%{?shared}
-Requires:       chromium-libs%{_isa} = %{version}-%{release}
+Requires:       chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 %endif
 # From Russian Fedora (minus the epoch)
-Provides:	chromedriver-stable = %{version}-%{release}
+Provides:	chromedriver-stable = %{epoch}:%{version}-%{release}
 Conflicts:	chromedriver-testing
 Conflicts:	chromedriver-unstable
 
@@ -1709,6 +1710,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Oct 26 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.71-2.R
+- bump epoch
+
 * Wed Oct 26 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.71-1.R
 - update to 54.0.2840.71
 
