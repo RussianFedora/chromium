@@ -661,6 +661,7 @@ popd
 mkdir -p third_party/llvm-build/Release+Asserts/bin
 pushd third_party/llvm-build/Release+Asserts/bin
 ln -s /usr/bin/clang clang
+ln -s /usr/bin/clang++ clang++
 popd
 %endif
 
