@@ -165,6 +165,10 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-52.0.2723.2-use_system_harfbuzz.patch
 
+### Russian Fedora Patches ###
+# fix https://codereview.chromium.org/1577743002/
+Patch200:	issue1577743002_1.diff
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -546,6 +550,9 @@ members of the Chromium and WebDriver teams.
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
 %patch101 -p1 -b .use_system_harfbuzz
+
+## Russian Fedora Patches ###
+%patch200 -p1 -b .1577743002
 
 %if 0%{?asan}
 export CC="clang"
