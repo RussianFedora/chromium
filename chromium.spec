@@ -673,7 +673,7 @@ CHROMIUM_BROWSER_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client
 CHROMIUM_BROWSER_GN_DEFINES+=' use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
 
 %if 0%{?clang}
-CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=true clang_use_chrome_plugins=false'
+CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=true clang_base_path="/usr" clang_use_chrome_plugins=false'
 %else
 CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false'
 %endif
