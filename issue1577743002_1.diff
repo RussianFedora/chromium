@@ -1,11 +1,9 @@
-Index: ui/gfx/paint_vector_icon.cc
-diff --git a/ui/gfx/paint_vector_icon.cc b/ui/gfx/paint_vector_icon.cc
-index 7121fde314d5a6933fd93de8c7773f26c82ceac3..3f9078c084b63fef8c2baff0201ef04f8e5871c8 100644
---- a/ui/gfx/paint_vector_icon.cc
-+++ b/ui/gfx/paint_vector_icon.cc
-@@ -292,6 +292,7 @@ class VectorIconSource : public CanvasImageSource {
-             gfx::Size(static_cast<int>(dip_size), static_cast<int>(dip_size)),
-             false),
+diff -urN chromium-54.0.2840.71.orig/ui/gfx/paint_vector_icon.cc chromium-54.0.2840.71/ui/gfx/paint_vector_icon.cc
+--- chromium-54.0.2840.71.orig/ui/gfx/paint_vector_icon.cc	2016-10-31 02:03:25.121953757 +0300
++++ chromium-54.0.2840.71/ui/gfx/paint_vector_icon.cc	2016-10-31 02:08:53.022422171 +0300
+@@ -317,6 +317,7 @@
+                    VectorIconId badge_id)
+       : CanvasImageSource(gfx::Size(dip_size, dip_size), false),
          id_(id),
 +        path_(),
          color_(color),
