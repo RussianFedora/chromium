@@ -37,7 +37,7 @@
 # Only flip this on if stuff is really broken re: nacl.
 # chromium-native_client doesn't build on Fedora 23 because
 # clang is too old and buggy.
-%if 0%{?fedora} <= 26
+%if 0%{?fedora} <= 23
 %global killnacl 1
 %else
 %global killnacl 0
