@@ -657,13 +657,6 @@ ln -s /usr/bin/clang clang
 popd
 %endif
 
-%if 0%{?clang}
-mkdir -p third_party/llvm-build/Release+Asserts/bin
-pushd third_party/llvm-build/Release+Asserts/bin
-ln -s /usr/bin/clang clang
-popd
-%endif
-
 CHROMIUM_BROWSER_GN_DEFINES=""
 %ifarch x86_64
 CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
