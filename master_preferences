@@ -1,4 +1,6 @@
 {
+  "homepage": "https://start.fedoraproject.org",
+  "homepage_is_newtabpage": false,
   "distribution": {
      "alternate_shortcut_text": false,
      "oem_bubble": true,
@@ -8,11 +10,8 @@
      "system_level": false,
      "verbose_logging": false
   },
-  },
   "first_run_tabs": [
      "https://start.fedoraproject.org",
      "http://tools.google.com/chrome/intl/en/welcome.html"
-  ],
-  "homepage": "https://start.fedoraproject.org",
-  "homepage_is_newtabpage": false
+  ]
 }

@@ -646,7 +646,7 @@ ln -s /usr/bin/clang clang
 popd
 %endif
 
-CHROMIUM_BROWSER_GN_DEFINES=""
+CHROMIUM_BROWSER_GN_DEFINES+=' is_debug=false'
 %ifarch x86_64
 CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
 %endif
