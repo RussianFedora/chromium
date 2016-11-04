@@ -157,6 +157,9 @@ Patch24:	chromium-54.0.2840.59-nullfix.patch
 Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 # On i686, pass --no-keep-memory --reduce-memory-overheads to ld.
 Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
+# obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
+# /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
+Patch27:	chromium-54.0.2840.90-setopaque.patch
 
 
 ### Chromium Tests Patches ###
@@ -536,6 +539,7 @@ members of the Chromium and WebDriver teams.
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
+%patch27 -p1 -b .setopaque
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1714,6 +1718,12 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Nov  2 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.90-2.R
+- export setOpaque in cc_blink
+- update to 54.0.2840.90
+- debugging disabled
+- fixup master_preferences
+
 * Wed Oct 26 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.71-2.R
 - bump epoch
 
