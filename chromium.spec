@@ -7,8 +7,6 @@
 # Leave this alone, please.
 %global target out/Release
 
-%global clang 1
-
 # %%{nil} for Stable; -beta for Beta; -dev for Devel
 # dash in -beta and -dev is intentional !
 %global chromium_channel %{nil}
@@ -198,10 +196,6 @@ Source13:	master_preferences
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
-
-%if 0%{?clang}
-BuildRequires:  clang
-%endif
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -557,11 +551,6 @@ export CXX="g++"
 export AR="ar"
 export RANLIB="ranlib"
 
-%if 0%{?clang}
-export CC=/usr/bin/clang
-export CXX=/usr/bin/clang++
-%endif
-
 %if 0%{?nacl}
 # prep the nacl tree
 mkdir -p out/Release/gen/sdk/linux_x86/nacl_x86_newlib
@@ -662,14 +651,7 @@ CHROMIUM_BROWSER_GN_DEFINES=""
 CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
 %endif
 CHROMIUM_BROWSER_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
-CHROMIUM_BROWSER_GN_DEFINES+=' use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
-
-%if 0%{?clang}
-CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=true clang_use_chrome_plugins=false'
-%else
-CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false'
-%endif
-
+CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
 %if 0%{?nonacl}
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_nacl=false'
 %endif
