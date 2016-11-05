@@ -1,7 +1,3 @@
-%if 0%{?fedora} >= 25
-%global suffix .R
-%endif
-
 # NEVER EVER EVER turn this on in official builds
 %global freeworld 1
 
@@ -98,7 +94,11 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	54.0.2840.90
-Release:	2.1%{?dist}%{?suffix}
+%if 0%{?fedora} >= 25
+Release:	2.1%{?dist}.R
+%else
+Release:	2.1%{?dist}
+%endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
@@ -1718,6 +1718,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sat Nov  5 2016 Arkady L. Shane <ashejn@urussianfedora.pro> 54.0.2840.90-2.1.R
+- fix release
+
 * Wed Nov  2 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.90-2.R
 - export setOpaque in cc_blink
 - update to 54.0.2840.90
