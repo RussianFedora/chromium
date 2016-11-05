@@ -1,5 +1,5 @@
 %if 0%{?fedora} >= 25
-%global pre .R
+%global suffix .R
 %endif
 
 # NEVER EVER EVER turn this on in official builds
@@ -98,7 +98,7 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	54.0.2840.90
-Release:	2%{?dist}%{?pre}
+Release:	2.1%{?dist}%{?suffix}
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
