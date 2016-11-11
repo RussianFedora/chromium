@@ -95,9 +95,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	54.0.2840.90
 %if 0%{?fedora} >= 25
-Release:	2.1%{?dist}.R
+Release:	3%{?dist}.R
 %else
-Release:	2.1%{?dist}
+Release:	3%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -160,7 +160,10 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
 Patch27:	chromium-54.0.2840.90-setopaque.patch
-
+# /usr/bin/ld.bfd: obj/chrome/browser/libbrowser.a(native_desktop_media_list.o): undefined reference to symbol '_ZN2ui31GrabWindowSnapshotAndScaleAsyncEPN4aura6WindowERKN3gfx4RectERKNS3_4SizeE13scoped_refptrIN4base10TaskRunnerEERKNSB_8CallbackIFvRKNS3_5ImageEELNSB_8internal8CopyModeE1EEE'
+# /usr/bin/ld.bfd: note: '_ZN2ui31GrabWindowSnapshotAndScaleAsyncEPN4aura6WindowERKN3gfx4RectERKNS3_4SizeE13scoped_refptrIN4base10TaskRunnerEERKNSB_8CallbackIFvRKNS3_5ImageEELNSB_8internal8CopyModeE1EEE' is defined in DSO ./libsnapshot.so so try adding it to the linker command line
+# ./libsnapshot.so: could not read symbols: Invalid operation
+Patch28:	chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -540,6 +543,7 @@ members of the Chromium and WebDriver teams.
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
+%patch28 -p1 -b .aurasnapshot
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1718,6 +1722,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Nov  4 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.90-3.R
+- when use_aura is on, chrome/browser needs to link to ui/snapshot
+
 * Sat Nov  5 2016 Arkady L. Shane <ashejn@urussianfedora.pro> 54.0.2840.90-2.1.R
 - fix release
 
