@@ -1725,7 +1725,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Sat Nov 12 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-1.R
 - update to 54.0.2840.100
 
-* Fri Nov  5 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.90-3.R
+* Sat Nov  5 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.90-3.R
 - when use_aura is on, chrome/browser needs to link to ui/snapshot
 
 * Sat Nov  5 2016 Arkady L. Shane <ashejn@urussianfedora.pro> 54.0.2840.90-2.1.R
