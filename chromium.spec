@@ -93,11 +93,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	54.0.2840.90
+Version:	54.0.2840.100
 %if 0%{?fedora} >= 25
-Release:	3%{?dist}.R
+Release:	1%{?dist}.R
 %else
-Release:	3%{?dist}
+Release:	1%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1722,6 +1722,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sat Nov 12 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-1.R
+- update to 54.0.2840.100
+
 * Fri Nov  5 2016 Tom Callaway <spot@fedoraproject.org> 54.0.2840.90-3.R
 - when use_aura is on, chrome/browser needs to link to ui/snapshot
 
