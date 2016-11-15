@@ -34,6 +34,10 @@ else
 fi
 export LD_LIBRARY_PATH
 
+# in case chromium runs in a Wayland session ensure GTK falls back to X11
+# if we are in a X-session, there is no difference
+export GDK_BACKEND=x11
+
 export CHROME_VERSION_EXTRA="Built from source for @@BUILD_TARGET@@"
 
 # We don't want bug-buddy intercepting our crashes. http://crbug.com/24120
