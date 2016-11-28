@@ -452,6 +452,7 @@ Chromium is an open-source web browser, powered by WebKit (Blink).
 %package libs
 Summary: Shared libraries used by chromium (and chrome-remote-desktop)
 Requires: chromium-libs-media%{_isa} = %{epoch}:%{version}
+Obsoletes: chromium-widevinecdm-plugin
 
 %description libs
 Shared libraries used by chromium (and chrome-remote-desktop).
