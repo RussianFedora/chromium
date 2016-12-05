@@ -142,8 +142,6 @@ Patch21:	chromium-53.0.2785.92-last-commit-position.patch
 # Fix issue where timespec is not defined when sys/stat.h is included.
 Patch22:	chromium-53.0.2785.92-boringssl-time-fix.patch
 # Fix gn build on Linux
-# https://crrev.com/415208
-Patch23:	chromium-53.0.2785.101-crrev-415028.patch
 # I wouldn't have to do this if there was a standard way to append extra compiler flags
 Patch24:	chromium-54.0.2840.59-nullfix.patch
 # Add explicit includedir for jpeglib.h
@@ -529,7 +527,6 @@ members of the Chromium and WebDriver teams.
 %patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
-%patch23 -p1 -b .415208
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
@@ -1724,6 +1721,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - drop codec-aliases patch
 - update addrfix patch
 - update icu patch
+- drop crrev-415028
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
