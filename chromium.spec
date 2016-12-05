@@ -110,7 +110,7 @@ Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
-Patch3:		chromium-52.0.2723.2-system-icu-54-does-not-have-detectHostTimeZone.patch
+Patch3:		chromium-55.0.2883.75-system-icu-54-does-not-have-detectHostTimeZone.patch
 Patch4:		chromium-46.0.2490.71-notest.patch
 # In file included from ../linux/directory.c:21:
 # In file included from ../../../../native_client/src/nonsfi/linux/abi_conversion.h:20:
@@ -1723,6 +1723,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - drop cups22 patch
 - drop codec-aliases patch
 - update addrfix patch
+- update icu patch
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support

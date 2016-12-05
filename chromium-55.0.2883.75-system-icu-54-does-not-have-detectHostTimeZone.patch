@@ -1,0 +1,12 @@
+diff -urN chromium-55.0.2883.75.orig/device/time_zone_monitor/time_zone_monitor.cc chromium-55.0.2883.75/device/time_zone_monitor/time_zone_monitor.cc
+--- chromium-55.0.2883.75.orig/device/time_zone_monitor/time_zone_monitor.cc	2016-12-02 17:03:37.148395124 +0300
++++ chromium-55.0.2883.75/device/time_zone_monitor/time_zone_monitor.cc	2016-12-02 17:08:12.556837606 +0300
+@@ -25,7 +25,7 @@
+ 
+ void TimeZoneMonitor::NotifyClients() {
+   DCHECK(thread_checker_.CalledOnValidThread());
+-#if defined(OS_CHROMEOS)
++#if defined(OS_CHROMEOS) || U_ICU_VERSION_MAJOR_NUM < 55
+   // On CrOS, ICU's default tz is already set to a new zone. No
+   // need to redetect it with detectHostTimeZone().
+   std::unique_ptr<icu::TimeZone> new_zone(icu::TimeZone::createDefault());
