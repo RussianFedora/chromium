@@ -107,7 +107,7 @@ License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and Open
 ### Chromium Fedora Patches ###
 #Patch0:		chromium-54.0.2840.59-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
-Patch2:		chromium-50.0.2661.86-addrfix.patch
+Patch2:		chromium-55.0.2883.75-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
 Patch3:		chromium-52.0.2723.2-system-icu-54-does-not-have-detectHostTimeZone.patch
@@ -1722,6 +1722,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update sandpox-pie patch from openSUSE
 - drop cups22 patch
 - drop codec-aliases patch
+- update addrfix patch
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
