@@ -880,7 +880,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/ced' \
 	'third_party/cld_2' \
 	'third_party/cros_system_api' \
-	'third_party/cython/python_flags.py' \
 	'third_party/devscripts' \
 	'third_party/dom_distiller_js' \
 	'third_party/expat' \
