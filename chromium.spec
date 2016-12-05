@@ -158,7 +158,6 @@ Patch28:	chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
-Patch101:	chromium-52.0.2723.2-use_system_harfbuzz.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -535,7 +534,6 @@ members of the Chromium and WebDriver teams.
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
-%patch101 -p1 -b .use_system_harfbuzz
 
 %if 0%{?asan}
 export CC="clang"
@@ -1722,6 +1720,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update addrfix patch
 - update icu patch
 - drop crrev-415028
+- drop harfbuzz patch
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
