@@ -1654,7 +1654,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %lang(vi) %{chromium_path}/locales/vi.pak
 %lang(zh_CN) %{chromium_path}/locales/zh-CN.pak
 %lang(zh_TW) %{chromium_path}/locales/zh-TW.pak
-%{chromium_path}/locales/fake-bidi.pak
 %{chromium_path}/resources/
 %{_mandir}/man1/%{chromium_browser_channel}.*
 %{_datadir}/icons/hicolor/256x256/apps/%{chromium_browser_channel}.png
