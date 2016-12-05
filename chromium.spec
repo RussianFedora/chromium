@@ -123,8 +123,6 @@ Patch4:		chromium-46.0.2490.71-notest.patch
 Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 # Use libusb_interrupt_event_handler from current libusbx (1.0.21-0.1.git448584a)
 Patch9:		chromium-48.0.2564.116-libusb_interrupt_event_handler.patch
-# Fix re2 unbundle gyp
-Patch10:	chromium-50.0.2661.94-unbundle-re2-fix.patch
 # Ignore deprecations in cups 2.2
 # https://bugs.chromium.org/p/chromium/issues/detail?id=622493
 Patch12:	chromium-52.0.2743.82-cups22.patch
@@ -528,7 +526,6 @@ members of the Chromium and WebDriver teams.
 #%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
-%patch10 -p1 -b .unbundle-fix
 %patch12 -p1 -b .cups22
 %patch14 -p1 -b .morealiases
 %patch15 -p1 -b .sandboxpie
@@ -1728,6 +1725,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 55.0.2883.75
 - drop gcc5 patch, I think we can do without it
 - drop pnacl-fgnu-inline-asm patch
+- drop re2 fix patch
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
