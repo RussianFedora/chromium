@@ -129,7 +129,7 @@ Patch12:	chromium-52.0.2743.82-cups22.patch
 # Add ICU Text Codec aliases (from openSUSE via Russian Fedora)
 Patch14:	chromium-52.0.2743.82-more-codec-aliases.patch
 # Use PIE in the Linux sandbox (from openSUSE via Russian Fedora)
-Patch15:	chromium-52.0.2743.82-sandbox-pie.patch
+Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
 # Enable ARM CPU detection for webrtc (from archlinux via Russian Fedora)
 Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 # Do not force -m32 in icu compile on ARM (from archlinux via Russian Fedora)
@@ -1726,6 +1726,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - drop gcc5 patch, I think we can do without it
 - drop pnacl-fgnu-inline-asm patch
 - drop re2 fix patch
+- update sandpox-pie patch from openSUSE
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
