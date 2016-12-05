@@ -518,7 +518,7 @@ members of the Chromium and WebDriver teams.
 #%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
-%patch15 -p1 -b .sandboxpie
+%patch15 -b .sandboxpie
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
