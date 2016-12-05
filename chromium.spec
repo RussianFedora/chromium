@@ -105,7 +105,7 @@ Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
 
 ### Chromium Fedora Patches ###
-Patch0:		chromium-54.0.2840.59-gcc5.patch
+#Patch0:		chromium-54.0.2840.59-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-50.0.2661.86-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
@@ -520,7 +520,7 @@ members of the Chromium and WebDriver teams.
 %endif
 
 ### Chromium Fedora Patches ###
-%patch0 -p1 -b .gcc5
+#%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
 %patch3 -p1 -b .system-icu
@@ -1726,6 +1726,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Dec  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.75-1.R
 - update to 55.0.2883.75
+- drop gcc5 patch, I think we can do without it
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
