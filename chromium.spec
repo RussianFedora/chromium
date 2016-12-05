@@ -123,8 +123,6 @@ Patch4:		chromium-46.0.2490.71-notest.patch
 Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 # Use libusb_interrupt_event_handler from current libusbx (1.0.21-0.1.git448584a)
 Patch9:		chromium-48.0.2564.116-libusb_interrupt_event_handler.patch
-# Add ICU Text Codec aliases (from openSUSE via Russian Fedora)
-Patch14:	chromium-52.0.2743.82-more-codec-aliases.patch
 # Use PIE in the Linux sandbox (from openSUSE via Russian Fedora)
 Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
 # Enable ARM CPU detection for webrtc (from archlinux via Russian Fedora)
@@ -523,7 +521,6 @@ members of the Chromium and WebDriver teams.
 #%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
-%patch14 -p1 -b .morealiases
 %patch15 -p1 -b .sandboxpie
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
@@ -1724,6 +1721,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - drop re2 fix patch
 - update sandpox-pie patch from openSUSE
 - drop cups22 patch
+- drop codec-aliases patch
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
