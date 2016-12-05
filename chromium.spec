@@ -118,7 +118,7 @@ Patch4:		chromium-46.0.2490.71-notest.patch
 #     __asm__ __volatile__("mov %%gs, %0" : "=r"(gs));
 #             ^
 # 1 error generated.
-Patch6:		chromium-47.0.2526.80-pnacl-fgnu-inline-asm.patch
+#Patch6:		chromium-47.0.2526.80-pnacl-fgnu-inline-asm.patch
 # Ignore broken nacl open fd counter
 Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 # Use libusb_interrupt_event_handler from current libusbx (1.0.21-0.1.git448584a)
@@ -525,7 +525,7 @@ members of the Chromium and WebDriver teams.
 %patch2 -p1 -b .addrfix
 %patch3 -p1 -b .system-icu
 %patch4 -p1 -b .notest
-%patch6 -p1 -b .gnu-inline
+#%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
 %patch10 -p1 -b .unbundle-fix
@@ -1727,6 +1727,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Mon Dec  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.75-1.R
 - update to 55.0.2883.75
 - drop gcc5 patch, I think we can do without it
+- drop pnacl-fgnu-inline-asm patch
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
