@@ -37,11 +37,11 @@
 # Only flip this on if stuff is really broken re: nacl.
 # chromium-native_client doesn't build on Fedora 23 because
 # clang is too old and buggy.
-%if 0%{?fedora} <= 23
+#%if 0%{?fedora} <= 23
 %global killnacl 1
-%else
-%global killnacl 0
-%endif
+#%else
+#%global killnacl 0
+#%endif
 
 %if 0%{?killnacl}
  %global nacl 0
@@ -1719,6 +1719,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update icu patch
 - drop crrev-415028
 - drop harfbuzz patch
+- build without nacl
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
