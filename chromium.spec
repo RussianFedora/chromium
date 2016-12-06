@@ -952,10 +952,10 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	--do-remove
 
 # Look, I don't know. This package is spit and chewing gum. Sorry.
-rm -rf third_party/jinja2
-ln -s %{python_sitelib}/jinja2 third_party/jinja2
-rm -rf third_party/markupsafe
-ln -s %{python_sitearch}/markupsafe third_party/markupsafe
+##rm -rf third_party/jinja2
+##ln -s %{python_sitelib}/jinja2 third_party/jinja2
+##rm -rf third_party/markupsafe
+##ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
 
 # Fix hardcoded path in remoting code
