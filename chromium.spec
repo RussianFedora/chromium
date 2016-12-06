@@ -73,7 +73,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 1
+%global gtk3 0
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
