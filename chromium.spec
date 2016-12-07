@@ -306,7 +306,11 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-html5lib
+%if 0%{?rhel} == 7
+BuildRequires:	python-jinja2-28
+%else
 BuildRequires:	python-jinja2
+%endif
 BuildRequires:	python-markupsafe
 BuildRequires:	python-ply
 BuildRequires:	python-simplejson
