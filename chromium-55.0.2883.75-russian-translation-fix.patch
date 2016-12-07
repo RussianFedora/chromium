@@ -1,0 +1,19 @@
+diff -urN chromium-55.0.2883.75.orig/components/strings/components_strings_ru.xtb chromium-55.0.2883.75/components/strings/components_strings_ru.xtb
+--- chromium-55.0.2883.75.orig/components/strings/components_strings_ru.xtb	2016-12-07 12:27:37.721694135 +0300
++++ chromium-55.0.2883.75/components/strings/components_strings_ru.xtb	2016-12-07 12:28:19.672258735 +0300
+@@ -217,7 +217,7 @@
+ <translation id="3303855915957856445">Ничего не найдено</translation>
+ <translation id="3305707030755673451">Данные были зашифрованы с помощью кодовой фразы <ph name="TIME" />. Введите ее, чтобы начать синхронизацию.</translation>
+ <translation id="333371639341676808">Предотвратить создание дополнительных диалоговых окон на этой странице.</translation>
+-<translation id="3338095232262050444">Надежный</translation>
++<translation id="3338095232262050444">Надёжный</translation>
+ <translation id="3340978935015468852">настройках</translation>
+ <translation id="3345135638360864351">Не удалось отправить пользователю <ph name="NAME" /> запрос на доступ к этому сайту. Повторите попытку.</translation>
+ <translation id="3355823806454867987">Изменить настройки прокси-сервера...</translation>
+@@ -725,4 +725,4 @@
+ <translation id="962701380617707048">Введите срок действия и CVC-код карты <ph name="CREDIT_CARD" /></translation>
+ <translation id="969892804517981540">Официальная сборка</translation>
+ <translation id="988159990683914416">Сборка для разработчиков</translation>
+-</translationbundle>
+\ В конце файла нет новой строки
++</translationbundle>

@@ -161,6 +161,9 @@ Patch28:	chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 
+### Russian Fedora Patches ###
+Patch1000:	chromium-55.0.2883.75-russian-translation-fix.patch
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -536,6 +539,9 @@ members of the Chromium and WebDriver teams.
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
+
+### Russian Fedora Patches ###
+%patch1000 -p1 -b .russian-translation-fix
 
 %if 0%{?asan}
 export CC="clang"
