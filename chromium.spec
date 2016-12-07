@@ -306,9 +306,7 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-html5lib
-%if 0%{?rhel} == 7
-BuildRequires:	python-jinja2-28
-%else
+%if 0%{?fedora}
 BuildRequires:	python-jinja2
 %endif
 BuildRequires:	python-markupsafe
@@ -961,12 +959,14 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'v8/src/third_party/valgrind' \
 	--do-remove
 
+%if 0%{?fedora}
 # Look, I don't know. This package is spit and chewing gum. Sorry.
 rm -rf third_party/jinja2
 ln -s %{python_sitelib}/jinja2 third_party/jinja2
 rm -rf third_party/markupsafe
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
+%endif
 
 # Fix hardcoded path in remoting code
 sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/daemon_controller_delegate_linux.cc
