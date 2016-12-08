@@ -198,6 +198,7 @@ Source13:	master_preferences
 # We can assume gcc and binutils.
 %if 0%{?rhel} == 7
 BuildRequires:	devtoolset-6-gcc-c++
+BuildRequires:	devtoolset-6-libatomic-devel
 %else
 BuildRequires:	gcc-c++
 %endif
