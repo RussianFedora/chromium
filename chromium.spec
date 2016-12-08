@@ -196,7 +196,11 @@ Source12:	chromium-browser.appdata.xml
 Source13:	master_preferences
 
 # We can assume gcc and binutils.
+%if 0%{?rhel} == 7
+BuildRequires:	devtoolset-6-gcc-c++
+%else
 BuildRequires:	gcc-c++
+%endif
 
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
@@ -551,8 +555,13 @@ members of the Chromium and WebDriver teams.
 export CC="clang"
 export CXX="clang++"
 %else
+%if 0%{?rhel} == 7
+export CC="/opt/rh/devtoolset-6/root/usr/bin/gcc"
+export CXX="/opt/rh/devtoolset-6/root/usr/bin/g++"
+%else
 export CC="gcc"
 export CXX="g++"
+%endif
 %endif
 export AR="ar"
 export RANLIB="ranlib"
