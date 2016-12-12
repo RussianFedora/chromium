@@ -873,7 +873,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'native_client/src/third_party/valgrind' \
 	'net/third_party/mozilla_security_manager' \
 	'net/third_party/nss' \
-	'third_party/WebKit' \
 	'third_party/analytics' \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/numerics' \
