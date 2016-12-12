@@ -157,6 +157,11 @@ Patch27:	chromium-54.0.2840.90-setopaque.patch
 # /usr/bin/ld.bfd: note: '_ZN2ui31GrabWindowSnapshotAndScaleAsyncEPN4aura6WindowERKN3gfx4RectERKNS3_4SizeE13scoped_refptrIN4base10TaskRunnerEERKNSB_8CallbackIFvRKNS3_5ImageEELNSB_8internal8CopyModeE1EEE' is defined in DSO ./libsnapshot.so so try adding it to the linker command line
 # ./libsnapshot.so: could not read symbols: Invalid operation
 Patch28:	chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
+# Fix remoting_perftests build for ARM
+# While compiling chromium for chromeos, remoting_perftests fails to
+# build due to an attempt to return an rvalue
+# https://bugs.chromium.org/p/chromium/issues/detail?id=660541
+Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -540,6 +545,7 @@ members of the Chromium and WebDriver teams.
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch28 -p1 -b .aurasnapshot
+%patch40 -p1 -b .fix-remoting_perftests-build
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1733,6 +1739,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - drop harfbuzz patch
 - build without nacl
 - disable gtk3, some build errors with chrome-remote-desktop
+- Fix remoting_perftests build
 
 * Tue Nov 15 2016 Arkady L. Shane <ashejn@russianfedora.pro> 54.0.2840.100-2.R
 - enable gtk3 support
