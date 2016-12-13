@@ -74,10 +74,12 @@ BuildRequires:  libicu-devel >= 5.4
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
+%global bundlejinja2 1
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
 %else
 %global bundleharfbuzz 0
+%global bundlejinja2 0
 %global bundleopus 1
 %global bundlelibusbx 0
 %endif
@@ -309,8 +311,8 @@ BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-html5lib
-%if 0%{?rhel} == 7
-BuildRequires:	python-jinja2-28
+%if 0%{?bundlejinja2}
+# Using bundled bits, do nothing.
 %else
 BuildRequires:	python-jinja2
 %endif
@@ -773,6 +775,9 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
 	'third_party/hunspell' \
 	'third_party/iccjpeg' \
+%if 0%{?bundlejinja2}
+	'third_party/jinja2' \
+%endif
 	'third_party/jstemplate' \
 	'third_party/khronos' \
 	'third_party/leveldatabase' \
@@ -836,8 +841,11 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	--do-remove
 
 # Look, I don't know. This package is spit and chewing gum. Sorry.
+
+%if ! 0%{?bundlejinja2}
 rm -rf third_party/jinja2
 ln -s %{python_sitelib}/jinja2 third_party/jinja2
+%endif
 rm -rf third_party/markupsafe
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
@@ -1581,6 +1589,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Tue Dec 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.87-1.R
 - update to 55.0.2883.87
+- use bundled jinja2 for el7
 
 * Mon Dec  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.75-1.R
 - update to 55.0.2883.75
