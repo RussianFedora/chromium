@@ -162,6 +162,7 @@ Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
+Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
 Patch1000:	chromium-55.0.2883.75-russian-translation-fix.patch
@@ -546,6 +547,7 @@ members of the Chromium and WebDriver teams.
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
+%patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
 %patch1000 -p1 -b .russian-translation-fix

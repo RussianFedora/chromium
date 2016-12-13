@@ -1,0 +1,12 @@
+diff -up chromium-55.0.2883.75/ui/gfx/render_text_harfbuzz.h.use_system_harfbuzz chromium-55.0.2883.75/ui/gfx/render_text_harfbuzz.h
+--- chromium-55.0.2883.75/ui/gfx/render_text_harfbuzz.h.use_system_harfbuzz	2016-12-12 16:09:03.873466669 -0500
++++ chromium-55.0.2883.75/ui/gfx/render_text_harfbuzz.h	2016-12-12 16:09:57.507204326 -0500
+@@ -12,7 +12,7 @@
+ 
+ #include "base/macros.h"
+ #include "base/memory/scoped_vector.h"
+-#include "third_party/harfbuzz-ng/src/hb.h"
++#include <harfbuzz/hb.h>
+ #include "third_party/icu/source/common/unicode/ubidi.h"
+ #include "third_party/icu/source/common/unicode/uscript.h"
+ #include "ui/gfx/render_text.h"
