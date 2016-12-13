@@ -716,7 +716,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/snappy' \
 	'third_party/speech-dispatcher' \
 	'third_party/usb_ids' \
-	'third_party/woff2' \
 	'third_party/xdg-utils' \
 	'third_party/yasm' \
 	'third_party/zlib' \
@@ -780,6 +779,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/libjingle' \
 	'third_party/libphonenumber' \
 	'third_party/libsecret' \
+	'third_party/libsrtp' \
 	'third_party/libudev' \
 	'third_party/libusb' \
 	'third_party/libvpx' \
@@ -806,6 +806,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/pdfium/third_party/lcms2-2.6' \
 	'third_party/pdfium/third_party/libjpeg' \
 	'third_party/pdfium/third_party/libopenjpeg20' \
+	'third_party/pdfium/third_party/libpng16' \
+	'third_party/pdfium/third_party/libtiff' \
 	'third_party/pdfium/third_party/zlib_v128' \
 	'third_party/polymer' \
 	'third_party/protobuf' \
@@ -824,6 +826,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/webdriver' \
 	'third_party/webrtc' \
 	'third_party/widevine' \
+	'third_party/woff2' \
 	'third_party/x86inc' \
 	'third_party/zlib/google' \
 	'url/third_party/mozilla' \
