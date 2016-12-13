@@ -1,9 +1,6 @@
 # NEVER EVER EVER turn this on in official builds
 %global freeworld 1
 
-# gn is the new new new buildtool. *sigh*
-%global use_gn 1
-
 # Leave this alone, please.
 %global target out/Release
 
@@ -845,7 +842,6 @@ sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/d
 
 export PATH=$PATH:%{_builddir}/depot_tools
 
-%if %{use_gn}
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
 %if 0%{?bundleharfbuzz}
@@ -877,19 +873,6 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 
 tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_BROWSER_GN_DEFINES"
 %{target}/gn gen --args="$CHROMIUM_BROWSER_GN_DEFINES" %{target}
-%else
-# Update gyp files according to our configuration
-# If you will change something in the configuration please update it
-# for build/gyp_chromium as well (and vice versa).
-build/linux/unbundle/replace_gyp_files.py $CHROMIUM_BROWSER_GYP_DEFINES
-
-build/gyp_chromium \
-	--depth . \
-%if 0%{?asan}
-	-Drelease_extra_cflags="-O1 -fno-inline-functions -fno-inline" \
-%endif
-	$CHROMIUM_BROWSER_GYP_DEFINES
-%endif
 
 %if %{bundlelibusbx}
 # no hackity hack hack
