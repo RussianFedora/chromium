@@ -95,7 +95,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	55.0.2883.75
+Version:	55.0.2883.87
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -1725,6 +1725,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Tue Dec 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.87-1.R
+- update to 55.0.2883.87
+
 * Mon Dec  5 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.75-1.R
 - update to 55.0.2883.75
 - drop gcc5 patch, I think we can do without it
