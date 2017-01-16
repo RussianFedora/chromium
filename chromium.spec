@@ -540,7 +540,6 @@ members of the Chromium and WebDriver teams.
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
-%patch28 -p1 -b .aurasnapshot
 %patch40 -p1 -b .fix-remoting_perftests-build
 
 ### Chromium Tests Patches ###
