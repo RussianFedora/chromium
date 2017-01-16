@@ -163,7 +163,7 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-Patch1000:	chromium-55.0.2883.75-russian-translation-fix.patch
+Patch1000:	chromium-56.0.2924.59-russian-translation-fix.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -1586,6 +1586,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 56.0.2924.59
 - update arm-icu-fix patch
 - drop chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
+- update translation patch
 
 * Tue Dec 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.87-1.R
 - update to 55.0.2883.87
