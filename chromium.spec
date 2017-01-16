@@ -129,7 +129,7 @@ Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
 # Enable ARM CPU detection for webrtc (from archlinux via Russian Fedora)
 Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 # Do not force -m32 in icu compile on ARM (from archlinux via Russian Fedora)
-Patch17:	chromium-54.0.2840.59-arm-icu-fix.patch
+Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
 # Disable MADV_FREE (if set by glibc)
@@ -1589,6 +1589,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
 - update to 56.0.2924.59
+- update arm-icu-fix patch
 
 * Tue Dec 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.87-1.R
 - update to 55.0.2883.87
