@@ -132,9 +132,6 @@ Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
-# Disable MADV_FREE (if set by glibc)
-# https://bugzilla.redhat.com/show_bug.cgi?id=1361157
-Patch19:	chromium-52.0.2743.116-unset-madv_free.patch
 # Use gn system files
 Patch20:	chromium-54.0.2840.59-gn-system.patch
 # Fix last commit position issue
@@ -152,18 +149,10 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
 Patch27:	chromium-54.0.2840.90-setopaque.patch
-# Fix remoting_perftests build for ARM
-# While compiling chromium for chromeos, remoting_perftests fails to
-# build due to an attempt to return an rvalue
-# https://bugs.chromium.org/p/chromium/issues/detail?id=660541
-Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
-
-### Russian Fedora Patches ###
-Patch1000:	chromium-56.0.2924.59-russian-translation-fix.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -519,6 +508,9 @@ members of the Chromium and WebDriver teams.
 %setup -q -n chromium-%{version}
 %endif
 
+# Fix Russian Translation
+sed -i 's@Надежный@Надёжный@g' components/strings/components_strings_ru.xtb
+
 ### Chromium Fedora Patches ###
 #%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
@@ -532,7 +524,6 @@ members of the Chromium and WebDriver teams.
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-%patch19 -p1 -b .madv_free
 %patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
@@ -540,14 +531,10 @@ members of the Chromium and WebDriver teams.
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
-%patch40 -p1 -b .fix-remoting_perftests-build
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
 %patch101 -p1 -b .use_system_harfbuzz
-
-### Russian Fedora Patches ###
-%patch1000 -p1 -b .russian-translation-fix
 
 %if 0%{?asan}
 export CC="clang"
@@ -1584,6 +1571,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2979.0-1.R
 - update to 57.0.2979.0
+- drop old patches
 
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
 - update to 56.0.2924.59
