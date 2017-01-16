@@ -70,7 +70,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 1
+%global gtk3 0
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -289,9 +289,7 @@ BuildRequires:	libxslt-devel
 BuildRequires:	opus-devel
 %endif
 BuildRequires:	perl(Switch)
-%if 0%{gtk3}
 BuildRequires:	pkgconfig(gtk+-3.0)
-%endif
 BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
