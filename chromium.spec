@@ -701,6 +701,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/icu' \
 	'third_party/inspector_protocol' \
 	'v8/third_party/inspector_protocol' \
+	'third_party/cld_3' \
 	'base/third_party/libevent' \
 	'third_party/libjpeg_turbo' \
 	'third_party/libpng' \
