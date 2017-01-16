@@ -152,10 +152,6 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
 Patch27:	chromium-54.0.2840.90-setopaque.patch
-# /usr/bin/ld.bfd: obj/chrome/browser/libbrowser.a(native_desktop_media_list.o): undefined reference to symbol '_ZN2ui31GrabWindowSnapshotAndScaleAsyncEPN4aura6WindowERKN3gfx4RectERKNS3_4SizeE13scoped_refptrIN4base10TaskRunnerEERKNSB_8CallbackIFvRKNS3_5ImageEELNSB_8internal8CopyModeE1EEE'
-# /usr/bin/ld.bfd: note: '_ZN2ui31GrabWindowSnapshotAndScaleAsyncEPN4aura6WindowERKN3gfx4RectERKNS3_4SizeE13scoped_refptrIN4base10TaskRunnerEERKNSB_8CallbackIFvRKNS3_5ImageEELNSB_8internal8CopyModeE1EEE' is defined in DSO ./libsnapshot.so so try adding it to the linker command line
-# ./libsnapshot.so: could not read symbols: Invalid operation
-Patch28:	chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
 # Fix remoting_perftests build for ARM
 # While compiling chromium for chromeos, remoting_perftests fails to
 # build due to an attempt to return an rvalue
@@ -1590,6 +1586,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
 - update to 56.0.2924.59
 - update arm-icu-fix patch
+- drop chromium-54.0.2840.90-aura-browser-link-to-snapshot.patch
 
 * Tue Dec 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.87-1.R
 - update to 55.0.2883.87
