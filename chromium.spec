@@ -699,6 +699,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/flac' \
 	'third_party/harfbuzz-ng' \
 	'third_party/icu' \
+	'inspector_protocol' \
 	'base/third_party/libevent' \
 	'third_party/libjpeg_turbo' \
 	'third_party/libpng' \
