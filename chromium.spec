@@ -94,7 +94,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	55.0.2883.87
+Version:	56.0.2924.59
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -1587,6 +1587,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
+- update to 56.0.2924.59
+
 * Tue Dec 13 2016 Arkady L. Shane <ashejn@russianfedora.pro> 55.0.2883.87-1.R
 - update to 55.0.2883.87
 - use bundled jinja2 for el7
