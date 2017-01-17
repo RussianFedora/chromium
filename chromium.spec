@@ -1033,7 +1033,7 @@ popd
 %endif
 
 # See remoting/host/installer/linux/Makefile for logic
-cp -a native_messaging_host %{buildroot}%{crd_path}/native-messaging-host
+#cp -a native_messaging_host %{buildroot}%{crd_path}/native-messaging-host
 cp -a remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
 cp -a remoting_locales %{buildroot}%{crd_path}/
 cp -a remoting_me2me_host %{buildroot}%{crd_path}/chrome-remote-desktop-host
