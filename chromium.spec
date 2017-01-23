@@ -79,7 +79,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundleharfbuzz 1
 %else
 %global bundleharfbuzz 0
-%global bundlejinja2 0
+%global bundlejinja2 1
 %global bundleopus 1
 %global bundlelibusbx 0
 %endif
@@ -1583,6 +1583,11 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Jan 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.67-1.R
 - update to 56.0.2924.67
+- some trouble with system python-jinja2 2.9.4. Use bundled
+
+* Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2979.0-1.R
+- update to 57.0.2979.0
+- drop old patches
 
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
 - update to 56.0.2924.59
