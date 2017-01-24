@@ -509,6 +509,11 @@ members of the Chromium and WebDriver teams.
 # Fix Russian Translation
 sed -i 's@Надежный@Надёжный@g' components/strings/components_strings_ru.xtb
 
+# fix debugedit: canonicalization unexpectedly shrank by one character
+sed -i 's@gpu//@gpu/@g' content/renderer/gpu/compositor_forwarding_message_filter.cc
+sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft.cc
+sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft_sse2.cc
+
 ### Chromium Fedora Patches ###
 #%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
@@ -1571,6 +1576,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Mon Jan 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2986.0-1.R
 - update to 57.0.2986.0
 - some trouble with system python-jinja2 2.9.4. Use bundled
+- fix debugedit: canonicalization unexpectedly shrank by one character
 
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2979.0-1.R
 - update to 57.0.2979.0
