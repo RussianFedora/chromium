@@ -154,6 +154,8 @@ Patch27:	chromium-54.0.2840.90-setopaque.patch
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
+### Russian Fedora Patches ###
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -507,7 +509,7 @@ members of the Chromium and WebDriver teams.
 %endif
 
 # Fix Russian Translation
-sed -i 's@Надежный@Надёжный@g' components/strings/components_strings_ru.xtb
+sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
 
 # fix debugedit: canonicalization unexpectedly shrank by one character
 sed -i 's@gpu//@gpu/@g' content/renderer/gpu/compositor_forwarding_message_filter.cc
@@ -538,6 +540,8 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
 %patch101 -p1 -b .use_system_harfbuzz
+
+### Russian Fedora Patches ###
 
 %if 0%{?asan}
 export CC="clang"
