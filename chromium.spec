@@ -874,8 +874,6 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	libusb \
 %endif
-	libxml \
-	libxslt \
 %if %{bundleopus}
 %else
 	opus \
