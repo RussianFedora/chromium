@@ -94,7 +94,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	56.0.2924.76
+Version:	56.0.2924.87
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -157,6 +157,9 @@ Patch27:	chromium-54.0.2840.90-setopaque.patch
 # build due to an attempt to return an rvalue
 # https://bugs.chromium.org/p/chromium/issues/detail?id=660541
 Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
+# fix build with gcc 4
+# https://bugs.gentoo.org/show_bug.cgi?id=600288
+Patch41:        chromium-56-gcc4.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -546,6 +549,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch40 -p1 -b .fix-remoting_perftests-build
+%patch41 -p1 -b .gcc4
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1587,9 +1591,13 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Feb  2 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-1.R
+- update to 56.0.2924.87
+
 * Thu Jan 26 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.76-1.R
 - update to 56.0.2924.76
 - fix Russian Translation
+- fix build with gcc 4
 
 * Mon Jan 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.67-1.R
 - update to 56.0.2924.67
