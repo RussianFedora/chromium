@@ -152,6 +152,8 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
 Patch27:	chromium-54.0.2840.90-setopaque.patch
+# Use -fpermissive to build WebKit
+Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix remoting_perftests build for ARM
 # While compiling chromium for chromeos, remoting_perftests fails to
 # build due to an attempt to return an rvalue
@@ -548,6 +550,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
+%patch31 -p1 -b .permissive
 %patch40 -p1 -b .fix-remoting_perftests-build
 %patch41 -p1 -b .gcc4
 
@@ -1593,6 +1596,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Feb  2 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-1.R
 - update to 56.0.2924.87
+- build third_party/WebKit with -fpermissive
 
 * Thu Jan 26 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.76-1.R
 - update to 56.0.2924.76
