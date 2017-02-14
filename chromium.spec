@@ -70,7 +70,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 0
+%global gtk3 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -96,9 +96,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	56.0.2924.87
 %if 0%{?fedora} >= 25
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %else
-Release:	1%{?dist}
+Release:	2%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -168,6 +168,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
+# https://bugs.archlinux.org/task/47682
+Patch500:	chromium-56.0.2924.87-gtk3theme.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -559,6 +561,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
+%patch500 -p1 -b .gtk3theme
 
 %if 0%{?asan}
 export CC="clang"
@@ -881,6 +884,8 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	libusb \
 %endif
+	libxml \
+	libxslt \
 %if %{bundleopus}
 %else
 	opus \
@@ -1592,6 +1597,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
+- build with gtk3 support
+
 * Thu Feb  2 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-1.R
 - update to 56.0.2924.87
 - build third_party/WebKit with -fpermissive
