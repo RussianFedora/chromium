@@ -1098,8 +1098,10 @@ popd
 cp -a remoting_client_plugin_newlib.* %{buildroot}%{chromium_path}
 %endif
 %endif
+%endif
 popd
 
+%if %{build_remote_desktop}
 cp -a remoting/host/linux/linux_me2me_host.py %{buildroot}%{crd_path}/chrome-remote-desktop
 cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
 
