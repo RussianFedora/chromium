@@ -27,6 +27,9 @@
 # We should not need to turn this on. The app in the webstore _should_ work.
 %global build_remoting_app 0
 
+# Build Chrome Remote Desktop
+%global build_remote_desktop 0
+
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
 %global asan 0
@@ -70,7 +73,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 0
+%global gtk3 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -94,7 +97,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	57.0.2986.0
+Version:	56.0.2924.87
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -149,12 +152,24 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
 Patch27:	chromium-54.0.2840.90-setopaque.patch
+# Use -fpermissive to build WebKit
+Patch31:	chromium-56.0.2924.87-fpermissive.patch
+# Fix remoting_perftests build for ARM
+# While compiling chromium for chromeos, remoting_perftests fails to
+# build due to an attempt to return an rvalue
+# https://bugs.chromium.org/p/chromium/issues/detail?id=660541
+Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
+# fix build with gcc 4
+# https://bugs.gentoo.org/show_bug.cgi?id=600288
+Patch41:        chromium-56-gcc4.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
+# https://bugs.archlinux.org/task/47682
+Patch500:	chromium-56.0.2924.87-gtk3theme.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -468,6 +483,7 @@ Shared libraries used by the chromium media subsystem.
 %endif
 %endif
 
+%if %{build_remote_desktop}
 %package -n chrome-remote-desktop
 Requires(pre): shadow-utils
 Requires(post): systemd
@@ -481,6 +497,8 @@ Summary: Remote desktop support for google-chrome & chromium
 
 %description -n chrome-remote-desktop
 Remote desktop support for google-chrome & chromium.
+%endif
+
 
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
@@ -536,12 +554,16 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
+%patch31 -p1 -b .permissive
+%patch40 -p1 -b .fix-remoting_perftests-build
+%patch41 -p1 -b .gcc4
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
+%patch500 -p1 -b .gtk3theme
 
 %if 0%{?asan}
 export CC="clang"
@@ -842,8 +864,10 @@ rm -rf third_party/markupsafe
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
 
+%if %{build_remote_desktop}
 # Fix hardcoded path in remoting code
 sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/daemon_controller_delegate_linux.cc
+%endif
 
 export PATH=$PATH:%{_builddir}/depot_tools
 
@@ -972,6 +996,7 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 
 ../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
+%if %{build_remote_desktop}
 # remote client
 pushd remoting
 
@@ -983,7 +1008,7 @@ GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ../../depot_tools
 %endif
 %endif
 popd
-
+%endif
 
 %install
 rm -rf %{buildroot}
@@ -1041,6 +1066,7 @@ done
 popd
 %endif
 
+%if %{build_remote_desktop}
 # See remoting/host/installer/linux/Makefile for logic
 cp -a remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
 cp -a remoting_locales %{buildroot}%{crd_path}/
@@ -1080,6 +1106,7 @@ cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
 mkdir -p %{buildroot}%{_unitdir}
 cp -a %{SOURCE11} %{buildroot}%{_unitdir}/
 sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop.service
+%endif
 
 # Add directories for policy management
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/policies/managed
@@ -1435,6 +1462,7 @@ update-desktop-database &> /dev/null || :
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%if %{build_remote_desktop}
 %pre -n chrome-remote-desktop
 getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-desktop
 
@@ -1446,6 +1474,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %postun -n chrome-remote-desktop
 %systemd_postun_with_restart chrome-remote-desktop.service
+%endif
 
 %files
 %doc AUTHORS
@@ -1549,6 +1578,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/libmedia.so*
 %endif
 
+%if %{build_remote_desktop}
 %files -n chrome-remote-desktop
 %{crd_path}/chrome-remote-desktop
 %{crd_path}/chrome-remote-desktop-host
@@ -1569,6 +1599,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/remoting_client_plugin_newlib.*
 %endif
 %endif
+%endif
 
 %files -n chromedriver
 %doc AUTHORS
@@ -1577,14 +1608,24 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Mon Jan 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2986.0-1.R
-- update to 57.0.2986.0
+* Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
+- build with gtk3 support
+- disable build of chrome-remote-desktop
+
+* Thu Feb  2 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-1.R
+- update to 56.0.2924.87
+- build third_party/WebKit with -fpermissive
+
+* Thu Jan 26 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.76-1.R
+- update to 56.0.2924.76
+- fix Russian Translation
+- fix build with gcc 4
+
+* Mon Jan 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.67-1.R
+- update to 56.0.2924.67
+
 - some trouble with system python-jinja2 2.9.4. Use bundled
 - fix debugedit: canonicalization unexpectedly shrank by one character
-
-* Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2979.0-1.R
-- update to 57.0.2979.0
-- drop old patches
 
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
 - update to 56.0.2924.59
