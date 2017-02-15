@@ -1,8 +1,8 @@
 description: better integration with gtk3 themes
 origin: https://bugs.archlinux.org/task/47682
 
---- a/chrome/browser/ui/libgtk2ui/native_theme_gtk2.cc
-+++ b/chrome/browser/ui/libgtk2ui/native_theme_gtk2.cc
+--- a/chrome/browser/ui/libgtkui/native_theme_gtk.cc
++++ b/chrome/browser/ui/libgtkui/native_theme_gtk.cc
 @@ -138,6 +138,11 @@ SkColor GetBGColor(GtkWidget* widget, Wi
        gtk_widget_get_style_context(widget), stateMap[state], &color);
    G_GNUC_END_IGNORE_DEPRECATIONS
