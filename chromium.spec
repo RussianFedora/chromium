@@ -27,6 +27,9 @@
 # We should not need to turn this on. The app in the webstore _should_ work.
 %global build_remoting_app 0
 
+# Build Chrome Remote Desktop
+%global build_remote_desktop 0
+
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
 %global asan 0
@@ -483,6 +486,7 @@ Shared libraries used by the chromium media subsystem.
 %endif
 %endif
 
+%if %{build_remote_desktop}
 %package -n chrome-remote-desktop
 Requires(pre): shadow-utils
 Requires(post): systemd
@@ -496,6 +500,8 @@ Summary: Remote desktop support for google-chrome & chromium
 
 %description -n chrome-remote-desktop
 Remote desktop support for google-chrome & chromium.
+%endif
+
 
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
@@ -862,8 +868,10 @@ rm -rf third_party/markupsafe
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
 
+%if %{build_remote_desktop}
 # Fix hardcoded path in remoting code
 sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/daemon_controller_delegate_linux.cc
+%endif
 
 export PATH=$PATH:%{_builddir}/depot_tools
 
@@ -992,6 +1000,7 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 
 ../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
+%if %{build_remote_desktop}
 # remote client
 pushd remoting
 
@@ -1003,7 +1012,7 @@ GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ../../depot_tools
 %endif
 %endif
 popd
-
+%endif
 
 %install
 rm -rf %{buildroot}
@@ -1061,6 +1070,7 @@ done
 popd
 %endif
 
+%if %{build_remote_desktop}
 # See remoting/host/installer/linux/Makefile for logic
 cp -a remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
 cp -a remoting_locales %{buildroot}%{crd_path}/
@@ -1100,6 +1110,7 @@ cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
 mkdir -p %{buildroot}%{_unitdir}
 cp -a %{SOURCE11} %{buildroot}%{_unitdir}/
 sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop.service
+%endif
 
 # Add directories for policy management
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/policies/managed
@@ -1455,6 +1466,7 @@ update-desktop-database &> /dev/null || :
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%if %{build_remote_desktop}
 %pre -n chrome-remote-desktop
 getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-desktop
 
@@ -1466,6 +1478,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %postun -n chrome-remote-desktop
 %systemd_postun_with_restart chrome-remote-desktop.service
+%endif
 
 %files
 %doc AUTHORS
@@ -1569,6 +1582,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/libmedia.so*
 %endif
 
+%if %{build_remote_desktop}
 %files -n chrome-remote-desktop
 %{crd_path}/chrome-remote-desktop
 %{crd_path}/chrome-remote-desktop-host
@@ -1589,6 +1603,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/remoting_client_plugin_newlib.*
 %endif
 %endif
+%endif
 
 %files -n chromedriver
 %doc AUTHORS
@@ -1599,6 +1614,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
 - build with gtk3 support
+- disable build of chrome-remote-desktop
 
 * Thu Feb  2 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-1.R
 - update to 56.0.2924.87
