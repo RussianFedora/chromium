@@ -154,9 +154,6 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 Patch27:	chromium-54.0.2840.90-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
-# fix build with gcc 4
-# https://bugs.gentoo.org/show_bug.cgi?id=600288
-Patch41:        chromium-56-gcc4.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -550,7 +547,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
-%patch41 -p1 -b .gcc4
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
