@@ -154,11 +154,6 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 Patch27:	chromium-54.0.2840.90-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
-# Fix remoting_perftests build for ARM
-# While compiling chromium for chromeos, remoting_perftests fails to
-# build due to an attempt to return an rvalue
-# https://bugs.chromium.org/p/chromium/issues/detail?id=660541
-Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
 # fix build with gcc 4
 # https://bugs.gentoo.org/show_bug.cgi?id=600288
 Patch41:        chromium-56-gcc4.patch
@@ -555,7 +550,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
-%patch40 -p1 -b .fix-remoting_perftests-build
 %patch41 -p1 -b .gcc4
 
 ### Chromium Tests Patches ###
