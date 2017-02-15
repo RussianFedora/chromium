@@ -97,7 +97,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	56.0.2924.87
+Version:	58.0.3004.3
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -1608,6 +1608,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Feb 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3004.3-1.R
+- update to 58.0.3004.3
+
 * Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
 - build with gtk3 support
 - disable build of chrome-remote-desktop
