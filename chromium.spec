@@ -1058,6 +1058,7 @@ cp -a lib*.so* %{buildroot}%{chromium_path}
 cp -a chromedriver %{buildroot}%{chromium_path}/chromedriver
 ln -s %{chromium_path}/chromedriver %{buildroot}%{_bindir}/chromedriver
 
+%if %{build_remote_desktop}
 # Remote desktop bits
 mkdir -p %{buildroot}%{crd_path}
 
@@ -1070,7 +1071,6 @@ done
 popd
 %endif
 
-%if %{build_remote_desktop}
 # See remoting/host/installer/linux/Makefile for logic
 cp -a remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
 cp -a remoting_locales %{buildroot}%{crd_path}/
