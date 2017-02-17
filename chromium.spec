@@ -233,6 +233,7 @@ BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
+BuildRequires:	nodejs
 BuildRequires:	nss-devel
 BuildRequires:	pciutils-devel
 BuildRequires:	pulseaudio-libs-devel
@@ -821,6 +822,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/mesa' \
 	'third_party/modp_b64' \
 	'third_party/mt19937ar' \
+	'third_party/node' \
+	'third_party/node/node_modules/vulcanize/third_party/UglifyJS2' \
 	'third_party/openmax_dl' \
 	'third_party/opus' \
 	'third_party/ots' \
@@ -924,6 +927,10 @@ sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"Russian Fedora"/' $FILE
 
 # fix arm gcc
 sed -i 's|arm-linux-gnueabihf-|arm-linux-gnu-|g' build/toolchain/linux/BUILD.gn
+
+# setup node
+mkdir -p third_party/node/linux/node-linux-x64/bin
+ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 
 %build
 
@@ -1651,6 +1658,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Mar 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.19-1.R
 - update to 58.0.3029.19
+- setup nodejs
 
 * Mon Mar 20 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.110-1.R
 - update to 57.0.2987.110
