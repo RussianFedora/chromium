@@ -171,8 +171,6 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# https://bugs.archlinux.org/task/47682
-Patch500:	chromium-56.0.2924.87-gtk3theme.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -567,7 +565,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
-#patch500 -p1 -b .gtk3theme
 
 %if 0%{?asan}
 export CC="clang"
