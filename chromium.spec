@@ -135,9 +135,6 @@ Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
-# Disable MADV_FREE (if set by glibc)
-# https://bugzilla.redhat.com/show_bug.cgi?id=1361157
-Patch19:	chromium-52.0.2743.116-unset-madv_free.patch
 # Use gn system files
 Patch20:	chromium-54.0.2840.59-gn-system.patch
 # Fix last commit position issue
@@ -548,7 +545,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-%patch19 -p1 -b .madv_free
 %patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
@@ -1613,6 +1609,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Fri Feb 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.54-1.R
 - update to 57.0.2987.54
+- drop unset-madv_free patch
 
 * Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
 - build with gtk3 support
