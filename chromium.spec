@@ -28,7 +28,7 @@
 %global build_remoting_app 0
 
 # Build Chrome Remote Desktop
-%global build_remote_desktop 0
+%global build_remote_desktop 1
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
