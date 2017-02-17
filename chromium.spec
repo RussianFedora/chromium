@@ -992,6 +992,39 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 
 %if %{build_remote_desktop}
 # remote client
+
+# rebase to gtk2
+CHROMIUM_BROWSER_GN_DEFINES=""
+CHROMIUM_BROWSER_GN_DEFINES+=' is_debug=false'
+%ifarch x86_64
+CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
+%endif
+CHROMIUM_BROWSER_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
+CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
+%if 0%{?nonacl}
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_nacl=false'
+%endif
+%if %{freeworld}
+CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
+%else
+CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
+%endif
+%if 0%{?shared}
+CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=true is_component_build=true'
+%else
+CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=false'
+%endif
+CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_hotwording=false use_aura=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false'
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
+# CHROMIUM_BROWSER_GN_DEFINES+=' use_system_libjpeg=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' treat_warnings_as_errors=false'
+export CHROMIUM_BROWSER_GN_DEFINES
+
+%{target}/gn gen --args="$CHROMIUM_BROWSER_GN_DEFINES" %{target}
+
 pushd remoting
 
 # ../../depot_tools/ninja -C ../%{target} -vvv remoting_me2me_host remoting_start_host remoting_it2me_native_messaging_host remoting_me2me_native_messaging_host remoting_native_messaging_manifests remoting_resources
