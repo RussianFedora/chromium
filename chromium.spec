@@ -160,6 +160,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
+# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r1.patch
+Patch500:	chromium-gn-bootstrap-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -552,6 +554,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
+%patch500 -p1 -b .gn
 
 %if 0%{?asan}
 export CC="clang"
