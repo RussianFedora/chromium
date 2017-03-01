@@ -154,6 +154,9 @@ Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
 Patch27:	chromium-54.0.2840.90-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
+# Fix issue with compilation on gcc7
+# Thanks to Ben Noordhuis
+Patch33:	chromium-56.0.2924.87-gcc7.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -548,6 +551,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
+%patch33 -p1 -b .gcc7
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
