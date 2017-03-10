@@ -73,7 +73,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
+%if 0%{?rhel} == 7
+%global gtk3 0
+%else
 %global gtk3 1
+%endif
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -995,6 +999,7 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 ../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
 %if %{build_remote_desktop}
+%if 0%{gtk3}
 # rebease to gtk2
 CHROMIUM_BROWSER_GN_DEFINES=""
 CHROMIUM_BROWSER_GN_DEFINES+=' is_debug=false'
@@ -1026,6 +1031,7 @@ CHROMIUM_BROWSER_GN_DEFINES+=' treat_warnings_as_errors=false'
 export CHROMIUM_BROWSER_GN_DEFINES
 
 %{target}/gn gen --args="$CHROMIUM_BROWSER_GN_DEFINES" %{target}
+%endif
 
 # remote client
 pushd remoting
