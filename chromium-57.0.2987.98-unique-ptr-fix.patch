@@ -22,3 +22,15 @@ diff -urN chromium-57.0.2987.98.orig/remoting/host/security_key/fake_security_ke
  }
  
  base::WeakPtr<FakeSecurityKeyIpcServer>
+diff -urN chromium-56.0.2924.76.orig/third_party/webrtc/modules/desktop_capture/screen_capturer_x11.cc chromium-56.0.2924.76/third_party/webrtc/modules/desktop_capture/screen_capturer_x11.cc
+--- chromium-56.0.2924.76.orig/third_party/webrtc/modules/desktop_capture/screen_capturer_x11.cc	2017-01-26 21:07:25.725445907 +0300
++++ chromium-56.0.2924.76/third_party/webrtc/modules/desktop_capture/screen_capturer_x11.cc	2017-01-26 21:11:22.865332765 +0300
+@@ -412,7 +412,7 @@
+     return nullptr;
+   }
+ 
+-  return capturer;
++  return std::move(capturer);
+ }
+ 
+ }  // namespace webrtc
