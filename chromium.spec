@@ -163,7 +163,7 @@ Patch31:	chromium-56.0.2924.87-fpermissive.patch
 Patch33:	chromium-56.0.2924.87-gcc7.patch
 # fix build with gcc 4
 # https://bugs.gentoo.org/show_bug.cgi?id=600288
-Patch41:        chromium-56-gcc4.patch
+Patch41:        chromium-57.0.2987.98-unique-ptr-fix.patch
 # https://bugs.launchpad.net/oxide/+bug/1668614
 Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
 
