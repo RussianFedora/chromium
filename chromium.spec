@@ -555,6 +555,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
 %patch41 -p1 -b .gcc4
+%patch42 -p1 -b .gcc48-compat-version-stdatomic
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
