@@ -160,6 +160,8 @@ Patch33:	chromium-56.0.2924.87-gcc7.patch
 # fix build with gcc 4
 # https://bugs.gentoo.org/show_bug.cgi?id=600288
 Patch41:        chromium-56-gcc4.patch
+# https://bugs.launchpad.net/oxide/+bug/1668614
+Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -1639,6 +1641,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Fri Mar 10 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.98-1.R
 - update to 57.0.2987.98
+- use compat version of stdatomic with gcc 4.8
+- sync desktop file with upstream
 
 * Fri Mar  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.88-1.R
 - update to 57.0.2987.88
