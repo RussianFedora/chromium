@@ -16,7 +16,7 @@
 # Requires is trickier. 
 
 %global __provides_exclude_from %{chromium_path}/.*\\.so|%{chromium_path}/lib/.*\\.so
-%global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase
+%global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase|libsensors|libdevice_vr|libcc_paint|libgtk3ui
 %global __requires_exclude ^(%{privlibs})\\.so
 
 # Try to not use the Xvfb as it is slow..
@@ -26,6 +26,9 @@
 %global shared 1
 # We should not need to turn this on. The app in the webstore _should_ work.
 %global build_remoting_app 0
+
+# Build Chrome Remote Desktop
+%global build_remote_desktop 1
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
@@ -70,7 +73,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlere2 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%global gtk3 0
+%global gtk3 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -94,7 +97,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	56.0.2924.87
+Version:	57.0.2987.98
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -132,9 +135,6 @@ Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
-# Disable MADV_FREE (if set by glibc)
-# https://bugzilla.redhat.com/show_bug.cgi?id=1361157
-Patch19:	chromium-52.0.2743.116-unset-madv_free.patch
 # Use gn system files
 Patch20:	chromium-54.0.2840.59-gn-system.patch
 # Fix last commit position issue
@@ -157,14 +157,11 @@ Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
 Patch33:	chromium-56.0.2924.87-gcc7.patch
-# Fix remoting_perftests build for ARM
-# While compiling chromium for chromeos, remoting_perftests fails to
-# build due to an attempt to return an rvalue
-# https://bugs.chromium.org/p/chromium/issues/detail?id=660541
-Patch40:	chromium-55.0.2883.75-fix-remoting_perftests-build.patch
 # fix build with gcc 4
 # https://bugs.gentoo.org/show_bug.cgi?id=600288
 Patch41:        chromium-56-gcc4.patch
+# https://bugs.launchpad.net/oxide/+bug/1668614
+Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -484,6 +481,7 @@ Shared libraries used by the chromium media subsystem.
 %endif
 %endif
 
+%if %{build_remote_desktop}
 %package -n chrome-remote-desktop
 Requires(pre): shadow-utils
 Requires(post): systemd
@@ -497,6 +495,8 @@ Summary: Remote desktop support for google-chrome & chromium
 
 %description -n chrome-remote-desktop
 Remote desktop support for google-chrome & chromium.
+%endif
+
 
 %package -n chromedriver
 Summary:	WebDriver for Google Chrome/Chromium
@@ -545,7 +545,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-%patch19 -p1 -b .madv_free
 %patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
@@ -555,7 +554,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
-%patch40 -p1 -b .fix-remoting_perftests-build
 %patch41 -p1 -b .gcc4
 
 ### Chromium Tests Patches ###
@@ -863,8 +861,10 @@ rm -rf third_party/markupsafe
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
 
+%if %{build_remote_desktop}
 # Fix hardcoded path in remoting code
 sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' remoting/host/setup/daemon_controller_delegate_linux.cc
+%endif
 
 export PATH=$PATH:%{_builddir}/depot_tools
 
@@ -993,6 +993,39 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 
 ../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
+%if %{build_remote_desktop}
+# rebease to gtk2
+CHROMIUM_BROWSER_GN_DEFINES=""
+CHROMIUM_BROWSER_GN_DEFINES+=' is_debug=false'
+%ifarch x86_64
+CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
+%endif
+CHROMIUM_BROWSER_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
+CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
+%if 0%{?nonacl}
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_nacl=false'
+%endif
+%if %{freeworld}
+CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
+%else
+CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
+%endif
+%if 0%{?shared}
+CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=true is_component_build=true'
+%else
+CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=false'
+%endif
+CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_hotwording=false use_aura=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false'
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
+# CHROMIUM_BROWSER_GN_DEFINES+=' use_system_libjpeg=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' treat_warnings_as_errors=false'
+export CHROMIUM_BROWSER_GN_DEFINES
+
+%{target}/gn gen --args="$CHROMIUM_BROWSER_GN_DEFINES" %{target}
+
 # remote client
 pushd remoting
 
@@ -1004,7 +1037,7 @@ GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ../../depot_tools
 %endif
 %endif
 popd
-
+%endif
 
 %install
 rm -rf %{buildroot}
@@ -1050,6 +1083,7 @@ cp -a lib*.so* %{buildroot}%{chromium_path}
 cp -a chromedriver %{buildroot}%{chromium_path}/chromedriver
 ln -s %{chromium_path}/chromedriver %{buildroot}%{_bindir}/chromedriver
 
+%if %{build_remote_desktop}
 # Remote desktop bits
 mkdir -p %{buildroot}%{crd_path}
 
@@ -1093,14 +1127,17 @@ popd
 cp -a remoting_client_plugin_newlib.* %{buildroot}%{chromium_path}
 %endif
 %endif
+%endif
 popd
 
+%if %{build_remote_desktop}
 cp -a remoting/host/linux/linux_me2me_host.py %{buildroot}%{crd_path}/chrome-remote-desktop
 cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
 
 mkdir -p %{buildroot}%{_unitdir}
 cp -a %{SOURCE11} %{buildroot}%{_unitdir}/
 sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop.service
+%endif
 
 # Add directories for policy management
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/policies/managed
@@ -1456,6 +1493,7 @@ update-desktop-database &> /dev/null || :
 %posttrans
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
+%if %{build_remote_desktop}
 %pre -n chrome-remote-desktop
 getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-desktop
 
@@ -1467,6 +1505,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %postun -n chrome-remote-desktop
 %systemd_postun_with_restart chrome-remote-desktop.service
+%endif
 
 %files
 %doc AUTHORS
@@ -1570,6 +1609,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/libmedia.so*
 %endif
 
+%if %{build_remote_desktop}
 %files -n chrome-remote-desktop
 %{crd_path}/chrome-remote-desktop
 %{crd_path}/chrome-remote-desktop-host
@@ -1590,6 +1630,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/remoting_client_plugin_newlib.*
 %endif
 %endif
+%endif
 
 %files -n chromedriver
 %doc AUTHORS
@@ -1598,6 +1639,26 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Mar 10 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.98-1.R
+- update to 57.0.2987.98
+- use compat version of stdatomic with gcc 4.8
+- sync desktop file with upstream
+
+* Fri Mar  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.88-1.R
+- update to 57.0.2987.88
+
+* Fri Feb 24 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.74-1.R
+- update to 57.0.2987.74
+
+* Fri Feb 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.54-1.R
+- update to 57.0.2987.54
+- drop unset-madv_free patch
+- drop remoting_perftests patch
+
+* Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
+- build with gtk3 support
+- disable build of chrome-remote-desktop
+
 * Thu Feb  2 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-1.R
 - update to 56.0.2924.87
 - build third_party/WebKit with -fpermissive
