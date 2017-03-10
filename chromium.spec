@@ -1637,7 +1637,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Fri Mar  9 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.98-1.R
+* Fri Mar 10 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.98-1.R
 - update to 57.0.2987.98
 
 * Fri Mar  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.88-1.R
