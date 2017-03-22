@@ -173,7 +173,7 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
 # gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r1.patch
-Patch500:	chromium-gn-bootstrap-r1.patch
+Patch500:	chromium-gn-bootstrap-r3.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
