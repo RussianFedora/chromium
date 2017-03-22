@@ -691,7 +691,7 @@ CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=fals
 CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_hotwording=false use_aura=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false'
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false fieldtrial_testing_like_official_build=true'
 %if 0%{gtk3}
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
