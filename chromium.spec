@@ -101,7 +101,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	57.0.2987.98
+Version:	57.0.2987.110
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -163,7 +163,7 @@ Patch31:	chromium-56.0.2924.87-fpermissive.patch
 Patch33:	chromium-56.0.2924.87-gcc7.patch
 # fix build with gcc 4
 # https://bugs.gentoo.org/show_bug.cgi?id=600288
-Patch41:        chromium-56-gcc4.patch
+Patch41:        chromium-57.0.2987.98-unique-ptr-fix.patch
 # https://bugs.launchpad.net/oxide/+bug/1668614
 Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
 
@@ -695,7 +695,7 @@ CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=fals
 CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_hotwording=false use_aura=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false'
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false fieldtrial_testing_like_official_build=true'
 %if 0%{gtk3}
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
@@ -1646,6 +1646,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Mon Mar 20 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.110-1.R
+- update to 57.0.2987.110
+
 * Fri Mar 10 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.98-1.R
 - update to 57.0.2987.98
 - use compat version of stdatomic with gcc 4.8
