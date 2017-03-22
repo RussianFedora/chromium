@@ -540,7 +540,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
-%patch3 -p1 -b .system-icu
+#%patch3 -p1 -b .system-icu
 %patch4 -p1 -b .notest
 #%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
