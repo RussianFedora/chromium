@@ -169,7 +169,7 @@ Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
-Patch101:	chromium-55.0.2883.75-use_system_harfbuzz.patch
+Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
 
