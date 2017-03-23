@@ -118,7 +118,6 @@ Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
-Patch3:		chromium-55.0.2883.75-system-icu-54-does-not-have-detectHostTimeZone.patch
 Patch4:		chromium-46.0.2490.71-notest.patch
 # In file included from ../linux/directory.c:21:
 # In file included from ../../../../native_client/src/nonsfi/linux/abi_conversion.h:20:
@@ -543,7 +542,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
-#%patch3 -p1 -b .system-icu
 %patch4 -p1 -b .notest
 #%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
