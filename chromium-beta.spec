@@ -6,7 +6,7 @@
 
 # %%{nil} for Stable; -beta for Beta; -dev for Devel
 # dash in -beta and -dev is intentional !
-%global chromium_channel %{nil}
+%global chromium_channel -beta
 %global chromium_browser_channel chromium-browser%{chromium_channel}
 %global chromium_path %{_libdir}/chromium-browser%{chromium_channel}
 %global crd_path %{_libdir}/chrome-remote-desktop
@@ -101,7 +101,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	58.0.3029.41
+Version:	58.0.3029.42
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -1654,6 +1654,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.42-1.R
+- update to 58.0.3029.42
+- rename package to beta
+
 * Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.41-1.R
 - update to 58.0.3029.41
 
