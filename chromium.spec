@@ -6,7 +6,7 @@
 
 # %%{nil} for Stable; -beta for Beta; -dev for Devel
 # dash in -beta and -dev is intentional !
-%global chromium_channel -beta
+%global chromium_channel %{nil}
 %global chromium_browser_channel chromium-browser%{chromium_channel}
 %global chromium_path %{_libdir}/chromium-browser%{chromium_channel}
 %global crd_path %{_libdir}/chrome-remote-desktop
