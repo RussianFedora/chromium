@@ -1656,7 +1656,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.42-1.R
 - update to 58.0.3029.42
-- rename package to beta
 
 * Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.41-1.R
 - update to 58.0.3029.41
