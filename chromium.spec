@@ -103,9 +103,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	58.0.3029.68
 %if 0%{?fedora} >= 25
-Release:	1%{?dist}.R
+Release:	0.1.beta%{?dist}.R
 %else
-Release:	1%{?dist}
+Release:	0.1.beta%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1654,7 +1654,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Sat Apr 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.68-1.R
+* Sat Apr 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.68-0.1.beta.R
 - update to 58.0.3029.68
 
 * Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.42-1.R
