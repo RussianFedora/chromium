@@ -201,7 +201,7 @@ Source8:	get_linux_tests_names.py
 # GNOME stuff
 Source9:	chromium-browser.xml
 Source10:	https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip
-Source11:	chrome-remote-desktop.service
+Source11:	chrome-remote-desktop@.service
 Source12:	chromium-browser.appdata.xml
 Source13:	master_preferences
 
@@ -1151,7 +1151,7 @@ cp -a remoting/host/installer/linux/is-remoting-session %{buildroot}%{crd_path}/
 
 mkdir -p %{buildroot}%{_unitdir}
 cp -a %{SOURCE11} %{buildroot}%{_unitdir}/
-sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop.service
+sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desktop@.service
 %endif
 
 # Add directories for policy management
@@ -1638,7 +1638,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_sysconfdir}/opt/chrome/
 %{crd_path}/remoting_locales/
 %{crd_path}/start-host
-%{_unitdir}/chrome-remote-desktop.service
+%{_unitdir}/chrome-remote-desktop@.service
 /var/lib/chrome-remote-desktop/
 %if 0%{?build_remoting_app}
 %if 0%{?nacl}
