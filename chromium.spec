@@ -771,10 +771,15 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/fips181' \
         'third_party/flatbuffers' \
 	'third_party/flot' \
+	'third_party/freetype' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
 	'third_party/hunspell' \
+	'third_party/libdrm' \
+	'third_party/swiftshader' \
+	'third_party/swiftshader/third_party/llvm-subzero' \
+	'third_party/swiftshader/third_party/pnacl-subzero' \
 	'third_party/iccjpeg' \
 %if 0%{?bundlejinja2}
 	'third_party/jinja2' \
@@ -811,14 +816,13 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/pdfium' \
 	'third_party/pdfium/third_party/agg23' \
 	'third_party/pdfium/third_party/base' \
+	'third_party/pdfium/third_party/build' \
 	'third_party/pdfium/third_party/bigint' \
 	'third_party/pdfium/third_party/freetype' \
 	'third_party/pdfium/third_party/lcms2-2.6' \
-	'third_party/pdfium/third_party/libjpeg' \
 	'third_party/pdfium/third_party/libopenjpeg20' \
 	'third_party/pdfium/third_party/libpng16' \
 	'third_party/pdfium/third_party/libtiff' \
-	'third_party/pdfium/third_party/zlib_v128' \
 	'third_party/polymer' \
 	'third_party/protobuf' \
 	'third_party/protobuf/third_party/six' \
