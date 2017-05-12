@@ -147,32 +147,27 @@ Patch21:	chromium-53.0.2785.92-last-commit-position.patch
 Patch22:	chromium-53.0.2785.92-boringssl-time-fix.patch
 # Fix gn build on Linux
 # I wouldn't have to do this if there was a standard way to append extra compiler flags
-Patch24:	chromium-54.0.2840.59-nullfix.patch
+Patch24:	chromium-59.0.3071.29-nullfix.patch
 # Add explicit includedir for jpeglib.h
 Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 # On i686, pass --no-keep-memory --reduce-memory-overheads to ld.
-Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
+Patch26:	chromium-59.0.3071.29-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
-Patch27:	chromium-54.0.2840.90-setopaque.patch
+Patch27:	chromium-59.0.3071.29-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
-Patch33:	chromium-56.0.2924.87-gcc7.patch
-# fix build with gcc 4
-# https://bugs.gentoo.org/show_bug.cgi?id=600288
-Patch41:        chromium-57.0.2987.98-unique-ptr-fix.patch
-# https://bugs.launchpad.net/oxide/+bug/1668614
-Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
+Patch33:	chromium-59.0.3071.29-gcc7.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r2.patch
-Patch500:	chromium-gn-bootstrap-r2.patch
+# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-dma-buf-r1.patch
+Patch501:	chromium-dma-buf-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -559,15 +554,13 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
-#%patch41 -p1 -b .gcc4
-%patch42 -p1 -b .gcc48-compat-version-stdatomic
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
-%patch500 -p1 -b .gn
+%patch501 -p1 -b .dma
 
 %if 0%{?asan}
 export CC="clang"
