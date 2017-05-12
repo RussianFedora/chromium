@@ -113,19 +113,11 @@ Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
 
 ### Chromium Fedora Patches ###
-#Patch0:		chromium-54.0.2840.59-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
 Patch4:		chromium-46.0.2490.71-notest.patch
-# In file included from ../linux/directory.c:21:
-# In file included from ../../../../native_client/src/nonsfi/linux/abi_conversion.h:20:
-# ../../../../native_client/src/nonsfi/linux/linux_syscall_structs.h:44:13: error: GNU-style inline assembly is disabled
-#     __asm__ __volatile__("mov %%gs, %0" : "=r"(gs));
-#             ^
-# 1 error generated.
-#Patch6:		chromium-47.0.2526.80-pnacl-fgnu-inline-asm.patch
 # Ignore broken nacl open fd counter
 Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 # Use libusb_interrupt_event_handler from current libusbx (1.0.21-0.1.git448584a)
@@ -534,11 +526,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft_sse2.cc
 
 ### Chromium Fedora Patches ###
-#%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
 %patch4 -p1 -b .notest
-#%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
 %patch15 -b .sandboxpie
