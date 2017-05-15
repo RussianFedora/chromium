@@ -149,7 +149,7 @@ Patch27:	chromium-59.0.3071.29-setopaque.patch
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
-Patch33:	chromium-59.0.3071.29-gcc7.patch
+Patch33:	chromium-60.0.3095.5-gcc7.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
