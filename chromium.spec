@@ -835,7 +835,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/webrtc' \
 	'third_party/widevine' \
 	'third_party/woff2' \
-	'third_party/x86inc' \
 	'third_party/zlib/google' \
 	'url/third_party/mozilla' \
 	'v8/src/third_party/valgrind' \
