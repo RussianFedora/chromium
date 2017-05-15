@@ -130,8 +130,6 @@ Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
-# Use gn system files
-Patch20:	chromium-54.0.2840.59-gn-system.patch
 # Fix last commit position issue
 # https://groups.google.com/a/chromium.org/forum/#!topic/gn-dev/7nlJv486bD4
 Patch21:	chromium-53.0.2785.92-last-commit-position.patch
@@ -535,7 +533,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-%patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
