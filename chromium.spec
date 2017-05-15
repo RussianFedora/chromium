@@ -260,6 +260,7 @@ BuildRequires:	hwdata
 BuildRequires:	kernel-headers
 BuildRequires:	libevent-devel
 BuildRequires:	libffi-devel
+BuildRequires:	vulkan-devel
 %if 0%{?bundleicu}
 # If this is true, we're using the bundled icu.
 # We'd like to use the system icu every time, but we cannot always do that.
@@ -752,6 +753,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/catapult/tracing/third_party/gl-matrix' \
 	'third_party/catapult/tracing/third_party/jszip' \
 	'third_party/catapult/tracing/third_party/mannwhitneyu' \
+	'third_party/catapult/tracing/third_party/oboe' \
         'third_party/catapult/third_party/polymer' \
 	'third_party/catapult/third_party/py_vulcanize' \
 	'third_party/catapult/third_party/py_vulcanize/third_party/rcssmin' \
@@ -766,6 +768,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/flatbuffers' \
 	'third_party/flot' \
 	'third_party/freetype' \
+	'third_party/glslang-angle' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
@@ -828,7 +831,13 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/sinonjs' \
 	'third_party/skia' \
 	'third_party/smhasher' \
+	'third_party/spirv-headers' \
+	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
+	'third_party/swiftshader' \
+	'third_party/swiftshader/third_party/llvm-subzero' \
+	'third_party/swiftshader/third_party/pnacl-subzero' \
+	'third_party/swiftshader/third_party/subzero' \
 	'third_party/tcmalloc' \
 	'third_party/usrsctp' \
 	'third_party/vulkan' \
