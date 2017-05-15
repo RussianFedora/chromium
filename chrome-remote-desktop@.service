@@ -2,6 +2,7 @@
 Description="Chrome Remote Desktop host daemon"
 
 [Service]
+User=%i
 Environment=HOME=%h
 ExecStart=@@CRD_PATH@@/chrome-remote-desktop --start --foreground
 ExecStop=@@CRD_PATH@@/chrome-remote-desktop --stop
