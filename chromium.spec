@@ -1603,6 +1603,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon May 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3095.5-0.1.alpha.R
 - unstable channel. Update to 60.0.3095.5
+- update gcc7 patch
+- drop old patches
+- use bundled libusb
 
 * Fri Mar  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3026.3-1.R
 - update to 58.0.3026.3
