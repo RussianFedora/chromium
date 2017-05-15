@@ -831,6 +831,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/sqlite' \
 	'third_party/tcmalloc' \
 	'third_party/usrsctp' \
+	'third_party/vulkan' \
+	'third_party/vulkan-validation-layers' \
 	'third_party/web-animations-js' \
 	'third_party/webdriver' \
 	'third_party/webrtc' \
