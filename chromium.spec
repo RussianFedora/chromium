@@ -88,7 +88,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundleharfbuzz 0
 %global bundlejinja2 1
 %global bundleopus 1
-%global bundlelibusbx 0
+%global bundlelibusbx 1
 %endif
 
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
@@ -769,6 +769,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
+	'third_party/googletest' \
 	'third_party/hunspell' \
 	'third_party/libdrm' \
 	'third_party/swiftshader' \
