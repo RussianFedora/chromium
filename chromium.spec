@@ -103,9 +103,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	58.0.3029.110
 %if 0%{?fedora} >= 25
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %else
-Release:	1%{?dist}
+Release:	2%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -160,6 +160,10 @@ Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
 Patch33:	chromium-56.0.2924.87-gcc7.patch
+# Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
+# https://bugs.chromium.org/p/chromium/issues/detail?id=712737
+# https://bugzilla.redhat.com/show_bug.cgi?id=1446851
+Patch36:	chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
 # fix build with gcc 4
 # https://bugs.gentoo.org/show_bug.cgi?id=600288
 Patch41:        chromium-57.0.2987.98-unique-ptr-fix.patch
@@ -559,6 +563,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
+%patch36 -p1 -b .revert
 #%patch41 -p1 -b .gcc4
 %patch42 -p1 -b .gcc48-compat-version-stdatomic
 
@@ -1654,6 +1659,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu May 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.110-2.R
+- fix https://bugzilla.redhat.com/show_bug.cgi?id=1446851
+
 * Thu May 11 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.110-1.R
 - update to 58.0.3029.110
 
