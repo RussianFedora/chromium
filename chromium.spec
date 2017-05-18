@@ -101,7 +101,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	60.0.3095.5
+Version:	60.0.3100.0
 %if 0%{?fedora} >= 25
 Release:	0.1.alpha%{?dist}.R
 %else
@@ -150,6 +150,11 @@ Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
 Patch33:	chromium-60.0.3095.5-gcc7.patch
+# Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
+# https://bugs.chromium.org/p/chromium/issues/detail?id=712737
+# https://bugzilla.redhat.com/show_bug.cgi?id=1446851
+Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
+
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -540,6 +545,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
+%patch36 -p1 -b .revert
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1612,6 +1618,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu May 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3100.0-0.1.alpha.R
+- update to 60.0.3100.0
+- fix https://bugzilla.redhat.com/show_bug.cgi?id=1446851
+
 * Mon May 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3095.5-0.1.alpha.R
 - unstable channel. Update to 60.0.3095.5
 - update gcc7 patch
