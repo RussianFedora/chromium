@@ -152,6 +152,10 @@ Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
 Patch33:	chromium-59.0.3071.29-gcc7.patch
+# Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
+# https://bugs.chromium.org/p/chromium/issues/detail?id=712737
+# https://bugzilla.redhat.com/show_bug.cgi?id=1446851
+Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -544,6 +548,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
+%patch36 -p1 -b .revert
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1609,6 +1614,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu May 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.61-0.1.beta.R
 - update to 59.0.3071.61
+- fix https://bugzilla.redhat.com/show_bug.cgi?id=1446851
 
 * Sun May 14 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.47-0.2.beta.R
 - added more provides
