@@ -783,7 +783,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/libdrm' \
 	'third_party/swiftshader' \
 	'third_party/swiftshader/third_party/llvm-subzero' \
-	'third_party/swiftshader/third_party/pnacl-subzero' \
 	'third_party/iccjpeg' \
 %if 0%{?bundlejinja2}
 	'third_party/jinja2' \
