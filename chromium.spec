@@ -537,7 +537,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-%patch21 -p1 -b .lastcommit
+#%patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
