@@ -132,7 +132,7 @@ Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
 # Fix last commit position issue
 # https://groups.google.com/a/chromium.org/forum/#!topic/gn-dev/7nlJv486bD4
-Patch21:	chromium-53.0.2785.92-last-commit-position.patch
+Patch21:	chromium-60.0.3112.7-last-commit-position.patch
 # Fix issue where timespec is not defined when sys/stat.h is included.
 Patch22:	chromium-53.0.2785.92-boringssl-time-fix.patch
 # Fix gn build on Linux
@@ -539,7 +539,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-#%patch21 -p1 -b .lastcommit
+%patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
@@ -1619,6 +1619,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Jun  1 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.7-0.1.alpha.R
 - update 60.0.3112.7
+- update last-commit-position patch
 
 * Thu May 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3100.0-0.1.alpha.R
 - update to 60.0.3100.0
