@@ -85,7 +85,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
 %else
+%if 0%{?fedora} > 25
+%global bundleharfbuzz 1
+%else
 %global bundleharfbuzz 0
+%endif
 %global bundlejinja2 1
 %global bundleopus 1
 %global bundlelibusbx 0
@@ -1615,6 +1619,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Jun  6 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.86-1.R
 - update to 59.0.3071.86
+- use bundled harfbuzz for Fedora less then 26
 
 * Thu Jun  1 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.83-1.R
 - update to 59.0.3071.83
