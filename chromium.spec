@@ -16,7 +16,7 @@
 # Requires is trickier. 
 
 %global __provides_exclude_from %{chromium_path}/.*\\.so|%{chromium_path}/lib/.*\\.so
-%global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase|libsensors|libdevice_vr|libcc_paint|libgtk3ui|libcapture_base|libcapture_lib|libfingerprint
+%global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase|libsensors|libdevice_vr|libcc_paint|libgtk3ui|libcapture_base|libcapture_lib|libfingerprint|libanimation|libcc_base|libcc_debug|libcodec|libcolor_space|libembedder|libgeometry_skia|libgin_features|libmedia_mojo_services|libplatform_wtf|libprotobuf_globals
 %global __requires_exclude ^(%{privlibs})\\.so
 
 # Try to not use the Xvfb as it is slow..
@@ -101,11 +101,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	58.0.3029.110
+Version:	59.0.3071.83
 %if 0%{?fedora} >= 25
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %else
-Release:	2%{?dist}
+Release:	1%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -113,19 +113,11 @@ Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
 
 ### Chromium Fedora Patches ###
-#Patch0:		chromium-54.0.2840.59-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
 # :P
 Patch4:		chromium-46.0.2490.71-notest.patch
-# In file included from ../linux/directory.c:21:
-# In file included from ../../../../native_client/src/nonsfi/linux/abi_conversion.h:20:
-# ../../../../native_client/src/nonsfi/linux/linux_syscall_structs.h:44:13: error: GNU-style inline assembly is disabled
-#     __asm__ __volatile__("mov %%gs, %0" : "=r"(gs));
-#             ^
-# 1 error generated.
-#Patch6:		chromium-47.0.2526.80-pnacl-fgnu-inline-asm.patch
 # Ignore broken nacl open fd counter
 Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 # Use libusb_interrupt_event_handler from current libusbx (1.0.21-0.1.git448584a)
@@ -147,36 +139,31 @@ Patch21:	chromium-53.0.2785.92-last-commit-position.patch
 Patch22:	chromium-53.0.2785.92-boringssl-time-fix.patch
 # Fix gn build on Linux
 # I wouldn't have to do this if there was a standard way to append extra compiler flags
-Patch24:	chromium-54.0.2840.59-nullfix.patch
+Patch24:	chromium-59.0.3071.29-nullfix.patch
 # Add explicit includedir for jpeglib.h
 Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 # On i686, pass --no-keep-memory --reduce-memory-overheads to ld.
-Patch26:	chromium-54.0.2840.59-i686-ld-memory-tricks.patch
+Patch26:	chromium-59.0.3071.29-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
-Patch27:	chromium-54.0.2840.90-setopaque.patch
+Patch27:	chromium-59.0.3071.29-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
-Patch33:	chromium-56.0.2924.87-gcc7.patch
+Patch33:	chromium-59.0.3071.29-gcc7.patch
 # Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
-Patch36:	chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
-# fix build with gcc 4
-# https://bugs.gentoo.org/show_bug.cgi?id=600288
-Patch41:        chromium-57.0.2987.98-unique-ptr-fix.patch
-# https://bugs.launchpad.net/oxide/+bug/1668614
-Patch42:	chromium-57.0.2987.98-gcc48-compat-version-stdatomic.patch
+Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r2.patch
-Patch500:	chromium-gn-bootstrap-r2.patch
+# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-dma-buf-r1.patch
+Patch501:	chromium-dma-buf-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -543,11 +530,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft_sse2.cc
 
 ### Chromium Fedora Patches ###
-#%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
 %patch4 -p1 -b .notest
-#%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
 %patch15 -b .sandboxpie
@@ -564,15 +549,13 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
-#%patch41 -p1 -b .gcc4
-%patch42 -p1 -b .gcc48-compat-version-stdatomic
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
-%patch500 -p1 -b .gn
+%patch501 -p1 -b .dma
 
 %if 0%{?asan}
 export CC="clang"
@@ -793,10 +776,16 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/fips181' \
         'third_party/flatbuffers' \
 	'third_party/flot' \
+	'third_party/freetype' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
 	'third_party/hunspell' \
+	'third_party/libdrm' \
+	'third_party/swiftshader' \
+	'third_party/swiftshader/third_party/llvm-subzero' \
+	'third_party/swiftshader/third_party/pnacl-subzero' \
+	'third_party/swiftshader/third_party/subzero' \
 	'third_party/iccjpeg' \
 %if 0%{?bundlejinja2}
 	'third_party/jinja2' \
@@ -833,14 +822,13 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/pdfium' \
 	'third_party/pdfium/third_party/agg23' \
 	'third_party/pdfium/third_party/base' \
+	'third_party/pdfium/third_party/build' \
 	'third_party/pdfium/third_party/bigint' \
 	'third_party/pdfium/third_party/freetype' \
 	'third_party/pdfium/third_party/lcms2-2.6' \
-	'third_party/pdfium/third_party/libjpeg' \
 	'third_party/pdfium/third_party/libopenjpeg20' \
 	'third_party/pdfium/third_party/libpng16' \
 	'third_party/pdfium/third_party/libtiff' \
-	'third_party/pdfium/third_party/zlib_v128' \
 	'third_party/polymer' \
 	'third_party/protobuf' \
 	'third_party/protobuf/third_party/six' \
@@ -899,7 +887,6 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	libusb \
 %endif
-	libxml \
 	libxslt \
 %if %{bundleopus}
 %else
@@ -1012,39 +999,6 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 ../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
 %if %{build_remote_desktop}
-%if 0%{gtk3}
-# rebease to gtk2
-CHROMIUM_BROWSER_GN_DEFINES=""
-CHROMIUM_BROWSER_GN_DEFINES+=' is_debug=false'
-%ifarch x86_64
-CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
-%endif
-CHROMIUM_BROWSER_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
-CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
-%if 0%{?nonacl}
-CHROMIUM_BROWSER_GN_DEFINES+=' enable_nacl=false'
-%endif
-%if %{freeworld}
-CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
-%else
-CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
-%endif
-%if 0%{?shared}
-CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=true is_component_build=true'
-%else
-CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=false'
-%endif
-CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' enable_hotwording=false use_aura=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false fieldtrial_testing_like_official_build=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
-# CHROMIUM_BROWSER_GN_DEFINES+=' use_system_libjpeg=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' treat_warnings_as_errors=false'
-export CHROMIUM_BROWSER_GN_DEFINES
-
-%{target}/gn gen --args="$CHROMIUM_BROWSER_GN_DEFINES" %{target}
-%endif
 
 # remote client
 pushd remoting
@@ -1659,6 +1613,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Jun  1 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.83-1.R
+- update to 59.0.3071.83
+
 * Thu May 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.110-2.R
 - fix https://bugzilla.redhat.com/show_bug.cgi?id=1446851
 

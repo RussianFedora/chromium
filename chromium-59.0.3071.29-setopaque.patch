@@ -1,0 +1,12 @@
+diff -ur b/cc/blink/web_layer_impl.h a/cc/blink/web_layer_impl.h
+--- b/cc/blink/web_layer_impl.h	2017-05-03 15:19:21.699088146 +0300
++++ a/cc/blink/web_layer_impl.h	2017-05-03 15:20:56.995522164 +0300
+@@ -69,7 +69,7 @@
+   blink::WebBlendMode BlendMode() const override;
+   void SetIsRootForIsolatedGroup(bool root) override;
+   bool IsRootForIsolatedGroup() override;
+-  void SetOpaque(bool opaque) override;
++  CC_BLINK_EXPORT void SetOpaque(bool opaque) override;
+   bool Opaque() const override;
+   void SetPosition(const blink::WebFloatPoint& position) override;
+   blink::WebFloatPoint GetPosition() const override;
