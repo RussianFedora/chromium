@@ -1617,14 +1617,14 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Thu Jun  6 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.86-1.R
+* Tue Jun  6 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.86-1.R
 - update to 59.0.3071.86
 - use bundled harfbuzz for Fedora less then 26
 
 * Thu Jun  1 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.83-1.R
 - update to 59.0.3071.83
 
-* Thu May 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.110-2.R
+* Wed May 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.110-2.R
 - fix https://bugzilla.redhat.com/show_bug.cgi?id=1446851
 
 * Thu May 11 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.110-1.R
