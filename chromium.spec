@@ -107,9 +107,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	60.0.3112.20
 %if 0%{?fedora} >= 25
-Release:	0.1.alpha%{?dist}.R
+Release:	0.1.beta%{?dist}.R
 %else
-Release:	0.1.alpha%{?dist}
+Release:	0.1.beta%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1620,7 +1620,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Thu Jun  8 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.20-0.1.alpha.R
+* Thu Jun  8 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.20-0.1.beta.R
 - update to 60.0.3112.20
 - use bundled harfbuzz for Fedora less than 26
 - update last-commit-position patch
