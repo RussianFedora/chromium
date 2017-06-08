@@ -85,7 +85,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
 %else
+%if 0%{?fedora} > 25
 %global bundleharfbuzz 0
+%else
+%global bundleharfbuzz 1
+%endif
 %global bundlejinja2 1
 %global bundleopus 1
 %global bundlelibusbx 1
