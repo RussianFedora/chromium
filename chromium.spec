@@ -16,7 +16,7 @@
 # Requires is trickier. 
 
 %global __provides_exclude_from %{chromium_path}/.*\\.so|%{chromium_path}/lib/.*\\.so
-%global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase|libsensors|libdevice_vr|libcc_paint|libgtk3ui|libcapture_base|libcapture_lib|libfingerprint|libanimation|libcc_base|libcc_debug|libcodec|libcolor_space|libembedder|libgeometry_skia|libgin_features|libmedia_mojo_services|libplatform_wtf|libprotobuf_globals
+%global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase|libsensors|libdevice_vr|libcc_paint|libgtk3ui|libcapture_base|libcapture_lib|libfingerprint|libanimation|libcc_base|libcc_debug|libcodec|libcolor_space|libembedder|libgeometry_skia|libgin_features|libmedia_mojo_services|libplatform_wtf|libprotobuf_globals|libcdm_manager|libframe_sinks|libresource_coordinator_cpp|libblink_android_mojo_bindings_shared|libblink_mojo_bindings_shared|libblink_mojo_bindings_shared|libblink_offscreen_canvas_mojo_bindings_shared|libcontent_common_mojo_bindings_shared|libdevice_vr_mojo_bindings|libdevice_vr_mojo_bindings_blink|libdevice_vr_mojo_bindings_shared|libgeneric_sensor_public_interfaces_shared|libheadless|libipc_mojom|libipc_mojom_shared|libpublic|libresource_coordinator_public_interfaces_internal_shared|libservice_manager_cpp|libservice_manager_cpp_types|libservice_manager_mojom|libservice_manager_mojom_constants|libservice_manager_mojom_constants_shared|libservice_manager_mojom_shared
 %global __requires_exclude ^(%{privlibs})\\.so
 
 # Try to not use the Xvfb as it is slow..
@@ -85,10 +85,14 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
 %else
+%if 0%{?fedora} > 25
 %global bundleharfbuzz 0
+%else
+%global bundleharfbuzz 1
+%endif
 %global bundlejinja2 1
 %global bundleopus 1
-%global bundlelibusbx 0
+%global bundlelibusbx 1
 %endif
 
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
@@ -101,11 +105,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	59.0.3071.83
+Version:	60.0.3112.20
 %if 0%{?fedora} >= 25
-Release:	0.1.beta%{?dist}.R
+Release:	0.1.alpha%{?dist}.R
 %else
-Release:	0.1.beta%{?dist}
+Release:	0.1.alpha%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -130,11 +134,9 @@ Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
-# Use gn system files
-Patch20:	chromium-54.0.2840.59-gn-system.patch
 # Fix last commit position issue
 # https://groups.google.com/a/chromium.org/forum/#!topic/gn-dev/7nlJv486bD4
-Patch21:	chromium-53.0.2785.92-last-commit-position.patch
+Patch21:	chromium-60.0.3112.7-last-commit-position.patch
 # Fix issue where timespec is not defined when sys/stat.h is included.
 Patch22:	chromium-53.0.2785.92-boringssl-time-fix.patch
 # Fix gn build on Linux
@@ -151,7 +153,7 @@ Patch27:	chromium-59.0.3071.29-setopaque.patch
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
-Patch33:	chromium-59.0.3071.29-gcc7.patch
+Patch33:	chromium-60.0.3095.5-gcc7.patch
 # Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
@@ -162,8 +164,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-dma-buf-r1.patch
-Patch501:	chromium-dma-buf-r1.patch
+# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r8.patch
+Patch500:	chromium-gn-bootstrap-r8.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -268,6 +270,7 @@ BuildRequires:	hwdata
 BuildRequires:	kernel-headers
 BuildRequires:	libevent-devel
 BuildRequires:	libffi-devel
+BuildRequires:	vulkan-devel
 %if 0%{?bundleicu}
 # If this is true, we're using the bundled icu.
 # We'd like to use the system icu every time, but we cannot always do that.
@@ -539,7 +542,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
-%patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
@@ -555,7 +557,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
-%patch501 -p1 -b .dma
+%patch500 -p1 -b .gn-bootstrap-r8
 
 %if 0%{?asan}
 export CC="clang"
@@ -763,6 +765,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/catapult/tracing/third_party/gl-matrix' \
 	'third_party/catapult/tracing/third_party/jszip' \
 	'third_party/catapult/tracing/third_party/mannwhitneyu' \
+	'third_party/catapult/tracing/third_party/oboe' \
         'third_party/catapult/third_party/polymer' \
 	'third_party/catapult/third_party/py_vulcanize' \
 	'third_party/catapult/third_party/py_vulcanize/third_party/rcssmin' \
@@ -777,15 +780,13 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/flatbuffers' \
 	'third_party/flot' \
 	'third_party/freetype' \
+	'third_party/glslang-angle' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
+	'third_party/googletest' \
 	'third_party/hunspell' \
 	'third_party/libdrm' \
-	'third_party/swiftshader' \
-	'third_party/swiftshader/third_party/llvm-subzero' \
-	'third_party/swiftshader/third_party/pnacl-subzero' \
-	'third_party/swiftshader/third_party/subzero' \
 	'third_party/iccjpeg' \
 %if 0%{?bundlejinja2}
 	'third_party/jinja2' \
@@ -839,15 +840,21 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/sinonjs' \
 	'third_party/skia' \
 	'third_party/smhasher' \
+	'third_party/spirv-headers' \
+	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
+	'third_party/swiftshader' \
+	'third_party/swiftshader/third_party/llvm-subzero' \
+	'third_party/swiftshader/third_party/subzero' \
 	'third_party/tcmalloc' \
 	'third_party/usrsctp' \
+	'third_party/vulkan' \
+	'third_party/vulkan-validation-layers' \
 	'third_party/web-animations-js' \
 	'third_party/webdriver' \
 	'third_party/webrtc' \
 	'third_party/widevine' \
 	'third_party/woff2' \
-	'third_party/x86inc' \
 	'third_party/zlib/google' \
 	'url/third_party/mozilla' \
 	'v8/src/third_party/valgrind' \
@@ -1613,6 +1620,15 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Jun  8 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.20-0.1.alpha.R
+- update to 60.0.3112.20
+- use bundled harfbuzz for Fedora less than 26
+- update last-commit-position patch
+- update gcc7 patch
+- drop old patches
+- use bundled libusb
+- added more provides
+
 * Thu Jun  1 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.83-0.1.beta.R
 - update to 59.0.3071.83
 
@@ -1623,51 +1639,18 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 59.0.3071.61
 - fix https://bugzilla.redhat.com/show_bug.cgi?id=1446851
 
-* Sun May 14 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.47-0.2.beta.R
-- added more provides
+* Fri Mar  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3026.3-1.R
+- update to 58.0.3026.3
 
-* Fri May 12 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.47-0.1.beta.R
-- update to 59.0.3071.47
-- update patches
+* Fri Feb 24 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3018.3-1.R
+- update to 58.0.3018.3
 
-* Wed May  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.29-0.1.beta.R
-- update to 59.0.3071.29
-- use new service file name
+* Fri Feb 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3013.3-1.R
+- update to 58.0.3013.3
 
-* Sat Apr 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.68-0.1.beta.R
-- update to 58.0.3029.68
-
-* Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.42-1.R
-- update to 58.0.3029.42
-
-* Thu Mar 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.41-1.R
-- update to 58.0.3029.41
-
-* Thu Mar 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.33-1.R
-- update to 58.0.3029.33
-
-* Wed Mar 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3029.19-1.R
-- update to 58.0.3029.19
+* Wed Feb 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 58.0.3004.3-1.R
+- update to 58.0.3004.3
 - setup nodejs
-
-* Mon Mar 20 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.110-1.R
-- update to 57.0.2987.110
-
-* Fri Mar 10 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.98-1.R
-- update to 57.0.2987.98
-- use compat version of stdatomic with gcc 4.8
-- sync desktop file with upstream
-
-* Fri Mar  3 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.88-1.R
-- update to 57.0.2987.88
-
-* Fri Feb 24 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.74-1.R
-- update to 57.0.2987.74
-
-* Fri Feb 17 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2987.54-1.R
-- update to 57.0.2987.54
-- drop unset-madv_free patch
-- drop remoting_perftests patch
 
 * Sun Feb  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.87-2.R
 - build with gtk3 support
@@ -1684,12 +1667,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 * Mon Jan 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.67-1.R
 - update to 56.0.2924.67
+
 - some trouble with system python-jinja2 2.9.4. Use bundled
 - fix debugedit: canonicalization unexpectedly shrank by one character
-
-* Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 57.0.2979.0-1.R
-- update to 57.0.2979.0
-- drop old patches
 
 * Mon Jan 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 56.0.2924.59-1.R
 - update to 56.0.2924.59
