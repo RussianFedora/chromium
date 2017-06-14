@@ -202,7 +202,6 @@ Source8:	get_linux_tests_names.py
 Source9:	chromium-browser.xml
 Source10:	https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip
 Source11:	chrome-remote-desktop@.service
-Source12:	chromium-browser.appdata.xml
 Source13:	master_preferences
 
 # We can assume gcc and binutils.
@@ -1149,7 +1148,7 @@ install -m 0644 %{SOURCE13} %{buildroot}%{_sysconfdir}/%{name}/
 mkdir -p %{buildroot}%{_datadir}/applications/
 desktop-file-install --dir %{buildroot}%{_datadir}/applications %{SOURCE4}
 
-install -D -m0644 %{SOURCE12} ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{chromium_browser_channel}.appdata.xml
+install -D -m0644 chrome/installer/linux/common/chromium-browser/chromium-browser.appdata.xml ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{chromium_browser_channel}.appdata.xml
 appstream-util validate-relax --nonet ${RPM_BUILD_ROOT}%{_datadir}/appdata/%{chromium_browser_channel}.appdata.xml
 
 mkdir -p %{buildroot}%{_datadir}/gnome-control-center/default-apps/
