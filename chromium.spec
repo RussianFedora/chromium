@@ -72,6 +72,11 @@ BuildRequires:  libicu-devel >= 5.4
 
 %global bundlere2 1
 
+# The libxml_utils code depends on the specific bundled libxml checkout
+# which is not compatible with the current code in the Fedora package as of
+# 2017-06-08.
+%global bundlelibxml 1
+
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
 %if 0%{?rhel} == 7
 %global gtk3 0
@@ -373,46 +378,50 @@ Provides: bundled(angle) = 2422
 Provides: bundled(bintrees) = 1.0.1
 # This is a fork of openssl.
 Provides: bundled(boringssl)
-Provides: bundled(brotli)
+Provides: bundled(brotli) = 222564a95d9ab58865a096b8d9f7324ea5f2e03e
 Provides: bundled(bspatch)
 Provides: bundled(cacheinvalidation) = 20150720
-Provides: bundled(cardboard) = 0.5.4
 Provides: bundled(colorama) = 799604a104
 Provides: bundled(crashpad)
 Provides: bundled(dmg_fp)
-Provides: bundled(expat) = 2.1.0
+Provides: bundled(expat) = 2.2.0
 Provides: bundled(fdmlibm) = 5.3
 # Don't get too excited. MPEG and other legally problematic stuff is stripped out.
-Provides: bundled(ffmpeg) = 2.6
+Provides: bundled(ffmpeg) = 3.2git
 Provides: bundled(fips181) = 2.2.3
 Provides: bundled(fontconfig) = 2.11.0
 Provides: bundled(gperftools) = svn144
 Provides: bundled(gtk3) = 3.1.4
 %if 0%{?bundleharfbuzz}
-Provides: bundled(harfbuzz) = 1.2.7
+Provides: bundled(harfbuzz) = 1.4.2
 %endif
-Provides: bundled(hunspell) = 1.3.2
+Provides: bundled(hunspell) = 1.6.0
 Provides: bundled(iccjpeg)
 %if 0%{?bundleicu}
-Provides: bundled(icu) = 54.1
+Provides: bundled(icu) = 58.1
 %endif
 Provides: bundled(kitchensink) = 1
-Provides: bundled(leveldb) = r80
+Provides: bundled(leveldb) = 1.20
 Provides: bundled(libaddressinput) = 0
+Provides: bundled(libdrm) = 2.4.70
 Provides: bundled(libevent) = 1.4.15
 Provides: bundled(libjingle) = 9564
 Provides: bundled(libjpeg-turbo) = 1.4.90
-Provides: bundled(libphonenumber) = svn584
+Provides: bundled(libphonenumber) = a4da30df63a097d67e3c429ead6790ad91d36cf4
 Provides: bundled(libpng) = 1.6.22
 Provides: bundled(libsrtp) = 1.5.2
 %if %{bundlelibusbx}
 Provides: bundled(libusbx) = 1.0.17
 %endif
-Provides: bundled(libvpx) = 1.4.0
-Provides: bundled(libwebp) = 0.4.3
+Provides: bundled(libvpx) = 1.6.0
+Provides: bundled(libwebp) = 0.6.0
+%if %{bundlelibxml}
+# Well, it's actually newer than 2.9.4 and has code in it that has been reverted upstream... but eh.
+Provides: bundled(libxml) = 2.9.4
+%endif
 Provides: bundled(libXNVCtrl) = 302.17
-Provides: bundled(libyuv) = 1444
-Provides: bundled(lzma) = 9.20
+Provides: bundled(libyuv) = 1651
+Provides: bundled(lzma) = 15.14
 Provides: bundled(libudis86) = 1.7.1
 Provides: bundled(mesa) = 9.0.3
 Provides: bundled(NSBezierPath) = 1.0
@@ -421,28 +430,28 @@ Provides: bundled(mt19937ar) = 2002.1.26
 %if %{bundleopus}
 Provides: bundled(opus) = 1.1.3
 %endif
-Provides: bundled(ots) = 767d6040439e6ebcdb867271fcb686bd3f8ac739
-Provides: bundled(protobuf) = r476
+Provides: bundled(ots) = 8d70cffebbfa58f67a5c3ed0e9bc84dccdbc5bc0
+Provides: bundled(protobuf) = 3.0.0.beta.3
 Provides: bundled(qcms) = 4
 %if 0%{?bundlere2}
 Provides: bundled(re2)
 %endif
-Provides: bundled(sfntly) = svn111
+Provides: bundled(sfntly) = 04740d2600193b14aa3ef24cd9fbb3d5996b9f77
 Provides: bundled(skia)
 Provides: bundled(SMHasher) = 0
-Provides: bundled(snappy) = r80
+Provides: bundled(snappy) = 1.1.4-head
 Provides: bundled(speech-dispatcher) = 0.7.1
-Provides: bundled(sqlite) = 3.8.7.4
+Provides: bundled(sqlite) = 3.17patched
 Provides: bundled(superfasthash) = 0
 Provides: bundled(talloc) = 2.0.1
 Provides: bundled(usrsctp) = 0
-Provides: bundled(v8) = 4.5.103.35
+Provides: bundled(v8) = 5.9.211.31
 Provides: bundled(webrtc) = 90usrsctp
 Provides: bundled(woff2) = 445f541996fe8376f3976d35692fd2b9a6eedf2d
 Provides: bundled(xdg-mime)
 Provides: bundled(xdg-user-dirs)
 Provides: bundled(x86inc) = 0
-Provides: bundled(zlib) = 1.2.5
+Provides: bundled(zlib) = 1.2.11
 
 # For selinux scriptlet
 Requires(post): /usr/sbin/semanage
@@ -890,6 +899,10 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %if %{bundlelibusbx}
 %else
 	libusb \
+%endif
+%if %{bundlelibxml}
+%else
+	libxml \
 %endif
 	libxslt \
 %if %{bundleopus}
