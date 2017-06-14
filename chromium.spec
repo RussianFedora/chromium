@@ -1144,6 +1144,16 @@ cp -a out/Release/gen/chrome/app/policy/linux/examples/chrome.json .
 
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 cp -a chrome/app/theme/chromium/product_logo_256.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{chromium_browser_channel}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/128x128/apps
+cp -a chrome/app/theme/chromium/product_logo_128.png %{buildroot}%{_datadir}/icons/hicolor/128x128/apps/%{chromium_browser_channel}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/64x64/apps
+cp -a chrome/app/theme/chromium/product_logo_64.png %{buildroot}%{_datadir}/icons/hicolor/64x64/apps/%{chromium_browser_channel}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps
+cp -a chrome/app/theme/chromium/product_logo_48.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{chromium_browser_channel}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/24x24/apps
+cp -a chrome/app/theme/chromium/product_logo_24.png %{buildroot}%{_datadir}/icons/hicolor/24x24/apps/%{chromium_browser_channel}.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/22x22/apps
+cp -a chrome/app/theme/chromium/product_logo_22.png %{buildroot}%{_datadir}/icons/hicolor/22x22/apps/%{chromium_browser_channel}.png
 
 # Install the master_preferences file
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -1581,7 +1591,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %lang(zh_TW) %{chromium_path}/locales/zh-TW.pak
 %{chromium_path}/resources/
 %{_mandir}/man1/%{chromium_browser_channel}.*
-%{_datadir}/icons/hicolor/256x256/apps/%{chromium_browser_channel}.png
+%{_datadir}/icons/hicolor/*/apps/%{chromium_browser_channel}.png
 %{_datadir}/applications/*.desktop
 %{_datadir}/appdata/*.appdata.xml
 %{_datadir}/gnome-control-center/default-apps/chromium-browser.xml
