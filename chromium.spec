@@ -110,7 +110,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	59.0.3071.86
+Version:	59.0.3071.104
 %if 0%{?fedora} >= 25
 Release:	1%{?dist}.R
 %else
@@ -1639,6 +1639,12 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Jun 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.104-1.R
+- update to 59.0.3071.104
+- added more system icons
+- use appdata xml from tarball
+- update bundle versions
+
 * Tue Jun  6 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.86-1.R
 - update to 59.0.3071.86
 - use bundled harfbuzz for Fedora less then 26
