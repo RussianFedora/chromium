@@ -158,7 +158,7 @@ Patch27:	chromium-59.0.3071.29-setopaque.patch
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
 # Thanks to Ben Noordhuis
-Patch33:	chromium-60.0.3095.5-gcc7.patch
+Patch33:	chromium-61.0.3128.3-gcc7.patch
 # Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
@@ -1648,6 +1648,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - added more system icons
 - use appdata xml from tarball
 - update bundle versions
+- update gcc7 patch
 
 * Tue Jun 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3124.4-0.1.alpha.R
 - update to 61.0.3124.4

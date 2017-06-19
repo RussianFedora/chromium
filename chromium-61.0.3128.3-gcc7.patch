@@ -1,6 +1,6 @@
-diff -urN chromium-60.0.3095.5.orig/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h chromium-60.0.3095.5/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h
---- chromium-60.0.3095.5.orig/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h	2017-05-15 13:30:26.684754225 +0300
-+++ chromium-60.0.3095.5/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h	2017-05-15 13:31:22.272420471 +0300
+diff -urN chromium-61.0.3128.3.orig/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h chromium-61.0.3128.3/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h
+--- chromium-61.0.3128.3.orig/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h	2017-06-19 12:30:37.581788368 +0300
++++ chromium-61.0.3128.3/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h	2017-06-19 12:31:45.866657857 +0300
 @@ -8,6 +8,7 @@
  #include "platform/PlatformExport.h"
  #include "platform/wtf/ThreadSpecific.h"
@@ -9,12 +9,12 @@ diff -urN chromium-60.0.3095.5.orig/third_party/WebKit/Source/platform/graphics/
  #include <memory>
  
  namespace gpu {
-diff -urN chromium-60.0.3095.5.orig/v8/src/objects/hash-table.h chromium-60.0.3095.5/v8/src/objects/hash-table.h
---- chromium-60.0.3095.5.orig/v8/src/objects/hash-table.h	2017-05-15 13:30:23.953721493 +0300
-+++ chromium-60.0.3095.5/v8/src/objects/hash-table.h	2017-05-15 13:32:01.427892344 +0300
-@@ -138,22 +138,10 @@
-  public:
+diff -urN chromium-61.0.3128.3.orig/v8/src/objects/hash-table.h chromium-61.0.3128.3/v8/src/objects/hash-table.h
+--- chromium-61.0.3128.3.orig/v8/src/objects/hash-table.h	2017-06-19 12:30:22.561596255 +0300
++++ chromium-61.0.3128.3/v8/src/objects/hash-table.h	2017-06-19 12:32:32.310248557 +0300
+@@ -140,22 +140,10 @@
    typedef Shape ShapeT;
+   typedef typename Shape::Key Key;
  
 -  // Wrapper methods
 -  inline uint32_t Hash(Key key) {
@@ -39,9 +39,9 @@ diff -urN chromium-60.0.3095.5.orig/v8/src/objects/hash-table.h chromium-60.0.30
  
    // Returns a new HashTable object.
    MUST_USE_RESULT static Handle<Derived> New(
-diff -urN chromium-60.0.3095.5.orig/v8/src/objects-body-descriptors.h chromium-60.0.3095.5/v8/src/objects-body-descriptors.h
---- chromium-60.0.3095.5.orig/v8/src/objects-body-descriptors.h	2017-05-15 13:30:23.929721205 +0300
-+++ chromium-60.0.3095.5/v8/src/objects-body-descriptors.h	2017-05-15 13:34:02.763404691 +0300
+diff -urN chromium-61.0.3128.3.orig/v8/src/objects-body-descriptors.h chromium-61.0.3128.3/v8/src/objects-body-descriptors.h
+--- chromium-61.0.3128.3.orig/v8/src/objects-body-descriptors.h	2017-06-19 12:30:22.561596255 +0300
++++ chromium-61.0.3128.3/v8/src/objects-body-descriptors.h	2017-06-19 12:33:01.379619613 +0300
 @@ -99,7 +99,7 @@
  
    template <typename StaticVisitor>
@@ -51,10 +51,10 @@ diff -urN chromium-60.0.3095.5.orig/v8/src/objects-body-descriptors.h chromium-6
    }
  
    static inline int SizeOf(Map* map, HeapObject* object) { return kSize; }
-diff -urN chromium-60.0.3095.5.orig/v8/src/objects-inl.h chromium-60.0.3095.5/v8/src/objects-inl.h
---- chromium-60.0.3095.5.orig/v8/src/objects-inl.h	2017-05-15 13:30:23.932721241 +0300
-+++ chromium-60.0.3095.5/v8/src/objects-inl.h	2017-05-15 13:34:43.184896852 +0300
-@@ -47,6 +47,25 @@
+diff -urN chromium-61.0.3128.3.orig/v8/src/objects-inl.h chromium-61.0.3128.3/v8/src/objects-inl.h
+--- chromium-61.0.3128.3.orig/v8/src/objects-inl.h	2017-06-19 12:30:22.577596459 +0300
++++ chromium-61.0.3128.3/v8/src/objects-inl.h	2017-06-19 12:34:47.568077097 +0300
+@@ -48,6 +48,25 @@
  namespace v8 {
  namespace internal {
  
