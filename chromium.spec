@@ -757,7 +757,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/WebKit' \
 	'third_party/analytics' \
 	'third_party/angle' \
-	'third_party/angle/src/common/third_party/numerics' \
 	'third_party/angle/src/third_party/compiler' \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/murmurhash' \
