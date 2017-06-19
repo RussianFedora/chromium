@@ -170,8 +170,6 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r9.patch
-Patch500:	chromium-gn-bootstrap-r9.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -1649,6 +1647,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - use appdata xml from tarball
 - update bundle versions
 - update gcc7 patch
+- remove bootstrap patch
 
 * Tue Jun 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3124.4-0.1.alpha.R
 - update to 61.0.3124.4
