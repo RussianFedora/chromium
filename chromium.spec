@@ -556,7 +556,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
-%patch33 -p1 -b .gcc7
+#%patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
 
 ### Chromium Tests Patches ###
