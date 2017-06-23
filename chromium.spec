@@ -1512,6 +1512,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %doc AUTHORS
 %license LICENSE
 %config %{_sysconfdir}/%{name}/
+%dir %{_sysconfdir}/%{name}/native-messaging-hosts
+# This is chrome-remote-desktop stuff
+%exclude %{_sysconfdir}/%{name}/native-messaging-hosts/*
 %{_bindir}/%{chromium_browser_channel}
 %dir %{chromium_path}
 %{chromium_path}/*.bin
@@ -1620,7 +1623,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %endif
 %{crd_path}/remote-assistance-host
 %{_sysconfdir}/pam.d/chrome-remote-desktop
-%{_sysconfdir}/chromium/native-messaging-hosts/
+%{_sysconfdir}/chromium/native-messaging-hosts/*
 %{_sysconfdir}/opt/chrome/
 %{crd_path}/remoting_locales/
 %{crd_path}/start-host
