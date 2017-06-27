@@ -566,6 +566,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
+%patch500 -p1 -b .bootsrtap
 
 %if 0%{?asan}
 export CC="clang"
