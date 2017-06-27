@@ -170,6 +170,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
+# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r10.patch 
+Patch500:	chromium-gn-bootstrap-r10.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -564,6 +566,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
+%patch500 -p1 -b .bootsrtap
 
 %if 0%{?asan}
 export CC="clang"
@@ -758,6 +761,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/analytics' \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/base' \
+	'third_party/angle/src/common/third_party/murmurhash' \
 	'third_party/angle/src/third_party/compiler' \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/trace_event' \
@@ -1645,6 +1649,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Fri Jun 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3135.4-0.1.alpha.R
 - update to 61.0.3135.4
 - fix duplication between chrome-remote-desktop and chromium
+- update bootstrap patch
 
 * Fri Jun 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3128.3-0.1.alpha.R
 - update to 59.0.3071.104
@@ -1652,7 +1657,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - use appdata xml from tarball
 - update bundle versions
 - update gcc7 patch
-- remove bootstrap patch
 
 * Tue Jun 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3124.4-0.1.alpha.R
 - update to 61.0.3124.4
