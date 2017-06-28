@@ -1043,6 +1043,12 @@ GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ../../depot_tools
 popd
 %endif
 
+# Nuke nacl/pnacl bits at the end of the build
+rm -rf out/Release/gen/sdk
+rm -rf native_client/toolchain
+rm -rf third_party/llvm-build/*
+
+
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
