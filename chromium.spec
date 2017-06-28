@@ -1091,6 +1091,7 @@ popd
 %endif
 
 # See remoting/host/installer/linux/Makefile for logic
+cp -a remoting_native_messaging_host %{buildroot}%{crd_path}/native-messaging-host
 cp -a remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
 cp -a remoting_locales %{buildroot}%{crd_path}/
 cp -a remoting_me2me_host %{buildroot}%{crd_path}/chrome-remote-desktop-host
@@ -1106,6 +1107,12 @@ for i in %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/*.json; do
 done
 pushd %{buildroot}%{_sysconfdir}/opt/chrome/
 ln -s ../../chromium/native-messaging-hosts native-messaging-hosts
+mkdir -p %{buildroot}%{_sysconfdir}/opt/chrome/native-messaging-hosts
+pushd %{buildroot}%{_sysconfdir}/opt/chrome/native-messaging-hosts
+for i in ../../../chromium/native-messaging-hosts/*; do
+# rpm gets unhappy when we symlink here
+       cp -a $i .
+done
 popd
 
 mkdir -p %{buildroot}/var/lib/chrome-remote-desktop
@@ -1498,17 +1505,24 @@ update-desktop-database &> /dev/null || :
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %if %{build_remote_desktop}
+%pretrans -n chrome-remote-desktop -p <lua> 
+path = "/etc/opt/chrome/native-messaging-hosts"
+st = posix.stat(path)
+if st and st.type == "link" then
+  os.remove(path)
+end
+
 %pre -n chrome-remote-desktop
 getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-desktop
 
 %post -n chrome-remote-desktop
-%systemd_post chrome-remote-desktop.service
+%systemd_post chrome-remote-desktop@.service
 
 %preun -n chrome-remote-desktop
-%systemd_preun chrome-remote-desktop.service
+%systemd_preun chrome-remote-desktop@.service
 
 %postun -n chrome-remote-desktop
-%systemd_postun_with_restart chrome-remote-desktop.service
+%systemd_postun_with_restart chrome-remote-desktop@.service
 %endif
 
 %files
@@ -1624,6 +1638,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %if 0%{?shared}
 %{crd_path}/lib*.so
 %endif
+%{crd_path}/native-messaging-host
 %{crd_path}/remote-assistance-host
 %{_sysconfdir}/pam.d/chrome-remote-desktop
 %{_sysconfdir}/chromium/native-messaging-hosts/*
@@ -1648,6 +1663,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Jun 29 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3141.7-0.1.alpha.R
 - update to 61.0.3141.7
+- fix native-messaging-hosts dir to be a true dir instead of a symlink
+- copy files into /etc/opt/chrome/native-messaging-hosts instead of making
+  symlinks this results in duplicate copies of the same files, but eh. making
+  rpm happy.
 
 * Fri Jun 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3135.4-0.1.alpha.R
 - update to 61.0.3135.4
