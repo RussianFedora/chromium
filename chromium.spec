@@ -175,6 +175,8 @@ Patch500:	chromium-gn-bootstrap-r10.patch
 # archlinux https://git.archlinux.org/svntogit/packages.git/plain/repos/extra-x86_64/0001-Clip-FreeType-glyph-bitmap-to-mask.patch?h=packages/chromium
 # https://bugs.chromium.org/p/skia/issues/detail?id=6663
 Patch502:	0001-Clip-FreeType-glyph-bitmap-to-mask.patch
+# fix header path
+Patch503:	chromium-59.0.3071.115-pdfium-freetype.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -578,6 +580,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .bootsrtap
 %patch502 -p1 -b .skia -d third_party/skia
+%patch503 -p1 -b .pdfium-freetype
 
 %if 0%{?asan}
 export CC="clang"
