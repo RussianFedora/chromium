@@ -1104,13 +1104,11 @@ cp -a remoting/* %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/
 for i in %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts/*.json; do
 	sed -i 's|/opt/google/chrome-remote-desktop|%{crd_path}|g' $i
 done
-pushd %{buildroot}%{_sysconfdir}/opt/chrome/
-ln -s ../../chromium/native-messaging-hosts native-messaging-hosts
 mkdir -p %{buildroot}%{_sysconfdir}/opt/chrome/native-messaging-hosts
 pushd %{buildroot}%{_sysconfdir}/opt/chrome/native-messaging-hosts
 for i in ../../../chromium/native-messaging-hosts/*; do
 # rpm gets unhappy when we symlink here
-       cp -a $i .
+	cp -a $i .
 done
 popd
 
