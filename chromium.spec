@@ -789,7 +789,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/flatbuffers' \
 	'third_party/flot' \
 	'third_party/freetype' \
-	'third_party/freetype/src/src/psnames/' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
