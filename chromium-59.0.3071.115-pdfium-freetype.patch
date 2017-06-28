@@ -1,0 +1,12 @@
+diff -urN chromium-59.0.3071.115.orig/third_party/pdfium/core/fxge/freetype/fx_freetype.cpp chromium-59.0.3071.115/third_party/pdfium/core/fxge/freetype/fx_freetype.cpp
+--- chromium-59.0.3071.115.orig/third_party/pdfium/core/fxge/freetype/fx_freetype.cpp	2017-06-28 13:54:02.380847926 +0300
++++ chromium-59.0.3071.115/third_party/pdfium/core/fxge/freetype/fx_freetype.cpp	2017-06-28 13:54:59.089557933 +0300
+@@ -6,7 +6,7 @@
+ 
+ #include "core/fxge/fx_freetype.h"
+ 
+-#include "third_party/freetype/src/src/psnames/pstables.h"
++#include "third_party/freetype/src/psnames/pstables.h"
+ 
+ static int xyq_search_node(char* glyph_name,
+                            int name_offset,
