@@ -171,6 +171,9 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 ### Russian Fedora Patches ###
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r8.patch
 Patch500:	chromium-gn-bootstrap-r8.patch
+# archlinux https://git.archlinux.org/svntogit/packages.git/plain/repos/extra-x86_64/0001-Clip-FreeType-glyph-bitmap-to-mask.patch?h=packages/chromium
+# https://bugs.chromium.org/p/skia/issues/detail?id=6663
+Patch502:	0001-Clip-FreeType-glyph-bitmap-to-mask.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -201,6 +204,9 @@ Source9:	chromium-browser.xml
 Source10:	https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip
 Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
+
+# https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
+Source50:	freetype2-5a3490e054bda8a318ebde482c7fb30213cab3d9.tar.xz
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
@@ -526,11 +532,15 @@ members of the Chromium and WebDriver teams.
 %prep
 %setup -q -T -c -n %{name}-policies -a 10
 %setup -q -T -c -n depot_tools -a 2
+%setup -q -T -c -n freetype -a 50
 %if 0%{tests}
 %setup -q -n chromium-%{version} -b 1
 %else
 %setup -q -n chromium-%{version}
 %endif
+
+# https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
+cp -a ../freetype/* third_party/freetype/
 
 # Fix Russian Translation
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
@@ -566,6 +576,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .gn-bootstrap-r8
+%patch502 -p1 -b .skia -d third_party/skia
 
 %if 0%{?asan}
 export CC="clang"
@@ -1670,6 +1681,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - copy files into /etc/opt/chrome/native-messaging-hosts instead of making
   symlinks this results in duplicate copies of the same files, but eh. making
   rpm happy.
+- fix build with missing freetype
+- fix https://bugs.chromium.org/p/skia/issues/detail?id=6663
 
 * Thu Jun 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.40-0.1.beta.R
 - update to 60.0.3112.40
