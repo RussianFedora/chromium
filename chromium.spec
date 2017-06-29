@@ -575,7 +575,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .bootsrtap
-%patch502 -p1 -b .skia -d third_party/skia
+#%patch502 -p1 -b .skia -d third_party/skia
 %patch503 -p1 -b .pdfium-freetype
 
 %if 0%{?asan}
