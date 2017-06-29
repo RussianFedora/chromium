@@ -169,9 +169,6 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 ### Russian Fedora Patches ###
 # gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r10.patch 
 Patch500:	chromium-gn-bootstrap-r10.patch
-# archlinux https://git.archlinux.org/svntogit/packages.git/plain/repos/extra-x86_64/0001-Clip-FreeType-glyph-bitmap-to-mask.patch?h=packages/chromium
-# https://bugs.chromium.org/p/skia/issues/detail?id=6663
-Patch502:	0001-Clip-FreeType-glyph-bitmap-to-mask.patch
 # fix header path
 Patch503:	chromium-59.0.3071.115-pdfium-freetype.patch
 
@@ -575,7 +572,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .bootsrtap
-#%patch502 -p1 -b .skia -d third_party/skia
 %patch503 -p1 -b .pdfium-freetype
 
 %if 0%{?asan}
@@ -1684,6 +1680,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - fix build with missing freetype
 - fix https://bugs.chromium.org/p/skia/issues/detail?id=6663
 - drop gcc7 patch
+- drop skia patch
 
 * Fri Jun 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3135.4-0.1.alpha.R
 - update to 61.0.3135.4
