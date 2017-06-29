@@ -208,7 +208,7 @@ Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
 
 # https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-Source50:	freetype2-7819aeb622a94be0d89caf8382f290d0266c4aed.tar.xz
+Source50:	freetype2-a12a34451a99cbbcad55d466940fd445171927fd.tar.xz
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
