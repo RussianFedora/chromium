@@ -1,0 +1,12 @@
+diff -urN chromium-61.0.3141.7.orig/cc/blink/web_layer_impl.h chromium-61.0.3141.7/cc/blink/web_layer_impl.h
+--- chromium-61.0.3141.7.orig/cc/blink/web_layer_impl.h	2017-06-29 15:45:38.710149184 +0300
++++ chromium-61.0.3141.7/cc/blink/web_layer_impl.h	2017-06-29 15:46:25.000733807 +0300
+@@ -71,7 +71,7 @@
+   bool IsRootForIsolatedGroup() override;
+   void SetShouldHitTest(bool should_hit_test) override;
+   bool ShouldHitTest() override;
+-  void SetOpaque(bool opaque) override;
++  CC_BLINK_EXPORT void SetOpaque(bool opaque) override;
+   bool Opaque() const override;
+   void SetPosition(const blink::WebFloatPoint& position) override;
+   blink::WebFloatPoint GetPosition() const override;

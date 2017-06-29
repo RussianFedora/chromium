@@ -153,7 +153,7 @@ Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 Patch26:	chromium-59.0.3071.29-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
-Patch27:	chromium-59.0.3071.29-setopaque.patch
+Patch27:	chromium-61.0.3141.7-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
