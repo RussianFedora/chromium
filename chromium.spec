@@ -167,8 +167,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r10.patch 
-Patch500:	chromium-gn-bootstrap-r10.patch
+# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r11.patch 
+Patch500:	chromium-gn-bootstrap-r11.patch
 # fix header path
 Patch503:	chromium-59.0.3071.115-pdfium-freetype.patch
 
@@ -1681,6 +1681,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - fix https://bugs.chromium.org/p/skia/issues/detail?id=6663
 - drop gcc7 patch
 - drop skia patch
+- update bootstrap patch
 
 * Fri Jun 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3135.4-0.1.alpha.R
 - update to 61.0.3135.4
