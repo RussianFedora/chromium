@@ -11,6 +11,7 @@
 %global chromium_path %{_libdir}/chromium-browser%{chromium_channel}
 %global crd_path %{_libdir}/chrome-remote-desktop
 %global tests 0
+%global freetype_hash 5a3490e054bda8a318ebde482c7fb30213cab3d9
 
 # We don't want any libs in these directories to generate Provides
 # Requires is trickier. 
@@ -112,9 +113,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	59.0.3071.115
 %if 0%{?fedora} >= 25
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %else
-Release:	1%{?dist}
+Release:	2%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -176,8 +177,6 @@ Patch501:	chromium-dma-buf-r1.patch
 # archlinux https://git.archlinux.org/svntogit/packages.git/plain/repos/extra-x86_64/0001-Clip-FreeType-glyph-bitmap-to-mask.patch?h=packages/chromium
 # https://bugs.chromium.org/p/skia/issues/detail?id=6663
 Patch502:	0001-Clip-FreeType-glyph-bitmap-to-mask.patch
-# fix header path
-Patch503:	chromium-59.0.3071.115-pdfium-freetype.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -210,7 +209,7 @@ Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
 
 # https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-Source50:	freetype2-5a3490e054bda8a318ebde482c7fb30213cab3d9.tar.xz
+Source50:	https://chromium.googlesource.com/chromium/src/third_party/freetype2/+archive/%{freetype_hash}.tar.gz
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
@@ -543,7 +542,8 @@ members of the Chromium and WebDriver teams.
 %endif
 
 # https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-cp -a ../freetype/* third_party/freetype/
+mkdir third_party/freetype/src
+cp -a ../freetype/* third_party/freetype/src
 
 # Fix Russian Translation
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
@@ -581,7 +581,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 ### Russian Fedora Patches ###
 %patch501 -p1 -b .dma
 %patch502 -p1 -b .skia -d third_party/skia
-%patch503 -p1 -b .pdfium-freetype
 
 %if 0%{?asan}
 export CC="clang"
@@ -1675,6 +1674,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Jun 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.115-2.R
+- use freetype archive from git
+
 * Tue Jun 27 2017 Arkady L. Shane <ashejn@russianfedora.pro> 59.0.3071.115-1.R
 - update to 59.0.3071.115
 - fix native-messaging-hosts dir to be a true dir instead of a symlink
