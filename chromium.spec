@@ -11,6 +11,7 @@
 %global chromium_path %{_libdir}/chromium-browser%{chromium_channel}
 %global crd_path %{_libdir}/chrome-remote-desktop
 %global tests 0
+%global freetype_hash cf8d9b4ce3fa2c6cd9ccb25585bc17a355c987b0
 
 # We don't want any libs in these directories to generate Provides
 # Requires is trickier. 
@@ -169,8 +170,6 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 ### Russian Fedora Patches ###
 # gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r11.patch 
 Patch500:	chromium-gn-bootstrap-r11.patch
-# fix header path
-Patch503:	chromium-59.0.3071.115-pdfium-freetype.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -203,7 +202,7 @@ Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
 
 # https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-Source50:	freetype2-a12a34451a99cbbcad55d466940fd445171927fd.tar.xz
+Source50:	https://chromium.googlesource.com/chromium/src/third_party/freetype2/+archive/%{freetype_hash}.tar.gz
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
@@ -537,7 +536,8 @@ members of the Chromium and WebDriver teams.
 %endif
 
 # https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-cp -a ../freetype/* third_party/freetype/
+mkdir third_party/freetype/src
+cp -a ../freetype/* third_party/freetype/src
 
 # Fix Russian Translation
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
@@ -572,7 +572,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .bootsrtap
-%patch503 -p1 -b .pdfium-freetype
 
 %if 0%{?asan}
 export CC="clang"
@@ -1673,6 +1672,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Jul 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3153.4-0.1.alpha.R
 - update to 61.0.3153.4
+- use freetype archive from git
 
 * Thu Jun 29 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3141.7-0.1.alpha.R
 - update to 61.0.3141.7
