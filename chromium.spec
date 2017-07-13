@@ -11,7 +11,6 @@
 %global chromium_path %{_libdir}/chromium-browser%{chromium_channel}
 %global crd_path %{_libdir}/chrome-remote-desktop
 %global tests 0
-%global freetype_hash a12a34451a99cbbcad55d466940fd445171927fd
 
 # We don't want any libs in these directories to generate Provides
 # Requires is trickier. 
@@ -205,9 +204,6 @@ Source9:	chromium-browser.xml
 Source10:	https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip
 Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
-
-# https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-Source50:	https://chromium.googlesource.com/chromium/src/third_party/freetype2/+archive/%{freetype_hash}.tar.gz
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
@@ -533,16 +529,11 @@ members of the Chromium and WebDriver teams.
 %prep
 %setup -q -T -c -n %{name}-policies -a 10
 %setup -q -T -c -n depot_tools -a 2
-%setup -q -T -c -n freetype -a 50
 %if 0%{tests}
 %setup -q -n chromium-%{version} -b 1
 %else
 %setup -q -n chromium-%{version}
 %endif
-
-# https://groups.google.com/a/chromium.org/d/msg/chromium-packagers/wuInaKJkosg/kMfIV_7wDgAJ
-mkdir third_party/freetype/src
-cp -a ../freetype/* third_party/freetype/src
 
 # Fix Russian Translation
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
@@ -1679,7 +1670,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Jul 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.66-0.1.beta.R
 - update to 60.0.3112.66
-- use freetype archive from git
+- drop ugly hack for freetype
 
 * Thu Jun 29 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.50-0.1.beta.R
 - update to 60.0.3112.50
