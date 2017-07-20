@@ -110,7 +110,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	61.0.3153.4
+Version:	61.0.3159.5
 %if 0%{?fedora} >= 25
 Release:	0.1.alpha%{?dist}.R
 %else
@@ -167,8 +167,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r11.patch 
-Patch500:	chromium-gn-bootstrap-r11.patch
+# gentoo patch http://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r13.patch 
+Patch500:	chromium-gn-bootstrap-r13.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -1661,6 +1661,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Jul 20 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3159.5-0.1.alpha.R
+- update to 61.0.3159.5
+
 * Thu Jul 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3153.4-0.1.alpha.R
 - update to 61.0.3153.4
 - drop ugly hack for freetype
