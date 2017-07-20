@@ -186,7 +186,7 @@ Source0:	chromium-%{version}-clean.tar.xz
 Source1:	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-%{version}-testdata.tar.xz
 %endif
 # https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/7e7a454f9afdddacf63e10be48f0eab603be654e.tar.gz
-Source2:	depot_tools.git-master.tar.gz
+Source2:	https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/master.tar.gz#/depot_tools.git-master.tar.gz
 Source3:	chromium-browser.sh
 Source4:	%{chromium_browser_channel}.desktop
 # Also, only used if you want to reproduce the clean tarball.
