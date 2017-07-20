@@ -110,7 +110,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	60.0.3112.66
+Version:	60.0.3112.72
 %if 0%{?fedora} >= 25
 Release:	0.1.beta%{?dist}.R
 %else
@@ -1668,6 +1668,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Jul 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.72-0.1.beta.R
+- update to 60.0.3112.72
+
 * Thu Jul 13 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.66-0.1.beta.R
 - update to 60.0.3112.66
 - drop ugly hack for freetype
