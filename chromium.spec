@@ -1626,6 +1626,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %files libs
 %exclude %{chromium_path}/libffmpeg.so*
 %exclude %{chromium_path}/libmedia.so*
+%exclude %{chromium_path}/libwidevinecdm.so*
 %{chromium_path}/lib*.so*
 
 %if %{freeworld}
@@ -1635,6 +1636,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %endif
 %{chromium_path}/libffmpeg.so*
 %{chromium_path}/libmedia.so*
+%{chromium_path}/libwidevinecdm.so*
 %endif
 
 %if %{build_remote_desktop}
