@@ -163,6 +163,9 @@ Patch33:	chromium-60.0.3095.5-gcc7.patch
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
 Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
+# Change struct ucontext to ucontext_t in breakpad
+# https://patchwork.openembedded.org/patch/141358/
+Patch40:	chromium-59.0.3071.115-ucontext-fix.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -562,6 +565,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch31 -p1 -b .permissive
 %patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
+%patch40 -p1 -b .ucontextfix
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
