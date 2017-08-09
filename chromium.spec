@@ -4,6 +4,10 @@
 # Leave this alone, please.
 %global target out/Release
 
+# Debuginfo packages aren't very useful here. If you need to debug
+# you should do a proper debug build (not implemented in this spec yet)
+%global debug_package %{nil}
+
 # %%{nil} for Stable; -beta for Beta; -dev for Devel
 # dash in -beta and -dev is intentional !
 %global chromium_channel %{nil}
