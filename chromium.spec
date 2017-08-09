@@ -93,6 +93,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlejinja2 1
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
+%global bundlelibwebp 1
 %else
 %if 0%{?fedora} > 25
 %global bundleharfbuzz 0
@@ -102,6 +103,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlejinja2 1
 %global bundleopus 1
 %global bundlelibusbx 1
+%global bundlelibwebp 0
 %endif
 
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
@@ -236,6 +238,7 @@ BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
+BuildRequires:	minizip-devel
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	nodejs
 BuildRequires:	nss-devel
@@ -306,7 +309,11 @@ BuildRequires:	libusbx-devel >= 1.0.21-0.1.git448584a
 # We don't use libvpx anymore because Chromium loves to
 # use bleeding edge revisions here that break other things
 # ... so we just use the bundled libvpx.
-# Same is true for libwebp.
+%if %{bundlelibwebp}
+# Do nothing
+%else
+BuildRequires:	libwebp-devel
+%endif
 BuildRequires:	libxslt-devel
 # Same here, it seems.
 # BuildRequires:	libyuv-devel
@@ -420,6 +427,9 @@ Provides: bundled(libsrtp) = 1.5.2
 Provides: bundled(libusbx) = 1.0.17
 %endif
 Provides: bundled(libvpx) = 1.6.0
+%if %{bundlelibwebp}
+Provides: bundled(libwebp) = 0.6.0
+%endif
 Provides: bundled(libwebp) = 0.6.0
 %if %{bundlelibxml}
 # Well, it's actually newer than 2.9.4 and has code in it that has been reverted upstream... but eh.
@@ -910,6 +920,10 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %if %{bundlelibusbx}
 %else
 	libusb \
+%endif
+%if %{bundlelibwebp}
+%else
+	libwebp \
 %endif
 %if %{bundlelibxml}
 %else
