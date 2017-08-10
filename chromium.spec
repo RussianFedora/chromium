@@ -172,6 +172,8 @@ Patch42:       chromium-60.0.3112.78-no-libpng-prefix.patch
 Patch43:       chromium-60.0.3112.78-jpeg-nomangle.patch
 # Do not mangle zlib
 Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
+# Apply this change to work around EPEL7 compiler issues
+Patch46:        chromium-60.0.3112.90-init-list-hack.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -599,6 +601,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch42 -p1 -b .noprefix
 %patch43 -p1 -b .nomangle
 %patch45 -p1 -b .nozmangle
+%if 0%{?rhel} == 7
+%patch46 -p1 -b .oldgcc
+%endif
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -1746,6 +1751,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - disable debuginfo package
 - build with system libjpeg, webp and libpng
 - added common and headless packages
+- apply post 60 code commit to get code building on epel7
 
 * Mon Aug  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.90-1.R
 - update to 60.0.3112.90
