@@ -170,6 +170,12 @@ Patch40:	chromium-59.0.3071.115-ucontext-fix.patch
 Patch42:       chromium-60.0.3112.78-no-libpng-prefix.patch
 # Do not mangle libjpeg
 Patch43:       chromium-60.0.3112.78-jpeg-nomangle.patch
+# Fix gtk2 build by applying these changes
+# https://chromium.googlesource.com/chromium/src.git/+/804fd4ab5e41584d61c400ac19ce21e0468b53d4
+# https://chromium.googlesource.com/chromium/src.git/+/4313334bead373b139eee72f47d43fbe6162a8f4
+# https://chromium.googlesource.com/chromium/src.git/+/ca407201886875966db91d55c403fe0be3f0f4ca
+# This probably will not be needed with 61+
+Patch44:        chromium-60.0.3112.78-gtk2fix.patch
 # Do not mangle zlib
 Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 # Apply this change to work around EPEL7 compiler issues
@@ -600,6 +606,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch40 -p1 -b .ucontextfix
 %patch42 -p1 -b .noprefix
 %patch43 -p1 -b .nomangle
+%if 0%{?rhel} == 7
+%patch44 -p1 -b .gtk2fix
+%endif
 %patch45 -p1 -b .nozmangle
 %if 0%{?rhel} == 7
 %patch46 -p1 -b .oldgcc
@@ -1752,6 +1761,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - build with system libjpeg, webp and libpng
 - added common and headless packages
 - apply post 60 code commit to get code building on epel7
+- fix build with gtk2 on RHEL < 7.4
 
 * Mon Aug  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.90-1.R
 - update to 60.0.3112.90
