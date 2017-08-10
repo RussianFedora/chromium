@@ -3,6 +3,7 @@
 
 # Leave this alone, please.
 %global target out/Release
+%global headlesstarget out/Headless
 
 # Debuginfo packages aren't very useful here. If you need to debug
 # you should do a proper debug build (not implemented in this spec yet)
@@ -38,16 +39,8 @@
 # https://www.chromium.org/developers/testing/addresssanitizer
 %global asan 0
 
-# Only flip this on if stuff is really broken re: nacl.
-# chromium-native_client doesn't build on Fedora 23 because
-# clang is too old and buggy.
+# nacl/pnacl are soon to be dead. We're just killing them off early.
 %global killnacl 1
-
-#if 0%{?fedora} <= 23
-#global killnacl 1
-#else
-#global killnacl 0
-#endif
 
 %if 0%{?killnacl}
  %global nacl 0
@@ -118,9 +111,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	60.0.3112.90
 %if 0%{?fedora} >= 25
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %else
-Release:	1%{?dist}
+Release:	2%{?dist}
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -128,6 +121,7 @@ Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
 
 ### Chromium Fedora Patches ###
+Patch0:		chromium-56.0.2924.87-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
 # Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
@@ -172,6 +166,12 @@ Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c56
 # Change struct ucontext to ucontext_t in breakpad
 # https://patchwork.openembedded.org/patch/141358/
 Patch40:	chromium-59.0.3071.115-ucontext-fix.patch
+# Do not prefix libpng functions
+Patch42:       chromium-60.0.3112.78-no-libpng-prefix.patch
+# Do not mangle libjpeg
+Patch43:       chromium-60.0.3112.78-jpeg-nomangle.patch
+# Do not mangle zlib
+Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -294,7 +294,7 @@ BuildRequires:	vulkan-devel
 BuildRequires:	libicu-devel = 54.1
 %endif
 BuildRequires:	libjpeg-devel
-# BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel
 %if 0
 # see https://code.google.com/p/chromium/issues/detail?id=501318
 BuildRequires:	libsrtp-devel >= 1.4.4
@@ -344,6 +344,7 @@ BuildRequires:	re2-devel >= 20160401
 %endif
 BuildRequires:	speech-dispatcher-devel
 BuildRequires:	yasm
+BuildRequires:	zlib-devel
 BuildRequires:	pkgconfig(gnome-keyring-1)
 # remote desktop needs this
 BuildRequires:	pam-devel
@@ -419,7 +420,7 @@ Provides: bundled(libaddressinput) = 0
 Provides: bundled(libdrm) = 2.4.70
 Provides: bundled(libevent) = 1.4.15
 Provides: bundled(libjingle) = 9564
-Provides: bundled(libjpeg-turbo) = 1.4.90
+# Provides: bundled(libjpeg-turbo) = 1.4.90
 Provides: bundled(libphonenumber) = a4da30df63a097d67e3c429ead6790ad91d36cf4
 Provides: bundled(libpng) = 1.6.22
 Provides: bundled(libsrtp) = 1.5.2
@@ -430,7 +431,6 @@ Provides: bundled(libvpx) = 1.6.0
 %if %{bundlelibwebp}
 Provides: bundled(libwebp) = 0.6.0
 %endif
-Provides: bundled(libwebp) = 0.6.0
 %if %{bundlelibxml}
 # Well, it's actually newer than 2.9.4 and has code in it that has been reverted upstream... but eh.
 Provides: bundled(libxml) = 2.9.4
@@ -467,7 +467,7 @@ Provides: bundled(woff2) = 445f541996fe8376f3976d35692fd2b9a6eedf2d
 Provides: bundled(xdg-mime)
 Provides: bundled(xdg-user-dirs)
 Provides: bundled(x86inc) = 0
-Provides: bundled(zlib) = 1.2.11
+# Provides: bundled(zlib) = 1.2.11
 
 # For selinux scriptlet
 Requires(post): /usr/sbin/semanage
@@ -476,9 +476,16 @@ Requires(post): /usr/sbin/restorecon
 %description
 Chromium is an open-source web browser, powered by WebKit (Blink).
 
+%package common
+Summary: Files needed for both the headless_shell and full Chromium
+
+%description common
+%{summary}.
+
 %if 0%{?shared}
 %package libs
 Summary: Shared libraries used by chromium (and chrome-remote-desktop)
+Requires: chromium-common%{_isa} = %{epoch}:%{version}-%{release}
 Requires: chromium-libs-media%{_isa} = %{epoch}:%{version}
 Obsoletes: chromium-widevinecdm-plugin < 23.0.0.207
 
@@ -514,6 +521,7 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 Requires: xorg-x11-server-Xvfb
+Requires: python2-psutil
 %if 0%{?shared}
 Requires: chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 %endif
@@ -541,6 +549,15 @@ JavaScript execution, and more. ChromeDriver is a standalone server which
 implements WebDriver's wire protocol for Chromium. It is being developed by
 members of the Chromium and WebDriver teams.
 
+%package headless
+Summary:	A minimal headless shell built from Chromium
+Requires:	chromium-common%{_isa} = %{epoch}:%{version}-%{release}
+
+%description headless
+A minimal headless client built from Chromium. headless_shell is built
+without support for alsa, cups, dbus, gconf, gio, kerberos, pulseaudio, or 
+udev.
+
 %prep
 %setup -q -T -c -n %{name}-policies -a 10
 %setup -q -T -c -n depot_tools -a 2
@@ -559,6 +576,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft_sse2.cc
 
 ### Chromium Fedora Patches ###
+%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
 %patch4 -p1 -b .notest
@@ -578,6 +596,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
 %patch40 -p1 -b .ucontextfix
+%patch42 -p1 -b .noprefix
+%patch43 -p1 -b .nomangle
+%patch45 -p1 -b .nozmangle
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -691,20 +712,26 @@ ln -s /usr/bin/clang clang
 popd
 %endif
 
-CHROMIUM_BROWSER_GN_DEFINES=""
-CHROMIUM_BROWSER_GN_DEFINES+=' is_debug=false'
+# Core defines are flags that are true for both the browser and headless.
+CHROMIUM_CORE_GN_DEFINES=""
+CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 %ifarch x86_64
-CHROMIUM_BROWSER_GN_DEFINES+=' system_libdir="lib64"'
+CHROMIUM_CORE_GN_DEFINES+=' system_libdir="lib64"'
 %endif
-CHROMIUM_BROWSER_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
-CHROMIUM_BROWSER_GN_DEFINES+=' is_clang=false use_sysroot=false use_gio=true use_pulseaudio=true icu_use_data_file=true'
+CHROMIUM_CORE_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
+CHROMIUM_CORE_GN_DEFINES+=' is_clang=false use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true'
+%if %{freeworld}
+CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
+%else
+CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
+%endif
+CHROMIUM_CORE_GN_DEFINES+=' treat_warnings_as_errors=false'
+export CHROMIUM_CORE_GN_DEFINES
+
+CHROMIUM_BROWSER_GN_DEFINES=""
+CHROMIUM_BROWSER_GN_DEFINES+=' use_gio=true use_pulseaudio=true icu_use_data_file=true'
 %if 0%{?nonacl}
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_nacl=false'
-%endif
-%if %{freeworld}
-CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
-%else
-CHROMIUM_BROWSER_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
 %endif
 %if 0%{?shared}
 CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=true is_component_build=true'
@@ -714,15 +741,20 @@ CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=fals
 CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_hotwording=false use_aura=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' use_gold=false fieldtrial_testing_like_official_build=true'
 %if 0%{gtk3}
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
 %endif
-# CHROMIUM_BROWSER_GN_DEFINES+=' use_system_libjpeg=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' treat_warnings_as_errors=false'
 export CHROMIUM_BROWSER_GN_DEFINES
+
+CHROMIUM_HEADLESS_GN_DEFINES=""
+CHROMIUM_HEADLESS_GN_DEFINES+=' use_ozone=true ozone_auto_platforms=false ozone_platform="headless" ozone_platform_headless=true'
+CHROMIUM_HEADLESS_GN_DEFINES+=' headless_use_embedded_resources=true icu_use_data_file=false v8_use_external_startup_data=false'
+CHROMIUM_HEADLESS_GN_DEFINES+=' enable_nacl=false enable_print_preview=false enable_remoting=false use_alsa=false use_ash=false'
+CHROMIUM_HEADLESS_GN_DEFINES+=' use_cups=false use_dbus=false use_gconf=false use_gio=false use_kerberos=false use_libpci=false'
+CHROMIUM_HEADLESS_GN_DEFINES+=' use_pulseaudio=false use_udev=false'
+export CHROMIUM_HEADLESS_GN_DEFINES
 
 # Remove most of the bundled libraries. Libraries specified below (taken from
 # Gentoo's Chromium ebuild) are the libraries that needs to be preserved.
@@ -906,6 +938,7 @@ export PATH=$PATH:%{_builddir}/depot_tools
 
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
+	freetype \
 %if 0%{?bundleharfbuzz}
 %else
 	harfbuzz-ng \
@@ -914,9 +947,9 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	icu \
 %endif
-%if 0
-	libevent \
-%endif
+	libdrm \
+	libjpeg \
+	libpng \
 %if %{bundlelibusbx}
 %else
 	libusb \
@@ -938,16 +971,21 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	re2 \
 %endif
-	yasm
+	yasm \
+	zlib
 
-tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_BROWSER_GN_DEFINES"
-%{target}/gn gen --args="$CHROMIUM_BROWSER_GN_DEFINES" %{target}
+tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES"
+%{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{target}
+
+%{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_HEADLESS_GN_DEFINES" %{headlesstarget}
 
 %if %{bundlelibusbx}
 # no hackity hack hack
 %else
 # hackity hack hack
 rm -rf third_party/libusb/src/libusb/libusb.h
+# we _shouldn't need to do this, but it looks like we do.
+cp -a %{_includedir}/libusb-1.0/libusb.h third_party/libusb/src/libusb/libusb.h
 %endif
 
 # make up a version for widevine
@@ -1035,8 +1073,9 @@ export CHROMIUM_BROWSER_UNIT_TESTS="\
 export CHROMIUM_BROWSER_UNIT_TESTS=
 %endif
 
-
-%global target out/Release
+# Now do the full browser
+# Do headless first.  
+../depot_tools/ninja -C %{headlesstarget} -vvv headless_shell
 
 ../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
@@ -1059,7 +1098,6 @@ popd
 rm -rf out/Release/gen/sdk
 rm -rf native_client/toolchain
 rm -rf third_party/llvm-build/*
-
 
 %install
 rm -rf %{buildroot}
@@ -1155,6 +1193,10 @@ cp -a remoting_client_plugin_newlib.* %{buildroot}%{chromium_path}
 %endif
 %endif
 %endif
+popd
+
+pushd %{headlesstarget}
+cp -a headless_lib.pak headless_shell %{buildroot}%{chromium_path}
 popd
 
 %if %{build_remote_desktop}
@@ -1553,6 +1595,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %files
 %doc AUTHORS
+%doc chrome_policy_list.html *.json
 %license LICENSE
 %config %{_sysconfdir}/%{name}/
 %dir %{_sysconfdir}/%{name}/native-messaging-hosts
@@ -1561,7 +1604,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_bindir}/%{chromium_browser_channel}
 %dir %{chromium_path}
 %{chromium_path}/*.bin
-%{chromium_path}/*.pak
+%{chromium_path}/chrome_*.pak
+%{chromium_path}/keyboard_resources.pak
+%{chromium_path}/resources.pak
+%{chromium_path}/views_mus_resources.pak
 %{chromium_path}/icudtl.dat
 %{chromium_path}/%{chromium_browser_channel}
 %{chromium_path}/%{chromium_browser_channel}.sh
@@ -1576,8 +1622,19 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 # %%{chromium_path}/remoting_locales/
 # %%{chromium_path}/pseudo_locales/
 # %%{chromium_path}/plugins/
-%{chromium_path}/pyproto/
 %attr(4755, root, root) %{chromium_path}/chrome-sandbox
+%{_mandir}/man1/%{chromium_browser_channel}.*
+%{_datadir}/icons/hicolor/*/apps/%{chromium_browser_channel}.png
+%{_datadir}/applications/*.desktop
+%{_datadir}/appdata/*.appdata.xml
+%{_datadir}/gnome-control-center/default-apps/chromium-browser.xml
+
+%files common
+%{chromium_path}/headless_lib.pak
+%{chromium_path}/libosmesa.so
+%{chromium_path}/mus_app_resources_*.pak
+%{chromium_path}/pyproto/
+%{chromium_path}/resources/
 %dir %{chromium_path}/locales/
 %lang(am) %{chromium_path}/locales/am.pak
 %lang(ar) %{chromium_path}/locales/ar.pak
@@ -1632,17 +1689,13 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %lang(vi) %{chromium_path}/locales/vi.pak
 %lang(zh_CN) %{chromium_path}/locales/zh-CN.pak
 %lang(zh_TW) %{chromium_path}/locales/zh-TW.pak
-%{chromium_path}/resources/
-%{_mandir}/man1/%{chromium_browser_channel}.*
-%{_datadir}/icons/hicolor/*/apps/%{chromium_browser_channel}.png
-%{_datadir}/applications/*.desktop
-%{_datadir}/appdata/*.appdata.xml
-%{_datadir}/gnome-control-center/default-apps/chromium-browser.xml
 
-%doc chrome_policy_list.html *.json
+%files headless
+%{chromium_path}/headless_shell
 
 %if 0%{?shared}
 %files libs
+%exclude %{chromium_path}/libosmesa.so
 %exclude %{chromium_path}/libffmpeg.so*
 %exclude %{chromium_path}/libmedia.so*
 %exclude %{chromium_path}/libwidevinecdm.so*
@@ -1689,6 +1742,11 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Aug  9 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.90-2.R
+- disable debuginfo package
+- build with system libjpeg, webp and libpng
+- added common and headless packages
+
 * Mon Aug  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.90-1.R
 - update to 60.0.3112.90
 - apply ucontext patch
