@@ -179,6 +179,8 @@ Patch44:        chromium-60.0.3112.78-gtk2fix.patch
 Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 # Apply this change to work around EPEL7 compiler issues
 Patch46:        chromium-60.0.3112.90-init-list-hack.patch
+# Fix WebKit layout to build with old gcc
+Patch47:        chromium-60.0.3112.78-fix-webkit-layout-build-with-g++.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -610,6 +612,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch45 -p1 -b .nozmangle
 %if 0%{?rhel} == 7
 %patch46 -p1 -b .oldgcc
+%patch47 -p1 -b .fix-webkit-layout
 %endif
 
 ### Chromium Tests Patches ###
@@ -1760,6 +1763,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - added common and headless packages
 - apply post 60 code commit to get code building on epel7
 - fix build with gtk2 on RHEL < 7.4
+- fix WebKit layout to build with old gcc
 
 * Mon Aug  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.90-1.R
 - update to 60.0.3112.90

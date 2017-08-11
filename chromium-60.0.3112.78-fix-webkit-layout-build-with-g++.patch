@@ -1,0 +1,14 @@
+Description: Fix WebKit build with g++ that thinks the braces are for an initializer list
+Author: Olivier Tilloy <olivier.tilloy@canonical.com>
+
+--- a/third_party/WebKit/Source/core/layout/ng/ng_block_layout_algorithm.cc
++++ b/third_party/WebKit/Source/core/layout/ng/ng_block_layout_algorithm.cc
+@@ -382,7 +382,7 @@ NGLogicalOffset NGBlockLayoutAlgorithm::
+ 
+   NGLogicalOffset child_bfc_offset = curr_bfc_offset_;
+   child_bfc_offset.inline_offset +=
+-      {border_and_padding_.inline_start + curr_child_margins_.inline_start};
++      border_and_padding_.inline_start + curr_child_margins_.inline_start;
+ 
+   // Append the current margin strut with child's block start margin.
+   // Non empty border/padding, and new FC use cases are handled inside of the
