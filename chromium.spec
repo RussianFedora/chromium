@@ -178,7 +178,8 @@ Patch44:        chromium-60.0.3112.78-gtk2fix.patch
 # Do not mangle zlib
 Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 # Apply this change to work around EPEL7 compiler issues
-Patch46:        chromium-60.0.3112.90-init-list-hack.patch
+#Patch46:        chromium-60.0.3112.90-init-list-hack.patch
+Patch46:        vulkan-c99.patch
 # Fix WebKit layout to build with old gcc
 Patch47:        chromium-60.0.3112.78-fix-webkit-layout-build-with-g++.patch
 
@@ -611,7 +612,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %endif
 %patch45 -p1 -b .nozmangle
 %if 0%{?rhel} == 7
-#%patch46 -p1 -b .oldgcc
+%patch46 -p1 -b .oldgcc
 %patch47 -p1 -b .fix-webkit-layout
 %endif
 

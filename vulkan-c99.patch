@@ -1,0 +1,29 @@
+Description: Fix the build of vulkan_support with GCC. The use of initial declarations in for loops requires C99 mode.
+Author: Olivier Tilloy <olivier.tilloy@canonical.com>
+
+--- a/third_party/angle/src/vulkan_support/BUILD.gn
++++ b/third_party/angle/src/vulkan_support/BUILD.gn
+@@ -217,6 +217,7 @@ static_library("vulkan_loader") {
+       cflags = vulkan_gypi.vulkan_loader_cflags_win
+     }
+   }
++  cflags = [ "-std=gnu99" ]
+   deps = [
+     ":vulkan_generate_helper_files",
+   ]
+@@ -453,6 +454,7 @@ source_set("vulkan_layer_utils") {
+ 
+ config("vulkan_core_validation_config") {
+   include_dirs = [ glslang_dir ]
++  cflags = [ "-std=gnu99" ]
+ }
+ 
+ source_set("vulkan_core_validation_glslang") {
+@@ -478,6 +480,7 @@ foreach(layer_info, layers) {
+     if (is_win) {
+       sources += [ "$vulkan_layers_dir/layers/VKLayer_$name.def" ]
+     }
++    cflags = [ "-std=gnu99" ]
+   }
+ }
+ 
