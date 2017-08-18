@@ -109,12 +109,8 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	60.0.3112.101
-%if 0%{?fedora} >= 25
+Version:	61.0.3163.49
 Release:	1%{?dist}.R
-%else
-Release:	1%{?dist}
-%endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
@@ -1758,6 +1754,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Aug 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.49-1.R
+- update to 61.0.3163.49
+
 * Tue Aug 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.101-1.R
 - update to 60.0.3112.101
 
