@@ -148,7 +148,7 @@ Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 Patch26:	chromium-59.0.3071.29-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
-Patch27:	chromium-59.0.3071.29-setopaque.patch
+Patch27:	chromium-61.0.3163.49-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
 # Fix issue with compilation on gcc7
@@ -1757,6 +1757,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Fri Aug 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.49-1.R
 - update to 61.0.3163.49
 - update boot strap patch
+- update setopaque patch
 
 * Tue Aug 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.101-1.R
 - update to 60.0.3112.101
