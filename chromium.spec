@@ -202,8 +202,8 @@ Source0:	chromium-%{version}-clean.tar.xz
 %if 0%{tests}
 Source1:	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-%{version}-testdata.tar.xz
 %endif
-# https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/7e7a454f9afdddacf63e10be48f0eab603be654e.tar.gz
-Source2:	depot_tools.git-master.tar.gz
+# https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
+Source2:	https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
 Source3:	chromium-browser.sh
 Source4:	%{chromium_browser_channel}.desktop
 # Also, only used if you want to reproduce the clean tarball.
@@ -1759,6 +1759,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 61.0.3163.49
 - update boot strap patch
 - update setopaque patch
+- update depot_tools.git-master.tar.gz
 
 * Tue Aug 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.101-1.R
 - update to 60.0.3112.101
