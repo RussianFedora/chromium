@@ -735,7 +735,7 @@ CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 CHROMIUM_CORE_GN_DEFINES+=' system_libdir="lib64"'
 %endif
 CHROMIUM_CORE_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
-CHROMIUM_CORE_GN_DEFINES+=' is_clang=false use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true'
+CHROMIUM_CORE_GN_DEFINES+=' is_clang=false use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true  use_custom_libcxx=false'
 %if %{freeworld}
 CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
 %else
