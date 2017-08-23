@@ -203,7 +203,7 @@ Source0:	chromium-%{version}-clean.tar.xz
 Source1:	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-%{version}-testdata.tar.xz
 %endif
 # https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
-Source2:	https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
+#Source2:	https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
 Source3:	chromium-browser.sh
 Source4:	%{chromium_browser_channel}.desktop
 # Also, only used if you want to reproduce the clean tarball.
@@ -246,6 +246,7 @@ BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
+BuildRequires:	ninja-build >= 1.7.2
 BuildRequires:	minizip-devel
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	nodejs
@@ -568,7 +569,7 @@ udev.
 
 %prep
 %setup -q -T -c -n %{name}-policies -a 10
-%setup -q -T -c -n depot_tools -a 2
+#%setup -q -T -c -n depot_tools -a 2
 %if 0%{tests}
 %setup -q -n chromium-%{version} -b 1
 %else
@@ -1088,9 +1089,9 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 
 # Now do the full browser
 # Do headless first.  
-../depot_tools/ninja -C %{headlesstarget} -vvv headless_shell
+ninja -C %{headlesstarget} -vvv headless_shell
 
-../depot_tools/ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
+ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
 
 %if %{build_remote_desktop}
 
@@ -1098,10 +1099,10 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 pushd remoting
 
 # ../../depot_tools/ninja -C ../%{target} -vvv remoting_me2me_host remoting_start_host remoting_it2me_native_messaging_host remoting_me2me_native_messaging_host remoting_native_messaging_manifests remoting_resources
-../../depot_tools/ninja -C ../%{target} -vvv remoting_all
+ninja -C ../%{target} -vvv remoting_all
 %if 0%{?build_remoting_app}
 %if 0%{?nacl}
-GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ../../depot_tools/ninja -vv -C ../out/Release/ remoting_webapp
+GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ninja -vv -C ../out/Release/ remoting_webapp
 %endif
 %endif
 popd
