@@ -188,6 +188,8 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 Patch500:	chromium-gn-bootstrap-r14.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gcc-r1.patch
 Patch501:	chromium-gcc-r1.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-atk-r1.patch
+Patch502:	chromium-atk-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -622,6 +624,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .gn-bootstrap-r8
 %patch501 -p1 -b .gcc-r1
+%patch502 -p1 -b .atk-r1
 
 %if 0%{?asan}
 export CC="clang"
@@ -1760,6 +1763,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Aug 24 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.59-1.R
 - update to 61.0.3163.59
+- apply gento atk patch
 
 * Fri Aug 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.49-1.R
 - update to 61.0.3163.49
