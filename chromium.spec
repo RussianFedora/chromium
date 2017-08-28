@@ -531,7 +531,11 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 Requires: xorg-x11-server-Xvfb
+%if 0%{?rhel} == 7
+Requires: python-psutil
+%else
 Requires: python2-psutil
+%endif
 %if 0%{?shared}
 Requires: chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 %endif
@@ -1760,6 +1764,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Aug 28 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.113-1.R
 - update to 60.0.3112.113
+- fix dep issue with chrome-remote-desktop on el7
 
 * Tue Aug 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 60.0.3112.101-1.R
 - update to 60.0.3112.101
