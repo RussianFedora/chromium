@@ -110,7 +110,7 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	61.0.3163.59
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
@@ -532,7 +532,11 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 Requires: xorg-x11-server-Xvfb
+%if 0%{?rhel} == 7
+Requires: python-psutil
+%else
 Requires: python2-psutil
+%endif
 %if 0%{?shared}
 Requires: chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 %endif
@@ -1761,9 +1765,13 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Mon Aug 28 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.59-2.R
+- fix dep issue with chrome-remote-desktop on el7
+- added more provides
+
 * Thu Aug 24 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.59-1.R
 - update to 61.0.3163.59
-- apply gento atk patch
+- apply gentoo atk patch
 
 * Fri Aug 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.49-1.R
 - update to 61.0.3163.49
