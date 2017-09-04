@@ -109,8 +109,8 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	61.0.3163.59
-Release:	2%{?dist}.R
+Version:	61.0.3163.71
+Release:	1%{?dist}.R
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
@@ -1765,6 +1765,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Aug 31 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.71-1.R
+- update to 61.0.3163.71
+
 * Mon Aug 28 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.59-2.R
 - fix dep issue with chrome-remote-desktop on el7
 - added more provides
