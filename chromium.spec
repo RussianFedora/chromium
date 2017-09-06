@@ -613,7 +613,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch45 -p1 -b .nozmangle
 %if 0%{?rhel} == 7
 %patch46 -p1 -b .oldgcc
-%patch47 -p1 -b .fix-webkit-layout
+#%patch47 -p1 -b .fix-webkit-layout
 %endif
 
 ### Chromium Tests Patches ###
