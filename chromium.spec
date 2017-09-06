@@ -110,7 +110,11 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	61.0.3163.79
+%if 0%{?rhel} == 7
+Release:	1%{?dist}
+%else
 Release:	1%{?dist}.R
+%endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
