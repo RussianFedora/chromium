@@ -109,7 +109,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
 
 Name:		chromium%{chromium_channel}
-Version:	61.0.3163.79
+Version:	61.0.3163.91
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1760,6 +1760,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sat Sep 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.91-1.R
+- update to 61.0.3163.91
+
 * Wed Sep  6 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.79-1.R
 - update to 61.0.3163.79
 
