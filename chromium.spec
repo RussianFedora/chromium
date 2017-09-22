@@ -18,7 +18,7 @@
 %global tests 0
 
 # We don't want any libs in these directories to generate Provides
-# Requires is trickier. 
+# Requires is trickier.
 
 %global __provides_exclude_from %{chromium_path}/.*\\.so|%{chromium_path}/lib/.*\\.so
 %global privlibs libaccessibility|libaura_extra|libaura|libbase_i18n|libbase|libblink_common|libblink_core|libblink_modules|libblink_platform|libblink_web|libbluetooth|libboringssl|libbrowser_ui_views|libcaptive_portal|libcapture|libcc_blink|libcc_ipc|libcc_proto|libcc|libcc_surfaces|libchromium_sqlite3|libcloud_policy_proto_generated_compile|libcloud_policy_proto|libcommon|libcompositor|libcontent|libcrcrypto|libdbus|libdevice_battery|libdevice_core|libdevice_event_log|libdevice_gamepad|libdevice_geolocation|libdevices|libdevice_vibration|libdisplay_compositor|libdisplay|libdisplay_types|libdisplay_util|libdomain_reliability|libEGL|libevents_base|libevents_devices_x11|libevents_ipc|libevents_ozone_layout|libevents|libevents_x|libffmpeg|libfont_service_library|libgcm|libgeometry|libgesture_detection|libgfx_ipc_color|libgfx_ipc_geometry|libgfx_ipc_skia|libgfx_ipc|libgfx|libgfx_x11|libgin|libgles2_c_lib|libgles2_implementation|libgles2_utils|libGLESv2|libgl_init|libgl_wrapper|libgpu|libgtk2ui|libicui18n|libicuuc|libipc|libkeyboard|libkeyboard_with_content|libkeycodes_x11|libkeyed_service_content|libkeyed_service_core|libmedia_blink|libmedia_gpu|libmedia|libmemory_coordinator_browser|libmemory_coordinator_child|libmemory_coordinator_common|libmessage_center|libmidi|libmojo_blink_lib|libmojo_common_lib|libmojo_ime_lib|libmojo_public_system|libmojo_system_impl|libnative_theme|libnet|libnet_with_v8|libonc|libplatform|libpolicy_component|libpolicy_proto|libpower_save_blocker|libppapi_host|libppapi_proxy|libppapi_shared|libprefs|libprinting|libprotobuf_lite|libproxy_config|librange|libsandbox_services|libseccomp_bpf|libsessions|libshared_memory_support|libshell_dialogs|libskia|libsnapshot|libsql|libstartup_tracing|libstorage_browser|libstorage_common|libstub_window|libsuid_sandbox_client|libsurface|libtracing|libtranslator|libui_base_ime|libui_base|libui_base_x|libui_data_pack|libui_library|libui_touch_selection|libui_views_mus_lib|liburl_ipc|liburl_matcher|liburl|libuser_prefs|libv8|libviews|libwebdata_common|libweb_dialogs|libwebview|libwidevinecdm|libwm|libwtf|libx11_events_platform|libx11_window|libbindings|libgeolocation|libmojo_public_system_cpp|libtime_zone_monitor|libdevice_base|libcc_animation|libcpp|libdevice_base|libdiscardable_memory_client|libdiscardable_memory_common|libdiscardable_memory_service|libgeneric_sensor|libgl_in_process_context|libjs|libpower_monitor|libv8_libbase|libsensors|libdevice_vr|libcc_paint|libgtk3ui|libcapture_base|libcapture_lib|libfingerprint|libanimation|libcc_base|libcc_debug|libcodec|libcolor_space|libembedder|libgeometry_skia|libgin_features|libmedia_mojo_services|libplatform_wtf|libprotobuf_globals|libcdm_manager|libframe_sinks|libresource_coordinator_cpp|libblink_android_mojo_bindings_shared|libblink_mojo_bindings_shared|libblink_mojo_bindings_shared|libblink_offscreen_canvas_mojo_bindings_shared|libcontent_common_mojo_bindings_shared|libdevice_vr_mojo_bindings|libdevice_vr_mojo_bindings_blink|libdevice_vr_mojo_bindings_shared|libgeneric_sensor_public_interfaces_shared|libheadless|libipc_mojom|libipc_mojom_shared|libpublic|libresource_coordinator_public_interfaces_internal_shared|libservice_manager_cpp|libservice_manager_cpp_types|libservice_manager_mojom|libservice_manager_mojom_constants|libservice_manager_mojom_constants_shared|libservice_manager_mojom_shared|libgfx_switches|libmetrics_cpp|libui_devtools|libviz_common|libwm_public|libblink_controller|libcontent_public_common_mojo_bindings_shared|libgfx_switches|libhost|libinterfaces_shared|libmetrics_cpp|libservice|libviz_common|libwm_public
@@ -106,10 +106,10 @@ BuildRequires:  libicu-devel >= 5.4
 %global api_key AIzaSyDUIXvzVrt5OkVsgXhQ6NFfvWlA44by-aw
 %global default_client_id 449907151817.apps.googleusercontent.com
 %global default_client_secret miEreAep8nuvTdvLums6qyLK
-%global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com 
+%global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	61.0.3163.91
+Version:	61.0.3163.100
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -272,7 +272,7 @@ BuildRequires:	libstdc++-devel, openssl-devel
 BuildRequires:	nacl-gcc, nacl-binutils, nacl-newlib
 BuildRequires:	nacl-arm-gcc, nacl-arm-binutils, nacl-arm-newlib
 # pNaCl needs this monster
-# It's possible that someday this dep will stabilize, but 
+# It's possible that someday this dep will stabilize, but
 # right now, it needs to be updated everytime chromium bumps
 # a major version.
 BuildRequires:	chromium-native_client >= 52.0.2743.82
@@ -568,7 +568,7 @@ Requires:	chromium-common%{_isa} = %{epoch}:%{version}-%{release}
 
 %description headless
 A minimal headless client built from Chromium. headless_shell is built
-without support for alsa, cups, dbus, gconf, gio, kerberos, pulseaudio, or 
+without support for alsa, cups, dbus, gconf, gio, kerberos, pulseaudio, or
 udev.
 
 %prep
@@ -1092,7 +1092,7 @@ export CHROMIUM_BROWSER_UNIT_TESTS=
 %endif
 
 # Now do the full browser
-# Do headless first.  
+# Do headless first.
 ninja -C %{headlesstarget} -vvv headless_shell
 
 ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates $CHROMIUM_BROWSER_UNIT_TESTS
@@ -1591,7 +1591,7 @@ update-desktop-database &> /dev/null || :
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %if %{build_remote_desktop}
-%pretrans -n chrome-remote-desktop -p <lua> 
+%pretrans -n chrome-remote-desktop -p <lua>
 path = "/etc/opt/chrome/native-messaging-hosts"
 st = posix.stat(path)
 if st and st.type == "link" then
@@ -1760,6 +1760,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Sep 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.100-1.R
+- update to 61.0.3163.100
+
 * Sat Sep 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.91-1.R
 - update to 61.0.3163.91
 
