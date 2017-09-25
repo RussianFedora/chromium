@@ -184,6 +184,7 @@ Patch52:	chromium-61.0.3163.79-MOAR-GCC-FIXES.patch
 # from gentoo
 Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
 # More gcc fixes for epel
+Patch54:        chromium-61.0.3163.79-gcc5-r1.patch
 Patch58:	chromium-61.0.3163.79-dde535-gcc-fix.patch
 Patch59:	chromium-61.0.3163.79-gcc-nc.patch
 # Epel compiler really does not like assigning nullptr to a StructPtr
@@ -200,6 +201,8 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 Patch500:	chromium-gn-bootstrap-r14.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-atk-r1.patch
 Patch502:	chromium-atk-r1.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gcc5-r1.patch
+Patch503:	chromium-gcc5-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -633,6 +636,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %if 0%{?rhel} == 7
 %patch46 -p1 -b .kmaxskip
 %patch47 -p1 -b .c99
+%patch54 -p1 -b .gcc5fix
 %patch58 -p1 -b .dde5e35
 %patch59 -p1 -b .gcc-nc
 %patch60 -p1 -b .nonullptr
