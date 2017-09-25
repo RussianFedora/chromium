@@ -1,7 +1,6 @@
-diff --git a/base/numerics/safe_math_shared_impl.h b/base/numerics/safe_math_shared_impl.h
-index 99f230ce7e9a..de2415d402f5 100644
---- a/base/numerics/safe_math_shared_impl.h
-+++ b/base/numerics/safe_math_shared_impl.h
+diff -up chromium-61.0.3163.79/base/numerics/safe_math_shared_impl.h.fixgcc3 chromium-61.0.3163.79/base/numerics/safe_math_shared_impl.h
+--- chromium-61.0.3163.79/base/numerics/safe_math_shared_impl.h.fixgcc3	2017-09-06 16:30:15.898454585 -0400
++++ chromium-61.0.3163.79/base/numerics/safe_math_shared_impl.h	2017-09-06 16:30:27.570229539 -0400
 @@ -21,8 +21,7 @@
  #if !defined(__native_client__) &&                         \
      ((defined(__clang__) &&                                \

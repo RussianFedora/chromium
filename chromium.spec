@@ -87,6 +87,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
 %global bundlelibwebp 1
+%global bundlelibpng 1
 %else
 %if 0%{?fedora} > 25
 %global bundleharfbuzz 0
@@ -97,6 +98,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundleopus 1
 %global bundlelibusbx 1
 %global bundlelibwebp 0
+%global bundlelibpng 0
 %endif
 
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
@@ -172,10 +174,22 @@ Patch43:       chromium-60.0.3112.78-jpeg-nomangle.patch
 # Do not mangle zlib
 Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 # Apply this change to work around EPEL7 compiler issues
-#Patch46:        chromium-60.0.3112.90-init-list-hack.patch
-Patch46:        vulkan-c99.patch
-# Fix WebKit layout to build with old gcc
-Patch47:        chromium-60.0.3112.78-fix-webkit-layout-build-with-g++.patch
+Patch46:        chromium-61.0.3163.79-kmaxskip-constexpr.patch
+Patch47:        chromium-60.0.3112.90-vulkan-force-c99.patch
+# https://chromium.googlesource.com/chromium/src/+/9c77470ff34bac937ceb765a27cee1703f0f2426
+Patch48:	chromium-60.0.3112.101-camfix.patch
+# more gcc fixes
+# https://chromium.googlesource.com/chromium/src.git/+/cbe6845263215e0f3981c2a4c7937dadb14bef0d%5E%21/#F0
+Patch52:	chromium-61.0.3163.79-MOAR-GCC-FIXES.patch
+# from gentoo
+Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
+# More gcc fixes for epel
+Patch58:	chromium-61.0.3163.79-dde535-gcc-fix.patch
+Patch59:	chromium-61.0.3163.79-gcc-nc.patch
+# Epel compiler really does not like assigning nullptr to a StructPtr
+Patch60:	chromium-61.0.3163.79-epel7-no-nullptr-assignment-on-StructPtr.patch
+# Another gcc 4.8 goods..
+Patch61:	chromium-61.0.3163.79-rvalue-fix.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -184,8 +198,6 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 ### Russian Fedora Patches ###
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r14.patch
 Patch500:	chromium-gn-bootstrap-r14.patch
-# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gcc-r1.patch
-Patch501:	chromium-gcc-r1.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-atk-r1.patch
 Patch502:	chromium-atk-r1.patch
 
@@ -303,7 +315,12 @@ BuildRequires:	vulkan-devel
 BuildRequires:	libicu-devel = 54.1
 %endif
 BuildRequires:	libjpeg-devel
+%if 0%{?bundlelibpng}
+# If this is true, we're using the bundled libpng
+# which we need to do because the RHEL 7 libpng doesn't work right anymore
+%else
 BuildRequires:	libpng-devel
+%endif
 %if 0
 # see https://code.google.com/p/chromium/issues/detail?id=501318
 BuildRequires:	libsrtp-devel >= 1.4.4
@@ -431,7 +448,9 @@ Provides: bundled(libevent) = 1.4.15
 Provides: bundled(libjingle) = 9564
 # Provides: bundled(libjpeg-turbo) = 1.4.90
 Provides: bundled(libphonenumber) = a4da30df63a097d67e3c429ead6790ad91d36cf4
+%if 0%{?bundlelibpng}
 Provides: bundled(libpng) = 1.6.22
+%endif
 Provides: bundled(libsrtp) = 1.5.2
 %if %{bundlelibusbx}
 Provides: bundled(libusbx) = 1.0.17
@@ -612,9 +631,17 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch43 -p1 -b .nomangle
 %patch45 -p1 -b .nozmangle
 %if 0%{?rhel} == 7
-%patch46 -p1 -b .oldgcc
-#%patch47 -p1 -b .fix-webkit-layout
+%patch46 -p1 -b .kmaxskip
+%patch47 -p1 -b .c99
+%patch58 -p1 -b .dde5e35
+%patch59 -p1 -b .gcc-nc
+%patch60 -p1 -b .nonullptr
+%patch61 -p1 -b .another-rvalue-fix
 %endif
+
+%patch48 -p1 -b .camfix
+%patch52 -p1 -b .fixgccagain
+%patch53 -p1 -b .nogccoptmath
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
@@ -622,7 +649,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .gn-bootstrap-r8
-%patch501 -p1 -b .gcc-r1
 %patch502 -p1 -b .atk-r1
 
 %if 0%{?asan}
@@ -967,7 +993,10 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %endif
 	libdrm \
 	libjpeg \
+%if %{bundlelibpng}
+%else
 	libpng \
+%endif
 %if %{bundlelibusbx}
 %else
 	libusb \
@@ -1762,6 +1791,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Fri Sep 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.100-1.R
 - update to 61.0.3163.100
+- lots of epel7 specific fixes
+- use bundled libpng on epel7
 
 * Sat Sep 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.91-1.R
 - update to 61.0.3163.91
