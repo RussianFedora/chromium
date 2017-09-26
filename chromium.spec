@@ -75,11 +75,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibxml 1
 
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
-%if 0%{?rhel} == 7
-%global gtk3 0
-%else
 %global gtk3 1
-%endif
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -1795,6 +1791,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 61.0.3163.100
 - lots of epel7 specific fixes
 - use bundled libpng on epel7
+- try to build with gtk3 for RHEL
 
 * Sat Sep 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.91-1.R
 - update to 61.0.3163.91
