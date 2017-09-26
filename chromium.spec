@@ -201,8 +201,6 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 Patch500:	chromium-gn-bootstrap-r14.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-atk-r1.patch
 Patch502:	chromium-atk-r1.patch
-# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gcc5-r1.patch
-Patch503:	chromium-gcc5-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
