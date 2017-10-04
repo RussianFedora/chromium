@@ -172,8 +172,6 @@ Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 # Apply this change to work around EPEL7 compiler issues
 Patch46:        chromium-61.0.3163.79-kmaxskip-constexpr.patch
 Patch47:        chromium-60.0.3112.90-vulkan-force-c99.patch
-# https://chromium.googlesource.com/chromium/src/+/9c77470ff34bac937ceb765a27cee1703f0f2426
-Patch48:	chromium-60.0.3112.101-camfix.patch
 # more gcc fixes
 # https://chromium.googlesource.com/chromium/src.git/+/cbe6845263215e0f3981c2a4c7937dadb14bef0d%5E%21/#F0
 Patch52:	chromium-61.0.3163.79-MOAR-GCC-FIXES.patch
@@ -637,7 +635,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch61 -p1 -b .another-rvalue-fix
 %endif
 
-%patch48 -p1 -b .camfix
 %patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
 
@@ -1787,6 +1784,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Oct  4 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.38-1.R
 - update to 62.0.3202.38
+- drop camfix patch
 
 * Fri Sep 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.100-1.R
 - update to 61.0.3163.100
