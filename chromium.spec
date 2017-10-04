@@ -932,6 +932,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/sfntly' \
 	'third_party/sinonjs' \
 	'third_party/skia' \
+	'third_party/skia/third_party/gif' \
+	'third_party/skia/third_party/vulkan' \
 	'third_party/smhasher' \
 	'third_party/spirv-headers' \
 	'third_party/spirv-tools-angle' \
