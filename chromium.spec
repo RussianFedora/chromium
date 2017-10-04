@@ -921,7 +921,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/pdfium/third_party/build' \
 	'third_party/pdfium/third_party/bigint' \
 	'third_party/pdfium/third_party/freetype' \
-	'third_party/pdfium/third_party/lcms2-2.6' \
 	'third_party/pdfium/third_party/libopenjpeg20' \
 	'third_party/pdfium/third_party/libpng16' \
 	'third_party/pdfium/third_party/libtiff' \
