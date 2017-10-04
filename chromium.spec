@@ -1676,7 +1676,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %files common
 %{chromium_path}/headless_lib.pak
-#%{chromium_path}/libosmesa.so
 %{chromium_path}/mus_app_resources_*.pak
 %{chromium_path}/pyproto/
 %{chromium_path}/resources/
@@ -1740,7 +1739,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %if 0%{?shared}
 %files libs
-#%exclude %{chromium_path}/libosmesa.so
 %exclude %{chromium_path}/libffmpeg.so*
 %exclude %{chromium_path}/libmedia.so*
 %exclude %{chromium_path}/libwidevinecdm.so*
