@@ -178,7 +178,7 @@ Patch52:	chromium-61.0.3163.79-MOAR-GCC-FIXES.patch
 # from gentoo
 Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
 # More gcc fixes for epel
-Patch54:        chromium-61.0.3163.79-gcc5-r3.patch
+Patch54:        chromium-gcc5-r3.patch
 Patch58:	chromium-61.0.3163.79-dde535-gcc-fix.patch
 Patch59:	chromium-61.0.3163.79-gcc-nc.patch
 # Epel compiler really does not like assigning nullptr to a StructPtr
