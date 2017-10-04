@@ -178,7 +178,7 @@ Patch52:	chromium-61.0.3163.79-MOAR-GCC-FIXES.patch
 # from gentoo
 Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
 # More gcc fixes for epel
-Patch54:        chromium-61.0.3163.79-gcc5-r1.patch
+Patch54:        chromium-61.0.3163.79-gcc5-r3.patch
 Patch58:	chromium-61.0.3163.79-dde535-gcc-fix.patch
 Patch59:	chromium-61.0.3163.79-gcc-nc.patch
 # Epel compiler really does not like assigning nullptr to a StructPtr
@@ -191,8 +191,8 @@ Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r14.patch
-Patch500:	chromium-gn-bootstrap-r14.patch
+# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
+Patch500:	chromium-gn-bootstrap-r17.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-atk-r1.patch
 Patch502:	chromium-atk-r1.patch
 
@@ -635,7 +635,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch61 -p1 -b .another-rvalue-fix
 %endif
 
-%patch52 -p1 -b .fixgccagain
+#%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
 
 ### Chromium Tests Patches ###
@@ -1785,6 +1785,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Wed Oct  4 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.38-1.R
 - update to 62.0.3202.38
 - drop camfix patch
+- update patches
 
 * Fri Sep 22 2017 Arkady L. Shane <ashejn@russianfedora.pro> 61.0.3163.100-1.R
 - update to 61.0.3163.100
