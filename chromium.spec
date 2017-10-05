@@ -867,6 +867,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/catapult/third_party/py_vulcanize/third_party/rjsmin' \
         'third_party/ced' \
 	'third_party/cld_2' \
+	'third_party/crc32c' \
 	'third_party/cros_system_api' \
 	'third_party/devscripts' \
 	'third_party/dom_distiller_js' \
