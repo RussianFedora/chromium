@@ -1,0 +1,12 @@
+diff -urN chromium-62.0.3202.45.orig/third_party/crc32c/BUILD.gn chromium-62.0.3202.45/third_party/crc32c/BUILD.gn
+--- chromium-62.0.3202.45.orig/third_party/crc32c/BUILD.gn	2017-10-05 13:29:34.925936703 +0300
++++ chromium-62.0.3202.45/third_party/crc32c/BUILD.gn	2017-10-05 16:20:39.020740969 +0300
+@@ -73,7 +73,7 @@
+     if (is_win && !is_clang) {
+       cflags = [ "/arch:AVX" ]
+     } else {
+-      cflags = [ "-msse4.2" ]
++      cflags = [ "-msse4.2 -std=gnu++17" ]
+     }
+   }
+ }
