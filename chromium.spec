@@ -170,7 +170,7 @@ Patch43:       chromium-60.0.3112.78-jpeg-nomangle.patch
 # Do not mangle zlib
 Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 # Apply this change to work around EPEL7 compiler issues
-Patch46:        chromium-61.0.3163.79-kmaxskip-constexpr.patch
+Patch46:        chromium-62.0.3202.45-kmaxskip-constexpr.patch
 Patch47:        chromium-60.0.3112.90-vulkan-force-c99.patch
 # more gcc fixes
 # https://chromium.googlesource.com/chromium/src.git/+/cbe6845263215e0f3981c2a4c7937dadb14bef0d%5E%21/#F0
@@ -1785,6 +1785,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Oct  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.45-1.R
 - update to 62.0.3202.45
+- update kmaxskip-constexpr patch
 
 * Wed Oct  4 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.38-1.R
 - update to 62.0.3202.38
