@@ -647,6 +647,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 export CC="clang"
 export CXX="clang++"
 %else
+%if 0%{?fedora} > 26
+export CXXFLAGS="%{optflags} -std=c++17"
+%endif
 export CC="gcc"
 export CXX="g++"
 %endif
