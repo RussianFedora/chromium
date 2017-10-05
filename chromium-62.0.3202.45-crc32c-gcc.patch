@@ -6,7 +6,7 @@ diff -urN chromium-62.0.3202.45.orig/third_party/crc32c/BUILD.gn chromium-62.0.3
        cflags = [ "/arch:AVX" ]
      } else {
 -      cflags = [ "-msse4.2" ]
-+      cflags = [ "-msse4.2 -std=gnu++17" ]
++      cflags = [ "-msse4.2 --std=gnu++17" ]
      }
    }
  }
