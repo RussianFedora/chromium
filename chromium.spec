@@ -180,7 +180,7 @@ Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
 # More gcc fixes for epel
 Patch54:        chromium-gcc5-r3.patch
 Patch58:	chromium-61.0.3163.79-dde535-gcc-fix.patch
-Patch59:	chromium-61.0.3163.79-gcc-nc.patch
+Patch59:	chromium-62.0.3202.45-gcc-nc.patch
 # Epel compiler really does not like assigning nullptr to a StructPtr
 Patch60:	chromium-61.0.3163.79-epel7-no-nullptr-assignment-on-StructPtr.patch
 # Another gcc 4.8 goods..
@@ -193,7 +193,7 @@ Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 ### Russian Fedora Patches ###
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
 Patch500:	chromium-gn-bootstrap-r17.patch
-Patch501:	chromium-62.0.3202.45-crc32c-gcc.patch
+Patch501:	chromium-62.0.3202.45-std++17.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -643,7 +643,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .gn-bootstrap-r8
-%patch501 -p1 -b .crc32-gcc
+%patch501 -p1 -b .std++17
 
 %if 0%{?asan}
 export CC="clang"
@@ -1785,6 +1785,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Thu Oct  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.45-1.R
 - update to 62.0.3202.45
 - update kmaxskip-constexpr patch
+- use std++17 standart
 
 * Wed Oct  4 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.38-1.R
 - update to 62.0.3202.38

@@ -1,0 +1,21 @@
+diff -urN chromium-62.0.3202.45.orig/build/config/compiler/BUILD.gn chromium-62.0.3202.45/build/config/compiler/BUILD.gn
+--- chromium-62.0.3202.45.orig/build/config/compiler/BUILD.gn	2017-10-05 13:28:41.392280738 +0300
++++ chromium-62.0.3202.45/build/config/compiler/BUILD.gn	2017-10-06 13:24:49.383236618 +0300
+@@ -472,7 +472,7 @@
+       # Override Chromium's default for projects that wish to stay on C++11.
+       cflags_cc += [ "-std=gnu++11" ]
+     } else {
+-      cflags_cc += [ "-std=gnu++14" ]
++      cflags_cc += [ "-std=gnu++17" ]
+     }
+   } else if (!is_win && !is_nacl) {
+     if (target_os == "android") {
+@@ -489,7 +489,7 @@
+     if (cxx11_override) {
+       cflags_cc += [ "-std=c++11" ]
+     } else {
+-      cflags_cc += [ "-std=c++14" ]
++      cflags_cc += [ "-std=c++17" ]
+     }
+   }
+ 
