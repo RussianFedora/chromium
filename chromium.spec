@@ -184,7 +184,7 @@ Patch59:	chromium-62.0.3202.45-gcc-nc.patch
 # Epel compiler really does not like assigning nullptr to a StructPtr
 Patch60:	chromium-61.0.3163.79-epel7-no-nullptr-assignment-on-StructPtr.patch
 # Another gcc 4.8 goods..
-Patch61:	chromium-61.0.3163.79-rvalue-fix.patch
+Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
