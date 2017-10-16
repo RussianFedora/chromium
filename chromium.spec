@@ -107,7 +107,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	62.0.3202.45
+Version:	62.0.3202.52
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1782,6 +1782,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Mon Oct 16 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.52-1.R
+- update to 62.0.3202.52
+
 * Thu Oct  5 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.45-1.R
 - update to 62.0.3202.45
 - update kmaxskip-constexpr patch
