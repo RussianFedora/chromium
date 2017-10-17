@@ -914,6 +914,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/modp_b64' \
 	'third_party/mt19937ar' \
 	'third_party/node' \
+	'third_party/node/node_modules/polymer-bundler/lib/third_party/UglifyJS2' \
 	'third_party/openmax_dl' \
 	'third_party/opus' \
 	'third_party/ots' \
