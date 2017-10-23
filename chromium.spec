@@ -645,6 +645,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch500 -p1 -b .gn-bootstrap-r8
 %patch501 -p1 -b .std++17
 
+sed -i 's@use_cxx11 = false@use_cxx11 = true@g' \
+	build/config/compiler/BUILD.gn
+
 %if 0%{?asan}
 export CC="clang"
 export CXX="clang++"
@@ -756,9 +759,6 @@ CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 %ifarch x86_64
 CHROMIUM_CORE_GN_DEFINES+=' system_libdir="lib64"'
 %endif
-%if 0%{?rhel} == 7
-CHROMIUM_CORE_GN_DEFINES+=' use_cxx11=true'
-%endif
 CHROMIUM_CORE_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
 CHROMIUM_CORE_GN_DEFINES+=' is_clang=false use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true  use_custom_libcxx=false'
 %if %{freeworld}
@@ -787,10 +787,6 @@ CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
 %endif
-%if 0%{?rhel} == 7
-CHROMIUM_BROWSER_GN_DEFINES+=' use_cxx11=true'
-%endif
-
 export CHROMIUM_BROWSER_GN_DEFINES
 
 CHROMIUM_HEADLESS_GN_DEFINES=""
@@ -799,10 +795,6 @@ CHROMIUM_HEADLESS_GN_DEFINES+=' headless_use_embedded_resources=true icu_use_dat
 CHROMIUM_HEADLESS_GN_DEFINES+=' enable_nacl=false enable_print_preview=false enable_remoting=false use_alsa=false use_ash=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_cups=false use_dbus=false use_gconf=false use_gio=false use_kerberos=false use_libpci=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_pulseaudio=false use_udev=false'
-%if 0%{?rhel} == 7
-CHROMIUM_HEADLESS_GN_DEFINES+=' use_cxx11=true'
-%endif
-
 export CHROMIUM_HEADLESS_GN_DEFINES
 
 # Remove most of the bundled libraries. Libraries specified below (taken from
