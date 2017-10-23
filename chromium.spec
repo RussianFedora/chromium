@@ -756,6 +756,9 @@ CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 %ifarch x86_64
 CHROMIUM_CORE_GN_DEFINES+=' system_libdir="lib64"'
 %endif
+%if 0%{?rhel} == 7
+CHROMIUM_CORE_GN_DEFINES+=' use_cxx11=true'
+%endif
 CHROMIUM_CORE_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
 CHROMIUM_CORE_GN_DEFINES+=' is_clang=false use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true  use_custom_libcxx=false'
 %if %{freeworld}
