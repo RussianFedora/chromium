@@ -109,9 +109,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	62.0.3202.62
 %if 0%{?rhel} == 7
-Release:	1%{?dist}
+Release:	2%{?dist}
 %else
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -784,6 +784,10 @@ CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
 %endif
+%if 0%{?rhel} == 7
+CHROMIUM_BROWSER_GN_DEFINES+=' use_cxx11=true'
+%endif
+
 export CHROMIUM_BROWSER_GN_DEFINES
 
 CHROMIUM_HEADLESS_GN_DEFINES=""
@@ -792,6 +796,10 @@ CHROMIUM_HEADLESS_GN_DEFINES+=' headless_use_embedded_resources=true icu_use_dat
 CHROMIUM_HEADLESS_GN_DEFINES+=' enable_nacl=false enable_print_preview=false enable_remoting=false use_alsa=false use_ash=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_cups=false use_dbus=false use_gconf=false use_gio=false use_kerberos=false use_libpci=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_pulseaudio=false use_udev=false'
+%if 0%{?rhel} == 7
+CHROMIUM_HEADLESS_GN_DEFINES+=' use_cxx11=true'
+%endif
+
 export CHROMIUM_HEADLESS_GN_DEFINES
 
 # Remove most of the bundled libraries. Libraries specified below (taken from
@@ -1784,6 +1792,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Mon Oct 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.62-2.R
+- use flag use_cxx11 = true for RHEL 7
+
 * Wed Oct 18 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.62-1.R
 - update to 62.0.3202.62
 - patch crc32c sources instead of use c++17 everywere
