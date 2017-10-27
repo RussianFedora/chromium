@@ -212,8 +212,6 @@ Source0:	chromium-%{version}-clean.tar.xz
 %if 0%{tests}
 Source1:	https://commondatastorage.googleapis.com/chromium-browser-official/chromium-%{version}-testdata.tar.xz
 %endif
-# https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
-#Source2:	https://chromium.googlesource.com/chromium/tools/depot_tools.git/+archive/de00a2d243886e5c9e20f10c5a35db74c6b1b0d5.tar.gz#/depot_tools.git-master.tar.gz
 Source3:	chromium-browser.sh
 Source4:	%{chromium_browser_channel}.desktop
 # Also, only used if you want to reproduce the clean tarball.
@@ -225,7 +223,6 @@ Source7:	get_free_ffmpeg_source_files.py
 Source8:	get_linux_tests_names.py
 # GNOME stuff
 Source9:	chromium-browser.xml
-Source10:	https://dl.google.com/dl/edgedl/chrome/policy/policy_templates.zip
 Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
 
@@ -589,8 +586,6 @@ without support for alsa, cups, dbus, gconf, gio, kerberos, pulseaudio, or
 udev.
 
 %prep
-%setup -q -T -c -n %{name}-policies -a 10
-#%setup -q -T -c -n depot_tools -a 2
 %if 0%{tests}
 %setup -q -n chromium-%{version} -b 1
 %else
@@ -769,7 +764,7 @@ CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
 %else
 CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
 %endif
-CHROMIUM_CORE_GN_DEFINES+=' treat_warnings_as_errors=false'
+CHROMIUM_CORE_GN_DEFINES+=' treat_warnings_as_errors=false linux_use_bundled_binutils=false use_custom_libcxx=false'
 export CHROMIUM_CORE_GN_DEFINES
 
 CHROMIUM_BROWSER_GN_DEFINES=""
@@ -1261,10 +1256,8 @@ sed -i 's|@@CRD_PATH@@|%{crd_path}|g' %{buildroot}%{_unitdir}/chrome-remote-desk
 # Add directories for policy management
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/policies/managed
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/policies/recommended
-cp -a ../%{name}-policies/common/html/en-US/*.html .
 
-# linux json files no longer in .zip file
-#cp -a ../%{name}-policies/linux/examples/*.json .
+cp -a out/Release/gen/chrome/app/policy/common/html/en-US/*.html .
 cp -a out/Release/gen/chrome/app/policy/linux/examples/chrome.json .
 
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
