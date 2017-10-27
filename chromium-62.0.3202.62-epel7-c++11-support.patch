@@ -1,0 +1,1980 @@
+diff -up chromium-62.0.3202.62/base/bind_helpers.h.epel7-c++11 chromium-62.0.3202.62/base/bind_helpers.h
+--- chromium-62.0.3202.62/base/bind_helpers.h.epel7-c++11	2017-10-25 08:50:15.692276363 -0400
++++ chromium-62.0.3202.62/base/bind_helpers.h	2017-10-25 09:12:15.889484145 -0400
+@@ -282,7 +282,7 @@ class PassedWrapper {
+ };
+ 
+ template <typename T>
+-using Unwrapper = BindUnwrapTraits<std::decay_t<T>>;
++using Unwrapper = BindUnwrapTraits<typename std::decay<T>::type>;
+ 
+ template <typename T>
+ auto Unwrap(T&& o) -> decltype(Unwrapper<T>::Unwrap(std::forward<T>(o))) {
+@@ -438,7 +438,7 @@ static inline internal::OwnedWrapper<T>
+ // Both versions of Passed() prevent T from being an lvalue reference. The first
+ // via use of enable_if, and the second takes a T* which will not bind to T&.
+ template <typename T,
+-          std::enable_if_t<!std::is_lvalue_reference<T>::value>* = nullptr>
++          typename std::enable_if<!std::is_lvalue_reference<T>::value>::type* = nullptr>
+ static inline internal::PassedWrapper<T> Passed(T&& scoper) {
+   return internal::PassedWrapper<T>(std::move(scoper));
+ }
+@@ -537,9 +537,9 @@ template <typename Functor, typename...
+ struct CallbackCancellationTraits<
+     Functor,
+     std::tuple<BoundArgs...>,
+-    std::enable_if_t<
++    typename std::enable_if<
+         internal::IsWeakMethod<internal::FunctorTraits<Functor>::is_method,
+-                               BoundArgs...>::value>> {
++                               BoundArgs...>::value>::type> {
+   static constexpr bool is_cancellable = true;
+ 
+   template <typename Receiver, typename... Args>
+diff -up chromium-62.0.3202.62/base/bind.h.epel7-c++11 chromium-62.0.3202.62/base/bind.h
+--- chromium-62.0.3202.62/base/bind.h.epel7-c++11	2017-10-25 08:55:22.603877014 -0400
++++ chromium-62.0.3202.62/base/bind.h	2017-10-25 10:12:28.753008563 -0400
+@@ -7,6 +7,8 @@
+ 
+ #include <utility>
+ 
++#include "third_party/tao/seq/integer_sequence.hpp"
++#include "third_party/tao/seq/make_integer_sequence.hpp"
+ #include "base/bind_internal.h"
+ 
+ // -----------------------------------------------------------------------------
+@@ -53,7 +55,7 @@ struct AssertConstructible {
+   // reference with repeating callbacks--is used instead of base::Passed().
+   static_assert(
+       param_is_forwardable ||
+-          !std::is_constructible<Param, std::decay_t<Unwrapped>&&>::value,
++          !std::is_constructible<Param, typename std::decay<Unwrapped>::type&&>::value,
+       "Bound argument |i| is move-only but will be forwarded by copy. "
+       "Ensure |Arg| is bound using base::Passed(), not std::move().");
+   static_assert(
+@@ -64,7 +66,7 @@ struct AssertConstructible {
+   static constexpr bool arg_is_storable =
+       std::is_constructible<Storage, Arg>::value;
+   static_assert(arg_is_storable ||
+-                    !std::is_constructible<Storage, std::decay_t<Arg>&&>::value,
++                    !std::is_constructible<Storage, typename std::decay<Arg>::type&&>::value,
+                 "Bound argument |i| is move-only but will be bound by copy. "
+                 "Ensure |Arg| is mutable and bound using std::move().");
+   static_assert(arg_is_storable,
+@@ -84,11 +86,11 @@ template <size_t... Ns,
+           typename... Args,
+           typename... Unwrapped,
+           typename... Params>
+-struct AssertBindArgsValidity<std::index_sequence<Ns...>,
++struct AssertBindArgsValidity<tao::seq::index_sequence<Ns...>,
+                               TypeList<Args...>,
+                               TypeList<Unwrapped...>,
+                               TypeList<Params...>>
+-    : AssertConstructible<Ns, Args, std::decay_t<Args>, Unwrapped, Params>... {
++    : AssertConstructible<Ns, Args, typename std::decay<Args>::type, Unwrapped, Params>... {
+   static constexpr bool ok = true;
+ };
+ 
+@@ -98,14 +100,14 @@ struct TransformToUnwrappedTypeImpl;
+ 
+ template <typename T>
+ struct TransformToUnwrappedTypeImpl<true, T> {
+-  using StoredType = std::decay_t<T>;
++  using StoredType = typename std::decay<T>::type;
+   using ForwardType = StoredType&&;
+   using Unwrapped = decltype(Unwrap(std::declval<ForwardType>()));
+ };
+ 
+ template <typename T>
+ struct TransformToUnwrappedTypeImpl<false, T> {
+-  using StoredType = std::decay_t<T>;
++  using StoredType = typename std::decay<T>::type;
+   using ForwardType = const StoredType&;
+   using Unwrapped = decltype(Unwrap(std::declval<ForwardType>()));
+ };
+@@ -153,7 +155,7 @@ using MakeUnwrappedTypeList =
+ template <typename Functor, typename... Args>
+ inline OnceCallback<MakeUnboundRunType<Functor, Args...>>
+ BindOnce(Functor&& functor, Args&&... args) {
+-  static_assert(!internal::IsOnceCallback<std::decay_t<Functor>>() ||
++  static_assert(!internal::IsOnceCallback<typename std::decay<Functor>::type>() ||
+                     (std::is_rvalue_reference<Functor&&>() &&
+                      !std::is_const<std::remove_reference_t<Functor>>()),
+                 "BindOnce requires non-const rvalue for OnceCallback binding."
+@@ -170,7 +172,7 @@ BindOnce(Functor&& functor, Args&&... ar
+                                       Args&&...>;
+   using BoundParamsList = typename Helper::BoundParamsList;
+   static_assert(internal::AssertBindArgsValidity<
+-                    std::make_index_sequence<Helper::num_bounds>, BoundArgsList,
++                    tao::seq::make_index_sequence<Helper::num_bounds>, BoundArgsList,
+                     UnwrappedArgsList, BoundParamsList>::ok,
+                 "The bound args need to be convertible to the target params.");
+ 
+@@ -197,7 +199,7 @@ template <typename Functor, typename...
+ inline RepeatingCallback<MakeUnboundRunType<Functor, Args...>>
+ BindRepeating(Functor&& functor, Args&&... args) {
+   static_assert(
+-      !internal::IsOnceCallback<std::decay_t<Functor>>(),
++      !internal::IsOnceCallback<typename std::decay<Functor>::type>(),
+       "BindRepeating cannot bind OnceCallback. Use BindOnce with std::move().");
+ 
+   // This block checks if each |args| matches to the corresponding params of the
+@@ -211,7 +213,7 @@ BindRepeating(Functor&& functor, Args&&.
+                                       Args&&...>;
+   using BoundParamsList = typename Helper::BoundParamsList;
+   static_assert(internal::AssertBindArgsValidity<
+-                    std::make_index_sequence<Helper::num_bounds>, BoundArgsList,
++                    tao::seq::make_index_sequence<Helper::num_bounds>, BoundArgsList,
+                     UnwrappedArgsList, BoundParamsList>::ok,
+                 "The bound args need to be convertible to the target params.");
+ 
+diff -up chromium-62.0.3202.62/base/bind_internal.h.epel7-c++11 chromium-62.0.3202.62/base/bind_internal.h
+--- chromium-62.0.3202.62/base/bind_internal.h.epel7-c++11	2017-10-25 08:52:20.018873878 -0400
++++ chromium-62.0.3202.62/base/bind_internal.h	2017-10-25 10:14:03.619256659 -0400
+@@ -15,6 +15,8 @@
+ #include "base/memory/raw_scoped_refptr_mismatch_checker.h"
+ #include "base/memory/weak_ptr.h"
+ #include "base/template_util.h"
++#include "third_party/tao/seq/integer_sequence.hpp"
++#include "third_party/tao/seq/make_integer_sequence.hpp"
+ #include "build/build_config.h"
+ 
+ namespace base {
+@@ -98,9 +100,9 @@ struct HasRefCountedTypeAsRawPtr : std::
+ // parameters recursively.
+ template <typename T, typename... Args>
+ struct HasRefCountedTypeAsRawPtr<T, Args...>
+-    : std::conditional_t<NeedsScopedRefptrButGetsRawPtr<T>::value,
++    : typedef std::conditional<NeedsScopedRefptrButGetsRawPtr<T>::value,
+                          std::true_type,
+-                         HasRefCountedTypeAsRawPtr<Args...>> {};
++                         HasRefCountedTypeAsRawPtr<Args...>::type> {};
+ 
+ // ForceVoidReturn<>
+ //
+@@ -125,7 +127,7 @@ struct FunctorTraits;
+ // to the function type while capturing lambdas can't.
+ template <typename Functor>
+ struct FunctorTraits<Functor,
+-                     std::enable_if_t<IsConvertibleToRunType<Functor>::value>> {
++                     typename std::enable_if<IsConvertibleToRunType<Functor>::value>::type> {
+   using RunType = ExtractCallableRunType<Functor>;
+   static constexpr bool is_method = false;
+   static constexpr bool is_nullable = false;
+@@ -256,7 +258,7 @@ struct FunctorTraits<RepeatingCallback<R
+ };
+ 
+ template <typename Functor>
+-using MakeFunctorTraits = FunctorTraits<std::decay_t<Functor>>;
++using MakeFunctorTraits = FunctorTraits<typename std::decay<Functor>::type>;
+ 
+ // InvokeHelper<>
+ //
+@@ -317,7 +319,7 @@ struct Invoker<StorageType, R(UnboundArg
+         std::tuple_size<decltype(storage->bound_args_)>::value;
+     return RunImpl(std::move(storage->functor_),
+                    std::move(storage->bound_args_),
+-                   std::make_index_sequence<num_bound_args>(),
++                   tao::seq::make_index_sequence<num_bound_args>(),
+                    std::forward<UnboundArgs>(unbound_args)...);
+   }
+ 
+@@ -329,7 +331,7 @@ struct Invoker<StorageType, R(UnboundArg
+     static constexpr size_t num_bound_args =
+         std::tuple_size<decltype(storage->bound_args_)>::value;
+     return RunImpl(storage->functor_, storage->bound_args_,
+-                   std::make_index_sequence<num_bound_args>(),
++                   tao::seq::make_index_sequence<num_bound_args>(),
+                    std::forward<UnboundArgs>(unbound_args)...);
+   }
+ 
+@@ -337,11 +339,11 @@ struct Invoker<StorageType, R(UnboundArg
+   template <typename Functor, typename BoundArgsTuple, size_t... indices>
+   static inline R RunImpl(Functor&& functor,
+                           BoundArgsTuple&& bound,
+-                          std::index_sequence<indices...>,
++                          tao::seq::index_sequence<indices...>,
+                           UnboundArgs&&... unbound_args) {
+     static constexpr bool is_method = MakeFunctorTraits<Functor>::is_method;
+ 
+-    using DecayedArgsTuple = std::decay_t<BoundArgsTuple>;
++    using DecayedArgsTuple = typename std::decay<BoundArgsTuple>::type;
+     static constexpr bool is_weak_call =
+         IsWeakMethod<is_method,
+                      std::tuple_element_t<indices, DecayedArgsTuple>...>();
+@@ -383,13 +385,13 @@ struct BindTypeHelper {
+ };
+ 
+ template <typename Functor>
+-std::enable_if_t<FunctorTraits<Functor>::is_nullable, bool> IsNull(
++typename std::enable_if<FunctorTraits<Functor>::is_nullable, bool>::type IsNull(
+     const Functor& functor) {
+   return !functor;
+ }
+ 
+ template <typename Functor>
+-std::enable_if_t<!FunctorTraits<Functor>::is_nullable, bool> IsNull(
++typename std::enable_if<!FunctorTraits<Functor>::is_nullable, bool>::type IsNull(
+     const Functor&) {
+   return false;
+ }
+@@ -398,7 +400,7 @@ std::enable_if_t<!FunctorTraits<Functor>
+ template <typename Functor, typename BoundArgsTuple, size_t... indices>
+ bool ApplyCancellationTraitsImpl(const Functor& functor,
+                                  const BoundArgsTuple& bound_args,
+-                                 std::index_sequence<indices...>) {
++                                 tao::seq::index_sequence<indices...>) {
+   return CallbackCancellationTraits<Functor, BoundArgsTuple>::IsCancelled(
+       functor, std::get<indices>(bound_args)...);
+ }
+@@ -412,7 +414,7 @@ bool ApplyCancellationTraits(const BindS
+       std::tuple_size<decltype(storage->bound_args_)>::value;
+   return ApplyCancellationTraitsImpl(
+       storage->functor_, storage->bound_args_,
+-      std::make_index_sequence<num_bound_args>());
++      tao::seq::make_index_sequence<num_bound_args>());
+ };
+ 
+ // BindState<>
+@@ -479,33 +481,33 @@ struct MakeBindStateTypeImpl;
+ 
+ template <typename Functor, typename... BoundArgs>
+ struct MakeBindStateTypeImpl<false, Functor, BoundArgs...> {
+-  static_assert(!HasRefCountedTypeAsRawPtr<std::decay_t<BoundArgs>...>::value,
++  static_assert(!HasRefCountedTypeAsRawPtr<typename std::decay<BoundArgs>::type...>::value,
+                 "A parameter is a refcounted type and needs scoped_refptr.");
+-  using Type = BindState<std::decay_t<Functor>, std::decay_t<BoundArgs>...>;
++  using Type = BindState<typename std::decay<Functor>::type, typename std::decay<BoundArgs>::type...>;
+ };
+ 
+ template <typename Functor>
+ struct MakeBindStateTypeImpl<true, Functor> {
+-  using Type = BindState<std::decay_t<Functor>>;
++  using Type = BindState<typename std::decay<Functor>::type>;
+ };
+ 
+ template <typename Functor, typename Receiver, typename... BoundArgs>
+ struct MakeBindStateTypeImpl<true, Functor, Receiver, BoundArgs...> {
+   static_assert(!std::is_array<std::remove_reference_t<Receiver>>::value,
+                 "First bound argument to a method cannot be an array.");
+-  static_assert(!HasRefCountedTypeAsRawPtr<std::decay_t<BoundArgs>...>::value,
++  static_assert(!HasRefCountedTypeAsRawPtr<typename std::decay<BoundArgs>::type...>::value,
+                 "A parameter is a refcounted type and needs scoped_refptr.");
+ 
+  private:
+-  using DecayedReceiver = std::decay_t<Receiver>;
++  using DecayedReceiver = typename std::decay<Receiver>::type;
+ 
+  public:
+   using Type = BindState<
+-      std::decay_t<Functor>,
+-      std::conditional_t<std::is_pointer<DecayedReceiver>::value,
++      typename std::decay<Functor>::type,
++      typename std::conditional<std::is_pointer<DecayedReceiver>::value,
+                          scoped_refptr<std::remove_pointer_t<DecayedReceiver>>,
+-                         DecayedReceiver>,
+-      std::decay_t<BoundArgs>...>;
++                         DecayedReceiver>::type,
++      typename std::decay<BoundArgs>::type...>;
+ };
+ 
+ template <typename Functor, typename... BoundArgs>
+diff -up chromium-62.0.3202.62/base/containers/span.h.epel7-c++11 chromium-62.0.3202.62/base/containers/span.h
+--- chromium-62.0.3202.62/base/containers/span.h.epel7-c++11	2017-10-25 08:51:25.260372472 -0400
++++ chromium-62.0.3202.62/base/containers/span.h	2017-10-25 09:13:53.035964265 -0400
+@@ -27,7 +27,7 @@ template <typename T>
+ struct IsSpanImpl<span<T>> : std::true_type {};
+ 
+ template <typename T>
+-using IsSpan = IsSpanImpl<std::decay_t<T>>;
++using IsSpan = IsSpanImpl<typename std::decay<T>::type>;
+ 
+ template <typename T>
+ struct IsStdArrayImpl : std::false_type {};
+@@ -36,7 +36,7 @@ template <typename T, size_t N>
+ struct IsStdArrayImpl<std::array<T, N>> : std::true_type {};
+ 
+ template <typename T>
+-using IsStdArray = IsStdArrayImpl<std::decay_t<T>>;
++using IsStdArray = IsStdArrayImpl<typename std::decay<T>::type>;
+ 
+ template <typename From, typename To>
+ using IsLegalSpanConversion = std::is_convertible<From*, To*>;
+@@ -51,7 +51,7 @@ using ContainerHasIntegralSize =
+ 
+ template <typename From, typename To>
+ using EnableIfLegalSpanConversion =
+-    std::enable_if_t<IsLegalSpanConversion<From, To>::value>;
++    typename std::enable_if<IsLegalSpanConversion<From, To>::value>::type;
+ 
+ // SFINAE check if Container can be converted to a span<T>. Note that the
+ // implementation details of this check differ slightly from the requirements in
+@@ -67,18 +67,18 @@ using EnableIfLegalSpanConversion =
+ // container.
+ template <typename Container, typename T>
+ using EnableIfSpanCompatibleContainer =
+-    std::enable_if_t<!internal::IsSpan<Container>::value &&
++    typename std::enable_if<!internal::IsSpan<Container>::value &&
+                      !internal::IsStdArray<Container>::value &&
+                      ContainerHasConvertibleData<Container, T>::value &&
+-                     ContainerHasIntegralSize<Container>::value>;
++                     ContainerHasIntegralSize<Container>::value>::type;
+ 
+ template <typename Container, typename T>
+ using EnableIfConstSpanCompatibleContainer =
+-    std::enable_if_t<std::is_const<T>::value &&
++    typename std::enable_if<std::is_const<T>::value &&
+                      !internal::IsSpan<Container>::value &&
+                      !internal::IsStdArray<Container>::value &&
+                      ContainerHasConvertibleData<Container, T>::value &&
+-                     ContainerHasIntegralSize<Container>::value>;
++                     ContainerHasIntegralSize<Container>::value>::type;
+ 
+ }  // namespace internal
+ 
+diff -up chromium-62.0.3202.62/base/tuple.h.epel7-c++11 chromium-62.0.3202.62/base/tuple.h
+--- chromium-62.0.3202.62/base/tuple.h.epel7-c++11	2017-10-25 10:09:22.986397329 -0400
++++ chromium-62.0.3202.62/base/tuple.h	2017-10-25 10:11:00.392571745 -0400
+@@ -29,6 +29,7 @@
+ #include <tuple>
+ #include <utility>
+ 
++#include "third_party/tao/seq/integer_sequence.hpp"
+ #include "build/build_config.h"
+ 
+ namespace base {
+@@ -52,7 +53,7 @@ template <typename ObjT, typename Method
+ inline void DispatchToMethodImpl(const ObjT& obj,
+                                  Method method,
+                                  Tuple&& args,
+-                                 std::index_sequence<Ns...>) {
++                                 tao::seq::index_sequence<Ns...>) {
+   (obj->*method)(std::get<Ns>(std::forward<Tuple>(args))...);
+ }
+ 
+@@ -69,7 +70,7 @@ inline void DispatchToMethod(const ObjT&
+ template <typename Function, typename Tuple, size_t... Ns>
+ inline void DispatchToFunctionImpl(Function function,
+                                    Tuple&& args,
+-                                   std::index_sequence<Ns...>) {
++                                   tao::seq::index_sequence<Ns...>) {
+   (*function)(std::get<Ns>(std::forward<Tuple>(args))...);
+ }
+ 
+@@ -91,8 +92,8 @@ inline void DispatchToMethodImpl(const O
+                                  Method method,
+                                  InTuple&& in,
+                                  OutTuple* out,
+-                                 std::index_sequence<InNs...>,
+-                                 std::index_sequence<OutNs...>) {
++                                 tao::seq::index_sequence<InNs...>,
++                                 tao::seq::index_sequence<OutNs...>) {
+   (obj->*method)(std::get<InNs>(std::forward<InTuple>(in))...,
+                  &std::get<OutNs>(*out)...);
+ }
+diff -up chromium-62.0.3202.62/components/login/base_screen_handler_utils.h.epel7-c++11 chromium-62.0.3202.62/components/login/base_screen_handler_utils.h
+--- chromium-62.0.3202.62/components/login/base_screen_handler_utils.h.epel7-c++11	2017-10-25 10:14:43.493099988 -0400
++++ chromium-62.0.3202.62/components/login/base_screen_handler_utils.h	2017-10-25 10:15:17.679108311 -0400
+@@ -17,6 +17,7 @@
+ #include "base/values.h"
+ #include "components/login/login_export.h"
+ #include "components/signin/core/account_id/account_id.h"
++#include "third_party/tao/seq/integer_sequence.hpp"
+ 
+ namespace login {
+ 
+@@ -86,7 +87,7 @@ typename UnwrapConstRef<Arg>::Type Parse
+ template <typename... Args, size_t... Ns>
+ inline void DispatchToCallback(const base::Callback<void(Args...)>& callback,
+                                const base::ListValue* args,
+-                               std::index_sequence<Ns...> indexes) {
++                               tao::seq::index_sequence<Ns...> indexes) {
+   DCHECK(args);
+   DCHECK_EQ(sizeof...(Args), args->GetSize());
+ 
+@@ -96,7 +97,7 @@ inline void DispatchToCallback(const bas
+ template <typename... Args>
+ void CallbackWrapper(const base::Callback<void(Args...)>& callback,
+                      const base::ListValue* args) {
+-  DispatchToCallback(callback, args, std::index_sequence_for<Args...>());
++  DispatchToCallback(callback, args, tao::seq::index_sequence_for<Args...>());
+ }
+ 
+ 
+diff -up chromium-62.0.3202.62/ipc/ipc_message_templates.h.epel7-c++11 chromium-62.0.3202.62/ipc/ipc_message_templates.h
+--- chromium-62.0.3202.62/ipc/ipc_message_templates.h.epel7-c++11	2017-10-25 09:15:02.382879317 -0400
++++ chromium-62.0.3202.62/ipc/ipc_message_templates.h	2017-10-25 10:16:41.889665510 -0400
+@@ -17,11 +17,13 @@
+ #include "build/build_config.h"
+ #include "ipc/ipc_message.h"
+ #include "ipc/ipc_message_utils.h"
++#include "third_party/tao/seq/integer_sequence.hpp"
++#include "third_party/tao/seq/make_integer_sequence.hpp"
+ 
+ namespace IPC {
+ 
+ template <typename Tuple, size_t... Ns>
+-auto TupleForwardImpl(Tuple&& tuple, std::index_sequence<Ns...>) -> decltype(
++auto TupleForwardImpl(Tuple&& tuple, tao::seq::index_sequence<Ns...>) -> decltype(
+     std::forward_as_tuple(std::get<Ns>(std::forward<Tuple>(tuple))...)) {
+   return std::forward_as_tuple(std::get<Ns>(std::forward<Tuple>(tuple))...);
+ }
+@@ -38,10 +40,10 @@ auto TupleForwardImpl(Tuple&& tuple, std
+ template <typename Tuple>
+ auto TupleForward(Tuple&& tuple) -> decltype(TupleForwardImpl(
+     std::forward<Tuple>(tuple),
+-    std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>())) {
++    tao::seq::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>())) {
+   return TupleForwardImpl(
+       std::forward<Tuple>(tuple),
+-      std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>());
++      tao::seq::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>());
+ }
+ 
+ // This function is for all the async IPCs that don't pass an extra parameter
+@@ -60,21 +62,21 @@ void DispatchToMethodImpl(ObjT* obj,
+                           Method method,
+                           P* parameter,
+                           Tuple&& tuple,
+-                          std::index_sequence<Ns...>) {
++                          tao::seq::index_sequence<Ns...>) {
+   (obj->*method)(parameter, std::get<Ns>(std::forward<Tuple>(tuple))...);
+ }
+ 
+ // The following function is for async IPCs which have a dispatcher with an
+ // extra parameter specified using IPC_BEGIN_MESSAGE_MAP_WITH_PARAM.
+ template <typename ObjT, typename P, typename... Args, typename Tuple>
+-std::enable_if_t<sizeof...(Args) == std::tuple_size<std::decay_t<Tuple>>::value>
++typename std::enable_if<sizeof...(Args) == std::tuple_size<std::decay_t<Tuple>>::value>::type
+ DispatchToMethod(ObjT* obj,
+                  void (ObjT::*method)(P*, Args...),
+                  P* parameter,
+                  Tuple&& tuple) {
+   constexpr size_t size = std::tuple_size<std::decay_t<Tuple>>::value;
+   DispatchToMethodImpl(obj, method, parameter, std::forward<Tuple>(tuple),
+-                       std::make_index_sequence<size>());
++                       tao::seq::make_index_sequence<size>());
+ }
+ 
+ enum class MessageKind {
+diff -up chromium-62.0.3202.62/ppapi/proxy/dispatch_reply_message.h.epel7-c++11 chromium-62.0.3202.62/ppapi/proxy/dispatch_reply_message.h
+--- chromium-62.0.3202.62/ppapi/proxy/dispatch_reply_message.h.epel7-c++11	2017-10-25 10:16:53.888317449 -0400
++++ chromium-62.0.3202.62/ppapi/proxy/dispatch_reply_message.h	2017-10-25 10:17:50.152688363 -0400
+@@ -17,6 +17,7 @@
+ #include "base/tuple.h"
+ #include "ipc/ipc_message_macros.h"
+ #include "ppapi/c/pp_errors.h"
++#include "third_party/tao/seq/integer_sequence.hpp"
+ 
+ namespace ppapi {
+ namespace proxy {
+@@ -28,7 +29,7 @@ inline void DispatchResourceReplyImpl(Ob
+                                       Method method,
+                                       const ResourceMessageReplyParams& params,
+                                       TupleType&& args_tuple,
+-                                      std::index_sequence<indices...>) {
++                                      tao::seq::index_sequence<indices...>) {
+   (obj->*method)(params,
+                  std::get<indices>(std::forward<TupleType>(args_tuple))...);
+ }
+@@ -51,7 +52,7 @@ template <typename CallbackType, typenam
+ inline void DispatchResourceReplyImpl(CallbackType&& callback,
+                                       const ResourceMessageReplyParams& params,
+                                       TupleType&& args_tuple,
+-                                      std::index_sequence<indices...>) {
++                                      tao::seq::index_sequence<indices...>) {
+   std::forward<CallbackType>(callback).Run(
+       params, std::get<indices>(std::forward<TupleType>(args_tuple))...);
+ }
+diff -up chromium-62.0.3202.62/third_party/tao/seq/at_index.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/at_index.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/at_index.hpp.epel7-c++11	2017-10-25 10:08:42.418574130 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/at_index.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,60 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_AT_INDEX_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_AT_INDEX_HPP
++
++#include <cstddef>
++
++#include "make_integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      // based on http://talesofcpp.fusionfenix.com/post-22/true-story-efficient-packing
++
++      namespace impl
++      {
++         template< std::size_t, typename T >
++         struct indexed
++         {
++            using type = T;
++         };
++
++         template< typename, typename... Ts >
++         struct indexer;
++
++         template< std::size_t... Is, typename... Ts >
++         struct indexer< index_sequence< Is... >, Ts... >
++            : indexed< Is, Ts >...
++         {
++         };
++
++         template< std::size_t I, typename T >
++         indexed< I, T > select( const indexed< I, T >& );
++      }
++
++      template< std::size_t I, typename... Ts >
++      using at_index = decltype( impl::select< I >( impl::indexer< index_sequence_for< Ts... >, Ts... >() ) );
++
++#ifndef _MSC_VER
++      template< std::size_t I, typename... Ts >
++      using at_index_t = typename at_index< I, Ts... >::type;
++#else
++      namespace impl
++      {
++         template< typename T >
++         struct get_type
++         {
++            using type = typename T::type;
++         };
++      }
++
++      template< std::size_t I, typename... Ts >
++      using at_index_t = typename impl::get_type< at_index< I, Ts... > >::type;
++#endif
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_AT_INDEX_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/concatenate.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/concatenate.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/concatenate.hpp.epel7-c++11	2017-10-25 10:08:42.422574014 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/concatenate.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,29 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_CONCATENATE_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_CONCATENATE_HPP
++
++#include <type_traits>
++
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< typename, typename >
++      struct concatenate;
++
++      template< typename TA, TA... As, typename TB, TB... Bs >
++      struct concatenate< integer_sequence< TA, As... >, integer_sequence< TB, Bs... > >
++      {
++         using type = integer_sequence< typename std::common_type< TA, TB >::type, As..., Bs... >;
++      };
++
++      template< typename A, typename B >
++      using concatenate_t = typename concatenate< A, B >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_CONCATENATE_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/config.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/config.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/config.hpp.epel7-c++11	2017-10-25 10:08:42.428573840 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/config.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,25 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_CONFIG_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_CONFIG_HPP
++
++#if __cplusplus >= 201402L
++
++#define TAOCPP_USE_STD_INTEGER_SEQUENCE
++
++#if defined( _LIBCPP_VERSION )
++#define TAOCPP_USE_STD_MAKE_INTEGER_SEQUENCE
++#elif defined( _GLIBCXX_RELEASE ) && ( _GLIBCXX_RELEASE >= 8 )
++#define TAOCPP_USE_STD_MAKE_INTEGER_SEQUENCE
++#elif defined( _MSC_VER ) && ( _MSC_VER >= 190023918 )
++#define TAOCPP_USE_STD_MAKE_INTEGER_SEQUENCE
++#endif
++
++#endif  // __cplusplus >= 201402L
++
++#if defined( __cpp_fold_expressions )
++#define TAOCPP_FOLD_EXPRESSIONS
++#endif
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_CONFIG_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/exclusive_scan.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/exclusive_scan.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/exclusive_scan.hpp.epel7-c++11	2017-10-25 10:08:42.429573811 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/exclusive_scan.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,45 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_EXCLUSIVE_SCAN_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_EXCLUSIVE_SCAN_HPP
++
++#include <utility>
++
++#include "make_integer_sequence.hpp"
++#include "partial_sum.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename S, typename = make_index_sequence< S::size() > >
++         struct exclusive_scan;
++
++         template< typename S, std::size_t... Is >
++         struct exclusive_scan< S, index_sequence< Is... > >
++         {
++            using type = integer_sequence< typename S::value_type, partial_sum< Is, S >::value... >;
++         };
++      }
++
++      template< typename T, T... Ns >
++      struct exclusive_scan
++         : impl::exclusive_scan< integer_sequence< T, Ns... > >
++      {
++      };
++
++      template< typename T, T... Ns >
++      struct exclusive_scan< integer_sequence< T, Ns... > >
++         : impl::exclusive_scan< integer_sequence< T, Ns... > >
++      {
++      };
++
++      template< typename T, T... Ns >
++      using exclusive_scan_t = typename exclusive_scan< T, Ns... >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_EXCLUSIVE_SCAN_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/fold.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/fold.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/fold.hpp.epel7-c++11	2017-10-25 10:08:42.430573782 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/fold.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,58 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_FOLD_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_FOLD_HPP
++
++#include <type_traits>
++
++#include "integer_sequence.hpp"
++#include "make_integer_sequence.hpp"
++#include "select.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< template< typename U, U, U > class, typename, bool, typename T, T... >
++         struct folder;
++
++         template< template< typename U, U, U > class OP, std::size_t... Is, typename T, T... Ns >
++         struct folder< OP, index_sequence< Is... >, false, T, Ns... >
++         {
++            using type = integer_sequence< T, OP< T, seq::select< 2 * Is, T, Ns... >::value, seq::select< 2 * Is + 1, T, Ns... >::value >::value... >;
++         };
++
++         template< template< typename U, U, U > class OP, std::size_t... Is, typename T, T N, T... Ns >
++         struct folder< OP, index_sequence< Is... >, true, T, N, Ns... >
++         {
++            using type = integer_sequence< T, N, OP< T, seq::select< 2 * Is, T, Ns... >::value, seq::select< 2 * Is + 1, T, Ns... >::value >::value... >;
++         };
++      }
++
++      template< template< typename U, U, U > class, typename T, T... >
++      struct fold;
++
++      template< template< typename U, U, U > class OP, typename T, T N >
++      struct fold< OP, T, N >
++         : std::integral_constant< T, N >
++      {
++      };
++
++      template< template< typename U, U, U > class OP, typename T, T... Ns >
++      struct fold
++         : fold< OP, typename impl::folder< OP, make_index_sequence< sizeof...( Ns ) / 2 >, sizeof...( Ns ) % 2 == 1, T, Ns... >::type >
++      {
++      };
++
++      template< template< typename U, U, U > class OP, typename T, T... Ns >
++      struct fold< OP, integer_sequence< T, Ns... > >
++         : fold< OP, T, Ns... >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_FOLD_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/head.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/head.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/head.hpp.epel7-c++11	2017-10-25 10:08:42.431573753 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/head.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,32 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_HEAD_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_HEAD_HPP
++
++#include <type_traits>
++
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< typename T, T... Ns >
++      struct head;
++
++      template< typename T, T N, T... Ns >
++      struct head< T, N, Ns... >
++         : std::integral_constant< T, N >
++      {
++      };
++
++      template< typename T, T... Ns >
++      struct head< integer_sequence< T, Ns... > >
++         : head< T, Ns... >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_HEAD_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/inclusive_scan.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/inclusive_scan.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/inclusive_scan.hpp.epel7-c++11	2017-10-25 10:08:42.432573724 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/inclusive_scan.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,34 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_INCLUSIVE_SCAN_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_INCLUSIVE_SCAN_HPP
++
++#include <utility>
++
++#include "exclusive_scan.hpp"
++#include "integer_sequence.hpp"
++#include "plus.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< typename T, T... Ns >
++      struct inclusive_scan
++         : plus< exclusive_scan_t< T, Ns... >, integer_sequence< T, Ns... > >
++      {
++      };
++
++      template< typename T, T... Ns >
++      struct inclusive_scan< integer_sequence< T, Ns... > >
++         : plus< exclusive_scan_t< integer_sequence< T, Ns... > >, integer_sequence< T, Ns... > >
++      {
++      };
++
++      template< typename T, T... Ns >
++      using inclusive_scan_t = typename inclusive_scan< T, Ns... >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_INCLUSIVE_SCAN_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/integer_sequence.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/integer_sequence.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/integer_sequence.hpp.epel7-c++11	2017-10-25 10:08:42.433573695 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/integer_sequence.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,42 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_INTEGER_SEQUENCE_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_INTEGER_SEQUENCE_HPP
++
++#include <cstddef>
++#include <utility>
++
++#include "config.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++
++#ifdef TAOCPP_USE_STD_INTEGER_SEQUENCE
++
++      using std::integer_sequence;
++      using std::index_sequence;
++
++#else
++
++      template< typename T, T... Ns >
++      struct integer_sequence
++      {
++         using value_type = T;
++
++         static constexpr std::size_t size() noexcept
++         {
++            return sizeof...( Ns );
++         }
++      };
++
++      template< std::size_t... Ns >
++      using index_sequence = integer_sequence< std::size_t, Ns... >;
++
++#endif
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_INTEGER_SEQUENCE_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/is_all.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/is_all.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/is_all.hpp.epel7-c++11	2017-10-25 10:08:42.433573695 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/is_all.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,34 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_IS_ALL_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_IS_ALL_HPP
++
++#include "config.hpp"
++
++#ifndef TAOCPP_FOLD_EXPRESSIONS
++#include "integer_sequence.hpp"
++#endif
++
++#include <type_traits>
++
++namespace tao
++{
++   namespace seq
++   {
++
++#ifdef TAOCPP_FOLD_EXPRESSIONS
++
++      template< bool... Bs >
++      using is_all = std::integral_constant< bool, ( Bs && ... ) >;
++
++#else
++
++      template< bool... Bs >
++      using is_all = std::integral_constant< bool, std::is_same< integer_sequence< bool, true, Bs... >, integer_sequence< bool, Bs..., true > >::value >;
++
++#endif
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_IS_ALL_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/is_any.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/is_any.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/is_any.hpp.epel7-c++11	2017-10-25 10:08:42.434573666 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/is_any.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,34 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_IS_ANY_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_IS_ANY_HPP
++
++#include "config.hpp"
++
++#ifndef TAOCPP_FOLD_EXPRESSIONS
++#include "is_all.hpp"
++#endif
++
++#include <type_traits>
++
++namespace tao
++{
++   namespace seq
++   {
++
++#ifdef TAOCPP_FOLD_EXPRESSIONS
++
++      template< bool... Bs >
++      using is_any = std::integral_constant< bool, ( Bs || ... ) >;
++
++#else
++
++      template< bool... Bs >
++      using is_any = std::integral_constant< bool, !is_all< !Bs... >::value >;
++
++#endif
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_IS_ANY_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/LICENSE.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/LICENSE
+--- chromium-62.0.3202.62/third_party/tao/seq/LICENSE.epel7-c++11	2017-10-25 10:08:42.435573638 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/LICENSE	2017-10-25 10:05:28.327204383 -0400
+@@ -0,0 +1,22 @@
++The MIT License (MIT)
++
++Copyright (c) 2015-2017 Daniel Frey
++
++Permission is hereby granted, free of charge, to any person obtaining a copy
++of this software and associated documentation files (the "Software"), to deal
++in the Software without restriction, including without limitation the rights
++to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++copies of the Software, and to permit persons to whom the Software is
++furnished to do so, subject to the following conditions:
++
++The above copyright notice and this permission notice shall be included in all
++copies or substantial portions of the Software.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++SOFTWARE.
++
+diff -up chromium-62.0.3202.62/third_party/tao/seq/make_integer_range.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/make_integer_range.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/make_integer_range.hpp.epel7-c++11	2017-10-25 10:08:42.435573638 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/make_integer_range.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,39 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_MAKE_INTEGER_RANGE_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_MAKE_INTEGER_RANGE_HPP
++
++#include "make_integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename T, T Begin, T Steps, bool Increase, T Delta = T( 1 ), typename = make_integer_sequence< T, Steps > >
++         struct generate_range;
++
++         template< typename T, T B, T S, T D, T... Ns >
++         struct generate_range< T, B, S, true, D, integer_sequence< T, Ns... > >
++         {
++            using type = integer_sequence< T, B + D * Ns... >;
++         };
++
++         template< typename T, T B, T S, T D, T... Ns >
++         struct generate_range< T, B, S, false, D, integer_sequence< T, Ns... > >
++         {
++            using type = integer_sequence< T, B - D * Ns... >;
++         };
++      }
++
++      template< typename T, T N, T M >
++      using make_integer_range = typename impl::generate_range< T, N, ( N <= M ) ? ( M - N ) : ( N - M ), ( N <= M ) >::type;
++
++      template< std::size_t N, std::size_t M >
++      using make_index_range = make_integer_range< std::size_t, N, M >;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_MAKE_INTEGER_RANGE_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/make_integer_sequence.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/make_integer_sequence.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/make_integer_sequence.hpp.epel7-c++11	2017-10-25 10:08:42.436573608 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/make_integer_sequence.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,87 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_MAKE_INTEGER_SEQUENCE_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_MAKE_INTEGER_SEQUENCE_HPP
++
++#include <cstddef>
++#include <type_traits>
++#include <utility>
++
++#include "config.hpp"
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++
++#ifdef TAOCPP_USE_STD_MAKE_INTEGER_SEQUENCE
++
++      using std::make_integer_sequence;
++      using std::make_index_sequence;
++      using std::index_sequence_for;
++
++#else
++
++      namespace impl
++      {
++         // we have four instantiations of generate_sequence<>, independent of T or N.
++         // V is the current bit, E is the end marker - if true, this is the last step.
++         template< bool V, bool E >
++         struct generate_sequence;
++
++         // last step: generate final integer sequence
++         template<>
++         struct generate_sequence< false, true >
++         {
++            template< typename T, T M, T N, std::size_t S, T... Ns >
++            using f = integer_sequence< T, Ns... >;
++         };
++
++         template<>
++         struct generate_sequence< true, true >
++         {
++            template< typename T, T M, T N, std::size_t S, T... Ns >
++            using f = integer_sequence< T, Ns..., S >;
++         };
++
++         // intermediate step: double existing values, append one more if V is set.
++         template<>
++         struct generate_sequence< false, false >
++         {
++            template< typename T, T M, T N, std::size_t S, T... Ns >
++            using f = typename generate_sequence< ( N & ( M / 2 ) ) != 0, ( M / 2 ) == 0 >::template f< T, M / 2, N, 2 * S, Ns..., ( Ns + S )... >;
++         };
++
++         template<>
++         struct generate_sequence< true, false >
++         {
++            template< typename T, T M, T N, std::size_t S, T... Ns >
++            using f = typename generate_sequence< ( N & ( M / 2 ) ) != 0, ( M / 2 ) == 0 >::template f< T, M / 2, N, 2 * S + 1, Ns..., ( Ns + S )..., 2 * S >;
++         };
++
++         // the final sequence per T/N should be memoized, it will probably be used multiple times.
++         // also checks the limit and starts the above generator properly.
++         template< typename T, T N >
++         struct memoize_sequence
++         {
++            static_assert( N < T( 1 << 20 ), "N too large" );
++            using type = typename generate_sequence< false, false >::template f< T, ( N < T( 1 << 1 ) ) ? T( 1 << 1 ) : ( N < T( 1 << 2 ) ) ? T( 1 << 2 ) : ( N < T( 1 << 3 ) ) ? T( 1 << 3 ) : ( N < T( 1 << 4 ) ) ? T( 1 << 4 ) : ( N < T( 1 << 5 ) ) ? T( 1 << 5 ) : ( N < T( 1 << 6 ) ) ? T( 1 << 6 ) : ( N < T( 1 << 7 ) ) ? T( 1 << 7 ) : ( N < T( 1 << 8 ) ) ? T( 1 << 8 ) : ( N < T( 1 << 9 ) ) ? T( 1 << 9 ) : ( N < T( 1 << 10 ) ) ? T( 1 << 10 ) : T( 1 << 20 ), N, 0 >;
++         };
++      }
++
++      template< typename T, T N >
++      using make_integer_sequence = typename impl::memoize_sequence< T, N >::type;
++
++      template< std::size_t N >
++      using make_index_sequence = make_integer_sequence< std::size_t, N >;
++
++      template< typename... Ts >
++      using index_sequence_for = make_index_sequence< sizeof...( Ts ) >;
++
++#endif
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_MAKE_INTEGER_SEQUENCE_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/map.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/map.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/map.hpp.epel7-c++11	2017-10-25 10:08:42.437573579 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/map.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,31 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_MAP_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_MAP_HPP
++
++#include <cstddef>
++#include <utility>
++
++#include "integer_sequence.hpp"
++#include "select.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< typename, typename >
++      struct map;
++
++      template< std::size_t... Ns, typename M >
++      struct map< index_sequence< Ns... >, M >
++      {
++         using type = integer_sequence< typename M::value_type, select< Ns, M >::value... >;
++      };
++
++      template< typename S, typename M >
++      using map_t = typename map< S, M >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_MAP_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/max.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/max.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/max.hpp.epel7-c++11	2017-10-25 10:08:42.437573579 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/max.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,35 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_MAX_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_MAX_HPP
++
++#include "fold.hpp"
++
++#include <type_traits>
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename T, T A, T B >
++         using max = std::integral_constant< T, ( ( A > B ) ? A : B ) >;
++      }
++
++      template< typename T, T... Ns >
++      struct max
++         : fold< impl::max, T, Ns... >
++      {
++      };
++
++      template< typename T, T... Ns >
++      struct max< integer_sequence< T, Ns... > >
++         : max< T, Ns... >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_MAX_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/min.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/min.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/min.hpp.epel7-c++11	2017-10-25 10:08:42.438573550 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/min.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,35 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_MIN_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_MIN_HPP
++
++#include "fold.hpp"
++
++#include <type_traits>
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename T, T A, T B >
++         using min = std::integral_constant< T, ( ( A < B ) ? A : B ) >;
++      }
++
++      template< typename T, T... Ns >
++      struct min
++         : fold< impl::min, T, Ns... >
++      {
++      };
++
++      template< typename T, T... Ns >
++      struct min< integer_sequence< T, Ns... > >
++         : min< T, Ns... >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_MIN_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/minus.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/minus.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/minus.hpp.epel7-c++11	2017-10-25 10:08:42.438573550 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/minus.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,29 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_MINUS_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_MINUS_HPP
++
++#include <type_traits>
++
++#include "zip.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename T, T A, T B >
++         using minus = std::integral_constant< T, A - B >;
++      }
++
++      template< typename A, typename B >
++      using minus = zip< impl::minus, A, B >;
++
++      template< typename A, typename B >
++      using minus_t = typename minus< A, B >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_MINUS_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/partial_sum.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/partial_sum.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/partial_sum.hpp.epel7-c++11	2017-10-25 10:08:42.439573522 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/partial_sum.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,44 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_PARTIAL_SUM_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_PARTIAL_SUM_HPP
++
++#include <cstddef>
++#include <utility>
++
++#include "make_integer_sequence.hpp"
++#include "sum.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< std::size_t, typename S, typename = make_index_sequence< S::size() > >
++         struct partial_sum;
++
++         template< std::size_t I, typename T, T... Ns, std::size_t... Is >
++         struct partial_sum< I, integer_sequence< T, Ns... >, index_sequence< Is... > >
++            : seq::sum< T, ( ( Is < I ) ? Ns : 0 )... >
++         {
++            static_assert( I <= sizeof...( Is ), "tao::seq::partial_sum<I, S>: I is out of range" );
++         };
++      }
++
++      template< std::size_t I, typename T, T... Ns >
++      struct partial_sum
++         : impl::partial_sum< I, integer_sequence< T, Ns... > >
++      {
++      };
++
++      template< std::size_t I, typename T, T... Ns >
++      struct partial_sum< I, integer_sequence< T, Ns... > >
++         : impl::partial_sum< I, integer_sequence< T, Ns... > >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_PARTIAL_SUM_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/plus.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/plus.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/plus.hpp.epel7-c++11	2017-10-25 10:08:42.439573522 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/plus.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,29 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_PLUS_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_PLUS_HPP
++
++#include <type_traits>
++
++#include "zip.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename T, T A, T B >
++         using plus = std::integral_constant< T, A + B >;
++      }
++
++      template< typename A, typename B >
++      using plus = zip< impl::plus, A, B >;
++
++      template< typename A, typename B >
++      using plus_t = typename plus< A, B >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_PLUS_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/README.chromium.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/README.chromium
+--- chromium-62.0.3202.62/third_party/tao/seq/README.chromium.epel7-c++11	2017-10-25 10:08:42.440573492 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/README.chromium	2017-10-25 10:08:18.341272571 -0400
+@@ -0,0 +1,15 @@
++Name: The Art of C++ / Sequences
++Short Name: tao/seq
++URL: https://github.com/taocpp/sequences
++Version: 5fd5378
++License: MIT
++License File: LICENSE
++Security Critical: No
++
++Description:
++Source archive:
++  https://github.com/taocpp/sequences
++
++The Art of C++ / Sequences is a zero-dependency C++11 header-only library that provides efficient 
++algorithms to generate and work on variadic templates and std::integer_sequence.
++We use it to support gcc 4.8.
+diff -up chromium-62.0.3202.62/third_party/tao/seq/README.md.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/README.md
+--- chromium-62.0.3202.62/third_party/tao/seq/README.md.epel7-c++11	2017-10-25 10:08:42.441573463 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/README.md	2017-10-25 10:05:28.327204383 -0400
+@@ -0,0 +1,282 @@
++# The Art of C++ / Sequences
++
++[![Release](https://img.shields.io/github/release/taocpp/sequences.svg)](https://github.com/taocpp/sequences/releases/latest)
++[![TravisCI](https://travis-ci.org/taocpp/sequences.svg)](https://travis-ci.org/taocpp/sequences)
++[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/taocpp/sequences?svg=true)](https://ci.appveyor.com/project/taocpp/sequences)
++
++The Art of C++ / Sequences is a zero-dependency C++11 header-only library that provides efficient algorithms to generate and work on variadic templates and [`std::integer_sequence`](http://en.cppreference.com/w/cpp/utility/integer_sequence).
++
++## Compatibility
++
++* Requires C++11 or newer.
++* Tested with GCC 4.8+, Clang 3.4+, Xcode 6+ and Visual Studio 2017.
++
++The following compilers have bugs which prevent our code from compiling:
++
++* Clang 4.0.
++* Xcode 7 and 8 when used with C++14 or higher.
++* Visual Studio 2015.
++
++(If you know how to fix those, please let us know)
++
++Part of the library might still work, e.g. Clang 4.0 only has problems with `zip` and `fold` (and everything based on it).
++
++## Provided algorithms and examples
++
++* All provided templates are in the nested namespace `tao::seq`.
++* All templates don't use C++14 features, therefore being compatible with C++11. Sometimes, C++14/C++17 features are used conditionally, taking advantage of newer language features when available but providing C++11-compatible implementations otherwise.
++* All templates use `tao::seq::integer_sequence`, etc. internally, therefore being compatible with C++11.
++* All templates use `tao::seq::make_integer_sequence`, etc. internally, therefore using the most scalable solution available.
++
++#### Header `tao/seq/integer_sequence.hpp`
++
++Provides:
++
++* `integer_sequence< typename T, T N >`
++* `index_sequence< std::size_t N >`
++
++Notes:
++
++* When available (C++14 or newer), the above are type-aliases for `std::integer_sequence` and `std::index_sequence`.
++
++#### Header `tao/seq/make_integer_sequence.hpp`
++
++Efficient versions of sequence generators.
++
++* `make_integer_sequence< typename T, T N >`
++* `make_index_sequence< std::size_t N >`
++* `index_sequence_for< typename... Ts >`
++
++Examples:
++
++* `make_integer_sequence<int,0>` ➙ `integer_sequence<int>`
++* `make_integer_sequence<int,1>` ➙ `integer_sequence<int,0>`
++* `make_integer_sequence<int,3>` ➙ `integer_sequence<int,0,1,2>`
++* `make_index_sequence<0>` ➙ `index_sequence<>`
++* `make_index_sequence<1>` ➙ `index_sequence<0>`
++* `make_index_sequence<5>` ➙ `index_sequence<0,1,2,3,4>`
++* `index_sequence_for<int,void,long>` ➙ `index_sequence<0,1,2>`
++
++Notes:
++
++libc++ already has very efficient versions for the above, so they are pulled in with a using-declaration. Only if we don't know if the STL's versions are at least O(log N) we provide our own implementations.
++
++Our own implementation has O(log N) instantiation depth. This allows for very large sequences without the need to increase the compiler's default instantiation depth limits. For example, GCC and Clang generate `index_sequence<10000>` in ~0.15s (on my machine, of course). The standard library version from libstdc++, when trying to create `index_sequence<5000>` and with its O(N) implementation, requires ~30s, >3GB of RAM and `-ftemplate-depth=5100`.
++
++#### Header `tao/seq/make_integer_range.hpp`
++
++Generate half-open ranges of integers.
++
++* `make_integer_range< typename T, T N, T M >`
++* `make_index_range< std::size_t N, std::size_t M >`
++
++Examples:
++
++* `make_integer_range<int,3,7>` ➙ `integer_sequence<int,3,4,5,6>`
++* `make_integer_range<int,7,3>` ➙ `integer_sequence<int,7,6,5,4>`
++* `make_integer_sequence<int,-2,2>` ➙ `integer_sequence<int,-2,-1,0,1>`
++* `make_index_range<5,5>` ➙ `index_sequence<>`
++* `make_index_range<2,5>` ➙ `index_sequence<2,3,4>`
++
++#### Header `tao/seq/sum.hpp`
++
++Integral constant to provide the sum of `Ns`.
++
++* `sum< typename T, T... Ns >`
++* `sum< typename S >`
++
++Examples:
++
++* `sum<int,1,4,3,1>::value` ➙ `9`
++* `sum<make_index_sequence<5>>::value` ➙ `10`
++
++#### Header `tao/seq/partial_sum.hpp`
++
++Integral constant to provide the sum of the first `I` elements of `Ns`.
++
++* `partial_sum< std::size_t I, typename T, T... Ns >`
++* `partial_sum< std::size_t I, typename S >`
++
++Examples:
++
++* `partial_sum<0,int,1,4,3,1>::value` ➙ `0`
++* `partial_sum<2,int,1,4,3,1>::value` ➙ `5`
++* `partial_sum<4,make_index_sequence<5>>::value` ➙ `6`
++
++#### Header `tao/seq/exclusive_scan.hpp`
++
++Provides a sequence with the exclusive scan of the input sequence.
++
++* `exclusive_scan_t< typename T, T... Ns >`
++* `exclusive_scan_t< typename S >`
++
++Examples:
++
++* `exclusive_scan_t<int,1,4,0,3,1>` ➙ `integer_sequence<int,0,1,5,5,8>`
++
++#### Header `tao/seq/inclusive_scan.hpp`
++
++Provides a sequence with the inclusive scan of the input sequence.
++
++* `inclusive_scan_t< typename T, T... Ns >`
++* `inclusive_scan_t< typename S >`
++
++Examples:
++
++* `inclusive_scan_t<int,1,4,0,3,1>` ➙ `integer_sequence<int,1,5,5,8,9>`
++
++#### Header `tao/seq/zip.hpp`
++
++Applies a binary operation to elements from two sequences.
++
++* `zip_t< template< typename U, U, U > class OP, typename L, typename R >`
++
++Notes:
++
++Both sequences may have a different element type, the resulting sequence's type is calculated with `std::common_type_t`.
++
++#### Header `tao/seq/plus.hpp`
++
++Provides a sequence which is the element-wise sum of its input sequences.
++
++* `plus_t< typename L, typename R >`
++
++Notes:
++
++Both sequences may have a different element type, the resulting sequence's type is calculated with `std::common_type_t`.
++
++Examples:
++
++* `using A = index_sequence<1,4,0,3,1>`
++* `using B = make_index_sequence<5>`
++* `plus_t<A,B>` ➙ `index_sequence<1,5,2,6,5>`
++
++#### Header `tao/seq/minus.hpp`
++
++Provides a sequence which is the element-wise sum of its input sequences.
++
++* `minus_t< typename L, typename R >`
++
++Notes:
++
++Both sequences may have a different element type, the resulting sequence's type is calculated with `std::common_type_t`.
++
++Examples:
++
++* `using A = integer_sequence<int,1,4,0,3,1>`
++* `using B = integer_sequence<int,0,1,2,3,4>`
++* `minus_t<A,B>` ➙ `integer_sequence<int,1,3,-2,0,-3>`
++* `minus_t<B,A>` ➙ `integer_sequence<int,-1,-3,2,0,3>`
++
++#### Header `tao/seq/head.hpp`
++
++Integral constant to provide the first element of a non-empty sequence.
++
++* `head< typename T, T... >`
++* `head< typename S >`
++
++#### Header `tao/seq/tail.hpp`
++
++Removed the first element of a non-empty sequence.
++
++* `tail_t< typename T, T... >`
++* `tail_t< typename S >`
++
++#### Header `tao/seq/select.hpp`
++
++Integral constant to provide the `I`th element of a non-empty sequence.
++
++* `select< std::size_t I, typename T, T... >`
++* `select< std::size_t I, typename S >`
++
++#### Header `tao/seq/concatenate.hpp`
++
++Concatenate the values.
++
++* `concatenate_t< typename T, typename U >`
++
++Notes:
++
++Both sequences may have a different element type, the resulting sequence's type is calculated with `std::common_type_t`.
++
++#### Header `tao/seq/fold.hpp`
++
++Integral constant calculated by "folding" a sequence of values with a given binary operation.
++
++* `fold< template< typename U, U, U > class OP, typename T, T... >`
++* `fold< template< typename U, U, U > class OP, typename S >`
++
++#### Header `tao/seq/min.hpp`
++
++Integral constant to provide the minimum value.
++
++* `min< typename T, T... >`
++* `min< typename S >`
++
++Notes:
++
++Implemented with `fold` like this:
++
++    namespace impl
++    {
++      template< typename T, T A, T B >
++      using min = std::integral_constant< T, ( ( A < B ) ? A : B ) >;
++    }
++
++    template< typename T, T... Ns >
++    using min = fold< impl::min, T, Ns... >;
++
++#### Header `tao/seq/max.hpp`
++
++Integral constant to provide the maximum value.
++
++* `max< typename T, T... >`
++* `max< typename S >`
++
++#### Header `tao/seq/map.hpp`
++
++Map a sequence of indices to a sequence of values.
++
++* `map_t< typename I, typename M >`
++
++Examples:
++
++* `using I = index_sequence<1,0,3,2,1,1,3>`
++* `using M = integer_sequence<int,5,6,-7,8,9>`
++* `map_t<I,M>` ➙ `integer_sequence<int,6,5,8,-7,6,6,8>`
++
++#### Header `tao/seq/is_all.hpp`
++
++Integral constant which is true if all boolean parameters are true (logical and).
++
++* `is_all< bool... >`
++
++Examples:
++
++* `is_all<true,true,true,true>::value` ➙ `true`
++* `is_all<true,true,false,true>::value` ➙ `false`
++* `is_all<>::value` ➙ `true`
++
++#### Header `tao/seq/is_any.hpp`
++
++Integral constant which is true if any boolean parameter is true (logical or).
++
++* `is_any< bool... >`
++
++Examples:
++
++* `is_any<false,true,false,false>::value` ➙ `true`
++* `is_any<false,false,false,false>::value` ➙ `false`
++* `is_any<>::value` ➙ `false`
++
++## License
++
++The Art of C++ is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
++
++> Copyright (c) 2015-2017 Daniel Frey
++>
++> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
++>
++> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
++>
++> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+diff -up chromium-62.0.3202.62/third_party/tao/seq/scale.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/scale.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/scale.hpp.epel7-c++11	2017-10-25 10:08:42.441573463 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/scale.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,66 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_SCALE_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_SCALE_HPP
++
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      namespace impl
++      {
++         template< typename T >
++         struct is_integer_sequence : std::false_type
++         {
++         };
++
++         template< typename T, T... Ns >
++         struct is_integer_sequence< integer_sequence< T, Ns... > > : std::true_type
++         {
++         };
++
++         template< typename T >
++         struct element_type
++         {
++            using type = T;
++         };
++
++         template< typename T, T... Ns >
++         struct element_type< integer_sequence< T, Ns... > >
++         {
++            using type = T;
++         };
++
++         template< bool, typename >
++         struct scale
++         {
++            template< typename T, T S, T... Ns >
++            struct impl
++            {
++               using type = integer_sequence< T, S * Ns... >;
++            };
++         };
++
++         template< typename T, T... Ns >
++         struct scale< true, integer_sequence< T, Ns... > >
++         {
++            template< typename, T S >
++            struct impl
++            {
++               using type = integer_sequence< T, S * Ns... >;
++            };
++         };
++      }
++
++      template< typename T, typename impl::element_type< T >::type S, typename impl::element_type< T >::type... Ns >
++      using scale = typename impl::scale< impl::is_integer_sequence< T >::value, T >::template impl< T, S, Ns... >;
++
++      template< typename T, typename impl::element_type< T >::type S, typename impl::element_type< T >::type... Ns >
++      using scale_t = typename scale< T, S, Ns... >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_SCALE_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/select.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/select.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/select.hpp.epel7-c++11	2017-10-25 10:08:42.442573435 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/select.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,31 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_SELECT_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_SELECT_HPP
++
++#include <cstddef>
++#include <utility>
++
++#include "at_index.hpp"
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< std::size_t I, typename T, T... Ns >
++      struct select
++         : at_index_t< I, std::integral_constant< T, Ns >... >
++      {
++      };
++
++      template< std::size_t I, typename T, T... Ns >
++      struct select< I, integer_sequence< T, Ns... > >
++         : select< I, T, Ns... >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_SELECT_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/sum.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/sum.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/sum.hpp.epel7-c++11	2017-10-25 10:08:42.443573405 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/sum.hpp	2017-10-25 10:05:28.328204354 -0400
+@@ -0,0 +1,79 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_SUM_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_SUM_HPP
++
++#include <type_traits>
++#include <utility>
++
++#include "config.hpp"
++#include "integer_sequence.hpp"
++
++#ifndef TAOCPP_FOLD_EXPRESSIONS
++#include "make_integer_sequence.hpp"
++#include <cstddef>
++#endif
++
++namespace tao
++{
++   namespace seq
++   {
++
++#ifdef TAOCPP_FOLD_EXPRESSIONS
++
++      template< typename T, T... Ns >
++      struct sum
++         : std::integral_constant< T, ( Ns + ... + T( 0 ) ) >
++      {
++      };
++
++#else
++
++      namespace impl
++      {
++         template< std::size_t, std::size_t N >
++         struct chars
++         {
++            char dummy[ N + 1 ];
++         };
++
++         template< typename, std::size_t... >
++         struct collector;
++
++         template< std::size_t... Is, std::size_t... Ns >
++         struct collector< index_sequence< Is... >, Ns... >
++            : chars< Is, Ns >...
++         {
++         };
++
++         template< bool, std::size_t N, typename T, T... Ns >
++         struct sum
++         {
++            using type = std::integral_constant< T, T( sizeof( collector< make_index_sequence< N >, ( ( Ns > 0 ) ? Ns : 0 )... > ) - N ) - T( sizeof( collector< make_index_sequence< N >, ( ( Ns < 0 ) ? -Ns : 0 )... > ) - N ) >;
++         };
++
++         template< std::size_t N, typename T, T... Ns >
++         struct sum< true, N, T, Ns... >
++         {
++            using type = std::integral_constant< T, T( sizeof( collector< make_index_sequence< N >, ( ( Ns > 0 ) ? Ns : 0 )... > ) - N ) >;
++         };
++      }
++
++      template< typename T, T... Ns >
++      struct sum
++         : impl::sum< std::is_unsigned< T >::value, sizeof...( Ns ) + 1, T, Ns..., 0 >::type
++      {
++      };
++
++#endif
++
++      template< typename T, T... Ns >
++      struct sum< integer_sequence< T, Ns... > >
++         : sum< T, Ns... >
++      {
++      };
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_SUM_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/tail.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/tail.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/tail.hpp.epel7-c++11	2017-10-25 10:08:42.444573376 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/tail.hpp	2017-10-25 10:05:28.329204325 -0400
+@@ -0,0 +1,35 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_TAIL_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_TAIL_HPP
++
++#include <type_traits>
++
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< typename T, T... Ns >
++      struct tail;
++
++      template< typename T, T N, T... Ns >
++      struct tail< T, N, Ns... >
++      {
++         using type = integer_sequence< T, Ns... >;
++      };
++
++      template< typename T, T... Ns >
++      struct tail< integer_sequence< T, Ns... > >
++         : tail< T, Ns... >
++      {
++      };
++
++      template< typename T, T... Ns >
++      using tail_t = typename tail< T, Ns... >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_TAIL_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/type_by_index.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/type_by_index.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/type_by_index.hpp.epel7-c++11	2017-10-25 10:08:42.445573347 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/type_by_index.hpp	2017-10-25 10:05:28.329204325 -0400
+@@ -0,0 +1,57 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_TYPE_BY_INDEX_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_TYPE_BY_INDEX_HPP
++
++#include <cstddef>
++#include <type_traits>
++
++#include "make_integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      // based on http://stackoverflow.com/questions/18942322
++
++      namespace impl
++      {
++         template< std::size_t >
++         struct any
++         {
++            any( ... );
++         };
++
++         template< typename >
++         struct wrapper;
++
++         template< typename >
++         struct unwrap;
++
++         template< typename T >
++         struct unwrap< wrapper< T > >
++         {
++            using type = T;
++         };
++
++         template< typename >
++         struct get_nth;
++
++         template< std::size_t... Is >
++         struct get_nth< index_sequence< Is... > >
++         {
++            template< typename T >
++            static T deduce( any< Is & 0 >..., T*, ... );
++         };
++      }
++
++      template< std::size_t I, typename... Ts >
++      using type_by_index = impl::unwrap< decltype( impl::get_nth< make_index_sequence< I > >::deduce( std::declval< impl::wrapper< Ts >* >()... ) ) >;
++
++      template< std::size_t I, typename... Ts >
++      using type_by_index_t = typename type_by_index< I, Ts... >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_TYPE_BY_INDEX_HPP
+diff -up chromium-62.0.3202.62/third_party/tao/seq/zip.hpp.epel7-c++11 chromium-62.0.3202.62/third_party/tao/seq/zip.hpp
+--- chromium-62.0.3202.62/third_party/tao/seq/zip.hpp.epel7-c++11	2017-10-25 10:08:42.446573319 -0400
++++ chromium-62.0.3202.62/third_party/tao/seq/zip.hpp	2017-10-25 10:05:28.329204325 -0400
+@@ -0,0 +1,30 @@
++// Copyright (c) 2015-2017 Daniel Frey
++// Please see LICENSE for license or visit https://github.com/taocpp/sequences/
++
++#ifndef TAOCPP_SEQUENCES_INCLUDE_ZIP_HPP
++#define TAOCPP_SEQUENCES_INCLUDE_ZIP_HPP
++
++#include <type_traits>
++
++#include "integer_sequence.hpp"
++
++namespace tao
++{
++   namespace seq
++   {
++      template< template< typename U, U, U > class, typename, typename >
++      struct zip;
++
++      template< template< typename U, U, U > class OP, typename TA, TA... As, typename TB, TB... Bs >
++      struct zip< OP, integer_sequence< TA, As... >, integer_sequence< TB, Bs... > >
++      {
++         using CT = typename std::common_type< TA, TB >::type;
++         using type = integer_sequence< CT, OP< CT, As, Bs >::value... >;
++      };
++
++      template< template< typename U, U, U > class OP, typename A, typename B >
++      using zip_t = typename zip< OP, A, B >::type;
++   }
++}
++
++#endif  // TAOCPP_SEQUENCES_INCLUDE_ZIP_HPP
+diff -up chromium-62.0.3202.62/tools/ipc_fuzzer/fuzzer/fuzzer.cc.epel7-c++11 chromium-62.0.3202.62/tools/ipc_fuzzer/fuzzer/fuzzer.cc
+--- chromium-62.0.3202.62/tools/ipc_fuzzer/fuzzer/fuzzer.cc.epel7-c++11	2017-10-25 10:18:10.415133815 -0400
++++ chromium-62.0.3202.62/tools/ipc_fuzzer/fuzzer/fuzzer.cc	2017-10-25 10:18:58.888807178 -0400
+@@ -23,6 +23,7 @@
+ #include "tools/ipc_fuzzer/fuzzer/rand_util.h"
+ #include "tools/ipc_fuzzer/message_lib/message_cracker.h"
+ #include "tools/ipc_fuzzer/message_lib/message_file.h"
++#include "third_party/tao/seq/integer_sequence.hpp"
+ 
+ #if defined(OS_POSIX)
+ #include <unistd.h>
+@@ -1680,14 +1681,14 @@ class FuzzerHelper<IPC::MessageT<Meta, s
+   using Message = IPC::MessageT<Meta, std::tuple<Ins...>, void>;
+ 
+   static std::unique_ptr<IPC::Message> Fuzz(IPC::Message* msg, Fuzzer* fuzzer) {
+-    return FuzzImpl(msg, fuzzer, std::index_sequence_for<Ins...>());
++    return FuzzImpl(msg, fuzzer, tao::seq::index_sequence_for<Ins...>());
+   }
+ 
+  private:
+   template <size_t... Ns>
+   static std::unique_ptr<IPC::Message> FuzzImpl(IPC::Message* msg,
+                                                 Fuzzer* fuzzer,
+-                                                std::index_sequence<Ns...>) {
++                                                tao::seq::index_sequence<Ns...>) {
+     typename Message::Param p;
+     if (msg) {
+       Message::Read(static_cast<Message*>(msg), &p);
+@@ -1707,14 +1708,14 @@ class FuzzerHelper<
+   using Message = IPC::MessageT<Meta, std::tuple<Ins...>, std::tuple<Outs...>>;
+ 
+   static std::unique_ptr<IPC::Message> Fuzz(IPC::Message* msg, Fuzzer* fuzzer) {
+-    return FuzzImpl(msg, fuzzer, std::index_sequence_for<Ins...>());
++    return FuzzImpl(msg, fuzzer, tao::seq::index_sequence_for<Ins...>());
+   }
+ 
+  private:
+   template <size_t... Ns>
+   static std::unique_ptr<IPC::Message> FuzzImpl(IPC::Message* msg,
+                                                 Fuzzer* fuzzer,
+-                                                std::index_sequence<Ns...>) {
++                                                tao::seq::index_sequence<Ns...>) {
+     typename Message::SendParam p;
+     Message* real_msg = static_cast<Message*>(msg);
+     std::unique_ptr<Message> new_msg;

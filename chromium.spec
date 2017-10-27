@@ -186,6 +186,10 @@ Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
 # Another gcc 4.8 goods..
 Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 
+# epel7 does not know about c++14
+Patch65:	chromium-62.0.3202.62-epel7-noc++14.patch
+Patch66:	chromium-62.0.3202.62-epel7-c++11-support.patch
+
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
@@ -632,6 +636,8 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch59 -p1 -b .gcc-nc
 %patch60 -p1 -b .nonullptr
 %patch61 -p1 -b .another-rvalue-fix
+%patch65 -p1 -b .epel7-noc++14
+%patch66 -p1 -b .epel7-c++11
 %endif
 
 #%patch52 -p1 -b .fixgccagain
@@ -644,9 +650,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 ### Russian Fedora Patches ###
 %patch500 -p1 -b .gn-bootstrap-r8
 %patch501 -p1 -b .std++17
-
-sed -i 's@use_cxx11 = false@use_cxx11 = true@g' \
-	build/config/compiler/BUILD.gn
 
 %if 0%{?asan}
 export CC="clang"
