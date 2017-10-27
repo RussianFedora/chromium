@@ -107,11 +107,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	62.0.3202.62
+Version:	62.0.3202.75
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1787,6 +1787,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Oct 27 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.75-1.R
+- update to 62.0.3202.75
+
 * Mon Oct 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.62-2.R
 - use flag use_cxx11 = true for RHEL 7
 
