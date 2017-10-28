@@ -631,8 +631,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch59 -p1 -b .gcc-nc
 %patch60 -p1 -b .nonullptr
 %patch61 -p1 -b .another-rvalue-fix
-%patch65 -p1 -b .epel7-noc++14
-%patch66 -p1 -b .epel7-c++11
 %endif
 
 #%patch52 -p1 -b .fixgccagain
