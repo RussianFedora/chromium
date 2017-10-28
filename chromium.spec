@@ -186,10 +186,6 @@ Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
 # Another gcc 4.8 goods..
 Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 
-# epel7 does not know about c++14
-Patch65:	chromium-62.0.3202.62-epel7-noc++14.patch
-Patch66:	chromium-62.0.3202.62-epel7-c++11-support.patch
-
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
@@ -370,6 +366,10 @@ BuildRequires:	pkgconfig(gnome-keyring-1)
 # remote desktop needs this
 BuildRequires:	pam-devel
 BuildRequires:	systemd
+
+%if 0%{?rhel} == 7
+BuildRequires: devtoolset-7-toolchain, devtoolset-7-libatomic-devel
+%endif
 
 # We pick up an automatic requires on the library, but we need the version check
 # because the nss shared library is unversioned.
@@ -1019,6 +1019,10 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 	yasm \
 	zlib
 
+%if 0%{?rhel} == 7
+. /opt/rh/devtoolset-7/enable
+%endif
+
 tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES"
 %{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{target}
 
@@ -1048,6 +1052,10 @@ mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 
 %build
+%if 0%{?rhel} == 7
+. /opt/rh/devtoolset-7/enable
+%endif
+
 
 %if %{?tests}
 # Tests targets taken from testing/buildbot/chromium.linux.json and obtained with
@@ -1785,6 +1793,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Fri Oct 27 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.75-1.R
 - update to 62.0.3202.75
+- use devtoolset-7-toolchain to build on epel7
 
 * Mon Oct 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.62-2.R
 - use flag use_cxx11 = true for RHEL 7
