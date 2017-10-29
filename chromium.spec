@@ -307,12 +307,7 @@ BuildRequires:	vulkan-devel
 # Not newer than 54 (at least not right now)
 BuildRequires:	libicu-devel = 54.1
 %endif
-%if 0%{?bundlelibjpeg}
-# If this is true, we're using the bundled libjpeg
-# which we need to do because the RHEL 7 libpng doesn't work right anymore
-%else
 BuildRequires:	libjpeg-devel
-%endif
 %if 0%{?bundlelibpng}
 # If this is true, we're using the bundled libpng
 # which we need to do because the RHEL 7 libpng doesn't work right anymore
@@ -818,7 +813,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'v8/third_party/inspector_protocol' \
 	'third_party/cld_3' \
 	'base/third_party/libevent' \
-	'third_party/libjpeg' \
 	'third_party/libjpeg_turbo' \
 	'third_party/libpng' \
 	'third_party/libsrtp' \
