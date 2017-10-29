@@ -818,6 +818,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'v8/third_party/inspector_protocol' \
 	'third_party/cld_3' \
 	'base/third_party/libevent' \
+	'third_party/libjpeg' \
 	'third_party/libjpeg_turbo' \
 	'third_party/libpng' \
 	'third_party/libsrtp' \
