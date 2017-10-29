@@ -84,6 +84,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundleharfbuzz 1
 %global bundlelibwebp 1
 %global bundlelibpng 1
+%global bundlelibjpeg 1
 %else
 %if 0%{?fedora} > 25
 %global bundleharfbuzz 0
@@ -95,6 +96,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibusbx 1
 %global bundlelibwebp 0
 %global bundlelibpng 0
+%global bundlelibjpeg 0
 %endif
 
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
@@ -305,7 +307,12 @@ BuildRequires:	vulkan-devel
 # Not newer than 54 (at least not right now)
 BuildRequires:	libicu-devel = 54.1
 %endif
+%if 0%{?bundlelibjpeg}
+# If this is true, we're using the bundled libjpeg
+# which we need to do because the RHEL 7 libpng doesn't work right anymore
+%else
 BuildRequires:	libjpeg-devel
+%endif
 %if 0%{?bundlelibpng}
 # If this is true, we're using the bundled libpng
 # which we need to do because the RHEL 7 libpng doesn't work right anymore
@@ -441,7 +448,9 @@ Provides: bundled(libaddressinput) = 0
 Provides: bundled(libdrm) = 2.4.70
 Provides: bundled(libevent) = 1.4.15
 Provides: bundled(libjingle) = 9564
-# Provides: bundled(libjpeg-turbo) = 1.4.90
+%if 0%{?bundlelibjpeg}
+Provides: bundled(libjpeg-turbo) = 1.4.90
+%endif
 Provides: bundled(libphonenumber) = a4da30df63a097d67e3c429ead6790ad91d36cf4
 %if 0%{?bundlelibpng}
 Provides: bundled(libpng) = 1.6.22
@@ -988,7 +997,9 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 	icu \
 %endif
 	libdrm \
+%if %{bundlelibjpeg}
 	libjpeg \
+%endif
 %if %{bundlelibpng}
 %else
 	libpng \
@@ -1792,6 +1803,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Fri Oct 27 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.75-1.R
 - update to 62.0.3202.75
 - use devtoolset-7-toolchain to build on epel7
+- use bundled libjpeg for RHEL 7
 
 * Mon Oct 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.62-2.R
 - use flag use_cxx11 = true for RHEL 7
