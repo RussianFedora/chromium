@@ -84,6 +84,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundleharfbuzz 1
 %global bundlelibwebp 1
 %global bundlelibpng 1
+%global bundlelibjpeg 1
 %else
 %if 0%{?fedora} > 25
 %global bundleharfbuzz 0
@@ -95,6 +96,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibusbx 1
 %global bundlelibwebp 0
 %global bundlelibpng 0
+%global bundlelibjpeg 0
 %endif
 
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
@@ -185,10 +187,6 @@ Patch59:	chromium-62.0.3202.45-gcc-nc.patch
 Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
 # Another gcc 4.8 goods..
 Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
-
-# epel7 does not know about c++14
-Patch65:	chromium-62.0.3202.62-epel7-noc++14.patch
-Patch66:	chromium-62.0.3202.62-epel7-c++11-support.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-46.0.2490.86-use_system_opus.patch
@@ -371,6 +369,10 @@ BuildRequires:	pkgconfig(gnome-keyring-1)
 BuildRequires:	pam-devel
 BuildRequires:	systemd
 
+%if 0%{?rhel} == 7
+BuildRequires: devtoolset-7-toolchain, devtoolset-7-libatomic-devel
+%endif
+
 # We pick up an automatic requires on the library, but we need the version check
 # because the nss shared library is unversioned.
 # This is to prevent someone from hitting http://code.google.com/p/chromium/issues/detail?id=26448
@@ -441,7 +443,9 @@ Provides: bundled(libaddressinput) = 0
 Provides: bundled(libdrm) = 2.4.70
 Provides: bundled(libevent) = 1.4.15
 Provides: bundled(libjingle) = 9564
-# Provides: bundled(libjpeg-turbo) = 1.4.90
+%if 0%{?bundlelibjpeg}
+Provides: bundled(libjpeg-turbo) = 1.4.90
+%endif
 Provides: bundled(libphonenumber) = a4da30df63a097d67e3c429ead6790ad91d36cf4
 %if 0%{?bundlelibpng}
 Provides: bundled(libpng) = 1.6.22
@@ -631,8 +635,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch59 -p1 -b .gcc-nc
 %patch60 -p1 -b .nonullptr
 %patch61 -p1 -b .another-rvalue-fix
-%patch65 -p1 -b .epel7-noc++14
-%patch66 -p1 -b .epel7-c++11
 %endif
 
 #%patch52 -p1 -b .fixgccagain
@@ -990,7 +992,9 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 	icu \
 %endif
 	libdrm \
+%if %{bundlelibjpeg}
 	libjpeg \
+%endif
 %if %{bundlelibpng}
 %else
 	libpng \
@@ -1018,6 +1022,10 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %endif
 	yasm \
 	zlib
+
+%if 0%{?rhel} == 7
+. /opt/rh/devtoolset-7/enable
+%endif
 
 tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES"
 %{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{target}
@@ -1048,6 +1056,10 @@ mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 
 %build
+%if 0%{?rhel} == 7
+. /opt/rh/devtoolset-7/enable
+%endif
+
 
 %if %{?tests}
 # Tests targets taken from testing/buildbot/chromium.linux.json and obtained with
@@ -1788,6 +1800,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 * Fri Oct 27 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.75-1.R
 - update to 62.0.3202.75
+- use devtoolset-7-toolchain to build on epel7
+- use bundled libjpeg for RHEL 7
 
 * Mon Oct 23 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.62-2.R
 - use flag use_cxx11 = true for RHEL 7
