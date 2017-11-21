@@ -627,15 +627,15 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch42 -p1 -b .noprefix
 %patch43 -p1 -b .nomangle
 %patch45 -p1 -b .nozmangle
-%if 0%{?rhel} == 7
-%patch46 -p1 -b .kmaxskip
-%patch47 -p1 -b .c99
-%patch54 -p1 -b .gcc5fix
-%patch58 -p1 -b .dde5e35
-%patch59 -p1 -b .gcc-nc
-%patch60 -p1 -b .nonullptr
-%patch61 -p1 -b .another-rvalue-fix
-%endif
+#%if 0%{?rhel} == 7
+#%patch46 -p1 -b .kmaxskip
+#%patch47 -p1 -b .c99
+#%patch54 -p1 -b .gcc5fix
+#%patch58 -p1 -b .dde5e35
+#%patch59 -p1 -b .gcc-nc
+#%patch60 -p1 -b .nonullptr
+#%patch61 -p1 -b .another-rvalue-fix
+#%endif
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
