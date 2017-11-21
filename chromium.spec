@@ -993,6 +993,7 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %endif
 	libdrm \
 %if %{bundlelibjpeg}
+%else
 	libjpeg \
 %endif
 %if %{bundlelibpng}
