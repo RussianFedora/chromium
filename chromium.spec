@@ -612,7 +612,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
 %patch15 -b .sandboxpie
-%patch16 -p1 -b .armwebrtc
+#%patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
 %patch21 -p1 -b .lastcommit
@@ -1801,6 +1801,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Nov 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.70-1.R
 - update to 63.0.3239.70
+- disable arm webrtc patch
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
