@@ -12,6 +12,7 @@
 # %%{nil} for Stable; -beta for Beta; -dev for Devel
 # dash in -beta and -dev is intentional !
 %global chromium_channel %{nil}
+%global chromium_menu_name Chromium
 %global chromium_browser_channel chromium-browser%{chromium_channel}
 %global chromium_path %{_libdir}/chromium-browser%{chromium_channel}
 %global crd_path %{_libdir}/chrome-remote-desktop
@@ -1188,7 +1189,9 @@ chmod -x %{buildroot}%{chromium_path}/nacl_helper_bootstrap* *.nexe
 cp -a protoc pyproto %{buildroot}%{chromium_path}
 cp -a chrome %{buildroot}%{chromium_path}/%{chromium_browser_channel}
 cp -a chrome_sandbox %{buildroot}%{chromium_path}/chrome-sandbox
-cp -a chrome.1 %{buildroot}%{_mandir}/man1/%{chromium_browser_channel}.1
+cp -a ../../chrome/app/resources/manpage.1.in %{buildroot}%{_mandir}/man1/%{chromium_browser_channel}.1
+sed -i "s|@@PACKAGE@@|%{chromium_browser_channel}|g" %{buildroot}%{_mandir}/man1/%{chromium_browser_channel}.1
+sed -i "s|@@MENUNAME@@|%{chromium_menu_name}|g" %{buildroot}%{_mandir}/man1/%{chromium_browser_channel}.1
 # V8 initial snapshots
 # https://code.google.com/p/chromium/issues/detail?id=421063
 cp -a natives_blob.bin %{buildroot}%{chromium_path}
