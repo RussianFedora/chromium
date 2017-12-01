@@ -624,7 +624,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch31 -p1 -b .permissive
 #%patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
-%patch40 -p1 -b .ucontextfix
+#%patch40 -p1 -b .ucontextfix
 %patch42 -p1 -b .noprefix
 %patch43 -p1 -b .nomangle
 %patch45 -p1 -b .nozmangle
@@ -1803,6 +1803,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 63.0.3239.70
 - disable arm webrtc patch
 - update opaque patch
+- disable ucontext-fix patch
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
