@@ -191,7 +191,7 @@ Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-63.0.3239.70-use_system_opus.patch
-Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
+Patch101:	chromium-63.0.3239.70-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
@@ -1805,6 +1805,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update opaque patch
 - disable ucontext-fix patch
 - update opus patch
+- update harfbuzz patch
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
