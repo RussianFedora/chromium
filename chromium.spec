@@ -646,7 +646,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
-%patch500 -p1 -b .gn-bootstrap-r8
+#%patch500 -p1 -b .gn-bootstrap-r8
 %patch501 -p1 -b .std++17
 
 %if 0%{?asan}
@@ -1806,6 +1806,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - disable ucontext-fix patch
 - update opus patch
 - update harfbuzz patch
+- disable bootstrap patch
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
