@@ -1,0 +1,12 @@
+diff -urN chromium-63.0.3239.70.orig/media/cast/receiver/audio_decoder_unittest.cc chromium-63.0.3239.70/media/cast/receiver/audio_decoder_unittest.cc
+--- chromium-63.0.3239.70.orig/media/cast/receiver/audio_decoder_unittest.cc	2017-11-30 18:06:06.472387537 +0300
++++ chromium-63.0.3239.70/media/cast/receiver/audio_decoder_unittest.cc	2017-12-01 14:06:33.715385868 +0300
+@@ -17,7 +17,7 @@
+ #include "media/cast/test/utility/audio_utility.h"
+ #include "media/cast/test/utility/standalone_cast_environment.h"
+ #include "testing/gtest/include/gtest/gtest.h"
+-#include "third_party/opus/src/include/opus.h"
++#include <opus/opus.h>
+ 
+ namespace media {
+ namespace cast {

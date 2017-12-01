@@ -190,7 +190,7 @@ Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
 Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 
 ### Chromium Tests Patches ###
-Patch100:	chromium-46.0.2490.86-use_system_opus.patch
+Patch100:	chromium-63.0.3239.70-use_system_opus.patch
 Patch101:	chromium-58.0.3029.19-use_system_harfbuzz.patch
 
 ### Russian Fedora Patches ###
@@ -1804,6 +1804,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - disable arm webrtc patch
 - update opaque patch
 - disable ucontext-fix patch
+- update opus patch
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
