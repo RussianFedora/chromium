@@ -643,7 +643,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 ### Chromium Tests Patches ###
 %patch100 -p1 -b .use_system_opus
-%patch101 -p1 -b .use_system_harfbuzz
+#%patch101 -p1 -b .use_system_harfbuzz
 
 ### Russian Fedora Patches ###
 #%patch500 -p1 -b .gn-bootstrap-r8
