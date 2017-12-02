@@ -841,7 +841,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'base/third_party/valgrind' \
 	'base/third_party/xdg_mime' \
 	'base/third_party/xdg_user_dirs' \
-	'breakpad/src/third_party/curl' \
 	'chrome/third_party/mozilla_security_manager' \
 	'courgette/third_party' \
 	'native_client_sdk/src/libraries/third_party/newlib-extras' \
