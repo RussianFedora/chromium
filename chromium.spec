@@ -756,6 +756,11 @@ popd
 
 # Core defines are flags that are true for both the browser and headless.
 CHROMIUM_CORE_GN_DEFINES=""
+%if 0%{?bundleharfbuzz}
+%else
+# See dependency logic in third_party/BUILD.gn
+CHROMIUM_CORE_GN_DEFINES+='  use_system_harfbuzz=true'
+%endif
 CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 %ifarch x86_64
 CHROMIUM_CORE_GN_DEFINES+=' system_libdir="lib64"'
@@ -791,6 +796,11 @@ CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
 export CHROMIUM_BROWSER_GN_DEFINES
 
 CHROMIUM_HEADLESS_GN_DEFINES=""
+%if 0%{?bundleharfbuzz}
+%else
+# See dependency logic in third_party/BUILD.gn
+CHROMIUM_HEADLESS_GN_DEFINES+='  use_system_harfbuzz=true'
+%endif
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_ozone=true ozone_auto_platforms=false ozone_platform="headless" ozone_platform_headless=true'
 CHROMIUM_HEADLESS_GN_DEFINES+=' headless_use_embedded_resources=true icu_use_data_file=false v8_use_external_startup_data=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' enable_nacl=false enable_print_preview=false enable_remoting=false use_alsa=false use_ash=false'
@@ -979,10 +989,6 @@ export PATH=$PATH:%{_builddir}/depot_tools
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
 	freetype \
-%if 0%{?bundleharfbuzz}
-%else
-	harfbuzz-ng \
-%endif
 %if 0%{?bundleicu}
 %else
 	icu \
