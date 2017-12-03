@@ -759,7 +759,7 @@ CHROMIUM_CORE_GN_DEFINES=""
 %if 0%{?bundleharfbuzz}
 %else
 # See dependency logic in third_party/BUILD.gn
-CHROMIUM_CORE_GN_DEFINES+=' use_system_harfbuzz=true'
+CHROMIUM_CORE_GN_DEFINES+='  use_system_harfbuzz=true'
 %endif
 CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 %ifarch x86_64
@@ -799,7 +799,7 @@ CHROMIUM_HEADLESS_GN_DEFINES=""
 %if 0%{?bundleharfbuzz}
 %else
 # See dependency logic in third_party/BUILD.gn
-CHROMIUM_HEADLESS_GN_DEFINES+=' use_system_harfbuzz=true'
+CHROMIUM_HEADLESS_GN_DEFINES+='  use_system_harfbuzz=true'
 %endif
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_ozone=true ozone_auto_platforms=false ozone_platform="headless" ozone_platform_headless=true'
 CHROMIUM_HEADLESS_GN_DEFINES+=' headless_use_embedded_resources=true icu_use_data_file=false v8_use_external_startup_data=false'
@@ -818,6 +818,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/ffmpeg' \
 	'third_party/adobe' \
 	'third_party/flac' \
+	'third_party/harfbuzz-ng' \
 	'third_party/icu' \
 	'third_party/inspector_protocol' \
 	'v8/third_party/inspector_protocol' \
