@@ -804,7 +804,9 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/ffmpeg' \
 	'third_party/adobe' \
 	'third_party/flac' \
+%if 0%{?bundleharfbuzz}
 	'third_party/harfbuzz-ng' \
+%endif
 	'third_party/icu' \
 	'third_party/inspector_protocol' \
 	'v8/third_party/inspector_protocol' \
