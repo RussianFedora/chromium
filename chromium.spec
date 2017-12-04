@@ -973,9 +973,9 @@ export PATH=$PATH:%{_builddir}/depot_tools
 
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
-	freetype \
 %if 0%{?bundleharfbuzz}
 %else
+	freetype \
 	harfbuzz-ng \
 %endif
 %if 0%{?bundleicu}
