@@ -184,6 +184,9 @@ Patch59:	chromium-62.0.3202.45-gcc-nc.patch
 Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
 # Another gcc 4.8 goods..
 Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
+# Webrtc gentto patch 
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-webrtc-r0.patch
+Patch62:	chromium-webrtc-r0.patch
 
 ### Chromium Tests Patches ###
 Patch100:	chromium-63.0.3239.70-use_system_opus.patch
@@ -633,6 +636,8 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch60 -p1 -b .nonullptr
 #%patch61 -p1 -b .another-rvalue-fix
 #%endif
+
+%patch62 -p1 -b .webrtc
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
@@ -1808,6 +1813,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update harfbuzz patch
 - disable bootstrap patch
 - disable std++17 patch
+- apped gentoo webrtc patch
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
