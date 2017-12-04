@@ -87,11 +87,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibpng 1
 %global bundlelibjpeg 1
 %else
-%if 0%{?fedora} > 25
-%global bundleharfbuzz 0
-%else
 %global bundleharfbuzz 1
-%endif
 %global bundlejinja2 1
 %global bundleopus 1
 %global bundlelibusbx 1
@@ -808,7 +804,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/ffmpeg' \
 	'third_party/adobe' \
 	'third_party/flac' \
-	'third_party/harfbuzz-ng' \
 	'third_party/icu' \
 	'third_party/inspector_protocol' \
 	'v8/third_party/inspector_protocol' \
