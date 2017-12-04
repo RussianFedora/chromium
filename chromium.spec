@@ -847,22 +847,28 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/analytics' \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/base' \
+	'third_party/angle/src/common/third_party/smhasher' \
 	'third_party/angle/src/third_party/compiler' \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/trace_event' \
 	'third_party/blink' \
 	'third_party/blanketjs' \
 	'third_party/boringssl' \
+	'third_party/breakpad' \
+	'third_party/breakpad/breakpad/src/third_party/curl' \
 	'third_party/brotli' \
 	'third_party/cacheinvalidation' \
 	'third_party/catapult' \
+	'third_party/catapult/common/py_vulcanize/third_party/rcssmin' \
+	'third_party/catapult/common/py_vulcanize/third_party/rjsmin' \
 	'third_party/catapult/tracing/third_party/d3' \
 	'third_party/catapult/tracing/third_party/gl-matrix' \
 	'third_party/catapult/tracing/third_party/jszip' \
 	'third_party/catapult/tracing/third_party/mannwhitneyu' \
 	'third_party/catapult/tracing/third_party/oboe' \
-        'third_party/catapult/third_party/polymer' \
-        'third_party/ced' \
+	'third_party/catapult/tracing/third_party/pako' \
+	'third_party/catapult/third_party/polymer' \
+	'third_party/ced' \
 	'third_party/cld_2' \
 	'third_party/crc32c' \
 	'third_party/cros_system_api' \
