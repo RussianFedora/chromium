@@ -803,6 +803,9 @@ export CHROMIUM_HEADLESS_GN_DEFINES
 # Gentoo's Chromium ebuild) are the libraries that needs to be preserved.
 build/linux/unbundle/remove_bundled_libraries.py \
 	'buildtools/third_party/libc++' \
+	'buildtools/third_party/libc++/trunk' \
+	'buildtools/third_party/libc++/trunk/include/' \
+	'buildtools/third_party/libc++/trunk/include/experimental' \
 	'buildtools/third_party/libc++abi' \
 	'third_party/ffmpeg' \
 	'third_party/adobe' \
