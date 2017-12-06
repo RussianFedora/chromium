@@ -38,7 +38,7 @@
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
-%global asan 0
+%global asan 1
 
 # nacl/pnacl are soon to be dead. We're just killing them off early.
 %global killnacl 1
@@ -227,6 +227,10 @@ Source13:	master_preferences
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
 
+%if 0%{?asan}
+BuildRequires:	clang
+%endif
+
 BuildRequires:	alsa-lib-devel
 BuildRequires:	atk-devel
 BuildRequires:	bison
@@ -281,7 +285,6 @@ BuildRequires:	nacl-arm-gcc, nacl-arm-binutils, nacl-arm-newlib
 # right now, it needs to be updated everytime chromium bumps
 # a major version.
 BuildRequires:	chromium-native_client >= 52.0.2743.82
-BuildRequires:	clang
 %ifarch x86_64
 # Really, this is what we want:
 # BuildRequires:  glibc-devel(x86-32) libgcc(x86-32)
@@ -1814,6 +1817,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - disable bootstrap patch
 - disable std++17 patch
 - apped gentoo webrtc patch
+- build with clang
 
 * Wed Nov 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 62.0.3202.94-1.R
 - update to 62.0.3202.94
