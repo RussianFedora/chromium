@@ -578,11 +578,7 @@ without support for alsa, cups, dbus, gconf, gio, kerberos, pulseaudio, or
 udev.
 
 %prep
-%if 0%{tests}
-%setup -q -n chromium-%{version} -b 1
-%else
 %setup -q -n chromium-%{version}
-%endif
 
 # Fix Russian Translation
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
