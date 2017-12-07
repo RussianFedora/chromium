@@ -646,6 +646,9 @@ export CXX="g++"
 export AR="ar"
 export RANLIB="ranlib"
 
+# NUKE FROM ORBIT
+rm -rf buildtools/third_party/libc++/BUILD.gn
+
 %if 0%{?nacl}
 # prep the nacl tree
 mkdir -p out/Release/gen/sdk/linux_x86/nacl_x86_newlib
@@ -945,7 +948,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
 	'third_party/swiftshader' \
-	'third_party/swiftshader/third_party/llvm-subzero' \
+	'third_party/swiftshader/third_party/elvm-subzero' \
 	'third_party/swiftshader/third_party/subzero' \
 	'third_party/tcmalloc' \
 	'third_party/usrsctp' \
@@ -1320,58 +1323,111 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/resources/
 %dir %{chromium_path}/locales/
 %lang(am) %{chromium_path}/locales/am.pak
+%lang(am) %{chromium_path}/locales/am.info
 %lang(ar) %{chromium_path}/locales/ar.pak
+%lang(ar) %{chromium_path}/locales/ar.info
 %lang(bg) %{chromium_path}/locales/bg.pak
+%lang(bg) %{chromium_path}/locales/bg.info
 %lang(bn) %{chromium_path}/locales/bn.pak
+%lang(bn) %{chromium_path}/locales/bn.info
 %lang(ca) %{chromium_path}/locales/ca.pak
+%lang(ca) %{chromium_path}/locales/ca.info
 %lang(cs) %{chromium_path}/locales/cs.pak
+%lang(cs) %{chromium_path}/locales/cs.info
 %lang(da) %{chromium_path}/locales/da.pak
+%lang(da) %{chromium_path}/locales/da.info
 %lang(de) %{chromium_path}/locales/de.pak
+%lang(de) %{chromium_path}/locales/de.info
 %lang(el) %{chromium_path}/locales/el.pak
+%lang(el) %{chromium_path}/locales/el.info
 %lang(en_GB) %{chromium_path}/locales/en-GB.pak
+%lang(en_GB) %{chromium_path}/locales/en-GB.info
 %lang(en_US) %{chromium_path}/locales/en-US.pak
+%lang(en_US) %{chromium_path}/locales/en-US.info
 %lang(es) %{chromium_path}/locales/es.pak
+%lang(es) %{chromium_path}/locales/es.info
 %lang(es) %{chromium_path}/locales/es-419.pak
+%lang(es) %{chromium_path}/locales/es-419.info
 %lang(et) %{chromium_path}/locales/et.pak
+%lang(et) %{chromium_path}/locales/et.info
 %lang(fa) %{chromium_path}/locales/fa.pak
+%lang(fa) %{chromium_path}/locales/fa.info
 %lang(fi) %{chromium_path}/locales/fi.pak
+%lang(fi) %{chromium_path}/locales/fi.info
 %lang(fil) %{chromium_path}/locales/fil.pak
+%lang(fil) %{chromium_path}/locales/fil.info
 %lang(fr) %{chromium_path}/locales/fr.pak
+%lang(fr) %{chromium_path}/locales/fr.info
 %lang(gu) %{chromium_path}/locales/gu.pak
+%lang(gu) %{chromium_path}/locales/gu.info
 %lang(he) %{chromium_path}/locales/he.pak
+%lang(he) %{chromium_path}/locales/he.info
 %lang(hi) %{chromium_path}/locales/hi.pak
+%lang(hi) %{chromium_path}/locales/hi.info
 %lang(hr) %{chromium_path}/locales/hr.pak
+%lang(hr) %{chromium_path}/locales/hr.info
 %lang(hu) %{chromium_path}/locales/hu.pak
+%lang(hu) %{chromium_path}/locales/hu.info
 %lang(id) %{chromium_path}/locales/id.pak
+%lang(id) %{chromium_path}/locales/id.info
 %lang(it) %{chromium_path}/locales/it.pak
+%lang(it) %{chromium_path}/locales/it.info
 %lang(ja) %{chromium_path}/locales/ja.pak
+%lang(ja) %{chromium_path}/locales/ja.info
 %lang(kn) %{chromium_path}/locales/kn.pak
+%lang(kn) %{chromium_path}/locales/kn.info
 %lang(ko) %{chromium_path}/locales/ko.pak
+%lang(ko) %{chromium_path}/locales/ko.info
 %lang(lt) %{chromium_path}/locales/lt.pak
+%lang(lt) %{chromium_path}/locales/lt.info
 %lang(lv) %{chromium_path}/locales/lv.pak
+%lang(lv) %{chromium_path}/locales/lv.info
 %lang(ml) %{chromium_path}/locales/ml.pak
+%lang(ml) %{chromium_path}/locales/ml.info
 %lang(mr) %{chromium_path}/locales/mr.pak
+%lang(mr) %{chromium_path}/locales/mr.info
 %lang(ms) %{chromium_path}/locales/ms.pak
+%lang(ms) %{chromium_path}/locales/ms.info
 %lang(nb) %{chromium_path}/locales/nb.pak
+%lang(nb) %{chromium_path}/locales/nb.info
 %lang(nl) %{chromium_path}/locales/nl.pak
+%lang(nl) %{chromium_path}/locales/nl.info
 %lang(pl) %{chromium_path}/locales/pl.pak
+%lang(pl) %{chromium_path}/locales/pl.info
 %lang(pt_BR) %{chromium_path}/locales/pt-BR.pak
+%lang(pt_BR) %{chromium_path}/locales/pt-BR.info
 %lang(pt_PT) %{chromium_path}/locales/pt-PT.pak
+%lang(pt_PT) %{chromium_path}/locales/pt-PT.info
 %lang(ro) %{chromium_path}/locales/ro.pak
+%lang(ro) %{chromium_path}/locales/ro.info
 %lang(ru) %{chromium_path}/locales/ru.pak
+%lang(ru) %{chromium_path}/locales/ru.info
 %lang(sk) %{chromium_path}/locales/sk.pak
+%lang(sk) %{chromium_path}/locales/sk.info
 %lang(sl) %{chromium_path}/locales/sl.pak
+%lang(sl) %{chromium_path}/locales/sl.info
 %lang(sr) %{chromium_path}/locales/sr.pak
+%lang(sr) %{chromium_path}/locales/sr.info
 %lang(sv) %{chromium_path}/locales/sv.pak
+%lang(sv) %{chromium_path}/locales/sv.info
 %lang(sw) %{chromium_path}/locales/sw.pak
+%lang(sw) %{chromium_path}/locales/sw.info
 %lang(ta) %{chromium_path}/locales/ta.pak
+%lang(ta) %{chromium_path}/locales/ta.info
 %lang(te) %{chromium_path}/locales/te.pak
+%lang(te) %{chromium_path}/locales/te.info
 %lang(th) %{chromium_path}/locales/th.pak
+%lang(th) %{chromium_path}/locales/th.info
 %lang(tr) %{chromium_path}/locales/tr.pak
+%lang(tr) %{chromium_path}/locales/tr.info
 %lang(uk) %{chromium_path}/locales/uk.pak
+%lang(uk) %{chromium_path}/locales/uk.info
 %lang(vi) %{chromium_path}/locales/vi.pak
+%lang(vi) %{chromium_path}/locales/vi.info
 %lang(zh_CN) %{chromium_path}/locales/zh-CN.pak
+%lang(zh_CN) %{chromium_path}/locales/zh-CN.info
 %lang(zh_TW) %{chromium_path}/locales/zh-TW.pak
+%lang(zh_TW) %{chromium_path}/locales/zh-TW.info
 
 %files headless
 %{chromium_path}/headless_shell
