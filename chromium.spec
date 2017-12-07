@@ -643,7 +643,7 @@ export AR="ar"
 export RANLIB="ranlib"
 
 # NUKE FROM ORBIT
-rm -rf buildtools/third_party/libc++/BUILD.gn
+#rm -rf buildtools/third_party/libc++/BUILD.gn
 
 %if 0%{?nacl}
 # prep the nacl tree
