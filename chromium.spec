@@ -34,11 +34,11 @@
 %global build_remoting_app 0
 
 # Build Chrome Remote Desktop
-%global build_remote_desktop 1
+%global build_remote_desktop 0
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
-%global asan 1
+%global asan 0
 
 # nacl/pnacl are soon to be dead. We're just killing them off early.
 %global killnacl 1
@@ -106,7 +106,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	63.0.3239.70
+Version:	63.0.3239.84
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -196,6 +196,8 @@ Patch101:	chromium-63.0.3239.70-use_system_harfbuzz.patch
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
 Patch500:	chromium-gn-bootstrap-r17.patch
 Patch501:	chromium-62.0.3202.52-crc32c-iso.patch
+# Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r1.patch
+Patch502:	chromium-clang-r1.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -229,6 +231,7 @@ BuildRequires:	gcc-c++
 
 %if 0%{?asan}
 BuildRequires:	clang
+BuildRequires:	llvm
 %endif
 
 BuildRequires:	alsa-lib-devel
@@ -653,7 +656,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch500 -p1 -b .gn-bootstrap-r8
 #%patch501 -p1 -b .std++17
 
+
 %if 0%{?asan}
+%patch502 -p1 -b .clang
 export CC="clang"
 export CXX="clang++"
 %else
@@ -754,7 +759,8 @@ popd
 
 mkdir -p third_party/llvm-build/Release+Asserts/bin
 pushd third_party/llvm-build/Release+Asserts/bin
-ln -s /usr/bin/clang clang
+ln -sf /usr/bin/clang clang
+ln -sf /usr/bin/clang++ clang++
 popd
 %endif
 
@@ -765,7 +771,12 @@ CHROMIUM_CORE_GN_DEFINES+=' is_debug=false'
 CHROMIUM_CORE_GN_DEFINES+=' system_libdir="lib64"'
 %endif
 CHROMIUM_CORE_GN_DEFINES+=' google_api_key="%{api_key}" google_default_client_id="%{default_client_id}" google_default_client_secret="%{default_client_secret}"'
-CHROMIUM_CORE_GN_DEFINES+=' is_clang=false use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true  use_custom_libcxx=false'
+%if 0%{?asan}
+CHROMIUM_CORE_GN_DEFINES+=' is_clang=true clang_base_path="/usr" clang_use_chrome_plugins=false fatal_linker_warnings=false use_lld=false'
+%else
+CHROMIUM_CORE_GN_DEFINES+=' is_clang=false'
+%endif
+CHROMIUM_CORE_GN_DEFINES+=' use_sysroot=false use_gold=false fieldtrial_testing_like_official_build=true  use_custom_libcxx=false'
 %if %{freeworld}
 CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
 %else
@@ -1665,9 +1676,11 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %doc chrome_policy_list.html *.json
 %license LICENSE
 %config %{_sysconfdir}/%{name}/
+%if %{build_remote_desktop}
 %dir %{_sysconfdir}/%{name}/native-messaging-hosts
 # This is chrome-remote-desktop stuff
 %exclude %{_sysconfdir}/%{name}/native-messaging-hosts/*
+%endif
 %{_bindir}/%{chromium_browser_channel}
 %dir %{chromium_path}
 %{chromium_path}/*.bin
@@ -1784,6 +1797,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %if 0%{?shared}
 %{crd_path}/lib*.so
 %endif
+%if %{build_remote_desktop}
 %{crd_path}/native-messaging-host
 %{crd_path}/remote-assistance-host
 %{_sysconfdir}/pam.d/chrome-remote-desktop
@@ -1793,6 +1807,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{crd_path}/start-host
 %{_unitdir}/chrome-remote-desktop@.service
 /var/lib/chrome-remote-desktop/
+%endif
 %if 0%{?build_remoting_app}
 %if 0%{?nacl}
 %{chromium_path}/remoting_client_plugin_newlib.*
@@ -1807,6 +1822,11 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Dec  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.84-1.R
+- fix build with clang
+- update to 63.0.3239.84
+- disable build of remote desktop
+
 * Thu Nov 30 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.70-1.R
 - update to 63.0.3239.70
 - disable arm webrtc patch
