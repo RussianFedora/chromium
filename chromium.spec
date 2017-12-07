@@ -944,7 +944,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
 	'third_party/swiftshader' \
-	'third_party/swiftshader/third_party/lvm-subzero' \
+	'third_party/swiftshader/third_party/llvm-subzero' \
 	'third_party/swiftshader/third_party/subzero' \
 	'third_party/tcmalloc' \
 	'third_party/usrsctp' \
