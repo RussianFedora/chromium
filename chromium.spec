@@ -254,7 +254,7 @@ BuildRequires:	ninja-build >= 1.7.2
 BuildRequires:	minizip-devel
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	nodejs
-BuildRequires:	nss-devel
+BuildRequires:	nss-devel >= 3.26
 BuildRequires:	pciutils-devel
 BuildRequires:	pulseaudio-libs-devel
 
@@ -363,10 +363,8 @@ BuildRequires:	systemd
 BuildRequires: devtoolset-7-toolchain, devtoolset-7-libatomic-devel
 %endif
 
-# We pick up an automatic requires on the library, but we need the version check
-# because the nss shared library is unversioned.
-# This is to prevent someone from hitting http://code.google.com/p/chromium/issues/detail?id=26448
-Requires:	nss%{_isa} >= 3.12.3
+# There is a hardcoded check for nss 3.26 in the chromium code (crypto/nss_util.cc)
+Requires:	nss%{_isa} >= 3.26
 Requires:	nss-mdns%{_isa}
 
 # GTK modules it expects to find for some reason.
