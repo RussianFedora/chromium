@@ -31,7 +31,7 @@
 %global build_remoting_app 0
 
 # Build Chrome Remote Desktop
-%global build_remote_desktop 0
+%global build_remote_desktop 1
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
@@ -105,9 +105,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	63.0.3239.84
 %if 0%{?rhel} == 7
-Release:	1%{?dist}
+Release:	2%{?dist}
 %else
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -184,6 +184,7 @@ Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 # Webrtc gentto patch 
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-webrtc-r0.patch
 Patch62:	chromium-webrtc-r0.patch
+Patch64:	chromium-63.0.3289.84-nolibc++.patch
 
 ### Russian Fedora Patches ###
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
@@ -622,6 +623,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%endif
 
 %patch62 -p1 -b .webrtc
+%patch63 -p1 -b .nolibc++
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
@@ -1478,6 +1480,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Tue Dec 12 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.84-2.R
+- enable remote desktop
+
 * Thu Dec  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.84-1.R
 - fix build with clang
 - update to 63.0.3239.84
