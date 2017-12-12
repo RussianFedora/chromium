@@ -797,10 +797,8 @@ export CHROMIUM_HEADLESS_GN_DEFINES
 # Remove most of the bundled libraries. Libraries specified below (taken from
 # Gentoo's Chromium ebuild) are the libraries that needs to be preserved.
 build/linux/unbundle/remove_bundled_libraries.py \
-%if 0%{?asan}
 	'buildtools/third_party/libc++' \
 	'buildtools/third_party/libc++abi' \
-%endif
 	'third_party/ffmpeg' \
 	'third_party/adobe' \
 	'third_party/flac' \
