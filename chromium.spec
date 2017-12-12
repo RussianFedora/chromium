@@ -84,7 +84,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibpng 1
 %global bundlelibjpeg 1
 %else
-%global bundleharfbuzz 1
+%global bundleharfbuzz 0
 %global bundlejinja2 1
 %global bundleopus 1
 %global bundlelibusbx 1
@@ -184,7 +184,8 @@ Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 # Webrtc gentto patch 
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-webrtc-r0.patch
 Patch62:	chromium-webrtc-r0.patch
-Patch64:	chromium-63.0.3289.84-nolibc++.patch
+Patch63:	chromium-63.0.3289.84-nolibc++.patch
+Patch64:	chromium-63.0.3289.84-fix-ft-hb-unbundle.patch
 
 ### Russian Fedora Patches ###
 # gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
@@ -624,6 +625,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 %patch62 -p1 -b .webrtc
 %patch63 -p1 -b .nolibc++
+%patch64 -p1 -b .ft-hb
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
@@ -1482,6 +1484,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Tue Dec 12 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.84-2.R
 - enable remote desktop
+- build with system freetype and harfbuzz
 
 * Thu Dec  7 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.84-1.R
 - fix build with clang
