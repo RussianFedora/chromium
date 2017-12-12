@@ -93,6 +93,14 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibjpeg 0
 %endif
 
+# Needs at least harfbuzz 1.5.0 now.
+# 2017-06-12
+%if 0%{?fedora} < 28
+%global bundleharfbuzz 1
+%else
+%global bundleharfbuzz 0
+%endif
+
 ### Google API keys (see http://www.chromium.org/developers/how-tos/api-keys)
 ### Note: These are for Fedora use ONLY.
 ### For your own distribution, please get your own set of keys.
@@ -800,9 +808,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/ffmpeg' \
 	'third_party/adobe' \
 	'third_party/flac' \
-%if 0%{?bundleharfbuzz}
 	'third_party/harfbuzz-ng' \
-%endif
 	'third_party/icu' \
 	'third_party/inspector_protocol' \
 	'v8/third_party/inspector_protocol' \
@@ -979,9 +985,9 @@ export PATH=$PATH:%{_builddir}/depot_tools
 
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
+	freetype \
 %if 0%{?bundleharfbuzz}
 %else
-	freetype \
 	harfbuzz-ng \
 %endif
 %if 0%{?bundleicu}
