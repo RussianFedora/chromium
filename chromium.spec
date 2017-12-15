@@ -111,11 +111,11 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	63.0.3239.84
+Version:	63.0.3239.108
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -342,6 +342,7 @@ BuildRequires:	opus-devel
 BuildRequires:	perl(Switch)
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pulseaudio-libs-devel
+BuildRequires:	python2
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-html5lib
@@ -376,7 +377,7 @@ Requires:	nss%{_isa} >= 3.26
 Requires:	nss-mdns%{_isa}
 
 # GTK modules it expects to find for some reason.
-Requires:	libcanberra-gtk2%{_isa}
+Requires:	libcanberra-gtk3%{_isa}
 
 %if 0%{?fedora}
 # This enables support for u2f tokens
@@ -424,7 +425,6 @@ Provides: bundled(ffmpeg) = 3.2git
 Provides: bundled(fips181) = 2.2.3
 Provides: bundled(fontconfig) = 2.11.0
 Provides: bundled(gperftools) = svn144
-Provides: bundled(gtk3) = 3.1.4
 %if 0%{?bundleharfbuzz}
 Provides: bundled(harfbuzz) = 1.4.2
 %endif
@@ -1484,6 +1484,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Dec 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.108-1.R
+- update to 63.0.3239.108
+
 * Tue Dec 12 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.84-2.R
 - enable remote desktop
 - build with system freetype and harfbuzz
