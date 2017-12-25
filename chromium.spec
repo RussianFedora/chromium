@@ -867,6 +867,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/blink' \
 	'third_party/blanketjs' \
 	'third_party/boringssl' \
+	'third_party/boringssl/src/third_party/fiat' \
 	'third_party/breakpad' \
 	'third_party/breakpad/breakpad/src/third_party/curl' \
 	'third_party/brotli' \
