@@ -882,7 +882,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/catapult/tracing/third_party/pako' \
 	'third_party/catapult/third_party/polymer' \
 	'third_party/ced' \
-	'third_party/cld_2' \
 	'third_party/crc32c' \
 	'third_party/cros_system_api' \
 	'third_party/devscripts' \
