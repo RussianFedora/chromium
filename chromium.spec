@@ -196,11 +196,19 @@ Patch63:	chromium-63.0.3289.84-nolibc++.patch
 Patch64:	chromium-63.0.3289.84-fix-ft-hb-unbundle.patch
 
 ### Russian Fedora Patches ###
-# gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-gn-bootstrap-r17.patch
-Patch500:	chromium-gn-bootstrap-r17.patch
-Patch501:	chromium-62.0.3202.52-crc32c-iso.patch
-# Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r1.patch
-Patch502:	chromium-clang-r1.patch
+# Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r2.patch
+Patch502:	chromium-clang-r2.patch
+# Memcpy Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-memcpy-r0.patch
+# memcpy used without including string.h
+# Compiling Chromium with Clang 4.0.1 and using libstdc++ will fail on using
+Patch503:	chromium-memcpy-r0.patch
+# Cups Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-cups-r0.patch
+# Fix use_cups=false build
+Patch504:	chromium-cups-r0.patch
+# Angle Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-angle-r0.patch
+# Fixes compilation on some versions of GCC and probably Clang.
+# Follow-up to http://crrev.com/c/786317
+Patch505:	chromium-angle-r0.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -637,9 +645,9 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch53 -p1 -b .nogccoptmath
 
 ### Russian Fedora Patches ###
-#%patch500 -p1 -b .gn-bootstrap-r8
-#%patch501 -p1 -b .std++17
-
+%patch503 -p1 -b .memcpy
+%patch504 -p1 -b .cups
+%patch505 -p1 -b .angle
 
 %if 0%{?asan}
 %patch502 -p1 -b .clang
@@ -1486,6 +1494,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Dec 25 2017 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.39-1.R
 - update to 64.0.3282.39
+- apply some Gentoo patches and drop old
 
 * Fri Dec 15 2017 Arkady L. Shane <ashejn@russianfedora.pro> 63.0.3239.108-1.R
 - update to 63.0.3239.108
