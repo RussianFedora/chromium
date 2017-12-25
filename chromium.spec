@@ -925,6 +925,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/lss' \
 	'third_party/lzma_sdk' \
 	'third_party/mesa' \
+	'third_party/metrics_proto' \
 	'third_party/modp_b64' \
 	'third_party/mt19937ar' \
 	'third_party/node' \
