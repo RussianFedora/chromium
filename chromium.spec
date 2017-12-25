@@ -637,7 +637,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch61 -p1 -b .another-rvalue-fix
 #%endif
 
-%patch62 -p1 -b .webrtc
+#%patch62 -p1 -b .webrtc
 %patch63 -p1 -b .nolibc++
 %patch64 -p1 -b .ft-hb
 
