@@ -75,6 +75,9 @@ BuildRequires:  libicu-devel >= 5.4
 # Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
 %global gtk3 1
 
+# Enable vaapi
+%global vaapi 1
+
 %if 0%{?rhel} == 7
 %global bundleopus 1
 %global bundlejinja2 1
@@ -206,6 +209,9 @@ Patch504:	chromium-cups-r0.patch
 # Follow-up to http://crrev.com/c/786317
 Patch505:	chromium-angle-r0.patch
 
+# Vaapi Patches
+Patch600:	chromium-vaapi-r15.patch
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -269,6 +275,9 @@ BuildRequires:	nodejs
 BuildRequires:	nss-devel >= 3.26
 BuildRequires:	pciutils-devel
 BuildRequires:	pulseaudio-libs-devel
+%if 0%{vaapi}
+BuildRequires:	libva-devel
+%endif
 
 # for /usr/bin/appstream-util
 BuildRequires: libappstream-glib
@@ -386,6 +395,10 @@ Requires:	libcanberra-gtk3%{_isa}
 %if 0%{?fedora}
 # This enables support for u2f tokens
 Requires:	u2f-hidraw-policy
+%endif
+
+%if 0%{vaapi}
+Requires:	libva
 %endif
 
 # Once upon a time, we tried to split these out... but that's not worth the effort anymore.
@@ -645,6 +658,10 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch504 -p1 -b .cups
 %patch505 -p1 -b .angle
 
+%if 0%{vaapi}
+%patch600 -p1 -b .vaapi
+%endif
+
 %if 0%{?asan}
 %patch502 -p1 -b .clang
 export CC="clang"
@@ -774,6 +791,9 @@ CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
 CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
 %endif
 CHROMIUM_CORE_GN_DEFINES+=' treat_warnings_as_errors=false linux_use_bundled_binutils=false use_custom_libcxx=false'
+%if 0%{vaapi}
+CHROMIUM_CORE_GN_DEFINES+=' use_vaapi=true'
+%endif
 export CHROMIUM_CORE_GN_DEFINES
 
 CHROMIUM_BROWSER_GN_DEFINES=""
@@ -1491,6 +1511,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Mon Jan 22 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.99-1.R
 - update 64.0.3282.99
+- try to enable vaapi
 
 * Thu Jan 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.85-1.R
 - update to 64.0.3282.85
