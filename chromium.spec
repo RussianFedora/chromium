@@ -210,7 +210,9 @@ Patch504:	chromium-cups-r0.patch
 Patch505:	chromium-angle-r0.patch
 
 # Vaapi Patches
-Patch600:	chromium-vaapi-r15.patch
+# Ubuntu patch for chromium 64
+# https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
+Patch600:	enable_vaapi_on_linux_2.diff
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
