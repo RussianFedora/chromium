@@ -115,7 +115,7 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	64.0.3282.113
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
@@ -213,6 +213,10 @@ Patch505:	chromium-angle-r0.patch
 # Ubuntu patch for chromium 64
 # https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
 Patch600:	enable_vaapi_on_linux_2.diff
+# Allow fallback max resolution for VA to be read from file
+# https://github.com/saiarcot895/chromium-ubuntu-build/pull/16
+# https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/specify-max-resolution.patch
+Patch601:	specify-max-resolution.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -662,6 +666,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
+%patch601 -p1 -b .specify-max-resolution
 %endif
 
 %if 0%{?asan}
@@ -1511,6 +1516,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Jan 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.113-2.R
+- allow fallback max resolution for VA to be read from file
+
 * Wed Jan 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.113-1.R
 - update to 64.0.3282.113
 
