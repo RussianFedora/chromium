@@ -76,7 +76,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global gtk3 1
 
 # Enable vaapi
-%global vaapi 1
+%global vaapi 0
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -1518,6 +1518,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Jan 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.119-1.R
 - update to 64.0.3282.119
+- disable vaapi for stable
 
 * Thu Jan 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.113-2.R
 - allow fallback max resolution for VA to be read from file
