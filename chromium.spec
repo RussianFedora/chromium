@@ -1516,10 +1516,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Thu Jan 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.119-1.R
+* Thu Jan 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.119-1.R
 - update to 64.0.3282.119
 
-* Thu Jan 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.113-2.R
+* Thu Jan 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.113-2.R
 - allow fallback max resolution for VA to be read from file
 
 * Wed Jan 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.113-1.R
