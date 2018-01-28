@@ -76,7 +76,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global gtk3 1
 
 # Enable vaapi
-%global vaapi 0
+%global vaapi 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -115,7 +115,7 @@ BuildRequires:  libicu-devel >= 5.4
 
 Name:		chromium%{chromium_channel}
 Version:	64.0.3282.119
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
@@ -666,7 +666,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
-%patch601 -p1 -b .specify-max-resolution
+#%patch601 -p1 -b .specify-max-resolution
 %endif
 
 %if 0%{?asan}
@@ -1516,6 +1516,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sun Jan 28 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.119-2.R
+- ok, enable vaapi.
+
 * Thu Jan 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.119-1.R
 - update to 64.0.3282.119
 - disable vaapi for stable
