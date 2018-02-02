@@ -1187,6 +1187,7 @@ cp -a remote_assistance_host %{buildroot}%{crd_path}/remote-assistance-host
 cp -a remoting_locales %{buildroot}%{crd_path}/
 cp -a remoting_me2me_host %{buildroot}%{crd_path}/chrome-remote-desktop-host
 cp -a remoting_start_host %{buildroot}%{crd_path}/start-host
+cp -a remoting_user_session %{buildroot}%{crd_path}/user-session
 
 # chromium
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts
@@ -1499,6 +1500,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{_sysconfdir}/opt/chrome/
 %{crd_path}/remoting_locales/
 %{crd_path}/start-host
+%{crd_path}/user-session
 %{_unitdir}/chrome-remote-desktop@.service
 /var/lib/chrome-remote-desktop/
 %endif
@@ -1518,6 +1520,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Fri Feb  2 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.140-1.R
 - update to 64.0.3282.140
+- include user-session binary in chrome-remote-desktop subpackage
 
 * Sun Jan 28 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.119-2.R
 - ok, enable vaapi.
