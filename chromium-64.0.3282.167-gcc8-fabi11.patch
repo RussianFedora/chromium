@@ -1,0 +1,15 @@
+diff -up chromium-64.0.3282.167/tools/gn/bootstrap/bootstrap.py.fabi11 chromium-64.0.3282.167/tools/gn/bootstrap/bootstrap.py
+--- chromium-64.0.3282.167/tools/gn/bootstrap/bootstrap.py.fabi11	2018-02-19 11:39:15.807713662 -0500
++++ chromium-64.0.3282.167/tools/gn/bootstrap/bootstrap.py	2018-02-19 11:39:47.038070341 -0500
+@@ -336,6 +336,11 @@ def write_gn_ninja(path, root_gen_dir, o
+   cflags = os.environ.get('CFLAGS', '').split()
+   cflags_cc = os.environ.get('CXXFLAGS', '').split()
+   ldflags = os.environ.get('LDFLAGS', '').split()
++
++  # Work around GCC8 bug gcc#84286
++  cflags.extend(['-fabi-version=11'])
++  cflags_cc.extend(['-fabi-version=11'])
++
+   include_dirs = [root_gen_dir, SRC_ROOT]
+   libs = []
+ 

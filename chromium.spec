@@ -114,7 +114,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	64.0.3282.167
+Version:	64.0.3282.186
 Release:	1%{?dist}.R
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -193,6 +193,9 @@ Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 Patch62:	chromium-webrtc-r0.patch
 Patch63:	chromium-63.0.3289.84-nolibc++.patch
 Patch64:	chromium-63.0.3289.84-fix-ft-hb-unbundle.patch
+
+# Work around gcc8 bug in gn
+Patch68:	chromium-64.0.3282.167-gcc8-fabi11.patch
 
 ### Russian Fedora Patches ###
 # Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r2.patch
@@ -655,6 +658,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch62 -p1 -b .webrtc
 %patch63 -p1 -b .nolibc++
 %patch64 -p1 -b .ft-hb
+%patch68 -p1 -b .fabi11
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
@@ -1518,6 +1522,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sun Feb 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.186-1.R
+- update to 64.0.3282.186
+- include workaround for gcc8 bug in gn
+
 * Wed Feb 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.167-1.R
 - update to 64.0.3282.167
 
