@@ -211,6 +211,8 @@ Patch504:	chromium-cups-r0.patch
 # Fixes compilation on some versions of GCC and probably Clang.
 # Follow-up to http://crrev.com/c/786317
 Patch505:	chromium-angle-r0.patch
+Patch506:	chromium-stdint.patch
+Patch507:	chromium-math.h-r0.patch
 
 # Vaapi Patches
 # Ubuntu patch for chromium 64
@@ -657,16 +659,18 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 #%patch62 -p1 -b .webrtc
 %patch63 -p1 -b .nolibc++
-%patch64 -p1 -b .ft-hb
+#%patch64 -p1 -b .ft-hb
 %patch68 -p1 -b .fabi11
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
 
 ### Russian Fedora Patches ###
-%patch503 -p1 -b .memcpy
-%patch504 -p1 -b .cups
-%patch505 -p1 -b .angle
+#%patch503 -p1 -b .memcpy
+#%patch504 -p1 -b .cups
+#%patch505 -p1 -b .angle
+%patch506 -p1 -b .stdin
+%patch507 -p1 -b .math
 
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
@@ -975,6 +979,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/protobuf/third_party/six' \
 	'third_party/ply' \
 	'third_party/qcms' \
+	'third_party/s2cellid' \
 	'third_party/qunit' \
 	'third_party/sfntly' \
 	'third_party/sinonjs' \
@@ -1000,6 +1005,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/zlib/google' \
 	'url/third_party/mozilla' \
 	'v8/src/third_party/valgrind' \
+        'v8/src/third_party/utf8-decoder' \
 	--do-remove
 
 # Look, I don't know. This package is spit and chewing gum. Sorry.
@@ -1021,6 +1027,7 @@ export PATH=$PATH:%{_builddir}/depot_tools
 
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
+	fontconfig \
 	freetype \
 %if 0%{?bundleharfbuzz}
 %else
@@ -1104,7 +1111,9 @@ ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 # Do headless first.
 ninja -C %{headlesstarget} -vvv headless_shell
 
-ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clearkeycdm policy_templates
+sed -i 's@gn @./gn @g' out/Release/build.ninja
+
+ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clear_key_cdm policy_templates
 
 %if %{build_remote_desktop}
 
