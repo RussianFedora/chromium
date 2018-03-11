@@ -223,6 +223,24 @@ Patch600:	enable_vaapi_on_linux_2.diff
 # https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/specify-max-resolution.patch
 Patch601:	specify-max-resolution.patch
 
+# Add a lot of patches from upstream to fix build on Fedora 26
+# http://copr-dist-git.fedorainfracloud.org/cgit/lantw44/chromium/chromium.git/commit/?id=873d89cdbf8250ca7fb92328a9784410a22a30b8
+Patch650:    chromium-gcc7-r530663.patch
+Patch651:    chromium-gcc7-r531722.patch
+Patch652:    chromium-gcc7-r532004.patch
+Patch653:    chromium-gcc7-r532865.patch
+Patch654:    chromium-gcc7-r533126.patch
+Patch655:    chromium-gcc7-r533185.patch
+Patch656:    chromium-gcc7-r538032.patch
+Patch657:    chromium-gcc7-r538699.patch
+Patch658:    chromium-gcc7-r538717.patch
+Patch659:    chromium-gcc7-r538740.patch
+Patch660:    chromium-gcc7-r539012.patch
+Patch661:    chromium-gcc7-r540815.patch
+Patch662:    chromium-gcc7-r541029.patch
+Patch663:    chromium-gcc7-r541827.patch
+
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -671,6 +689,24 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch505 -p1 -b .angle
 %patch506 -p1 -b .stdin
 %patch507 -p1 -b .math
+
+%if 0%{?fedora} == 26
+# Add a lot of patches from upstream to fix build on Fedora 26
+%patch650 -p1 -b .r530663.patch
+%patch651 -p1 -b .r531722.patch
+%patch652 -p1 -b .r532004.patch
+%patch653 -p1 -b .r532865.patch
+%patch654 -p1 -b .r533126.patch
+%patch655 -p1 -b .r533185.patch
+%patch656 -p1 -b .r538032.patch
+%patch657 -p1 -b .r538699.patch
+%patch658 -p1 -b .r538717.patch
+%patch659 -p1 -b .r538740.patch
+%patch660 -p1 -b .r539012.patch
+%patch661 -p1 -b .r540815.patch
+%patch662 -p1 -b .r541029.patch
+%patch663 -p1 -b .r541827.patch
+%endif
 
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
@@ -1533,6 +1569,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Mar  7 2018 Arkady L. Shane <ashejn@russianfedora.pro> 65.0.3325.146-1.R
 - update to 65.0.3325.146
+- many gcc fixes to build on Fedora 26
 
 * Sun Feb 25 2018 Arkady L. Shane <ashejn@russianfedora.pro> 64.0.3282.186-1.R
 - update to 64.0.3282.186
