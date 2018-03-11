@@ -666,7 +666,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch53 -p1 -b .nogccoptmath
 
 ### Russian Fedora Patches ###
-%patch503 -p1 -b .memcpy
+#%patch503 -p1 -b .memcpy
 #%patch504 -p1 -b .cups
 #%patch505 -p1 -b .angle
 %patch506 -p1 -b .stdin
