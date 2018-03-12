@@ -707,7 +707,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch661 -p1 -b .r540815.patch
 %patch662 -p1 -b .r541029.patch
 %patch663 -p1 -b .r541516.patch
-%patch663 -p1 -b .r541827.patch
+%patch664 -p1 -b .r541827.patch
 %endif
 
 %if 0%{vaapi}
