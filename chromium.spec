@@ -238,7 +238,8 @@ Patch659:    chromium-gcc7-r538740.patch
 Patch660:    chromium-gcc7-r539012.patch
 Patch661:    chromium-gcc7-r540815.patch
 Patch662:    chromium-gcc7-r541029.patch
-Patch663:    chromium-gcc7-r541827.patch
+Patch663:    chromium-gcc7-r541516.patch
+Patch664:    chromium-gcc7-r541827.patch
 
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
@@ -705,6 +706,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch660 -p1 -b .r539012.patch
 %patch661 -p1 -b .r540815.patch
 %patch662 -p1 -b .r541029.patch
+%patch663 -p1 -b .r541516.patch
 %patch663 -p1 -b .r541827.patch
 %endif
 
