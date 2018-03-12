@@ -35,7 +35,7 @@
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
-%global asan 0
+%global asan 1
 
 # nacl/pnacl are soon to be dead. We're just killing them off early.
 %global killnacl 1
@@ -213,6 +213,9 @@ Patch504:	chromium-cups-r0.patch
 Patch505:	chromium-angle-r0.patch
 Patch506:	chromium-stdint.patch
 Patch507:	chromium-math.h-r0.patch
+Patch508:	chromium-clang-r3.patch
+Patch509:	chromium-ffmpeg-clang.patch
+
 
 # Vaapi Patches
 # Ubuntu patch for chromium 64
@@ -679,7 +682,10 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch62 -p1 -b .webrtc
 %patch63 -p1 -b .nolibc++
 #%patch64 -p1 -b .ft-hb
+
+%if ! 0%{?asan}
 %patch68 -p1 -b .fabi11
+%endif
 
 #%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
@@ -717,6 +723,8 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 %if 0%{?asan}
 %patch502 -p1 -b .clang
+%patch508 -p1 -b .clang-r3
+%patch509 -p1 -b .clang-ffmpeg
 export CC="clang"
 export CXX="clang++"
 %else
