@@ -204,17 +204,6 @@ Patch68:	chromium-64.0.3282.167-gcc8-fabi11.patch
 ### Russian Fedora Patches ###
 # Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r2.patch
 Patch502:	chromium-clang-r2.patch
-# Memcpy Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-memcpy-r0.patch
-# memcpy used without including string.h
-# Compiling Chromium with Clang 4.0.1 and using libstdc++ will fail on using
-Patch503:	chromium-memcpy-r0.patch
-# Cups Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-cups-r0.patch
-# Fix use_cups=false build
-Patch504:	chromium-cups-r0.patch
-# Angle Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-angle-r0.patch
-# Fixes compilation on some versions of GCC and probably Clang.
-# Follow-up to http://crrev.com/c/786317
-Patch505:	chromium-angle-r0.patch
 Patch506:	chromium-stdint.patch
 Patch507:	chromium-math.h-r0.patch
 Patch508:	chromium-clang-r3.patch
@@ -697,9 +686,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch53 -p1 -b .nogccoptmath
 
 ### Russian Fedora Patches ###
-#%patch503 -p1 -b .memcpy
-#%patch504 -p1 -b .cups
-#%patch505 -p1 -b .angle
 %patch506 -p1 -b .stdin
 %patch507 -p1 -b .math
 %ifarch i686
