@@ -215,6 +215,9 @@ Patch506:	chromium-stdint.patch
 Patch507:	chromium-math.h-r0.patch
 Patch508:	chromium-clang-r3.patch
 Patch509:	chromium-ffmpeg-clang.patch
+# fix build under ia32
+# https://bazaar.launchpad.net/~chromium-team/chromium-browser/bionic-stable/download/head:/fixffmpegia32build.p-20171124052506-76a1tzvpv53mvxrd-1/fix-ffmpeg-ia32-build.patch
+Patch510:	fix-ffmpeg-ia32-build.patch
 
 
 # Vaapi Patches
@@ -696,6 +699,11 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch505 -p1 -b .angle
 %patch506 -p1 -b .stdin
 %patch507 -p1 -b .math
+%ifarch i686
+%if 0${?fedora} >= 28
+%patch510 -p1 -b .ia32-ffmpeg
+%endif
+%endif
 
 %if 0%{?fedora} == 26
 # Add a lot of patches from upstream to fix build on Fedora 26
