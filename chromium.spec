@@ -173,14 +173,6 @@ Patch46:        chromium-62.0.3202.45-kmaxskip-constexpr.patch
 Patch47:        chromium-60.0.3112.90-vulkan-force-c99.patch
 # more gcc fixes
 Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
-# More gcc fixes for epel
-Patch54:        chromium-gcc5-r3.patch
-Patch58:	chromium-61.0.3163.79-dde535-gcc-fix.patch
-Patch59:	chromium-62.0.3202.45-gcc-nc.patch
-# Epel compiler really does not like assigning nullptr to a StructPtr
-Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
-# Another gcc 4.8 goods..
-Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 # Webrtc gentto patch 
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-webrtc-r0.patch
 Patch63:	chromium-63.0.3289.84-nolibc++.patch
@@ -651,11 +643,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%if 0%{?rhel} == 7
 #%patch46 -p1 -b .kmaxskip
 #%patch47 -p1 -b .c99
-#%patch54 -p1 -b .gcc5fix
-#%patch58 -p1 -b .dde5e35
-#%patch59 -p1 -b .gcc-nc
-#%patch60 -p1 -b .nonullptr
-#%patch61 -p1 -b .another-rvalue-fix
 #%endif
 
 %patch63 -p1 -b .nolibc++
