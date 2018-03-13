@@ -295,7 +295,6 @@ BuildRequires:	flex
 BuildRequires:	fontconfig-devel
 BuildRequires:	GConf2-devel
 BuildRequires:	glib2-devel
-BuildRequires:	gnome-keyring-devel
 BuildRequires:	gtk2-devel
 BuildRequires:	glibc-devel
 BuildRequires:	gperf
