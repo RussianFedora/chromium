@@ -194,9 +194,7 @@ Patch60:	chromium-62.0.3202.62-epel7-no-nullptr-assignment-on-StructPtr.patch
 Patch61:	chromium-62.0.3202.45-rvalue-fix.patch
 # Webrtc gentto patch 
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-webrtc-r0.patch
-Patch62:	chromium-webrtc-r0.patch
 Patch63:	chromium-63.0.3289.84-nolibc++.patch
-Patch64:	chromium-63.0.3289.84-fix-ft-hb-unbundle.patch
 
 # Work around gcc8 bug in gn
 Patch68:	chromium-64.0.3282.167-gcc8-fabi11.patch
@@ -204,9 +202,13 @@ Patch68:	chromium-64.0.3282.167-gcc8-fabi11.patch
 ### Russian Fedora Patches ###
 # Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r2.patch
 Patch502:	chromium-clang-r2.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-stdint.patch
 Patch506:	chromium-stdint.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-math.h-r0.patch
 Patch507:	chromium-math.h-r0.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r3.patch
 Patch508:	chromium-clang-r3.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-ffmpeg-clang.patch
 Patch509:	chromium-ffmpeg-clang.patch
 # fix build under ia32
 # https://bazaar.launchpad.net/~chromium-team/chromium-browser/bionic-stable/download/head:/fixffmpegia32build.p-20171124052506-76a1tzvpv53mvxrd-1/fix-ffmpeg-ia32-build.patch
@@ -674,9 +676,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 #%patch61 -p1 -b .another-rvalue-fix
 #%endif
 
-#%patch62 -p1 -b .webrtc
 %patch63 -p1 -b .nolibc++
-#%patch64 -p1 -b .ft-hb
 
 %if ! 0%{?asan}
 %patch68 -p1 -b .fabi11
