@@ -137,8 +137,6 @@ Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 Patch9:		chromium-48.0.2564.116-libusb_interrupt_event_handler.patch
 # Use PIE in the Linux sandbox (from openSUSE via Russian Fedora)
 Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
-# Enable ARM CPU detection for webrtc (from archlinux via Russian Fedora)
-Patch16:	chromium-52.0.2743.82-arm-webrtc.patch
 # Do not force -m32 in icu compile on ARM (from archlinux via Russian Fedora)
 Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
@@ -160,16 +158,10 @@ Patch26:	chromium-59.0.3071.29-i686-ld-memory-tricks.patch
 Patch27:	chromium-63.0.3239.70-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
-# Fix issue with compilation on gcc7
-# Thanks to Ben Noordhuis
-Patch33:	chromium-60.0.3095.5-gcc7.patch
 # Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
 Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
-# Change struct ucontext to ucontext_t in breakpad
-# https://patchwork.openembedded.org/patch/141358/
-Patch40:	chromium-59.0.3071.115-ucontext-fix.patch
 # Do not prefix libpng functions
 Patch42:       chromium-60.0.3112.78-no-libpng-prefix.patch
 # Do not mangle libjpeg
@@ -180,9 +172,6 @@ Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
 Patch46:        chromium-62.0.3202.45-kmaxskip-constexpr.patch
 Patch47:        chromium-60.0.3112.90-vulkan-force-c99.patch
 # more gcc fixes
-# https://chromium.googlesource.com/chromium/src.git/+/cbe6845263215e0f3981c2a4c7937dadb14bef0d%5E%21/#F0
-Patch52:	chromium-61.0.3163.79-MOAR-GCC-FIXES.patch
-# from gentoo
 Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
 # More gcc fixes for epel
 Patch54:        chromium-gcc5-r3.patch
@@ -219,10 +208,6 @@ Patch510:	fix-ffmpeg-ia32-build.patch
 # Ubuntu patch for chromium 64
 # https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
 Patch600:	enable_vaapi_on_linux_2.diff
-# Allow fallback max resolution for VA to be read from file
-# https://github.com/saiarcot895/chromium-ubuntu-build/pull/16
-# https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/specify-max-resolution.patch
-Patch601:	specify-max-resolution.patch
 
 # Add a lot of patches from upstream to fix build on Fedora 26
 # http://copr-dist-git.fedorainfracloud.org/cgit/lantw44/chromium/chromium.git/commit/?id=873d89cdbf8250ca7fb92328a9784410a22a30b8
@@ -650,7 +635,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
 %patch15 -b .sandboxpie
-#%patch16 -p1 -b .armwebrtc
 %patch17 -p1 -b .armfix
 %patch18 -p1 -b .etc
 %patch21 -p1 -b .lastcommit
@@ -660,9 +644,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
-#%patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
-#%patch40 -p1 -b .ucontextfix
 %patch42 -p1 -b .noprefix
 %patch43 -p1 -b .nomangle
 %patch45 -p1 -b .nozmangle
@@ -682,7 +664,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch68 -p1 -b .fabi11
 %endif
 
-#%patch52 -p1 -b .fixgccagain
 %patch53 -p1 -b .nogccoptmath
 
 ### Russian Fedora Patches ###
@@ -715,7 +696,6 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
-#%patch601 -p1 -b .specify-max-resolution
 %endif
 
 %if 0%{?asan}
