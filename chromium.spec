@@ -657,7 +657,7 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch506 -p1 -b .stdin
 %patch507 -p1 -b .math
 %ifarch i686
-%if 0${?fedora} >= 28
+%if 0%{?fedora} >= 28
 %patch510 -p1 -b .ia32-ffmpeg
 %endif
 %endif
