@@ -1,0 +1,11 @@
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h.gcc7 chromium-65.0.3325.146/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h
+--- chromium-65.0.3325.146/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h.gcc7	2018-03-07 10:34:48.783900894 -0500
++++ chromium-65.0.3325.146/third_party/WebKit/Source/platform/graphics/gpu/SharedGpuContext.h	2018-03-07 10:35:44.885638503 -0500
+@@ -5,6 +5,7 @@
+ #ifndef SharedGpuContext_h
+ #define SharedGpuContext_h
+ 
++#include <functional>
+ #include <memory>
+ #include "base/callback.h"
+ #include "base/memory/weak_ptr.h"

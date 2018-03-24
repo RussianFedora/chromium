@@ -1,26 +1,7 @@
-From d39417a581d92178fea880cc5e4768e17db265f9 Mon Sep 17 00:00:00 2001
-From: Hidehiko Abe <hidehiko@chromium.org>
-Date: Wed, 31 Jan 2018 03:22:42 +0000
-Subject: [PATCH] Implement converting constructors from Optional<U>.
-
-BUG=784732
-TEST=Ran trybot.
-
-Change-Id: Icbb9c5596b045ca0c684cdad0343a2605d00dbb1
-Reviewed-on: https://chromium-review.googlesource.com/856296
-Reviewed-by: danakj <danakj@chromium.org>
-Commit-Queue: Hidehiko Abe <hidehiko@chromium.org>
-Cr-Commit-Position: refs/heads/master@{#533185}
----
- base/optional.h           | 78 ++++++++++++++++++++++++++++++++++++++++++++++-
- base/optional_unittest.cc | 59 +++++++++++++++++++++++++++++++++++
- 2 files changed, 136 insertions(+), 1 deletion(-)
-
-diff --git a/base/optional.h b/base/optional.h
-index dc77539087..8e56ca640b 100644
---- a/base/optional.h
-+++ b/base/optional.h
-@@ -30,6 +30,10 @@ constexpr in_place_t in_place = {};
+diff -up chromium-65.0.3325.146/base/optional.h.converting chromium-65.0.3325.146/base/optional.h
+--- chromium-65.0.3325.146/base/optional.h.converting	2018-03-13 22:31:05.248797490 -0400
++++ chromium-65.0.3325.146/base/optional.h	2018-03-13 22:33:10.826368771 -0400
+@@ -31,6 +31,10 @@ constexpr in_place_t in_place = {};
  // http://en.cppreference.com/w/cpp/utility/optional/nullopt
  constexpr nullopt_t nullopt(0);
  
@@ -31,7 +12,7 @@ index dc77539087..8e56ca640b 100644
  namespace internal {
  
  template <typename T, bool = std::is_trivially_destructible<T>::value>
-@@ -219,6 +223,19 @@ class OptionalBase {
+@@ -220,6 +224,19 @@ class OptionalBase {
    constexpr explicit OptionalBase(in_place_t, Args&&... args)
        : storage_(in_place, std::forward<Args>(args)...) {}
  
@@ -51,7 +32,7 @@ index dc77539087..8e56ca640b 100644
    ~OptionalBase() = default;
  
    OptionalBase& operator=(const OptionalBase& other) {
-@@ -262,6 +279,11 @@ class OptionalBase {
+@@ -263,6 +280,11 @@ class OptionalBase {
      storage_.is_populated_ = false;
    }
  
@@ -63,7 +44,7 @@ index dc77539087..8e56ca640b 100644
    OptionalStorage<T> storage_;
  };
  
-@@ -317,6 +339,20 @@ struct MoveAssignable<false> {
+@@ -318,6 +340,20 @@ struct MoveAssignable<false> {
    MoveAssignable& operator=(MoveAssignable&&) = delete;
  };
  
@@ -84,7 +65,7 @@ index dc77539087..8e56ca640b 100644
  }  // namespace internal
  
  // base::Optional is a Chromium version of the C++17 optional class:
-@@ -347,7 +383,47 @@ class Optional
+@@ -348,7 +384,47 @@ class Optional
    constexpr Optional(const Optional& other) = default;
    constexpr Optional(Optional&& other) = default;
  
@@ -133,76 +114,3 @@ index dc77539087..8e56ca640b 100644
  
    constexpr Optional(const T& value)
        : internal::OptionalBase<T>(in_place, value) {}
-diff --git a/base/optional_unittest.cc b/base/optional_unittest.cc
-index 09f3106bfa..da3ac2da94 100644
---- a/base/optional_unittest.cc
-+++ b/base/optional_unittest.cc
-@@ -364,6 +364,65 @@ TEST(OptionalTest, MoveValueConstructor) {
-   }
- }
- 
-+TEST(OptionalTest, ConvertingCopyConstructor) {
-+  {
-+    Optional<int> first(1);
-+    Optional<double> second(first);
-+    EXPECT_TRUE(second.has_value());
-+    EXPECT_EQ(1.0, second.value());
-+  }
-+
-+  // Make sure explicit is not marked for convertible case.
-+  {
-+    Optional<int> o(1);
-+    ignore_result<Optional<double>>(o);
-+  }
-+}
-+
-+TEST(OptionalTest, ConvertingMoveConstructor) {
-+  {
-+    Optional<int> first(1);
-+    Optional<double> second(std::move(first));
-+    EXPECT_TRUE(second.has_value());
-+    EXPECT_EQ(1.0, second.value());
-+  }
-+
-+  // Make sure explicit is not marked for convertible case.
-+  {
-+    Optional<int> o(1);
-+    ignore_result<Optional<double>>(std::move(o));
-+  }
-+
-+  {
-+    class Test1 {
-+     public:
-+      explicit Test1(int foo) : foo_(foo) {}
-+
-+      int foo() const { return foo_; }
-+
-+     private:
-+      int foo_;
-+    };
-+
-+    // Not copyable but convertible from Test1.
-+    class Test2 {
-+     public:
-+      Test2(const Test2&) = delete;
-+      explicit Test2(Test1&& other) : bar_(other.foo()) {}
-+
-+      double bar() const { return bar_; }
-+
-+     private:
-+      double bar_;
-+    };
-+
-+    Optional<Test1> first(in_place, 42);
-+    Optional<Test2> second(std::move(first));
-+    EXPECT_TRUE(second.has_value());
-+    EXPECT_EQ(42.0, second->bar());
-+  }
-+}
-+
- TEST(OptionalTest, ConstructorForwardArguments) {
-   {
-     constexpr Optional<float> a(base::in_place, 0.1f);
--- 
-2.14.3
-

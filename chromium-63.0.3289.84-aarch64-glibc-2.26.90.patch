@@ -1,0 +1,12 @@
+diff -up chromium-63.0.3239.84/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc.aarch64glibc chromium-63.0.3239.84/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc
+--- chromium-63.0.3239.84/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc.aarch64glibc	2017-12-12 09:56:24.469343868 -0500
++++ chromium-63.0.3239.84/third_party/breakpad/breakpad/src/client/linux/handler/exception_handler.cc	2017-12-12 09:56:38.468071095 -0500
+@@ -461,7 +461,7 @@ bool ExceptionHandler::HandleSignal(int
+ #if defined(__aarch64__)
+   ucontext_t* uc_ptr = (ucontext_t*)uc;
+   struct fpsimd_context* fp_ptr =
+-      (struct fpsimd_context*)&uc_ptr->uc_mcontext.__reserved;
++      (struct fpsimd_context*)&uc_ptr->uc_mcontext.__glibc_reserved1;
+   if (fp_ptr->head.magic == FPSIMD_MAGIC) {
+     memcpy(&g_crash_context_.float_state, fp_ptr,
+            sizeof(g_crash_context_.float_state));

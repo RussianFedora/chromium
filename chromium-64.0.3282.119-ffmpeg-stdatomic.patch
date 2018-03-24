@@ -1,0 +1,17 @@
+diff -up chromium-64.0.3282.119/third_party/ffmpeg/libavutil/cpu.c.ffmpeg-stdatomic chromium-64.0.3282.119/third_party/ffmpeg/libavutil/cpu.c
+--- chromium-64.0.3282.119/third_party/ffmpeg/libavutil/cpu.c.ffmpeg-stdatomic	2018-01-25 11:55:57.880936815 -0500
++++ chromium-64.0.3282.119/third_party/ffmpeg/libavutil/cpu.c	2018-01-25 11:57:18.456787888 -0500
+@@ -18,7 +18,13 @@
+ 
+ #include <stddef.h>
+ #include <stdint.h>
++// GCC 4.8 didn't have stdatomic, but was advertising it.
++// https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58016
++#if !defined(__clang__) && defined(__GNUC__) && (__GNUC__ == 4 || (__GNUC__ == 4 && (__GNUC_MINOR__ == 8)))
++#include <compat/atomics/gcc/stdatomic.h>
++#else
+ #include <stdatomic.h>
++#endif
+ 
+ #include "attributes.h"
+ #include "cpu.h"

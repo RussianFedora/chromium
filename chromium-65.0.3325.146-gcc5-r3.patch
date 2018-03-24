@@ -1,0 +1,74 @@
+diff -up chromium-65.0.3325.146/gpu/ipc/common/mailbox_struct_traits.h.gcc5-r3 chromium-65.0.3325.146/gpu/ipc/common/mailbox_struct_traits.h
+--- chromium-65.0.3325.146/gpu/ipc/common/mailbox_struct_traits.h.gcc5-r3	2018-03-06 18:04:32.000000000 -0500
++++ chromium-65.0.3325.146/gpu/ipc/common/mailbox_struct_traits.h	2018-03-07 10:42:07.198179638 -0500
+@@ -15,7 +15,7 @@ namespace mojo {
+ template <>
+ struct StructTraits<gpu::mojom::MailboxDataView, gpu::Mailbox> {
+   static base::span<const int8_t> name(const gpu::Mailbox& mailbox) {
+-    return mailbox.name;
++    return base::make_span(mailbox.name);
+   }
+   static bool Read(gpu::mojom::MailboxDataView data, gpu::Mailbox* out);
+ };
+diff -up chromium-65.0.3325.146/services/viz/public/cpp/compositing/filter_operation_struct_traits.h.gcc5-r3 chromium-65.0.3325.146/services/viz/public/cpp/compositing/filter_operation_struct_traits.h
+--- chromium-65.0.3325.146/services/viz/public/cpp/compositing/filter_operation_struct_traits.h.gcc5-r3	2018-03-06 18:04:37.000000000 -0500
++++ chromium-65.0.3325.146/services/viz/public/cpp/compositing/filter_operation_struct_traits.h	2018-03-07 10:42:07.198179638 -0500
+@@ -138,7 +138,7 @@ struct StructTraits<viz::mojom::FilterOp
+   static base::span<const float> matrix(const cc::FilterOperation& operation) {
+     if (operation.type() != cc::FilterOperation::COLOR_MATRIX)
+       return base::span<const float>();
+-    return operation.matrix();
++    return base::make_span(operation.matrix());
+   }
+ 
+   static base::span<const gfx::Rect> shape(
+diff -up chromium-65.0.3325.146/services/viz/public/cpp/compositing/quads_struct_traits.h.gcc5-r3 chromium-65.0.3325.146/services/viz/public/cpp/compositing/quads_struct_traits.h
+--- chromium-65.0.3325.146/services/viz/public/cpp/compositing/quads_struct_traits.h.gcc5-r3	2018-03-06 18:04:37.000000000 -0500
++++ chromium-65.0.3325.146/services/viz/public/cpp/compositing/quads_struct_traits.h	2018-03-07 10:42:07.198179638 -0500
+@@ -308,7 +308,7 @@ struct StructTraits<viz::mojom::TextureQ
+   static base::span<const float> vertex_opacity(const viz::DrawQuad& input) {
+     const viz::TextureDrawQuad* quad =
+         viz::TextureDrawQuad::MaterialCast(&input);
+-    return quad->vertex_opacity;
++    return base::make_span(quad->vertex_opacity);
+   }
+ 
+   static bool y_flipped(const viz::DrawQuad& input) {
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/typed_arrays/ArrayBufferContents.h.gcc5-r3 chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/typed_arrays/ArrayBufferContents.h
+--- chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/typed_arrays/ArrayBufferContents.h.gcc5-r3	2018-03-06 18:05:06.000000000 -0500
++++ chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/typed_arrays/ArrayBufferContents.h	2018-03-07 10:48:53.996093882 -0500
+@@ -62,7 +62,7 @@ class WTF_EXPORT ArrayBufferContents {
+           allocation_length_(length),
+           data_(data),
+           data_length_(length),
+-          kind_(AllocationKind::kNormal),
++          kind_(WTF::ArrayBufferContents::AllocationKind::kNormal),
+           deleter_(deleter) {}
+     DataHandle(void* allocation_base,
+                size_t allocation_length,
+@@ -93,11 +93,11 @@ class WTF_EXPORT ArrayBufferContents {
+              reinterpret_cast<uintptr_t>(allocation_base_) +
+                  allocation_length_);
+       switch (kind_) {
+-        case AllocationKind::kNormal:
++        case WTF::ArrayBufferContents::AllocationKind::kNormal:
+           DCHECK(deleter_);
+           deleter_(data_);
+           return;
+-        case AllocationKind::kReservation:
++        case WTF::ArrayBufferContents::AllocationKind::kReservation:
+           ReleaseReservedMemory(allocation_base_, allocation_length_);
+           return;
+       }
+diff -up chromium-65.0.3325.146/third_party/webrtc/modules/audio_processing/aec3/aec_state.cc.gcc5-r3 chromium-65.0.3325.146/third_party/webrtc/modules/audio_processing/aec3/aec_state.cc
+--- chromium-65.0.3325.146/third_party/webrtc/modules/audio_processing/aec3/aec_state.cc.gcc5-r3	2018-03-06 18:06:09.000000000 -0500
++++ chromium-65.0.3325.146/third_party/webrtc/modules/audio_processing/aec3/aec_state.cc	2018-03-07 10:42:07.199179616 -0500
+@@ -10,7 +10,7 @@
+ 
+ #include "modules/audio_processing/aec3/aec_state.h"
+ 
+-#include <math.h>
++#include <cmath>
+ 
+ #include <numeric>
+ #include <vector>

@@ -1,0 +1,24 @@
+diff -up chromium-65.0.3325.146/content/browser/appcache/appcache_request_handler.cc.explicit-std-move chromium-65.0.3325.146/content/browser/appcache/appcache_request_handler.cc
+--- chromium-65.0.3325.146/content/browser/appcache/appcache_request_handler.cc.explicit-std-move	2018-03-13 22:50:41.346043716 -0400
++++ chromium-65.0.3325.146/content/browser/appcache/appcache_request_handler.cc	2018-03-13 22:51:21.428267583 -0400
+@@ -639,7 +639,7 @@ AppCacheRequestHandler::MaybeCreateSubre
+ 
+   SubresourceLoaderParams params;
+   params.loader_factory_info = factory_ptr.PassInterface();
+-  return params;
++  return base::Optional<SubresourceLoaderParams>(std::move(params));
+ }
+ 
+ void AppCacheRequestHandler::MaybeCreateSubresourceLoader(
+diff -up chromium-65.0.3325.146/content/browser/service_worker/service_worker_controllee_request_handler.cc.explicit-std-move chromium-65.0.3325.146/content/browser/service_worker/service_worker_controllee_request_handler.cc
+--- chromium-65.0.3325.146/content/browser/service_worker/service_worker_controllee_request_handler.cc.explicit-std-move	2018-03-13 22:51:38.133943776 -0400
++++ chromium-65.0.3325.146/content/browser/service_worker/service_worker_controllee_request_handler.cc	2018-03-13 22:51:57.658566347 -0400
+@@ -271,7 +271,7 @@ ServiceWorkerControlleeRequestHandler::M
+   controller_info->object_info = provider_host_->GetOrCreateServiceWorkerHandle(
+       provider_host_->controller());
+   params.controller_service_worker_info = std::move(controller_info);
+-  return params;
++  return base::Optional<SubresourceLoaderParams>(std::move(params));
+ }
+ 
+ void ServiceWorkerControlleeRequestHandler::PrepareForMainResource(

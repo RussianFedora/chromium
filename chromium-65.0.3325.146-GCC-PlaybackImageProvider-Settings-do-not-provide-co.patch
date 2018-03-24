@@ -1,0 +1,22 @@
+diff -up chromium-65.0.3325.146/cc/raster/playback_image_provider.cc.pipcc chromium-65.0.3325.146/cc/raster/playback_image_provider.cc
+--- chromium-65.0.3325.146/cc/raster/playback_image_provider.cc.pipcc	2018-03-13 22:47:00.271322726 -0400
++++ chromium-65.0.3325.146/cc/raster/playback_image_provider.cc	2018-03-13 22:47:53.127300060 -0400
+@@ -92,7 +92,6 @@ PlaybackImageProvider::GetDecodedDrawIma
+ }
+ 
+ PlaybackImageProvider::Settings::Settings() = default;
+-PlaybackImageProvider::Settings::Settings(const Settings& other) = default;
+ PlaybackImageProvider::Settings::~Settings() = default;
+ 
+ }  // namespace cc
+diff -up chromium-65.0.3325.146/cc/raster/playback_image_provider.h.pipcc chromium-65.0.3325.146/cc/raster/playback_image_provider.h
+--- chromium-65.0.3325.146/cc/raster/playback_image_provider.h.pipcc	2018-03-13 22:48:00.673153629 -0400
++++ chromium-65.0.3325.146/cc/raster/playback_image_provider.h	2018-03-13 22:48:12.726920597 -0400
+@@ -20,7 +20,6 @@ class CC_EXPORT PlaybackImageProvider :
+  public:
+   struct CC_EXPORT Settings {
+     Settings();
+-    Settings(const Settings& other);
+     ~Settings();
+ 
+     // The set of image ids to skip during raster.

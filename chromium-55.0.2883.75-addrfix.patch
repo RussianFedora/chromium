@@ -1,7 +1,7 @@
-diff -urN chromium-55.0.2883.75.orig/third_party/boringssl/BUILD.gn chromium-55.0.2883.75/third_party/boringssl/BUILD.gn
---- chromium-55.0.2883.75.orig/third_party/boringssl/BUILD.gn	2016-12-02 17:03:40.597447712 +0300
-+++ chromium-55.0.2883.75/third_party/boringssl/BUILD.gn	2016-12-02 17:04:14.634966683 +0300
-@@ -24,6 +24,7 @@
+diff -up chromium-55.0.2883.75/third_party/boringssl/BUILD.gn.addrfix chromium-55.0.2883.75/third_party/boringssl/BUILD.gn
+--- chromium-55.0.2883.75/third_party/boringssl/BUILD.gn.addrfix	2016-12-12 15:30:27.727834891 -0500
++++ chromium-55.0.2883.75/third_party/boringssl/BUILD.gn	2016-12-12 15:30:53.095709352 -0500
+@@ -24,6 +24,7 @@ config("internal_config") {
      "BORINGSSL_IMPLEMENTATION",
      "BORINGSSL_NO_STATIC_INITIALIZER",
      "OPENSSL_SMALL",

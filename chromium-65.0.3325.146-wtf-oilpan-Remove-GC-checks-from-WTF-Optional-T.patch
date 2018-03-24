@@ -1,0 +1,61 @@
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/platform/heap/TraceTraits.h.oilpan chromium-65.0.3325.146/third_party/WebKit/Source/platform/heap/TraceTraits.h
+--- chromium-65.0.3325.146/third_party/WebKit/Source/platform/heap/TraceTraits.h.oilpan	2018-03-13 16:45:40.613426445 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/platform/heap/TraceTraits.h	2018-03-13 16:45:49.946244905 -0400
+@@ -18,6 +18,7 @@
+ #include "platform/wtf/HashTable.h"
+ #include "platform/wtf/LinkedHashSet.h"
+ #include "platform/wtf/ListHashSet.h"
++#include "platform/wtf/Optional.h"
+ #include "platform/wtf/TypeTraits.h"
+ 
+ namespace blink {
+@@ -325,6 +326,23 @@ class TraceTrait<std::pair<T, U>> {
+   }
+ };
+ 
++// While using Optional<T> with garbage-collected types is generally disallowed
++// by the OptionalGarbageCollected check in blink_gc_plugin, garbage-collected
++// containers such as HeapVector are allowed and need to be traced.
++template <typename T>
++class TraceTrait<WTF::Optional<T>> {
++  STATIC_ONLY(TraceTrait);
++
++ public:
++  template <typename VisitorDispatcher>
++  static void Trace(VisitorDispatcher visitor, WTF::Optional<T>* optional) {
++    if (*optional != WTF::nullopt) {
++      TraceIfEnabled<T, WTF::IsTraceable<T>::value>::Trace(visitor,
++                                                           optional->value());
++    }
++  }
++};
++
+ // If eager tracing leads to excessively deep |trace()| call chains (and
+ // the system stack usage that this brings), the marker implementation will
+ // switch to using an explicit mark stack. Recursive and deep object graphs
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/Optional.h.oilpan chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/Optional.h
+--- chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/Optional.h.oilpan	2018-03-13 16:46:01.683015951 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/platform/wtf/Optional.h	2018-03-13 16:46:51.632043375 -0400
+@@ -7,20 +7,15 @@
+ 
+ #include "base/optional.h"
+ #include "platform/wtf/TemplateUtil.h"
+-#include "platform/wtf/TypeTraits.h"
+ 
+ namespace WTF {
+ 
+ // WTF::Optional is base::Optional. See base/optional.h for documentation.
+ //
+ // A clang plugin enforces that garbage collected types are not allocated
+-// outside of the heap, similarly we enforce that one doesn't create garbage
+-// collected types nested inside an Optional.
++// outside of the heap. GC containers such as HeapVector are allowed though.
+ template <typename T>
+-using Optional =
+-    typename std::enable_if<!IsGarbageCollectedType<T>::value ||
+-                                IsPersistentReferenceType<T>::value,
+-                            base::Optional<T>>::type;
++using Optional = base::Optional<T>;
+ 
+ constexpr base::nullopt_t nullopt = base::nullopt;
+ constexpr base::in_place_t in_place = base::in_place;

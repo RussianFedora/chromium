@@ -1,0 +1,12 @@
+diff -up chromium-65.0.3325.162/build/config/posix/BUILD.gn.epel7 chromium-65.0.3325.162/build/config/posix/BUILD.gn
+--- chromium-65.0.3325.162/build/config/posix/BUILD.gn.epel7	2018-03-20 16:14:42.425926323 -0400
++++ chromium-65.0.3325.162/build/config/posix/BUILD.gn	2018-03-20 16:15:10.150152245 -0400
+@@ -74,6 +74,8 @@ config("runtime_library") {
+         "rt",
+       ]
+     }
++  } else {
++    libs += [ "stdc++" ]
+   }
+ 
+   if (!is_mac && !is_ios && sysroot != "") {

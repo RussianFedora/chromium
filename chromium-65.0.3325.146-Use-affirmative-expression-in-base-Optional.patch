@@ -1,36 +1,7 @@
-From 0a5dd14ae173846fb5d67408790b7df4e44f38b6 Mon Sep 17 00:00:00 2001
-From: Chris Blume <cblume@chromium.org>
-Date: Wed, 24 Jan 2018 22:35:40 +0000
-Subject: [PATCH] Use affirmative expression in base::Optional
-
-base::Optional has a negative expression to represent if a value is
-being stored: storage_.is_null_.
-
-Because of this, memset(0) on a base::Optional will mark that optional
-as actually storing a value (when it clearly doesn't). Using memset(0)
-on base::Optional sounds a bit dirty but it can easily happen
-indirectly. Someone might memset(0) a class with a private member of
-base::Optional.
-
-Change the expression to be affirmative to preserve memset(0) intention
-using storage_.is_populated_.
-
-BUG=805565
-
-Change-Id: I9c5b85cdaa58960f15809160f2d0de6d0cc52c7b
-Reviewed-on: https://chromium-review.googlesource.com/883946
-Reviewed-by: danakj <danakj@chromium.org>
-Commit-Queue: Chris Blume <cblume@chromium.org>
-Cr-Commit-Position: refs/heads/master@{#531722}
----
- base/optional.h | 84 +++++++++++++++++++++++++++++----------------------------
- 1 file changed, 43 insertions(+), 41 deletions(-)
-
-diff --git a/base/optional.h b/base/optional.h
-index 34e36fabeb..e71f12c9f8 100644
---- a/base/optional.h
-+++ b/base/optional.h
-@@ -40,7 +40,7 @@ struct OptionalStorageBase {
+diff -up chromium-65.0.3325.146/base/optional.h.affirmative chromium-65.0.3325.146/base/optional.h
+--- chromium-65.0.3325.146/base/optional.h.affirmative	2018-03-13 22:27:29.451969704 -0400
++++ chromium-65.0.3325.146/base/optional.h	2018-03-13 22:27:57.031436045 -0400
+@@ -41,7 +41,7 @@ struct OptionalStorageBase {
  
    template <class... Args>
    constexpr explicit OptionalStorageBase(in_place_t, Args&&... args)
@@ -39,7 +10,7 @@ index 34e36fabeb..e71f12c9f8 100644
  
    // When T is not trivially destructible we must call its
    // destructor before deallocating its memory.
-@@ -54,18 +54,18 @@ struct OptionalStorageBase {
+@@ -55,18 +55,18 @@ struct OptionalStorageBase {
    // necessary for this case at the moment. Please see also the destructor
    // comment in "is_trivially_destructible = true" specialization below.
    ~OptionalStorageBase() {
@@ -62,7 +33,7 @@ index 34e36fabeb..e71f12c9f8 100644
    union {
      // |empty_| exists so that the union will always be initialized, even when
      // it doesn't contain a value. Union members must be initialized for the
-@@ -83,7 +83,7 @@ struct OptionalStorageBase<T, true /* trivially destructible */> {
+@@ -84,7 +84,7 @@ struct OptionalStorageBase<T, true /* tr
  
    template <class... Args>
    constexpr explicit OptionalStorageBase(in_place_t, Args&&... args)
@@ -71,7 +42,7 @@ index 34e36fabeb..e71f12c9f8 100644
  
    // When T is trivially destructible (i.e. its destructor does nothing) there
    // is no need to call it. Implicitly defined destructor is trivial, because
-@@ -101,12 +101,12 @@ struct OptionalStorageBase<T, true /* trivially destructible */> {
+@@ -102,12 +102,12 @@ struct OptionalStorageBase<T, true /* tr
  
    template <class... Args>
    void Init(Args&&... args) {
@@ -87,7 +58,7 @@ index 34e36fabeb..e71f12c9f8 100644
    union {
      // |empty_| exists so that the union will always be initialized, even when
      // it doesn't contain a value. Union members must be initialized for the
-@@ -132,7 +132,7 @@ struct OptionalStorage : OptionalStorageBase<T> {
+@@ -133,7 +133,7 @@ struct OptionalStorage : OptionalStorage
  
    // Accessing the members of template base class requires explicit
    // declaration.
@@ -96,7 +67,7 @@ index 34e36fabeb..e71f12c9f8 100644
    using OptionalStorageBase<T>::value_;
    using OptionalStorageBase<T>::Init;
  
-@@ -144,12 +144,12 @@ struct OptionalStorage : OptionalStorageBase<T> {
+@@ -145,12 +145,12 @@ struct OptionalStorage : OptionalStorage
    OptionalStorage() = default;
  
    OptionalStorage(const OptionalStorage& other) {
@@ -111,7 +82,7 @@ index 34e36fabeb..e71f12c9f8 100644
        Init(std::move(other.value_));
    }
  };
-@@ -159,7 +159,7 @@ struct OptionalStorage<T,
+@@ -160,7 +160,7 @@ struct OptionalStorage<T,
                         true /* trivially copy constructible */,
                         false /* trivially move constructible */>
      : OptionalStorageBase<T> {
@@ -120,7 +91,7 @@ index 34e36fabeb..e71f12c9f8 100644
    using OptionalStorageBase<T>::value_;
    using OptionalStorageBase<T>::Init;
    using OptionalStorageBase<T>::OptionalStorageBase;
-@@ -168,7 +168,7 @@ struct OptionalStorage<T,
+@@ -169,7 +169,7 @@ struct OptionalStorage<T,
    OptionalStorage(const OptionalStorage& other) = default;
  
    OptionalStorage(OptionalStorage&& other) {
@@ -129,7 +100,7 @@ index 34e36fabeb..e71f12c9f8 100644
        Init(std::move(other.value_));
    }
  };
-@@ -178,7 +178,7 @@ struct OptionalStorage<T,
+@@ -179,7 +179,7 @@ struct OptionalStorage<T,
                         false /* trivially copy constructible */,
                         true /* trivially move constructible */>
      : OptionalStorageBase<T> {
@@ -138,7 +109,7 @@ index 34e36fabeb..e71f12c9f8 100644
    using OptionalStorageBase<T>::value_;
    using OptionalStorageBase<T>::Init;
    using OptionalStorageBase<T>::OptionalStorageBase;
-@@ -187,7 +187,7 @@ struct OptionalStorage<T,
+@@ -188,7 +188,7 @@ struct OptionalStorage<T,
    OptionalStorage(OptionalStorage&& other) = default;
  
    OptionalStorage(const OptionalStorage& other) {
@@ -147,7 +118,7 @@ index 34e36fabeb..e71f12c9f8 100644
        Init(other.value_);
    }
  };
-@@ -222,7 +222,7 @@ class OptionalBase {
+@@ -223,7 +223,7 @@ class OptionalBase {
    ~OptionalBase() = default;
  
    OptionalBase& operator=(const OptionalBase& other) {
@@ -156,7 +127,7 @@ index 34e36fabeb..e71f12c9f8 100644
        FreeIfNeeded();
        return *this;
      }
-@@ -232,7 +232,7 @@ class OptionalBase {
+@@ -233,7 +233,7 @@ class OptionalBase {
    }
  
    OptionalBase& operator=(OptionalBase&& other) {
@@ -165,7 +136,7 @@ index 34e36fabeb..e71f12c9f8 100644
        FreeIfNeeded();
        return *this;
      }
-@@ -242,24 +242,24 @@ class OptionalBase {
+@@ -243,24 +243,24 @@ class OptionalBase {
    }
  
    void InitOrAssign(const T& value) {
@@ -194,7 +165,7 @@ index 34e36fabeb..e71f12c9f8 100644
    }
  
    OptionalStorage<T> storage_;
-@@ -333,12 +333,12 @@ class Optional : public internal::OptionalBase<T> {
+@@ -334,12 +334,12 @@ class Optional : public internal::Option
    }
  
    constexpr const T* operator->() const {
@@ -209,7 +180,7 @@ index 34e36fabeb..e71f12c9f8 100644
      return &value();
    }
  
-@@ -350,27 +350,27 @@ class Optional : public internal::OptionalBase<T> {
+@@ -351,27 +351,27 @@ class Optional : public internal::Option
  
    constexpr T&& operator*() && { return std::move(value()); }
  
@@ -243,7 +214,7 @@ index 34e36fabeb..e71f12c9f8 100644
      return std::move(storage_.value_);
    }
  
-@@ -381,8 +381,9 @@ class Optional : public internal::OptionalBase<T> {
+@@ -382,8 +382,9 @@ class Optional : public internal::Option
      //               "T must be copy constructible");
      static_assert(std::is_convertible<U, T>::value,
                    "U must be convertible to T");
@@ -255,7 +226,7 @@ index 34e36fabeb..e71f12c9f8 100644
    }
  
    template <class U>
-@@ -392,26 +393,27 @@ class Optional : public internal::OptionalBase<T> {
+@@ -393,26 +394,27 @@ class Optional : public internal::Option
      //               "T must be move constructible");
      static_assert(std::is_convertible<U, T>::value,
                    "U must be convertible to T");
@@ -292,6 +263,3 @@ index 34e36fabeb..e71f12c9f8 100644
      using std::swap;
      swap(**this, *other);
    }
--- 
-2.14.3
-

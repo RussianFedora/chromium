@@ -1,0 +1,11 @@
+diff -up chromium-47.0.2526.80/native_client/build/untrusted.gypi.fixme chromium-47.0.2526.80/native_client/build/untrusted.gypi
+--- chromium-47.0.2526.80/native_client/build/untrusted.gypi.fixme	2015-12-09 11:54:27.584962337 -0500
++++ chromium-47.0.2526.80/native_client/build/untrusted.gypi	2015-12-09 11:54:45.033571750 -0500
+@@ -1564,6 +1564,7 @@
+         '-Wno-char-subscripts',
+         '-Wno-unused-function',
+         '-std=gnu++11',
++        '-fgnu-inline-asm',
+       ],
+       'native_irt_compile_flags': [
+         # IRT compile/link flags to make the binary smaller.

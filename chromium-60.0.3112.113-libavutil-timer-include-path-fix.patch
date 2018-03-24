@@ -1,0 +1,21 @@
+diff -up chromium-60.0.3112.113/third_party/ffmpeg/libavutil/timer.h.pathfix chromium-60.0.3112.113/third_party/ffmpeg/libavutil/timer.h
+--- chromium-60.0.3112.113/third_party/ffmpeg/libavutil/timer.h.pathfix	2017-08-25 15:29:12.143242471 -0400
++++ chromium-60.0.3112.113/third_party/ffmpeg/libavutil/timer.h	2017-08-25 15:29:36.941835865 -0400
+@@ -39,13 +39,13 @@
+ #include "log.h"
+ 
+ #if   ARCH_AARCH64
+-#   include "aarch64/timer.h"
++#   include "libavutil/aarch64/timer.h"
+ #elif ARCH_ARM
+-#   include "arm/timer.h"
++#   include "libavutil/arm/timer.h"
+ #elif ARCH_PPC
+-#   include "ppc/timer.h"
++#   include "libavutil/ppc/timer.h"
+ #elif ARCH_X86
+-#   include "x86/timer.h"
++#   include "libavutil/x86/timer.h"
+ #endif
+ 
+ #if !defined(AV_READ_TIME)

@@ -35,7 +35,7 @@
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
-%if 0%{?fedora} >= 28
+%if 0%{?fedora} >= 29
 %global asan 1
 %else
 %global asan 0
@@ -76,7 +76,8 @@ BuildRequires:  libicu-devel >= 5.4
 # 2017-06-08.
 %global bundlelibxml 1
 
-# Chromium breaks on wayland, hidpi, and colors with gtk3 enabled.
+# Chromium used to break on wayland, hidpi, and colors with gtk3 enabled.
+# Hopefully it does not anymore.
 %global gtk3 1
 
 # Enable vaapi
@@ -84,24 +85,26 @@ BuildRequires:  libicu-devel >= 5.4
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
-%global bundlejinja2 1
 %global bundlelibusbx 1
 %global bundleharfbuzz 1
 %global bundlelibwebp 1
 %global bundlelibpng 1
 %global bundlelibjpeg 1
+%global bundlefreetype 1
+%global bundlelibdrm 1
 %else
 %global bundleharfbuzz 0
-%global bundlejinja2 1
 %global bundleopus 1
-%global bundlelibusbx 1
+%global bundlelibusbx 0
 %global bundlelibwebp 0
 %global bundlelibpng 0
 %global bundlelibjpeg 0
+%global bundlefreetype 0
+%global bundlelibdrm 0
 %endif
 
-# Needs at least harfbuzz 1.5.0 now.
-# 2017-06-12
+# Needs at least harfbuzz 1.7.3 now.
+# 2018-03-07
 %if 0%{?fedora} < 28
 %global bundleharfbuzz 1
 %else
@@ -118,107 +121,152 @@ BuildRequires:  libicu-devel >= 5.4
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
 
 Name:		chromium%{chromium_channel}
-Version:	65.0.3325.162
+Version:	65.0.3325.181
+%if 0%{?rhel} == 7
+Release:	1%{?dist}
+%else
 Release:	1%{?dist}.R
+%endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
 Url:		http://www.chromium.org/Home
 License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and OpenSSL and (MPLv1.1 or GPLv2 or LGPLv2)
 
 ### Chromium Fedora Patches ###
+Patch0:		chromium-64.0.3282.119-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
-# Google patched their bundled copy of icu 54 to include API functionality that wasn't added until 55.
-# :P
 Patch4:		chromium-46.0.2490.71-notest.patch
+# In file included from ../linux/directory.c:21:
+# In file included from ../../../../native_client/src/nonsfi/linux/abi_conversion.h:20:
+# ../../../../native_client/src/nonsfi/linux/linux_syscall_structs.h:44:13: error: GNU-style inline assembly is disabled
+#     __asm__ __volatile__("mov %%gs, %0" : "=r"(gs));
+#             ^
+# 1 error generated.
+Patch6:		chromium-47.0.2526.80-pnacl-fgnu-inline-asm.patch
 # Ignore broken nacl open fd counter
 Patch7:		chromium-47.0.2526.80-nacl-ignore-broken-fd-counter.patch
 # Use libusb_interrupt_event_handler from current libusbx (1.0.21-0.1.git448584a)
 Patch9:		chromium-48.0.2564.116-libusb_interrupt_event_handler.patch
+# Ignore deprecations in cups 2.2
+# https://bugs.chromium.org/p/chromium/issues/detail?id=622493
+Patch12:	chromium-55.0.2883.75-cups22.patch
 # Use PIE in the Linux sandbox (from openSUSE via Russian Fedora)
 Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
-# Do not force -m32 in icu compile on ARM (from archlinux via Russian Fedora)
-Patch17:	chromium-56.0.2924.59-arm-icu-fix.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
+# Disable MADV_FREE (if set by glibc)
+# https://bugzilla.redhat.com/show_bug.cgi?id=1361157
+Patch19:	chromium-52.0.2743.116-unset-madv_free.patch
+# Use gn system files
+Patch20:	chromium-60.0.3112.78-gn-system.patch
 # Fix last commit position issue
 # https://groups.google.com/a/chromium.org/forum/#!topic/gn-dev/7nlJv486bD4
-Patch21:	chromium-60.0.3112.7-last-commit-position.patch
+Patch21:	chromium-60.0.3112.78-last-commit-position.patch
 # Fix issue where timespec is not defined when sys/stat.h is included.
 Patch22:	chromium-53.0.2785.92-boringssl-time-fix.patch
-# Fix gn build on Linux
 # I wouldn't have to do this if there was a standard way to append extra compiler flags
-Patch24:	chromium-59.0.3071.29-nullfix.patch
+Patch24:	chromium-63.0.3289.84-nullfix.patch
 # Add explicit includedir for jpeglib.h
 Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 # On i686, pass --no-keep-memory --reduce-memory-overheads to ld.
-Patch26:	chromium-59.0.3071.29-i686-ld-memory-tricks.patch
+Patch26:	chromium-59.0.3071.86-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
-Patch27:	chromium-63.0.3239.70-setopaque.patch
+Patch27:	chromium-63.0.3289.84-setopaque.patch
 # Use -fpermissive to build WebKit
 Patch31:	chromium-56.0.2924.87-fpermissive.patch
+# Fix issue with compilation on gcc7
+# Thanks to Ben Noordhuis
+Patch33:	chromium-65.0.3325.146-gcc7.patch
 # Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
-Patch36:       chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
+Patch36:	chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.patch
+# Correctly compile the stdatomic.h in ffmpeg with gcc 4.8
+Patch37:	chromium-64.0.3282.119-ffmpeg-stdatomic.patch
+# Nacl can't die soon enough
+Patch39:	chromium-59.0.3071.86-system-clang.patch
 # Do not prefix libpng functions
-Patch42:       chromium-60.0.3112.78-no-libpng-prefix.patch
+Patch42:	chromium-60.0.3112.78-no-libpng-prefix.patch
 # Do not mangle libjpeg
-Patch43:       chromium-60.0.3112.78-jpeg-nomangle.patch
+Patch43:	chromium-60.0.3112.78-jpeg-nomangle.patch
 # Do not mangle zlib
-Patch45:        chromium-60.0.3112.78-no-zlib-mangle.patch
-# Apply this change to work around EPEL7 compiler issues
-Patch46:        chromium-62.0.3202.45-kmaxskip-constexpr.patch
-Patch47:        chromium-60.0.3112.90-vulkan-force-c99.patch
-# more gcc fixes
+Patch45:	chromium-60.0.3112.78-no-zlib-mangle.patch
+# Apply these changes to work around EPEL7 compiler issues
+Patch46:	chromium-62.0.3202.62-kmaxskip-constexpr.patch
+Patch47:	chromium-60.0.3112.90-vulkan-force-c99.patch
+# Fix libavutil include pathing to find arch specific timer.h
+# For some reason, this only fails on aarch64. No idea why.
+Patch50:	chromium-60.0.3112.113-libavutil-timer-include-path-fix.patch
+# from gentoo
 Patch53:	chromium-61.0.3163.79-gcc-no-opt-safe-math.patch
-# Webrtc gentto patch 
-# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-webrtc-r0.patch
+# Only needed when glibc 2.26.90 or later is used
+Patch57:	chromium-63.0.3289.84-aarch64-glibc-2.26.90.patch
+# From gentoo
+Patch62:	chromium-65.0.3325.146-gcc5-r3.patch
+# Do not try to use libc++ in the remoting stack
 Patch63:	chromium-63.0.3289.84-nolibc++.patch
-
+# To use round with gcc, you need to #include <cmath>
+Patch65:	chromium-65.0.3325.146-gcc-round-fix.patch
+# Include proper headers to invoke memcpy()
+Patch67:	chromium-65.0.3325.146-memcpy-fix.patch
 # Work around gcc8 bug in gn
 Patch68:	chromium-64.0.3282.167-gcc8-fabi11.patch
+# From Gentoo
+Patch69:	chromium-math.h-r0.patch
+Patch70:	chromium-stdint.patch
+# Workaround https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80654
+# crbug.com/784732#27
+# https://chromium-review.googlesource.com/c/chromium/src/+/927942
+Patch71:	chromium-65.0.3325.146-workaround-gcc7-is_trivially_copy_constructable-failure.patch
+# And https://bugs.chromium.org/p/chromium/issues/detail?id=816952
+Patch72:	chromium-65.0.3325.146-wtf-vector-fix.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-build-fix-base-Optional-T-requires-the-full-decl.patch
+Patch73:	chromium-65.0.3325.146-GCC-build-fix-base-Optional-T-requires-the-full-decl.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-wtf-oilpan-Remove-GC-checks-from-WTF-Optional-T.patch
+Patch74:	chromium-65.0.3325.146-wtf-oilpan-Remove-GC-checks-from-WTF-Optional-T.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Fix-non-copyable-class-s-optional-move.patch
+Patch75:	chromium-65.0.3325.146-Fix-non-copyable-class-s-optional-move.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Use-affirmative-expression-in-base-Optional.patch
+Patch76:	chromium-65.0.3325.146-Use-affirmative-expression-in-base-Optional.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Implement-conditional-copy-move-ctors-assign-operato.patch
+Patch77:	chromium-65.0.3325.146-Implement-conditional-copy-move-ctors-assign-operato.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Implement-converting-constructors-from-Optional-U.patch
+Patch78:	chromium-65.0.3325.146-Implement-converting-constructors-from-Optional-U.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Implement-value-forward-constructor.patch
+Patch79:	chromium-65.0.3325.146-Implement-value-forward-constructor.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Update-non-copy-non-move-assign-operators.patch
+Patch80:	chromium-65.0.3325.146-Update-non-copy-non-move-assign-operators.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-PlaybackImageProvider-Settings-do-not-provide-co.patch
+Patch81:	chromium-65.0.3325.146-GCC-PlaybackImageProvider-Settings-do-not-provide-co.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-explicitely-std-move-to-base-Optional-instead-of.patch
+Patch82:	chromium-65.0.3325.146-GCC-explicitely-std-move-to-base-Optional-instead-of.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-IDB-methods-String-renamed-to-GetString.patch
+Patch83:	chromium-65.0.3325.146-GCC-IDB-methods-String-renamed-to-GetString.patch
+# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-fully-declare-ConfigurationPolicyProvider.patch
+Patch84:	chromium-65.0.3325.146-GCC-fully-declare-ConfigurationPolicyProvider.patch
+# ../../mojo/public/cpp/bindings/associated_interface_ptr_info.h:48:43: error: cannot convert 'const mojo::ScopedInterfaceEndpointHandle' to 'bool' in return
+Patch85:	chromium-65.0.3325.162-boolfix.patch
+# From Debian
+Patch86:	chromium-65.0.3325.162-skia-aarch64-buildfix.patch
+# Use lstdc++ on EPEL7 only
+Patch87:	chromium-65.0.3325.162-epel7-stdc++.patch
 
-### Russian Fedora Patches ###
 # Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r2.patch
-Patch502:	chromium-clang-r2.patch
-# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-stdint.patch
-Patch506:	chromium-stdint.patch
-# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-math.h-r0.patch
-Patch507:	chromium-math.h-r0.patch
+Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r3.patch
-Patch508:	chromium-clang-r3.patch
+Patch501:	chromium-clang-r3.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-ffmpeg-clang.patch
-Patch509:	chromium-ffmpeg-clang.patch
+Patch502:	chromium-ffmpeg-clang.patch
 # fix build under ia32
 # https://bazaar.launchpad.net/~chromium-team/chromium-browser/bionic-stable/download/head:/fixffmpegia32build.p-20171124052506-76a1tzvpv53mvxrd-1/fix-ffmpeg-ia32-build.patch
-Patch510:	fix-ffmpeg-ia32-build.patch
-
+Patch503:      fix-ffmpeg-ia32-build.patch
 
 # Vaapi Patches
 # Ubuntu patch for chromium 64
 # https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
 Patch600:	enable_vaapi_on_linux_2.diff
-
-# Add a lot of patches from upstream to fix build on Fedora 26
-# http://copr-dist-git.fedorainfracloud.org/cgit/lantw44/chromium/chromium.git/commit/?id=873d89cdbf8250ca7fb92328a9784410a22a30b8
-Patch650:    chromium-gcc7-r530663.patch
-Patch651:    chromium-gcc7-r531722.patch
-Patch652:    chromium-gcc7-r532004.patch
-Patch653:    chromium-gcc7-r532865.patch
-Patch654:    chromium-gcc7-r533126.patch
-Patch655:    chromium-gcc7-r533185.patch
-Patch656:    chromium-gcc7-r538032.patch
-Patch657:    chromium-gcc7-r538699.patch
-Patch658:    chromium-gcc7-r538717.patch
-Patch659:    chromium-gcc7-r538740.patch
-Patch660:    chromium-gcc7-r539012.patch
-Patch661:    chromium-gcc7-r540815.patch
-Patch662:    chromium-gcc7-r541029.patch
-Patch663:    chromium-gcc7-r541516.patch
-Patch664:    chromium-gcc7-r541827.patch
-
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -268,16 +316,18 @@ BuildRequires:	glibc-devel
 BuildRequires:	gperf
 BuildRequires:	libatomic
 BuildRequires:	libcap-devel
+%if 0%{?bundlelibdrm}
+#nothing
+%else
 BuildRequires:	libdrm-devel
+%endif
 BuildRequires:	libgcrypt-devel
 BuildRequires:	libudev-devel
 BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
-BuildRequires:	ninja-build >= 1.7.2
 BuildRequires:	minizip-devel
-BuildRequires:	mesa-libGL-devel
 BuildRequires:	nodejs
 BuildRequires:	nss-devel >= 3.26
 BuildRequires:	pciutils-devel
@@ -313,6 +363,11 @@ BuildRequires:	bzip2-devel
 BuildRequires:	dbus-glib-devel
 BuildRequires:	elfutils-libelf-devel
 BuildRequires:	flac-devel
+%if 0%{?bundlefreetype}
+# nothing
+%else
+BuildRequires:  freetype-devel
+%endif
 BuildRequires:	hwdata
 BuildRequires:	kernel-headers
 BuildRequires:	libevent-devel
@@ -325,7 +380,12 @@ BuildRequires:	vulkan-devel
 # Not newer than 54 (at least not right now)
 BuildRequires:	libicu-devel = 54.1
 %endif
+%if 0%{?bundlelibjpeg}
+# If this is true, we're using the bundled libjpeg
+# which we need to do because the RHEL 7 libjpeg doesn't work for chromium anymore
+%else
 BuildRequires:	libjpeg-devel
+%endif
 %if 0%{?bundlelibpng}
 # If this is true, we're using the bundled libpng
 # which we need to do because the RHEL 7 libpng doesn't work right anymore
@@ -354,6 +414,7 @@ BuildRequires:	libwebp-devel
 BuildRequires:	libxslt-devel
 # Same here, it seems.
 # BuildRequires:	libyuv-devel
+BuildRequires:	mesa-libGL-devel
 %if %{bundleopus}
 # Do nothing
 %else
@@ -366,11 +427,6 @@ BuildRequires:	python2
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-html5lib
-%if 0%{?bundlejinja2}
-# Using bundled bits, do nothing.
-%else
-BuildRequires:	python-jinja2
-%endif
 BuildRequires:	python-markupsafe
 BuildRequires:	python-ply
 BuildRequires:	python-simplejson
@@ -387,6 +443,8 @@ BuildRequires:	pkgconfig(gnome-keyring-1)
 # remote desktop needs this
 BuildRequires:	pam-devel
 BuildRequires:	systemd
+# using the built from source version on aarch64
+BuildRequires:	ninja-build
 
 %if 0%{?rhel} == 7
 BuildRequires: devtoolset-7-toolchain, devtoolset-7-libatomic-devel
@@ -460,7 +518,9 @@ Provides: bundled(icu) = 58.1
 Provides: bundled(kitchensink) = 1
 Provides: bundled(leveldb) = 1.20
 Provides: bundled(libaddressinput) = 0
-Provides: bundled(libdrm) = 2.4.70
+%if 0%{?bundlelibdrm}
+Provides: bundled(libdrm) = 2.4.85
+%endif
 Provides: bundled(libevent) = 1.4.15
 Provides: bundled(libjingle) = 9564
 %if 0%{?bundlelibjpeg}
@@ -615,20 +675,19 @@ udev.
 # Fix Russian Translation
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
 
-# fix debugedit: canonicalization unexpectedly shrank by one character
-sed -i 's@gpu//@gpu/@g' content/renderer/gpu/compositor_forwarding_message_filter.cc
-sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft.cc
-sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/audio_processing/utility/ooura_fft_sse2.cc
-
 ### Chromium Fedora Patches ###
+%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
 %patch4 -p1 -b .notest
+# %%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
-%patch15 -b .sandboxpie
-%patch17 -p1 -b .armfix
+%patch12 -p1 -b .cups22
+%patch15 -p1 -b .sandboxpie
 %patch18 -p1 -b .etc
+# %%patch19 -p1 -b .madv_free
+%patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
@@ -636,59 +695,65 @@ sed -i 's@audio_processing//@audio_processing/@g' third_party/webrtc/modules/aud
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
 %patch31 -p1 -b .permissive
+%patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
+%patch37 -p1 -b .ffmpeg-stdatomic
+%patch39 -p1 -b .system-clang
 %patch42 -p1 -b .noprefix
 %patch43 -p1 -b .nomangle
 %patch45 -p1 -b .nozmangle
-#%if 0%{?rhel} == 7
-#%patch46 -p1 -b .kmaxskip
-#%patch47 -p1 -b .c99
-#%endif
-
+%if 0%{?rhel} == 7
+%patch46 -p1 -b .kmaxskip
+%patch47 -p1 -b .c99
+%endif
+%patch50 -p1 -b .pathfix
+%patch53 -p1 -b .nogccoptmath
+# %%if 0%%{?fedora} >= 28
+# %%patch57 -p1 -b .aarch64glibc
+# %%endif
+%patch62 -p1 -b .gcc5-r3
 %patch63 -p1 -b .nolibc++
-
+%patch65 -p1 -b .gcc-round-fix
+%patch67 -p1 -b .memcpyfix
 %if ! 0%{?asan}
 %patch68 -p1 -b .fabi11
 %endif
-
-%patch53 -p1 -b .nogccoptmath
-
-### Russian Fedora Patches ###
-%patch506 -p1 -b .stdin
-%patch507 -p1 -b .math
+%patch69 -p1 -b .gentoo-math
+%patch70 -p1 -b .gentoo-stdint
+%patch71 -p1 -b .gcc7-itcc
+%patch72 -p1 -b .wtf-fix
+%patch73 -p1 -b .fulldecl
+%patch74 -p1 -b .oilpan
+%patch75 -p1 -b .noncopyable
+%patch76 -p1 -b .affirmative
+%patch77 -p1 -b .conditional
+%patch78 -p1 -b .converting
+%patch79 -p1 -b .vforward
+%patch80 -p1 -b .ncnm
+%patch81 -p1 -b .pipcc
+%patch82 -p1 -b .explicit-std-move
+%patch83 -p1 -b .GetString
+%patch84 -p1 -b .fully-declare
+%patch85 -p1 -b .boolfix
+%patch86 -p1 -b .aarch64fix
+%if 0%{?rhel} == 7
+%patch87 -p1 -b .epel7
+%endif
+%if 0%{?asan}
+%patch500 -p1 -b .clang
+%patch501 -p1 -b .clang-r3
+%patch502 -p1 -b .clang-ffmpeg
+%endif
 %ifarch i686
-%if 0%{?fedora} >= 28
-%patch510 -p1 -b .ia32-ffmpeg
+%if 0%{?fedora} >= 29
+%patch503 -p1 -b .ia32-ffmpeg
 %endif
 %endif
-
-%if 0%{?fedora} == 26
-# Add a lot of patches from upstream to fix build on Fedora 26
-%patch650 -p1 -b .r530663.patch
-%patch651 -p1 -b .r531722.patch
-%patch652 -p1 -b .r532004.patch
-%patch653 -p1 -b .r532865.patch
-%patch654 -p1 -b .r533126.patch
-%patch655 -p1 -b .r533185.patch
-%patch656 -p1 -b .r538032.patch
-%patch657 -p1 -b .r538699.patch
-%patch658 -p1 -b .r538717.patch
-%patch659 -p1 -b .r538740.patch
-%patch660 -p1 -b .r539012.patch
-%patch661 -p1 -b .r540815.patch
-%patch662 -p1 -b .r541029.patch
-%patch663 -p1 -b .r541516.patch
-%patch664 -p1 -b .r541827.patch
-%endif
-
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
 %endif
 
 %if 0%{?asan}
-%patch502 -p1 -b .clang
-%patch508 -p1 -b .clang-r3
-%patch509 -p1 -b .clang-ffmpeg
 export CC="clang"
 export CXX="clang++"
 %else
@@ -698,8 +763,7 @@ export CXX="g++"
 export AR="ar"
 export RANLIB="ranlib"
 
-# NUKE FROM ORBIT
-#rm -rf buildtools/third_party/libc++/BUILD.gn
+rm -rf buildtools/third_party/libc++/BUILD.gn
 
 %if 0%{?nacl}
 # prep the nacl tree
@@ -845,7 +909,7 @@ CHROMIUM_HEADLESS_GN_DEFINES=""
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_ozone=true ozone_auto_platforms=false ozone_platform="headless" ozone_platform_headless=true'
 CHROMIUM_HEADLESS_GN_DEFINES+=' headless_use_embedded_resources=true icu_use_data_file=false v8_use_external_startup_data=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' enable_nacl=false enable_print_preview=false enable_remoting=false use_alsa=false'
-CHROMIUM_HEADLESS_GN_DEFINES+=' use_cups=false use_dbus=false use_gconf=false use_gio=false use_kerberos=false use_libpci=false'
+CHROMIUM_HEADLESS_GN_DEFINES+=' use_cups=false use_dbus=false use_gio=false use_kerberos=false use_libpci=false'
 CHROMIUM_HEADLESS_GN_DEFINES+=' use_pulseaudio=false use_udev=false'
 export CHROMIUM_HEADLESS_GN_DEFINES
 
@@ -854,36 +918,10 @@ export CHROMIUM_HEADLESS_GN_DEFINES
 build/linux/unbundle/remove_bundled_libraries.py \
 	'buildtools/third_party/libc++' \
 	'buildtools/third_party/libc++abi' \
-	'third_party/ffmpeg' \
-	'third_party/adobe' \
-	'third_party/flac' \
-	'third_party/harfbuzz-ng' \
-	'third_party/icu' \
-	'third_party/inspector_protocol' \
-	'v8/third_party/inspector_protocol' \
-	'third_party/cld_3' \
-	'base/third_party/libevent' \
-	'third_party/libjpeg_turbo' \
-	'third_party/libpng' \
-	'third_party/libsrtp' \
-	'third_party/libwebp' \
-	'third_party/libxml' \
-	'third_party/libxslt' \
-%if %{freeworld}
-	'third_party/openh264' \
-%endif
-%if 0%{?bundlere2}
-	'third_party/re2' \
-%endif
-	'third_party/snappy' \
-	'third_party/speech-dispatcher' \
-	'third_party/usb_ids' \
-	'third_party/xdg-utils' \
-	'third_party/yasm' \
-	'third_party/zlib' \
 	'base/third_party/dmg_fp' \
 	'base/third_party/dynamic_annotations' \
 	'base/third_party/icu' \
+	'base/third_party/libevent' \
 	'base/third_party/nspr' \
 	'base/third_party/superfasthash' \
 	'base/third_party/symbolize' \
@@ -892,12 +930,10 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'base/third_party/xdg_user_dirs' \
 	'chrome/third_party/mozilla_security_manager' \
 	'courgette/third_party' \
-	'native_client_sdk/src/libraries/third_party/newlib-extras' \
-	'native_client/src/third_party/dlmalloc' \
-	'native_client/src/third_party/valgrind' \
 	'net/third_party/mozilla_security_manager' \
 	'net/third_party/nss' \
 	'third_party/WebKit' \
+	'third_party/adobe' \
 	'third_party/analytics' \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/base' \
@@ -905,8 +941,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle/src/third_party/compiler' \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/trace_event' \
-	'third_party/blink' \
 	'third_party/blanketjs' \
+	'third_party/blink' \
 	'third_party/boringssl' \
 	'third_party/boringssl/src/third_party/fiat' \
 	'third_party/breakpad' \
@@ -916,94 +952,118 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/catapult' \
 	'third_party/catapult/common/py_vulcanize/third_party/rcssmin' \
 	'third_party/catapult/common/py_vulcanize/third_party/rjsmin' \
+	'third_party/catapult/third_party/polymer' \
 	'third_party/catapult/tracing/third_party/d3' \
 	'third_party/catapult/tracing/third_party/gl-matrix' \
 	'third_party/catapult/tracing/third_party/jszip' \
 	'third_party/catapult/tracing/third_party/mannwhitneyu' \
 	'third_party/catapult/tracing/third_party/oboe' \
 	'third_party/catapult/tracing/third_party/pako' \
-	'third_party/catapult/third_party/polymer' \
-	'third_party/ced' \
+        'third_party/ced' \
+	'third_party/cld_3' \
 	'third_party/crc32c' \
 	'third_party/cros_system_api' \
 	'third_party/devscripts' \
 	'third_party/dom_distiller_js' \
 	'third_party/expat' \
+	'third_party/ffmpeg' \
 	'third_party/fips181' \
+	'third_party/flac' \
         'third_party/flatbuffers' \
 	'third_party/flot' \
+	'third_party/fontconfig' \
 	'third_party/freetype' \
 	'third_party/glslang-angle' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
 	'third_party/googletest' \
+	'third_party/harfbuzz-ng' \
 	'third_party/hunspell' \
-	'third_party/libdrm' \
 	'third_party/iccjpeg' \
-%if 0%{?bundlejinja2}
+	'third_party/icu' \
+	'third_party/inspector_protocol' \
 	'third_party/jinja2' \
-%endif
 	'third_party/jstemplate' \
 	'third_party/khronos' \
 	'third_party/leveldatabase' \
 	'third_party/libXNVCtrl' \
 	'third_party/libaddressinput' \
+	'third_party/libaom' \
+	'third_party/libdrm' \
 	'third_party/libjingle' \
+	'third_party/libjpeg_turbo' \
 	'third_party/libphonenumber' \
+	'third_party/libpng' \
 	'third_party/libsecret' \
-	'third_party/libsrtp' \
+        'third_party/libsrtp' \
 	'third_party/libudev' \
 	'third_party/libusb' \
 	'third_party/libvpx' \
 	'third_party/libvpx/source/libvpx/third_party/x86inc' \
+	'third_party/libxml' \
 	'third_party/libxml/chromium' \
+	'third_party/libxslt' \
 	'third_party/libwebm' \
+	'third_party/libwebp' \
 	'third_party/libyuv' \
 %if 0%{?nacl}
 	'third_party/llvm-build' \
 %endif
 	'third_party/lss' \
 	'third_party/lzma_sdk' \
+%if 0
+	'third_party/markupsafe' \
+%endif
 	'third_party/mesa' \
 	'third_party/metrics_proto' \
 	'third_party/modp_b64' \
 	'third_party/mt19937ar' \
 	'third_party/node' \
 	'third_party/node/node_modules/polymer-bundler/lib/third_party/UglifyJS2' \
+%if %{freeworld}
+	'third_party/openh264' \
+%endif
 	'third_party/openmax_dl' \
 	'third_party/opus' \
 	'third_party/ots' \
 	'third_party/pdfium' \
 	'third_party/pdfium/third_party/agg23' \
 	'third_party/pdfium/third_party/base' \
-	'third_party/pdfium/third_party/build' \
 	'third_party/pdfium/third_party/bigint' \
+	'third_party/pdfium/third_party/build' \
 	'third_party/pdfium/third_party/freetype' \
 	'third_party/pdfium/third_party/lcms' \
 	'third_party/pdfium/third_party/libopenjpeg20' \
-	'third_party/pdfium/third_party/libpng16' \
-	'third_party/pdfium/third_party/libtiff' \
+        'third_party/pdfium/third_party/libpng16' \
+        'third_party/pdfium/third_party/libtiff' \
+        'third_party/ply' \
 	'third_party/polymer' \
 	'third_party/protobuf' \
 	'third_party/protobuf/third_party/six' \
-	'third_party/ply' \
 	'third_party/qcms' \
-	'third_party/s2cellid' \
 	'third_party/qunit' \
+%if 0%{?bundlere2}
+	'third_party/re2' \
+%endif
+	'third_party/s2cellid' \
 	'third_party/sfntly' \
 	'third_party/sinonjs' \
 	'third_party/skia' \
 	'third_party/skia/third_party/gif' \
 	'third_party/skia/third_party/vulkan' \
 	'third_party/smhasher' \
+	'third_party/snappy' \
+	'third_party/speech-dispatcher' \
 	'third_party/spirv-headers' \
 	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
 	'third_party/swiftshader' \
-	'third_party/swiftshader/third_party/llvm-subzero' \
 	'third_party/swiftshader/third_party/subzero' \
+	'third_party/swiftshader/third_party/LLVM' \
+	'third_party/swiftshader/third_party/llvm-subzero' \
 	'third_party/tcmalloc' \
+        'third_party/usb_ids' \
 	'third_party/usrsctp' \
 	'third_party/vulkan' \
 	'third_party/vulkan-validation-layers' \
@@ -1011,19 +1071,18 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/webdriver' \
 	'third_party/webrtc' \
 	'third_party/widevine' \
-	'third_party/woff2' \
+        'third_party/woff2' \
+        'third_party/xdg-utils' \
+        'third_party/yasm' \
+        'third_party/zlib' \
 	'third_party/zlib/google' \
 	'url/third_party/mozilla' \
+	'v8/src/third_party/utf8-decoder' \
 	'v8/src/third_party/valgrind' \
-        'v8/src/third_party/utf8-decoder' \
+	'v8/third_party/inspector_protocol' \
 	--do-remove
 
 # Look, I don't know. This package is spit and chewing gum. Sorry.
-
-%if ! 0%{?bundlejinja2}
-rm -rf third_party/jinja2
-ln -s %{python_sitelib}/jinja2 third_party/jinja2
-%endif
 rm -rf third_party/markupsafe
 ln -s %{python_sitearch}/markupsafe third_party/markupsafe
 # We should look on removing other python packages as well i.e. ply
@@ -1038,7 +1097,10 @@ export PATH=$PATH:%{_builddir}/depot_tools
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
 	fontconfig \
+%if 0%{?bundlefreetype}
+%else
 	freetype \
+%endif
 %if 0%{?bundleharfbuzz}
 %else
 	harfbuzz-ng \
@@ -1047,7 +1109,10 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	icu \
 %endif
+%if %{bundlelibdrm}
+%else
 	libdrm \
+%endif
 %if %{bundlelibjpeg}
 %else
 	libjpeg \
@@ -1080,7 +1145,20 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 	yasm \
 	zlib
 
+# fix arm gcc
+sed -i 's|arm-linux-gnueabihf-|arm-linux-gnu-|g' build/toolchain/linux/BUILD.gn
+
+%ifarch aarch64
+# We don't need to cross compile while building on an aarch64 system.
+sed -i 's|aarch64-linux-gnu-||g' build/toolchain/linux/BUILD.gn
+
+# Correct the ninja file to check for aarch64, not just x86.
+sed -i '/${LONG_BIT}/ a \      aarch64)\' ../depot_tools/ninja
+sed -i '/aarch64)/ a \        exec "/usr/bin/ninja-build" "$@";;\' ../depot_tools/ninja
+%endif
+
 %if 0%{?rhel} == 7
+sed -i "s@'ninja'@'ninja-build'@g" tools/gn/bootstrap/bootstrap.py
 . /opt/rh/devtoolset-7/enable
 %endif
 
@@ -1105,9 +1183,6 @@ sed '14i#define WIDEVINE_CDM_VERSION_STRING "Something fresh"' -i "third_party/w
 FILE=chrome/common/channel_info_posix.cc
 sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"Russian Fedora"/' $FILE
 
-# fix arm gcc
-sed -i 's|arm-linux-gnueabihf-|arm-linux-gnu-|g' build/toolchain/linux/BUILD.gn
-
 # setup node
 mkdir -p third_party/node/linux/node-linux-x64/bin
 ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
@@ -1115,15 +1190,18 @@ ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 %build
 %if 0%{?rhel} == 7
 . /opt/rh/devtoolset-7/enable
+NINJA="ninja-build"
+%else
+NINJA="ninja"
 %endif
 
 # Now do the full browser
 # Do headless first.
-ninja -C %{headlesstarget} -vvv headless_shell
+$NINJA -C %{headlesstarget} -vvv headless_shell
 
 sed -i 's@gn @./gn @g' out/Release/build.ninja
 
-ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clear_key_cdm policy_templates
+$NINJA -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clear_key_cdm policy_templates
 
 %if %{build_remote_desktop}
 
@@ -1131,13 +1209,14 @@ ninja -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter cl
 pushd remoting
 
 # ../../depot_tools/ninja -C ../%{target} -vvv remoting_me2me_host remoting_start_host remoting_it2me_native_messaging_host remoting_me2me_native_messaging_host remoting_native_messaging_manifests remoting_resources
-ninja -C ../%{target} -vvv remoting_all
+$NINJA -C ../%{target} -vvv remoting_all
 %if 0%{?build_remoting_app}
 %if 0%{?nacl}
-GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} ninja -vv -C ../out/Release/ remoting_webapp
+GOOGLE_CLIENT_ID_REMOTING_IDENTITY_API=%{chromoting_client_id} $NINJA -vv -C ../out/Release/ remoting_webapp
 %endif
 %endif
 popd
+
 %endif
 
 # Nuke nacl/pnacl bits at the end of the build
@@ -1541,6 +1620,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Mar 21 2018 Arkady L. Shane <ashejn@russianfedora.pro> 65.0.3325.181-1.R
+- update to 65.0.3325.181
+
 * Thu Mar 15 2018 Arkady L. Shane <ashejn@russianfedora.pro> 65.0.3325.162-1.R
 - update to 65.0.3325.162
 

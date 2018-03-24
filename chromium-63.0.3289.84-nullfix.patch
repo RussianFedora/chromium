@@ -1,0 +1,43 @@
+diff -up chromium-63.0.3239.84/build/toolchain/linux/BUILD.gn.nullfix chromium-63.0.3239.84/build/toolchain/linux/BUILD.gn
+--- chromium-63.0.3239.84/build/toolchain/linux/BUILD.gn.nullfix	2017-12-06 15:05:21.000000000 -0500
++++ chromium-63.0.3239.84/build/toolchain/linux/BUILD.gn	2017-12-07 10:44:34.507207080 -0500
+@@ -31,6 +31,7 @@ gcc_toolchain("arm64") {
+   ld = cxx
+   readelf = "${toolprefix}readelf"
+   nm = "${toolprefix}nm"
++  extra_cppflags = "-fno-delete-null-pointer-checks"
+ 
+   toolchain_args = {
+     current_cpu = "arm64"
+@@ -49,6 +50,7 @@ gcc_toolchain("arm") {
+   ld = cxx
+   readelf = "${toolprefix}readelf"
+   nm = "${toolprefix}nm"
++  extra_cppflags = "-fno-delete-null-pointer-checks"
+ 
+   toolchain_args = {
+     current_cpu = "arm"
+@@ -99,6 +101,7 @@ gcc_toolchain("x86") {
+   nm = "nm"
+   ar = "ar"
+   ld = cxx
++  extra_cppflags = "-fno-delete-null-pointer-checks"
+ 
+   # Output linker map files for binary size analysis.
+   enable_linker_map = true
+@@ -152,6 +155,7 @@ gcc_toolchain("x64") {
+   nm = "nm"
+   ar = "ar"
+   ld = cxx
++  extra_cppflags = "-fno-delete-null-pointer-checks"
+ 
+   # Output linker map files for binary size analysis.
+   enable_linker_map = true
+@@ -186,6 +190,7 @@ gcc_toolchain("mipsel") {
+   ld = cxx
+   readelf = "${toolprefix}readelf"
+   nm = "${toolprefix}nm"
++  extra_cppflags = "-fno-delete-null-pointer-checks"
+ 
+   toolchain_args = {
+     cc_wrapper = ""

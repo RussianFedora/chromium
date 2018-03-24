@@ -1,0 +1,108 @@
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/bindings/modules/v8/V8BindingForModules.cpp.GetString chromium-65.0.3325.146/third_party/WebKit/Source/bindings/modules/v8/V8BindingForModules.cpp
+--- chromium-65.0.3325.146/third_party/WebKit/Source/bindings/modules/v8/V8BindingForModules.cpp.GetString	2018-03-13 22:54:27.262671113 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/bindings/modules/v8/V8BindingForModules.cpp	2018-03-13 22:55:47.722113713 -0400
+@@ -68,7 +68,7 @@ v8::Local<v8::Value> ToV8(const IDBKeyPa
+     case IDBKeyPath::kNullType:
+       return v8::Null(isolate);
+     case IDBKeyPath::kStringType:
+-      return V8String(isolate, value.String());
++      return V8String(isolate, value.GetString());
+     case IDBKeyPath::kArrayType:
+       return ToV8(value.Array(), creation_context, isolate);
+   }
+@@ -97,7 +97,7 @@ v8::Local<v8::Value> ToV8(const IDBKey*
+     case IDBKey::kNumberType:
+       return v8::Number::New(isolate, key->Number());
+     case IDBKey::kStringType:
+-      return V8String(isolate, key->String());
++      return V8String(isolate, key->GetString());
+     case IDBKey::kBinaryType:
+       // https://w3c.github.io/IndexedDB/#convert-a-value-to-a-key
+       return ToV8(DOMArrayBuffer::Create(key->Binary()), creation_context,
+@@ -379,7 +379,7 @@ static std::unique_ptr<IDBKey> CreateIDB
+   }
+ 
+   DCHECK_EQ(key_path.GetType(), IDBKeyPath::kStringType);
+-  return CreateIDBKeyFromValueAndKeyPath(isolate, value, key_path.String(),
++  return CreateIDBKeyFromValueAndKeyPath(isolate, value, key_path.GetString(),
+                                          exception_state);
+ }
+ 
+@@ -483,7 +483,7 @@ bool InjectV8KeyIntoV8Value(v8::Isolate*
+   DCHECK(isolate->InContext());
+ 
+   DCHECK_EQ(key_path.GetType(), IDBKeyPath::kStringType);
+-  Vector<String> key_path_elements = ParseKeyPath(key_path.String());
++  Vector<String> key_path_elements = ParseKeyPath(key_path.GetString());
+ 
+   // The conbination of a key generator and an empty key path is forbidden by
+   // spec.
+@@ -569,7 +569,7 @@ bool CanInjectIDBKeyIntoScriptValue(v8::
+                                     const IDBKeyPath& key_path) {
+   IDB_TRACE("canInjectIDBKeyIntoScriptValue");
+   DCHECK_EQ(key_path.GetType(), IDBKeyPath::kStringType);
+-  Vector<String> key_path_elements = ParseKeyPath(key_path.String());
++  Vector<String> key_path_elements = ParseKeyPath(key_path.GetString());
+ 
+   if (!key_path_elements.size())
+     return false;
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/modules/exported/WebIDBKey.cpp.GetString chromium-65.0.3325.146/third_party/WebKit/Source/modules/exported/WebIDBKey.cpp
+--- chromium-65.0.3325.146/third_party/WebKit/Source/modules/exported/WebIDBKey.cpp.GetString	2018-03-13 22:56:04.041798217 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/modules/exported/WebIDBKey.cpp	2018-03-13 22:56:22.481440993 -0400
+@@ -56,7 +56,7 @@ WebData WebIDBKeyView::Binary() const {
+ }
+ 
+ WebString WebIDBKeyView::String() const {
+-  return private_->String();
++  return private_->GetString();
+ }
+ 
+ double WebIDBKeyView::Date() const {
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBDatabase.cpp.GetString chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBDatabase.cpp
+--- chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBDatabase.cpp.GetString	2018-03-13 22:56:36.028178758 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBDatabase.cpp	2018-03-13 22:56:58.846736831 -0400
+@@ -297,7 +297,7 @@ IDBObjectStore* IDBDatabase::createObjec
+   }
+ 
+   if (auto_increment && ((key_path.GetType() == IDBKeyPath::kStringType &&
+-                          key_path.String().IsEmpty()) ||
++                          key_path.GetString().IsEmpty()) ||
+                          key_path.GetType() == IDBKeyPath::kArrayType)) {
+     exception_state.ThrowDOMException(
+         kInvalidAccessError,
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKey.h.GetString chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKey.h
+--- chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKey.h.GetString	2018-03-13 22:57:13.229458842 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKey.h	2018-03-13 22:57:38.633966776 -0400
+@@ -106,7 +106,7 @@ class MODULES_EXPORT IDBKey {
+     return binary_;
+   }
+ 
+-  const String& String() const {
++  const String& GetString() const {
+     DCHECK_EQ(type_, kStringType);
+     return string_;
+   }
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKeyPath.h.GetString chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKeyPath.h
+--- chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKeyPath.h.GetString	2018-03-13 22:57:51.104725428 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/IDBKeyPath.h	2018-03-13 22:58:09.459369906 -0400
+@@ -65,7 +65,7 @@ class MODULES_EXPORT IDBKeyPath {
+     return array_;
+   }
+ 
+-  const String& String() const {
++  const String& GetString() const {
+     DCHECK_EQ(type_, kStringType);
+     return string_;
+   }
+diff -up chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/InspectorIndexedDBAgent.cpp.GetString chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/InspectorIndexedDBAgent.cpp
+--- chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/InspectorIndexedDBAgent.cpp.GetString	2018-03-13 22:58:28.778995834 -0400
++++ chromium-65.0.3325.146/third_party/WebKit/Source/modules/indexeddb/InspectorIndexedDBAgent.cpp	2018-03-13 22:58:45.044681364 -0400
+@@ -399,7 +399,7 @@ static std::unique_ptr<KeyPath> KeyPathF
+     case IDBKeyPath::kStringType:
+       key_path = KeyPath::create()
+                      .setType(KeyPath::TypeEnum::String)
+-                     .setString(idb_key_path.String())
++                     .setString(idb_key_path.GetString())
+                      .build();
+       break;
+     case IDBKeyPath::kArrayType: {
