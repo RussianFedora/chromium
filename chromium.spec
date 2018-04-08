@@ -585,6 +585,9 @@ Chromium is an open-source web browser, powered by WebKit (Blink).
 
 %package common
 Summary: Files needed for both the headless_shell and full Chromium
+# Chromium needs an explicit Requires: minizip
+# We put it here to cover headless too.
+Requires: minizip%{_isa}
 
 %description common
 %{summary}.
