@@ -1,6 +1,10 @@
 # NEVER EVER EVER turn this on in official builds
 %global freeworld 1
 
+# Some people wish not to use the Fedora Google API keys. Mmkay.
+# Expect stuff to break in weird ways if you disable.
+%global useapikeys 1
+
 # Leave this alone, please.
 %global target out/Release
 %global headlesstarget out/Headless
@@ -115,10 +119,17 @@ BuildRequires:  libicu-devel >= 5.4
 ### Note: These are for Fedora use ONLY.
 ### For your own distribution, please get your own set of keys.
 ### http://lists.debian.org/debian-legal/2013/11/msg00006.html
+%if %{useapikeys}
 %global api_key AIzaSyDUIXvzVrt5OkVsgXhQ6NFfvWlA44by-aw
 %global default_client_id 449907151817.apps.googleusercontent.com
 %global default_client_secret miEreAep8nuvTdvLums6qyLK
 %global chromoting_client_id 449907151817-8vnlfih032ni8c4jjps9int9t86k546t.apps.googleusercontent.com
+%else
+%global api_key %nil
+%global default_client_id %nil
+%global default_client_secret %nil
+%global chromoting_client_id %nil
+%endif
 
 Name:		chromium%{chromium_channel}
 Version:	65.0.3325.181
@@ -1164,6 +1175,12 @@ sed -i '/aarch64)/ a \        exec "/usr/bin/ninja-build" "$@";;\' ../depot_tool
 sed -i "s@'ninja'@'ninja-build'@g" tools/gn/bootstrap/bootstrap.py
 . /opt/rh/devtoolset-7/enable
 %endif
+
+# Check that there is no system 'google' module, shadowing bundled ones:
+if python -c 'import google ; print google.__path__' 2> /dev/null ; then \
+    echo "Python 'google' module is defined, this will shadow modules of this build"; \
+    exit 1 ; \
+fi
 
 tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES"
 %{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{target}
