@@ -733,7 +733,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch68 -p1 -b .fabi11
 %endif
 #%patch69 -p1 -b .gentoo-math
-%patch70 -p1 -b .gentoo-stdint
+#%patch70 -p1 -b .gentoo-stdint
 %patch71 -p1 -b .gcc7-itcc
 %patch72 -p1 -b .wtf-fix
 %patch73 -p1 -b .fulldecl
