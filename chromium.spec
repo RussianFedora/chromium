@@ -732,7 +732,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %if ! 0%{?asan}
 %patch68 -p1 -b .fabi11
 %endif
-%patch69 -p1 -b .gentoo-math
+#%patch69 -p1 -b .gentoo-math
 %patch70 -p1 -b .gentoo-stdint
 %patch71 -p1 -b .gcc7-itcc
 %patch72 -p1 -b .wtf-fix
