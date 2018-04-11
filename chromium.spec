@@ -197,7 +197,7 @@ Patch36:	chromium-58.0.3029.96-revert-b794998819088f76b4cf44c8db6940240c563cf4.p
 # Correctly compile the stdatomic.h in ffmpeg with gcc 4.8
 Patch37:	chromium-64.0.3282.119-ffmpeg-stdatomic.patch
 # Nacl can't die soon enough
-Patch39:	chromium-59.0.3071.86-system-clang.patch
+Patch39:	chromium-66.0.3359.81-system-clang.patch
 # Do not prefix libpng functions
 Patch42:	chromium-60.0.3112.78-no-libpng-prefix.patch
 # Do not mangle libjpeg
@@ -1642,6 +1642,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
 - update to 66.0.3359.81
+- update chromium-clang patch
 
 * Wed Mar 21 2018 Arkady L. Shane <ashejn@russianfedora.pro> 65.0.3325.181-1.R
 - update to 65.0.3325.181

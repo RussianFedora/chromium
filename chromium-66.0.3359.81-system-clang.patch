@@ -1,0 +1,12 @@
+diff -urN chromium-66.0.3359.81.orig/build/config/clang/clang.gni chromium-66.0.3359.81/build/config/clang/clang.gni
+--- chromium-66.0.3359.81.orig/build/config/clang/clang.gni	2018-04-11 18:07:36.127271285 +0300
++++ chromium-66.0.3359.81/build/config/clang/clang.gni	2018-04-11 18:07:47.817410409 +0300
+@@ -4,7 +4,7 @@
+ 
+ import("//build/toolchain/toolchain.gni")
+ 
+-default_clang_base_path = "//third_party/llvm-build/Release+Asserts"
++default_clang_base_path = "/usr"
+ 
+ declare_args() {
+   # Indicates if the build should use the Chrome-specific plugins for enforcing
