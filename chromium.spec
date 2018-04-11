@@ -266,8 +266,8 @@ Patch87:	chromium-65.0.3325.162-epel7-stdc++.patch
 
 # Clang Gentoo patch: ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r2.patch
 Patch500:	chromium-clang-r2.patch
-# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r3.patch
-Patch501:	chromium-clang-r3.patch
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
+Patch501:	chromium-clang-r4.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-ffmpeg-clang.patch
 Patch502:	chromium-ffmpeg-clang.patch
 # fix build under ia32
@@ -754,8 +754,8 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch87 -p1 -b .epel7
 %endif
 %if 0%{?asan}
-%patch500 -p1 -b .clang
-%patch501 -p1 -b .clang-r3
+%patch500 -p1 -b .clang-r2
+%patch501 -p1 -b .clang-r4
 %patch502 -p1 -b .clang-ffmpeg
 %endif
 %ifarch i686
@@ -1643,6 +1643,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
 - update to 66.0.3359.81
 - update chromium-clang patch
+- disable gcc patch
 
 * Wed Mar 21 2018 Arkady L. Shane <ashejn@russianfedora.pro> 65.0.3325.181-1.R
 - update to 65.0.3325.181
