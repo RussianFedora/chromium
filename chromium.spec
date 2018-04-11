@@ -230,25 +230,6 @@ Patch70:	chromium-stdint.patch
 # Workaround https://gcc.gnu.org/bugzilla/show_bug.cgi?id=80654
 # crbug.com/784732#27
 # https://chromium-review.googlesource.com/c/chromium/src/+/927942
-Patch71:	chromium-65.0.3325.146-workaround-gcc7-is_trivially_copy_constructable-failure.patch
-# And https://bugs.chromium.org/p/chromium/issues/detail?id=816952
-Patch72:	chromium-65.0.3325.146-wtf-vector-fix.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-build-fix-base-Optional-T-requires-the-full-decl.patch
-Patch73:	chromium-65.0.3325.146-GCC-build-fix-base-Optional-T-requires-the-full-decl.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-wtf-oilpan-Remove-GC-checks-from-WTF-Optional-T.patch
-Patch74:	chromium-65.0.3325.146-wtf-oilpan-Remove-GC-checks-from-WTF-Optional-T.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Fix-non-copyable-class-s-optional-move.patch
-Patch75:	chromium-65.0.3325.146-Fix-non-copyable-class-s-optional-move.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Use-affirmative-expression-in-base-Optional.patch
-Patch76:	chromium-65.0.3325.146-Use-affirmative-expression-in-base-Optional.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Implement-conditional-copy-move-ctors-assign-operato.patch
-Patch77:	chromium-65.0.3325.146-Implement-conditional-copy-move-ctors-assign-operato.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Implement-converting-constructors-from-Optional-U.patch
-Patch78:	chromium-65.0.3325.146-Implement-converting-constructors-from-Optional-U.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Implement-value-forward-constructor.patch
-Patch79:	chromium-65.0.3325.146-Implement-value-forward-constructor.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-Update-non-copy-non-move-assign-operators.patch
-Patch80:	chromium-65.0.3325.146-Update-non-copy-non-move-assign-operators.patch
 # https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-PlaybackImageProvider-Settings-do-not-provide-co.patch
 Patch81:	chromium-65.0.3325.146-GCC-PlaybackImageProvider-Settings-do-not-provide-co.patch
 # https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-explicitely-std-move-to-base-Optional-instead-of.patch
@@ -732,18 +713,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %if ! 0%{?asan}
 %patch68 -p1 -b .fabi11
 %endif
-#%patch69 -p1 -b .gentoo-math
-#%patch70 -p1 -b .gentoo-stdint
-%patch71 -p1 -b .gcc7-itcc
-%patch72 -p1 -b .wtf-fix
-%patch73 -p1 -b .fulldecl
-%patch74 -p1 -b .oilpan
-%patch75 -p1 -b .noncopyable
-%patch76 -p1 -b .affirmative
-%patch77 -p1 -b .conditional
-%patch78 -p1 -b .converting
-%patch79 -p1 -b .vforward
-%patch80 -p1 -b .ncnm
 %patch81 -p1 -b .pipcc
 %patch82 -p1 -b .explicit-std-move
 %patch83 -p1 -b .GetString
