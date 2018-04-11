@@ -132,7 +132,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	65.0.3325.181
+Version:	66.0.3359.81
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1640,6 +1640,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
+- update to 66.0.3359.81
+
 * Wed Mar 21 2018 Arkady L. Shane <ashejn@russianfedora.pro> 65.0.3325.181-1.R
 - update to 65.0.3325.181
 
