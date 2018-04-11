@@ -725,7 +725,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 # %%if 0%%{?fedora} >= 28
 # %%patch57 -p1 -b .aarch64glibc
 # %%endif
-%patch62 -p1 -b .gcc5-r3
+#%patch62 -p1 -b .gcc5-r3
 %patch63 -p1 -b .nolibc++
 %patch65 -p1 -b .gcc-round-fix
 %patch67 -p1 -b .memcpyfix
