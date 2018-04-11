@@ -236,8 +236,6 @@ Patch81:	chromium-65.0.3325.146-GCC-PlaybackImageProvider-Settings-do-not-provid
 Patch82:	chromium-65.0.3325.146-GCC-explicitely-std-move-to-base-Optional-instead-of.patch
 # https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-IDB-methods-String-renamed-to-GetString.patch
 Patch83:	chromium-65.0.3325.146-GCC-IDB-methods-String-renamed-to-GetString.patch
-# https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-fully-declare-ConfigurationPolicyProvider.patch
-Patch84:	chromium-65.0.3325.146-GCC-fully-declare-ConfigurationPolicyProvider.patch
 # ../../mojo/public/cpp/bindings/associated_interface_ptr_info.h:48:43: error: cannot convert 'const mojo::ScopedInterfaceEndpointHandle' to 'bool' in return
 Patch85:	chromium-65.0.3325.162-boolfix.patch
 # From Debian
@@ -716,7 +714,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch81 -p1 -b .pipcc
 %patch82 -p1 -b .explicit-std-move
 %patch83 -p1 -b .GetString
-%patch84 -p1 -b .fully-declare
 %patch85 -p1 -b .boolfix
 %patch86 -p1 -b .aarch64fix
 %if 0%{?rhel} == 7
