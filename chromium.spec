@@ -998,7 +998,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/mesa' \
 	'third_party/metrics_proto' \
 	'third_party/modp_b64' \
-	'third_party/mt19937ar' \
 	'third_party/node' \
 	'third_party/node/node_modules/polymer-bundler/lib/third_party/UglifyJS2' \
 %if %{freeworld}
