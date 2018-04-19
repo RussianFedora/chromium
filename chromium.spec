@@ -414,11 +414,19 @@ BuildRequires:	perl(Switch)
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pulseaudio-libs-devel
 BuildRequires:	python2
+%if 0%{?fedora} > 27
+BuildRequires:	python2-beautifulsoup4
+BuildRequires:	python2-beautifulsoup
+BuildRequires:	python2-html5lib
+BuildRequires:	python2-markupsafe
+BuildRequires:	python2-ply
+%else
 BuildRequires:	python-beautifulsoup4
 BuildRequires:	python-BeautifulSoup
 BuildRequires:	python-html5lib
 BuildRequires:	python-markupsafe
 BuildRequires:	python-ply
+%endif
 BuildRequires:	python-simplejson
 %if 0%{?bundlere2}
 # Using bundled bits, do nothing.
@@ -732,6 +740,10 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
 %endif
+
+# Change shebang in all relevant files in this directory and all subdirectories
+# See `man find` for how the `-exec command {} +` syntax works
+find -type f -exec sed -i '1s=^#!/usr/bin/\(python\|env python\)[23]\?=#!%{__python2}=' {} +
 
 %if 0%{?asan}
 export CC="clang"
@@ -1062,8 +1074,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 
 # Look, I don't know. This package is spit and chewing gum. Sorry.
 rm -rf third_party/markupsafe
-ln -s %{python_sitearch}/markupsafe third_party/markupsafe
-# We should look on removing other python packages as well i.e. ply
+ln -s %{python2_sitearch}/markupsafe third_party/markupsafe
++# We should look on removing other python2 packages as well i.e. ply
 
 %if %{build_remote_desktop}
 # Fix hardcoded path in remoting code
@@ -1141,8 +1153,8 @@ sed -i "s@'ninja'@'ninja-build'@g" tools/gn/bootstrap/bootstrap.py
 %endif
 
 # Check that there is no system 'google' module, shadowing bundled ones:
-if python -c 'import google ; print google.__path__' 2> /dev/null ; then \
-    echo "Python 'google' module is defined, this will shadow modules of this build"; \
+if python2 -c 'import google ; print google.__path__' 2> /dev/null ; then \
+    echo "Python 2 'google' module is defined, this will shadow modules of this build"; \
     exit 1 ; \
 fi
 
