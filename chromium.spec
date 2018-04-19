@@ -413,7 +413,7 @@ BuildRequires:	opus-devel
 BuildRequires:	perl(Switch)
 BuildRequires:	pkgconfig(gtk+-3.0)
 BuildRequires:	pulseaudio-libs-devel
-BuildRequires:	python2
+BuildRequires:	python2-devel
 %if 0%{?fedora} > 27
 BuildRequires:	python2-beautifulsoup4
 BuildRequires:	python2-beautifulsoup
