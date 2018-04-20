@@ -134,7 +134,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	66.0.3359.81
+Version:	66.0.3359.117
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1623,6 +1623,11 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Apr 20 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.117-1.R
+- update to 66.0.3359.117
+- use system fontconfig (except on epel7)
+- use python2
+
 * Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
 - update to 66.0.3359.81
 - update chromium-clang patch
