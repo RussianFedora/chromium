@@ -96,6 +96,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibjpeg 1
 %global bundlefreetype 1
 %global bundlelibdrm 1
+%global bundlefontconfig 1
 %else
 %global bundleharfbuzz 0
 %global bundleopus 1
@@ -105,6 +106,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global bundlelibjpeg 0
 %global bundlefreetype 0
 %global bundlelibdrm 0
+%global bundlefontconfig 0
 %endif
 
 # Needs at least harfbuzz 1.7.3 now.
@@ -503,7 +505,9 @@ Provides: bundled(fdmlibm) = 5.3
 # Don't get too excited. MPEG and other legally problematic stuff is stripped out.
 Provides: bundled(ffmpeg) = 3.2git
 Provides: bundled(fips181) = 2.2.3
-Provides: bundled(fontconfig) = 2.11.0
+%if 0%{?bundlefontconfig}
+Provides: bundled(fontconfig) = 2.12.6
+%endif
 Provides: bundled(gperftools) = svn144
 %if 0%{?bundleharfbuzz}
 Provides: bundled(harfbuzz) = 1.4.2
@@ -1086,7 +1090,10 @@ export PATH=$PATH:%{_builddir}/depot_tools
 
 build/linux/unbundle/replace_gn_files.py --system-libraries \
 	flac \
+%if 0%{?bundlefontconfig}
+%else
 	fontconfig \
+%endif
 %if 0%{?bundlefreetype}
 %else
 	freetype \
