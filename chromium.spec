@@ -1075,7 +1075,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 # Look, I don't know. This package is spit and chewing gum. Sorry.
 rm -rf third_party/markupsafe
 ln -s %{python2_sitearch}/markupsafe third_party/markupsafe
-+# We should look on removing other python2 packages as well i.e. ply
+# We should look on removing other python2 packages as well i.e. ply
 
 %if %{build_remote_desktop}
 # Fix hardcoded path in remoting code
