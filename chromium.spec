@@ -939,6 +939,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle/src/third_party/trace_event' \
 	'third_party/blanketjs' \
 	'third_party/blink' \
+	'third_party/blink/tools/blinkpy/common' \
 	'third_party/boringssl' \
 	'third_party/boringssl/src/third_party/fiat' \
 	'third_party/breakpad' \
