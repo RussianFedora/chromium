@@ -427,7 +427,7 @@ BuildRequires:	python-html5lib
 BuildRequires:	python-markupsafe
 BuildRequires:	python-ply
 %endif
-BuildRequires:	python-simplejson
+BuildRequires:	python2-simplejson
 %if 0%{?bundlere2}
 # Using bundled bits, do nothing.
 %else
