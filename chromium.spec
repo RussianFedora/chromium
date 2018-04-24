@@ -1281,7 +1281,7 @@ sed -i "s|@@MENUNAME@@|%{chromium_menu_name}|g" %{buildroot}%{_mandir}/man1/%{ch
 # V8 initial snapshots
 # https://code.google.com/p/chromium/issues/detail?id=421063
 cp -a natives_blob.bin %{buildroot}%{chromium_path}
-cp -a snapshot_blob.bin %{buildroot}%{chromium_path}
+cp -a v8_context_snapshot.bin %{buildroot}%{chromium_path}
 %if 0%{?shared}
 cp -a lib*.so* %{buildroot}%{chromium_path}
 %endif
@@ -1646,6 +1646,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - use python2
 - fix https://bugs.chromium.org/p/chromium/issues/detail?id=832283
 - add patches to fix build on Fedora 26 and 28
+- fix crash by replacing snapshot_blob.bin with v8_context_snapshot.bin
 
 * Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
 - update to 66.0.3359.81
