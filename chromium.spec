@@ -730,7 +730,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %if ! 0%{?asan}
 %patch68 -p1 -b .fabi11
 %endif
-%patch81 -p1 -b .pipcc
+#%patch81 -p1 -b .pipcc
 %patch82 -p1 -b .explicit-std-move
 %patch83 -p1 -b .GetString
 %patch85 -p1 -b .boolfix
