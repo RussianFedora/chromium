@@ -262,9 +262,11 @@ Patch504:	add-missing-blink-tools.patch
 Patch600:	enable_vaapi_on_linux_2.diff
 
 # Add patches from upstream to fix build with GCC
-Patch601:	chromium-gcc7-r540828.patch
-Patch602:	chromium-gcc7-r541029.patch
-Patch603:	chromium-gcc7-r541827.patch
+Patch601:	chromium-gcc7-r540815.patch
+Patch602:	chromium-gcc7-r540828.patch
+Patch603:	chromium-gcc7-r541029.patch
+Patch604:	chromium-gcc7-r541516.patch
+Patch605:	chromium-gcc7-r541827.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -756,6 +758,8 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch601 -p1
 %patch602 -p1
 %patch603 -p1
+%patch604 -p1
+%patch605 -p1
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
@@ -1641,7 +1645,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - use system fontconfig (except on epel7)
 - use python2
 - fix https://bugs.chromium.org/p/chromium/issues/detail?id=832283
-- add patches from upstream to fix build with GCC
+- add patches to fix build on Fedora 26 and 28
 
 * Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
 - update to 66.0.3359.81
