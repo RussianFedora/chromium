@@ -264,7 +264,6 @@ Patch600:	enable_vaapi_on_linux_2.diff
 # Add patches from upstream to fix build with GCC
 Patch601:	chromium-gcc7-r540815.patch
 Patch602:	chromium-gcc7-r540828.patch
-Patch603:	chromium-gcc7-r541029.patch
 Patch604:	chromium-gcc7-r541516.patch
 Patch605:	chromium-gcc7-r541827.patch
 
@@ -757,7 +756,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 # Add patches from upstream to fix build with GCC
 %patch601 -p1
 %patch602 -p1
-%patch603 -p1
 %patch604 -p1
 %patch605 -p1
 
