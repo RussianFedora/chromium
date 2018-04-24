@@ -1,3 +1,6 @@
+# define python version
+%global __python %{__python2}
+
 # NEVER EVER EVER turn this on in official builds
 %global freeworld 1
 
