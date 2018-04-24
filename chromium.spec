@@ -261,6 +261,11 @@ Patch504:	add-missing-blink-tools.patch
 # https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
 Patch600:	enable_vaapi_on_linux_2.diff
 
+# Add patches from upstream to fix build with GCC
+Patch601:	chromium-gcc7-r540828.patch
+Patch602:	chromium-gcc7-r541029.patch
+Patch603:	chromium-gcc7-r541827.patch
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -747,6 +752,11 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch600 -p1 -b .vaapi
 %endif
 
+# Add patches from upstream to fix build with GCC
+%patch601 -p1
+%patch602 -p1
+%patch603 -p1
+
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
 find -type f -exec sed -i '1s=^#!/usr/bin/\(python\|env python\)[23]\?=#!%{__python2}=' {} +
@@ -1033,6 +1043,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/pdfium/third_party/libopenjpeg20' \
         'third_party/pdfium/third_party/libpng16' \
         'third_party/pdfium/third_party/libtiff' \
+        'third_party/pdfium/third_party/skia_shared' \
         'third_party/ply' \
 	'third_party/polymer' \
 	'third_party/protobuf' \
@@ -1630,6 +1641,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - use system fontconfig (except on epel7)
 - use python2
 - fix https://bugs.chromium.org/p/chromium/issues/detail?id=832283
+- add patches from upstream to fix build with GCC
 
 * Wed Apr 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.81-1.R
 - update to 66.0.3359.81
