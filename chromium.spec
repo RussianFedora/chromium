@@ -1484,7 +1484,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 %files common
 %{chromium_path}/headless_lib.pak
-%{chromium_path}/mus_app_resources_*.pak
 %{chromium_path}/pyproto/
 %{chromium_path}/resources/
 %dir %{chromium_path}/locales/
