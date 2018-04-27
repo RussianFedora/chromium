@@ -957,6 +957,9 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/trace_event' \
 	'third_party/angle/third_party/vulkan-validation-layers' \
+	'third_party/angle/third_party/glslang' \
+	'third_party/angle/third_party/spirv-headers'\
+	'third_party/angle/third_party/spirv-tools' \
 	'third_party/blanketjs' \
 	'third_party/blink' \
 	'third_party/boringssl' \
