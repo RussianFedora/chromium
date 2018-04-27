@@ -269,6 +269,7 @@ Patch601:	chromium-gcc7-r540815.patch
 Patch602:	chromium-gcc7-r540828.patch
 Patch604:	chromium-gcc7-r541516.patch
 Patch605:	chromium-gcc7-r541827.patch
+Patch606:	chromium-gcc7-r541029.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -761,6 +762,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch602 -p1
 %patch604 -p1
 %patch605 -p1
+%patch606 -p1
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
