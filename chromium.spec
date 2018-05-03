@@ -137,11 +137,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	66.0.3359.117
+Version:	66.0.3359.139
 %if 0%{?rhel} == 7
-Release:	3%{?dist}
+Release:	1%{?dist}
 %else
-Release:	3%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1648,6 +1648,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu May  3 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.139-1.R
+- update to 66.0.3359.139
+
 * Sat Apr 28 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.117-3.R
 - added more provides again
 
