@@ -257,8 +257,6 @@ Patch502:	chromium-ffmpeg-clang.patch
 # fix build under ia32
 # https://bazaar.launchpad.net/~chromium-team/chromium-browser/bionic-stable/download/head:/fixffmpegia32build.p-20171124052506-76a1tzvpv53mvxrd-1/fix-ffmpeg-ia32-build.patch
 Patch503:	fix-ffmpeg-ia32-build.patch
-# Resolve https://bugs.chromium.org/p/chromium/issues/detail?id=832283
-Patch504:	add-missing-blink-tools.patch
 # Vaapi Patches
 # Ubuntu patch for chromium 64
 # https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
@@ -752,7 +750,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch503 -p1 -b .ia32-ffmpeg
 %endif
 %endif
-%patch504 -p1 -b .tools
 %if 0%{vaapi}
 %patch600 -p1 -b .vaapi
 %endif
@@ -1650,6 +1647,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu May  3 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.139-1.R
 - update to 66.0.3359.139
+- drop blink tools patch
 
 * Sat Apr 28 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.117-3.R
 - added more provides again
