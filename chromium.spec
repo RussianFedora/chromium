@@ -718,7 +718,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch45 -p1 -b .nozmangle
 %if 0%{?rhel} == 7
 %patch46 -p1 -b .kmaxskip
-%patch47 -p1 -b .c99
+# %%patch47 -p1 -b .c99
 %endif
 %patch50 -p1 -b .pathfix
 %patch53 -p1 -b .nogccoptmath
