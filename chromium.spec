@@ -748,7 +748,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch502 -p1 -b .clang-ffmpeg
 %endif
 %ifarch i686
-%if 0%{?fedora} >= 29
+%if 0%{?fedora} >= 28
 %patch503 -p1 -b .ia32-ffmpeg
 %endif
 %endif
