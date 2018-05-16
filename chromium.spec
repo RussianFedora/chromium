@@ -137,7 +137,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	66.0.3359.170
+Version:	66.0.3359.181
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1281,7 +1281,9 @@ cp -a nacl_helper* *.nexe pnacl tls_edit %{buildroot}%{chromium_path}
 chmod -x %{buildroot}%{chromium_path}/nacl_helper_bootstrap* *.nexe
 %endif
 cp -a protoc pyproto %{buildroot}%{chromium_path}
+%ifarch x86_64 i686
 cp -a swiftshader %{buildroot}%{chromium_path}
+%endif
 cp -a chrome %{buildroot}%{chromium_path}/%{chromium_browser_channel}
 cp -a chrome_sandbox %{buildroot}%{chromium_path}/chrome-sandbox
 cp -a ../../chrome/app/resources/manpage.1.in %{buildroot}%{_mandir}/man1/%{chromium_browser_channel}.1
@@ -1464,7 +1466,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/icudtl.dat
 %{chromium_path}/%{chromium_browser_channel}
 %{chromium_path}/%{chromium_browser_channel}.sh
+%ifarch x86_64 i686
 %{chromium_path}/swiftshader/
+%endif
 %if 0%{?nacl}
 %{chromium_path}/nacl_helper*
 %{chromium_path}/*.nexe
@@ -1649,6 +1653,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed May 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.181-1.R
+- update to 66.0.3359.181
+- added swiftshader
+
 * Fri May 11 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.170-1.R
 - update to 66.0.3359.170
 - fix build on arm
