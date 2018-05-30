@@ -1299,6 +1299,7 @@ sed -i "s|@@MENUNAME@@|%{chromium_menu_name}|g" %{buildroot}%{_mandir}/man1/%{ch
 # https://code.google.com/p/chromium/issues/detail?id=421063
 cp -a natives_blob.bin %{buildroot}%{chromium_path}
 cp -a v8_context_snapshot.bin %{buildroot}%{chromium_path}
+cp -a xdg-mime xdg-settings %{buildroot}%{chromium_path}
 %if 0%{?shared}
 cp -a lib*.so* %{buildroot}%{chromium_path}
 %endif
@@ -1487,6 +1488,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 # %%{chromium_path}/pseudo_locales/
 # %%{chromium_path}/plugins/
 %attr(4755, root, root) %{chromium_path}/chrome-sandbox
+%{chromium_path}/xdg-mime
+%{chromium_path}/xdg-settings
 %{_mandir}/man1/%{chromium_browser_channel}.*
 %{_datadir}/icons/hicolor/*/apps/%{chromium_browser_channel}.png
 %{_datadir}/applications/*.desktop
