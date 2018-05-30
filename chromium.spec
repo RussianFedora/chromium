@@ -696,7 +696,7 @@ udev.
 sed -i 's@адежный@адёжный@g' components/strings/components_strings_ru.xtb
 
 ### Chromium Fedora Patches ###
-%patch0 -p1 -b .gcc5
+###%patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
 %patch4 -p1 -b .notest
@@ -707,15 +707,15 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch15 -p1 -b .sandboxpie
 %patch18 -p1 -b .etc
 # %%patch19 -p1 -b .madv_free
-%patch20 -p1 -b .gnsystem
+###%patch20 -p1 -b .gnsystem
 %patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
 %patch27 -p1 -b .setopaque
-%patch31 -p1 -b .permissive
-%patch33 -p1 -b .gcc7
+###%patch31 -p1 -b .permissive
+###%patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
 %patch37 -p1 -b .ffmpeg-stdatomic
 %patch39 -p1 -b .system-clang
@@ -732,7 +732,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 # %%patch57 -p1 -b .aarch64glibc
 # %%endif
 #%patch62 -p1 -b .gcc5-r3
-%patch63 -p1 -b .nolibc++
+###%patch63 -p1 -b .nolibc++
 %patch65 -p1 -b .gcc-round-fix
 %patch67 -p1 -b .memcpyfix
 %if ! 0%{?asan}
@@ -740,13 +740,13 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 #%patch81 -p1 -b .pipcc
 #%patch82 -p1 -b .explicit-std-move
-%patch83 -p1 -b .GetString
-%patch85 -p1 -b .boolfix
-%patch86 -p1 -b .aarch64fix
+####%patch83 -p1 -b .GetString
+##%patch85 -p1 -b .boolfix
+###%patch86 -p1 -b .aarch64fix
 %if 0%{?rhel} == 7
 %patch87 -p1 -b .epel7
 %endif
-%patch97 -p1 -b .arm-init-fix
+###%patch97 -p1 -b .arm-init-fix
 %patch98 -p1 -b .gcc8-alignof
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
@@ -763,11 +763,11 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 
 # Add patches from upstream to fix build with GCC
-%patch601 -p1
-%patch602 -p1
-%patch604 -p1
-%patch605 -p1
-%patch606 -p1
+###%patch601 -p1
+###%patch602 -p1
+######%patch604 -p1
+###%patch605 -p1
+##%patch606 -p1
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
