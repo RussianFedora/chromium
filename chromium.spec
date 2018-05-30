@@ -1149,10 +1149,6 @@ build/linux/unbundle/replace_gn_files.py --system-libraries \
 %else
 	libpng \
 %endif
-%if %{bundlelibusbx}
-%else
-	libusb \
-%endif
 %if %{bundlelibwebp}
 %else
 	libwebp \
