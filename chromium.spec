@@ -137,7 +137,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	66.0.3359.181
+Version:	67.0.3396.62
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1662,6 +1662,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed May 30 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.62-1.R
+- update to 67.0.3396.62
+- fix missing files
+
 * Wed May 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.181-1.R
 - update to 66.0.3359.181
 - added swiftshader
