@@ -42,8 +42,8 @@
 
 # AddressSanitizer mode
 # https://www.chromium.org/developers/testing/addresssanitizer
-#%if 0%{?fedora} >= 28
-#%global asan 1
+#%if 0%%{?fedora} >= 28
+#%%global asan 1
 #%else
 %global asan 0
 #%endif
