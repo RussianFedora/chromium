@@ -254,6 +254,8 @@ Patch97:	chromium-66.0.3359.139-arm-init-fix.patch
 # instead of the preferred alignment. This means int64_t is now 4 on i686 (instead of 8).
 # Use __alignof__ to get the value we expect (and chromium checks for).
 Patch98:	chromium-66.0.3359.170-gcc8-alignof.patch
+# Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r2.patch
+Patch99:	chromium-widevine-r2.patch
 
 Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
@@ -748,6 +750,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 ###%patch97 -p1 -b .arm-init-fix
 %patch98 -p1 -b .gcc8-alignof
+%patch99 -p1 -b .widevine
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
