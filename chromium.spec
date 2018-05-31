@@ -237,7 +237,7 @@ Patch82:	chromium-65.0.3325.146-GCC-explicitely-std-move-to-base-Optional-instea
 # https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-IDB-methods-String-renamed-to-GetString.patch
 Patch83:	chromium-65.0.3325.146-GCC-IDB-methods-String-renamed-to-GetString.patch
 # ../../mojo/public/cpp/bindings/associated_interface_ptr_info.h:48:43: error: cannot convert 'const mojo::ScopedInterfaceEndpointHandle' to 'bool' in return
-Patch85:	chromium-65.0.3325.162-boolfix.patch
+Patch85:	chromium-67.0.3396.62-boolfix.patch
 # From Debian
 Patch86:	chromium-67.0.3396.62-skia-aarch64-buildfix.patch
 # Use lstdc++ on EPEL7 only
