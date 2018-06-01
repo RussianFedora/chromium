@@ -88,7 +88,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global gtk3 1
 
 # Enable vaapi
-%global vaapi 1
+%global vaapi 0
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -1647,6 +1647,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - update to 67.0.3396.62
 - fix missing files
 - update patches
+- disable vaapi
 
 * Wed May 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.181-1.R
 - update to 66.0.3359.181
