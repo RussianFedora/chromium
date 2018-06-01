@@ -945,6 +945,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle/third_party/spirv-headers'\
 	'third_party/angle/third_party/spirv-tools' \
 	'third_party/blanketjs' \
+	'third_party/apple_apsl' \
 	'third_party/blink' \
 	'third_party/boringssl' \
 	'third_party/boringssl/src/third_party/fiat' \
