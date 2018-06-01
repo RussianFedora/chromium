@@ -1216,7 +1216,7 @@ $NINJA -C %{headlesstarget} -vvv headless_shell
 
 sed -i 's@gn @./gn @g' out/Release/build.ninja
 
-$NINJA -C %{target} -vvv chrome chrome_sandbox chromedriver widevinecdmadapter clear_key_cdm policy_templates
+$NINJA -C %{target} -vvv chrome chrome_sandbox chromedriver clear_key_cdm policy_templates
 
 %if %{build_remote_desktop}
 
