@@ -1068,6 +1068,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/swiftshader/third_party/subzero' \
 	'third_party/swiftshader/third_party/LLVM' \
 	'third_party/swiftshader/third_party/llvm-subzero' \
+	'third_party/test_fonts' \
 	'third_party/tcmalloc' \
 	'third_party/unrar' \
         'third_party/usb_ids' \
