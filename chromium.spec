@@ -930,7 +930,7 @@ CHROMIUM_BROWSER_GN_DEFINES+=' is_component_ffmpeg=false is_component_build=fals
 %endif
 CHROMIUM_BROWSER_GN_DEFINES+=' remove_webcore_debug_symbols=true enable_hangout_services_extension=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' use_aura=true'
-CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
+CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true'
 %if 0%{gtk3}
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
@@ -1634,7 +1634,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %files libs
 %exclude %{chromium_path}/libffmpeg.so*
 %exclude %{chromium_path}/libmedia.so*
-%exclude %{chromium_path}/libwidevinecdm.so*
 %{chromium_path}/lib*.so*
 
 %if %{freeworld}
@@ -1644,7 +1643,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %endif
 %{chromium_path}/libffmpeg.so*
 %{chromium_path}/libmedia.so*
-%{chromium_path}/libwidevinecdm.so*
 %endif
 
 %if %{build_remote_desktop}
@@ -1686,6 +1684,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - fix missing files
 - update patches
 - disable vaapi
+- drop widevine
 
 * Wed May 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.181-1.R
 - update to 66.0.3359.181
