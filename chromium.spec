@@ -288,6 +288,9 @@ Source8:	get_linux_tests_names.py
 Source9:	chromium-browser.xml
 Source11:	chrome-remote-desktop@.service
 Source13:	master_preferences
+# Unpackaged fonts
+Source14:	https://fontlibrary.org/assets/downloads/gelasio/4d610887ff4d445cbc639aae7828d139/gelasio.zip
+Source15:	http://download.savannah.nongnu.org/releases/freebangfont/MuktiNarrow-0.94.tar.bz2
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
