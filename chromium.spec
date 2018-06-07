@@ -773,7 +773,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 %patch98 -p1 -b .gcc8-alignof
 %patch99 -p1 -b .crashpad-aarch64-fix
-if 0%{?rhel} == 7
+%if 0%{?rhel} == 7
 %patch100 -p1 -b .oldexec
 %endif
 %patch101 -p1 -b .widevine
