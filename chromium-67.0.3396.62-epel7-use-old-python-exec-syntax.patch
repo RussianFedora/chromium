@@ -1,0 +1,12 @@
+diff -up chromium-67.0.3396.62/tools/gn/bootstrap/bootstrap.py.oldexec chromium-67.0.3396.62/tools/gn/bootstrap/bootstrap.py
+--- chromium-67.0.3396.62/tools/gn/bootstrap/bootstrap.py.oldexec	2018-06-06 10:13:40.862084284 -0400
++++ chromium-67.0.3396.62/tools/gn/bootstrap/bootstrap.py	2018-06-06 10:14:08.809490819 -0400
+@@ -112,7 +112,7 @@ def windows_prepare_toolchain(tempdir):
+ 
+     _globals = {"__builtins__":None}
+     _locals = {}
+-    exec(response, _globals, _locals)
++    exec response in _globals, _locals
+ 
+     return _locals
+ 

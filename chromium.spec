@@ -251,8 +251,11 @@ Patch87:	chromium-65.0.3325.162-epel7-stdc++.patch
 Patch98:	chromium-66.0.3359.170-gcc8-alignof.patch
 # https://chromium.googlesource.com/crashpad/crashpad/+/26ef5c910fc7e2edb441f1d2b39944195342dee9
 Patch99:	chromium-67.0.3396.62-crashpad-aarch64-buildfix.patch
+# RHEL 7 has a bug in its python2.7 which does not propely handle exec with a tuple
+# https://bugs.python.org/issue21591
+Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
 # Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r2.patch
-Patch100:	chromium-widevine-r2.patch
+Patch101:	chromium-widevine-r2.patch
 
 Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
@@ -770,7 +773,10 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 %patch98 -p1 -b .gcc8-alignof
 %patch99 -p1 -b .crashpad-aarch64-fix
-%patch100 -p1 -b .widevine
+if 0%{?rhel} == 7
+%patch100 -p1 -b .oldexec
+%endi
+%patch101 -p1 -b .widevine
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
@@ -1727,6 +1733,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 - disable vaapi
 - drop widevine
 - fix crashpad issue on aarch64
+- work around bug in RHEL7 python exec
+- fix font issue
 
 * Wed May 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 66.0.3359.181-1.R
 - update to 66.0.3359.181
