@@ -453,16 +453,33 @@ BuildRequires:	pkgconfig(gnome-keyring-1)
 # remote desktop needs this
 BuildRequires:	pam-devel
 BuildRequires:	systemd
+%if 0%{?rhel} == 7
+Source100:      https://github.com/google/fonts/blob/master/apache/arimo/Arimo-Bold.ttf
+Source101:	https://github.com/google/fonts/blob/master/apache/arimo/Arimo-BoldItalic.ttf
+Source102:	https://github.com/google/fonts/blob/master/apache/arimo/Arimo-Italic.ttf
+Source103:	https://github.com/google/fonts/blob/master/apache/arimo/Arimo-Regular.ttf
+Source104:	https://github.com/google/fonts/blob/master/apache/cousine/Cousine-Bold.ttf
+Source105:	https://github.com/google/fonts/blob/master/apache/cousine/Cousine-BoldItalic.ttf
+Source106:	https://github.com/google/fonts/blob/master/apache/cousine/Cousine-Italic.ttf
+Source107:	https://github.com/google/fonts/blob/master/apache/cousine/Cousine-Regular.ttf
+Source108:	https://github.com/google/fonts/blob/master/apache/tinos/Tinos-Bold.ttf
+Source109:	https://github.com/google/fonts/blob/master/apache/tinos/Tinos-BoldItalic.ttf
+Source110:	https://github.com/google/fonts/blob/master/apache/tinos/Tinos-Italic.ttf
+Source111:	https://github.com/google/fonts/blob/master/apache/tinos/Tinos-Regular.ttf
+Source112:	https://releases.pagure.org/lohit/lohit-gurmukhi-ttf-2.91.2.tar.gz
+Source113:	https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip
+%else
 BuildRequires:	google-croscore-arimo-fonts
 BuildRequires:	google-croscore-cousine-fonts
+BuildRequires:  google-croscore-tinos-fonts
+BuildRequires:  google-noto-sans-cjk-jp-fonts
+BuildRequires:  lohit-gurmukhi-fonts
+%endif
 BuildRequires:	dejavu-sans-fonts
 BuildRequires:	thai-scalable-garuda-fonts
 BuildRequires:	lohit-devanagari-fonts
-BuildRequires:	lohit-gurmukhi-fonts
 BuildRequires:	lohit-tamil-fonts
-BuildRequires:	google-noto-sans-cjk-jp-fonts
 BuildRequires:	google-noto-sans-khmer-fonts
-BuildRequires:	google-croscore-tinos-fonts
 # using the built from source version on aarch64
 BuildRequires:	ninja-build
 
@@ -888,13 +905,34 @@ unzip %{SOURCE14}
 tar xf %{SOURCE15}
 mv MuktiNarrow0.94/MuktiNarrow.ttf .
 rm -rf MuktiNarrow0.94
+%if 0%{?rhel} == 7
+cp %{SOURCE100} .
+cp %{SOURCE101} .
+cp %{SOURCE102} .
+cp %{SOURCE103} .
+cp %{SOURCE104} .
+cp %{SOURCE105} .
+cp %{SOURCE106} .
+cp %{SOURCE107} .
+cp %{SOURCE108} .
+cp %{SOURCE109} .
+cp %{SOURCE110} .
+cp %{SOURCE111} .
+tar xf %{SOURCE112}
+mv lohit-gurmukhi-ttf-2.91.2/Lohit-Gurmukhi.ttf .
+rm -rf lohit-gurmukhi-ttf-2.91.2
+unzip %{SOURCE113}
+%else
 cp -a /usr/share/fonts/google-croscore/Arimo-*.ttf .
 cp -a /usr/share/fonts/google-croscore/Cousine-*.ttf .
+cp -a /usr/share/fonts/google-croscore/Tinos-*.ttf .
+cp -a /usr/share/fonts/lohit-gurmukhi/Lohit-Gurmukhi.ttf .
+cp -a /usr/share/fonts/google-noto-cjk/NotoSansCJKjp-Regular.otf .
+%endif
 cp -a /usr/share/fonts/dejavu/DejaVuSans.ttf /usr/share/fonts/dejavu/DejaVuSans-Bold.ttf .
 cp -a /usr/share/fonts/thai-scalable/Garuda.ttf .
-cp -a /usr/share/fonts/lohit-devanagari/Lohit-Devanagari.ttf /usr/share/fonts/lohit-gurmukhi/Lohit-Gurmukhi.ttf /usr/share/fonts/lohit-tamil/Lohit-Tamil.ttf .
-cp -a /usr/share/fonts/google-noto-cjk/NotoSansCJKjp-Regular.otf /usr/share/fonts/google-noto/NotoSansKhmer-Regular.ttf .
-cp -a /usr/share/fonts/google-croscore/Tinos-*.ttf .
+cp -a /usr/share/fonts/lohit-devanagari/Lohit-Devanagari.ttf /usr/share/fonts/lohit-tamil/Lohit-Tamil.ttf .
+cp -a /usr/share/fonts/google-noto/NotoSansKhmer-Regular.ttf .
 popd
 
 # Core defines are flags that are true for both the browser and headless.
