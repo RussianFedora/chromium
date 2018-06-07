@@ -772,10 +772,10 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch87 -p1 -b .epel7
 %endif
 %patch98 -p1 -b .gcc8-alignof
-##%patch99 -p1 -b .crashpad-aarch64-fix
+%patch99 -p1 -b .crashpad-aarch64-fix
 if 0%{?rhel} == 7
 %patch100 -p1 -b .oldexec
-%endi
+%endif
 %patch101 -p1 -b .widevine
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
