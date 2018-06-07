@@ -772,7 +772,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch87 -p1 -b .epel7
 %endif
 %patch98 -p1 -b .gcc8-alignof
-%patch99 -p1 -b .crashpad-aarch64-fix
+##%patch99 -p1 -b .crashpad-aarch64-fix
 if 0%{?rhel} == 7
 %patch100 -p1 -b .oldexec
 %endi
@@ -1726,7 +1726,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
-* Thu Jun  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.62-2.R
+* Thu Jun  7 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.62-2.R
 - enable widevine
 
 * Wed May 30 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.62-1.R
