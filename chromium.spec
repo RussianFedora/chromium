@@ -141,11 +141,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	67.0.3396.62
+Version:	67.0.3396.79
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1726,6 +1726,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Jun  8 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.79-1.R
+- updtae to 67.0.3396.79
+
 * Thu Jun  7 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.62-2.R
 - enable widevine
 
