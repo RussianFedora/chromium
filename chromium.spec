@@ -143,9 +143,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	67.0.3396.99
 %if 0%{?rhel} == 7
-Release:	1%{?dist}
+Release:	2%{?dist}
 %else
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -256,6 +256,8 @@ Patch99:	chromium-67.0.3396.62-crashpad-aarch64-buildfix.patch
 Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
 # Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r2.patch
 Patch101:	chromium-widevine-r2.patch
+# Add "Fedora" to the user agent string
+Patch102:	chromium-67.0.3396.87-russianfedora-user-agent.patch
 
 Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
@@ -777,6 +779,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch100 -p1 -b .oldexec
 %endif
 %patch101 -p1 -b .widevine
+%patch102 -p1 -b .fedora-user-agent
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
@@ -1726,6 +1729,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Jun 27 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.87-2.R
+- add "Russian Fedora" to the user agent string
+
 * Thu Jun 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.87-1.R
 - 67.0.3396.87
 
