@@ -141,7 +141,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	67.0.3396.99
+Version:	67.0.3396.87
 %if 0%{?rhel} == 7
 Release:	2%{?dist}
 %else
