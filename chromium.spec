@@ -141,11 +141,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	67.0.3396.87
+Version:	67.0.3396.99
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1729,6 +1729,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Fri Jul 20 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.99-1.R
+- update to 67.0.3396.99
+
 * Wed Jun 27 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.87-2.R
 - add "Russian Fedora" to the user agent string
 
