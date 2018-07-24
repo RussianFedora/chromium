@@ -1,6 +1,3 @@
-# define python version
-%global __python /usr/bin/python2
-
 # NEVER EVER EVER turn this on in official builds
 %global freeworld 1
 
@@ -143,9 +140,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	67.0.3396.99
 %if 0%{?rhel} == 7
-Release:	1%{?dist}
+Release:	2%{?dist}
 %else
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1729,6 +1726,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Tue Jul 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.99-2.R
+- try to get rid of python2
+
 * Fri Jul 20 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.99-1.R
 - update to 67.0.3396.99
 
