@@ -1,0 +1,12 @@
+diff -up chromium-67.0.3396.99/build/util/version.py.py3fix chromium-67.0.3396.99/build/util/version.py
+--- chromium-67.0.3396.99/build/util/version.py.py3fix	2018-07-11 11:39:14.728600503 -0400
++++ chromium-67.0.3396.99/build/util/version.py	2018-07-11 11:39:22.401406816 -0400
+@@ -68,7 +68,7 @@ def subst_template(contents, values):
+     try:
+       contents = contents.replace('@' + key + '@', val)
+     except TypeError:
+-      print repr(key), repr(val)
++      print(repr(key), repr(val))
+   return contents
+ 
+ 

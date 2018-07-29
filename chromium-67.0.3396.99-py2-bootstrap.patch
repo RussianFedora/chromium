@@ -1,0 +1,21 @@
+diff -up chromium-67.0.3396.99/tools/gn/bootstrap/bootstrap.py.py2 chromium-67.0.3396.99/tools/gn/bootstrap/bootstrap.py
+--- chromium-67.0.3396.99/tools/gn/bootstrap/bootstrap.py.py2	2018-07-24 16:58:53.372022183 -0400
++++ chromium-67.0.3396.99/tools/gn/bootstrap/bootstrap.py	2018-07-24 17:00:03.200279816 -0400
+@@ -983,7 +983,7 @@ def build_gn_with_gn(temp_gn, build_dir,
+   gn_gen_args = options.gn_gen_args or ''
+   if not options.debug:
+     gn_gen_args += ' is_debug=false'
+-  cmd = [temp_gn, 'gen', build_dir, '--args=%s' % gn_gen_args,
++  cmd = [temp_gn, 'gen', '--script-executable=/usr/bin/python2', build_dir, '--args=%s' % gn_gen_args,
+           "--root="+SRC_ROOT
+          ]
+   check_call(cmd)
+@@ -997,7 +997,7 @@ def build_gn_with_gn(temp_gn, build_dir,
+   # build.ninja currently refers back to gn from the temporary directory.
+   # Regenerate the build files using the gn we just built so that the reference
+   # gets updated to "./gn".
+-  cmd = [os.path.join(build_dir, 'gn'), 'gen', build_dir,
++  cmd = [os.path.join(build_dir, 'gn'), 'gen', '--script-executable=/usr/bin/python2', build_dir,
+          '--args=%s' % gn_gen_args]
+   check_call(cmd)
+ 

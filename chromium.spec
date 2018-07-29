@@ -1,6 +1,3 @@
-# define python version
-%global __python /usr/bin/python2
-
 # NEVER EVER EVER turn this on in official builds
 %global freeworld 1
 
@@ -258,6 +255,9 @@ Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
 Patch101:	chromium-widevine-r2.patch
 # Add "Fedora" to the user agent string
 Patch102:	chromium-67.0.3396.87-russianfedora-user-agent.patch
+# Try to fix version.py for Rawhide
+Patch103:	chromium-67.0.3396.99-py3fix.patch
+Patch104:	chromium-67.0.3396.99-py2-bootstrap.patch
 
 Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
@@ -675,11 +675,7 @@ Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 Requires: xorg-x11-server-Xvfb
-%if 0%{?rhel} == 7
-Requires: python-psutil
-%else
 Requires: python2-psutil
-%endif
 %if 0%{?shared}
 Requires: chromium-libs%{_isa} = %{epoch}:%{version}-%{release}
 %endif
@@ -780,6 +776,8 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 %patch101 -p1 -b .widevine
 %patch102 -p1 -b .fedora-user-agent
+%patch103 -p1 -b .py3fix
+%patch104 -p1 -b .py2
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
@@ -1264,9 +1262,13 @@ if python2 -c 'import google ; print google.__path__' 2> /dev/null ; then \
 fi
 
 tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES"
-%{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{target}
+%{target}/gn --script-executable=/usr/bin/python2 gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{target}
 
-%{target}/gn gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_HEADLESS_GN_DEFINES" %{headlesstarget}
+%if %{freeworld}
+# do not need to do headless gen
+%else
+%{target}/gn --script-executable=/usr/bin/python2 gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_HEADLESS_GN_DEFINES" %{headlesstarget}
+%endif
 
 %if %{bundlelibusbx}
 # no hackity hack hack
@@ -1396,6 +1398,7 @@ cp -a remoting_locales %{buildroot}%{crd_path}/
 cp -a remoting_me2me_host %{buildroot}%{crd_path}/chrome-remote-desktop-host
 cp -a remoting_start_host %{buildroot}%{crd_path}/start-host
 cp -a remoting_user_session %{buildroot}%{crd_path}/user-session
+chmod +s %{buildroot}%{crd_path}/user-session
 
 # chromium
 mkdir -p %{buildroot}%{_sysconfdir}/chromium/native-messaging-hosts
@@ -1731,6 +1734,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Fri Jul 20 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.99-1.R
 - update to 67.0.3396.99
+- try to fix version.py for rawhide
 
 * Wed Jun 27 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.87-2.R
 - add "Russian Fedora" to the user agent string
