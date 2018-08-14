@@ -1,0 +1,36 @@
+diff -up chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_ptr_info.h.boolfix chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_ptr_info.h
+--- chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_ptr_info.h.boolfix	2018-08-09 03:21:23.066802340 -0400
++++ chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_ptr_info.h	2018-08-09 03:25:10.638595925 -0400
+@@ -45,7 +45,7 @@ class AssociatedInterfacePtrInfo {
+ 
+   bool is_valid() const { return handle_.is_valid(); }
+ 
+-  explicit operator bool() const { return handle_.is_valid(); }
++  explicit operator bool() const { return (bool) handle_.is_valid(); }
+ 
+   ScopedInterfaceEndpointHandle PassHandle() {
+     return std::move(handle_);
+diff -up chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_request.h.boolfix chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_request.h
+--- chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_request.h.boolfix	2018-08-09 03:21:23.067802318 -0400
++++ chromium-68.0.3440.106/mojo/public/cpp/bindings/associated_interface_request.h	2018-08-09 03:24:44.935229067 -0400
+@@ -50,7 +50,7 @@ class AssociatedInterfaceRequest {
+   // handle.
+   bool is_pending() const { return handle_.is_valid(); }
+ 
+-  explicit operator bool() const { return handle_.is_valid(); }
++  explicit operator bool() const { return (bool) handle_.is_valid(); }
+ 
+   ScopedInterfaceEndpointHandle PassHandle() { return std::move(handle_); }
+ 
+diff -up chromium-68.0.3440.106/mojo/public/cpp/bindings/interface_request.h.boolfix chromium-68.0.3440.106/mojo/public/cpp/bindings/interface_request.h
+--- chromium-68.0.3440.106/mojo/public/cpp/bindings/interface_request.h.boolfix	2018-08-08 15:11:05.000000000 -0400
++++ chromium-68.0.3440.106/mojo/public/cpp/bindings/interface_request.h	2018-08-09 03:21:23.067802318 -0400
+@@ -54,7 +54,7 @@ class InterfaceRequest {
+   // Indicates whether the request currently contains a valid message pipe.
+   bool is_pending() const { return handle_.is_valid(); }
+ 
+-  explicit operator bool() const { return handle_.is_valid(); }
++  explicit operator bool() const { return (bool) handle_.is_valid(); }
+ 
+   // Removes the message pipe from the request and returns it.
+   ScopedMessagePipeHandle PassMessagePipe() { return std::move(handle_); }

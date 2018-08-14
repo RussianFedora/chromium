@@ -1,0 +1,11 @@
+diff -up chromium-68.0.3440.106/chrome/test/data/webui_test_resources.grd.notest chromium-68.0.3440.106/chrome/test/data/webui_test_resources.grd
+--- chromium-68.0.3440.106/chrome/test/data/webui_test_resources.grd.notest	2018-08-09 03:08:33.953029806 -0400
++++ chromium-68.0.3440.106/chrome/test/data/webui_test_resources.grd	2018-08-09 03:09:40.264567818 -0400
+@@ -8,7 +8,6 @@
+   </outputs>
+   <release seq="1">
+     <includes>
+-      <include name="IDR_WEBUI_TEST_I18N_PROCESS_CSS_TEST" file="webui/i18n_process_css_test.html" flattenhtml="true" allowexternalscript="true" type="BINDATA" />
+       <include name="IDR_WEB_UI_TEST_MOJO_JS" file="${root_gen_dir}/chrome/test/data/webui/web_ui_test.mojom.js" use_base_dir="false" type="BINDATA"/>
+     </includes>
+   </release>

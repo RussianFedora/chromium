@@ -138,11 +138,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	67.0.3396.99
+Version:	68.0.3440.106
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -153,7 +153,7 @@ License:	BSD and LGPLv2+ and ASL 2.0 and IJG and MIT and GPLv2+ and ISC and Open
 Patch0:		chromium-67.0.3396.62-gcc5.patch
 Patch1:		chromium-45.0.2454.101-linux-path-max.patch
 Patch2:		chromium-55.0.2883.75-addrfix.patch
-Patch4:		chromium-46.0.2490.71-notest.patch
+Patch4:		chromium-68.0.3440.106-notest.patch
 # In file included from ../linux/directory.c:21:
 # In file included from ../../../../native_client/src/nonsfi/linux/abi_conversion.h:20:
 # ../../../../native_client/src/nonsfi/linux/linux_syscall_structs.h:44:13: error: GNU-style inline assembly is disabled
@@ -171,7 +171,7 @@ Patch12:	chromium-55.0.2883.75-cups22.patch
 # Use PIE in the Linux sandbox (from openSUSE via Russian Fedora)
 Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
 # Use /etc/chromium for master_prefs
-Patch18:	chromium-52.0.2743.82-master-prefs-path.patch
+Patch18:	chromium-68.0.3440.106-master-prefs-path.patch
 # Disable MADV_FREE (if set by glibc)
 # https://bugzilla.redhat.com/show_bug.cgi?id=1361157
 Patch19:	chromium-52.0.2743.116-unset-madv_free.patch
@@ -190,7 +190,7 @@ Patch25:	chromium-54.0.2840.59-jpeg-include-dir.patch
 Patch26:	chromium-59.0.3071.86-i686-ld-memory-tricks.patch
 # obj/content/renderer/renderer/child_frame_compositing_helper.o: In function `content::ChildFrameCompositingHelper::OnSetSurface(cc::SurfaceId const&, gfx::Size const&, float, cc::SurfaceSequence const&)':
 # /builddir/build/BUILD/chromium-54.0.2840.90/out/Release/../../content/renderer/child_frame_compositing_helper.cc:214: undefined reference to `cc_blink::WebLayerImpl::setOpaque(bool)'
-Patch27:	chromium-63.0.3289.84-setopaque.patch
+#Patch27:	chromium-63.0.3289.84-setopaque.patch
 # Revert https://chromium.googlesource.com/chromium/src/+/b794998819088f76b4cf44c8db6940240c563cf4%5E%21/#F0
 # https://bugs.chromium.org/p/chromium/issues/detail?id=712737
 # https://bugzilla.redhat.com/show_bug.cgi?id=1446851
@@ -236,7 +236,7 @@ Patch82:	chromium-65.0.3325.146-GCC-explicitely-std-move-to-base-Optional-instea
 # https://github.com/lgsvl/meta-lgsvl-browser/blob/ac93e7622be66946c76504be6a1db8d644ae1e43/recipes-browser/chromium/files/0001-GCC-IDB-methods-String-renamed-to-GetString.patch
 Patch83:	chromium-65.0.3325.146-GCC-IDB-methods-String-renamed-to-GetString.patch
 # ../../mojo/public/cpp/bindings/associated_interface_ptr_info.h:48:43: error: cannot convert 'const mojo::ScopedInterfaceEndpointHandle' to 'bool' in return
-Patch85:	chromium-67.0.3396.62-boolfix.patch
+Patch85:	chromium-68.0.3440.106-boolfix.patch
 # From Debian
 Patch86:	chromium-67.0.3396.62-skia-aarch64-buildfix.patch
 # Use lstdc++ on EPEL7 only
@@ -254,10 +254,23 @@ Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
 # Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r2.patch
 Patch101:	chromium-widevine-r2.patch
 # Add "Fedora" to the user agent string
-Patch102:	chromium-67.0.3396.87-russianfedora-user-agent.patch
+Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
 Patch103:	chromium-67.0.3396.99-py3fix.patch
 Patch104:	chromium-67.0.3396.99-py2-bootstrap.patch
+# ERROR at //extensions/browser/api/networking_private/BUILD.gn:15:5: Undefined identifier
+#    "networking_cast_private_delegate.cc",
+#    ^------------------------------------
+# https://chromium.googlesource.com/chromium/src/+/abde0a4bd9f3bfddebe825cc25cc3bc857e3d088%5E%21/#F1
+Patch105:	chromium-68.0.3440.106-fix-build-networking_private.patch
+# CORS legacy: add missing string include
+Patch106:	chromium-68.0.3440.84-cors-string.patch
+# Fix libjpeg include handling
+Patch107:	chromium-68.0.3440.84-libjpeg.patch
+# Fix webp bundling shim
+Patch108:	chromium-68.0.3440.84-libwebp-shim.patch
+# GCC: do not std::move unique ptr of forward declared UrlIndex
+Patch109:	chromium-68.0.3440.84-move-unique-ptr.patch
 
 Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
@@ -298,6 +311,7 @@ Source13:	master_preferences
 # Unpackaged fonts
 Source14:	https://fontlibrary.org/assets/downloads/gelasio/4d610887ff4d445cbc639aae7828d139/gelasio.zip
 Source15:	http://download.savannah.nongnu.org/releases/freebangfont/MuktiNarrow-0.94.tar.bz2
+Source16:	https://github.com/web-platform-tests/wpt/raw/master/fonts/Ahem.ttf
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
@@ -736,7 +750,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
 %patch26 -p1 -b .ldmemory
-%patch27 -p1 -b .setopaque
+#%%patch27 -p1 -b .setopaque
 ###%patch31 -p1 -b .permissive
 ###%patch33 -p1 -b .gcc7
 %patch36 -p1 -b .revert
@@ -778,6 +792,11 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch102 -p1 -b .fedora-user-agent
 %patch103 -p1 -b .py3fix
 %patch104 -p1 -b .py2
+%patch105 -p1 -b .fixb
+%patch107 -p1 -b .cors
+%patch108 -p1 -b .libjpeg
+%patch109 -p1 -b .webp
+%patch109 -p1 -b .move-unique-ptr
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
@@ -912,6 +931,7 @@ unzip %{SOURCE14}
 tar xf %{SOURCE15}
 mv MuktiNarrow0.94/MuktiNarrow.ttf .
 rm -rf MuktiNarrow0.94
+cp %{SOURCE16} .
 %if 0%{?rhel} == 7
 cp %{SOURCE100} .
 cp %{SOURCE101} .
@@ -1011,8 +1031,11 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'base/third_party/xdg_user_dirs' \
 	'chrome/third_party/mozilla_security_manager' \
 	'courgette/third_party' \
+	'net/third_party/http2' \
 	'net/third_party/mozilla_security_manager' \
 	'net/third_party/nss' \
+	'net/third_party/quic' \
+	'net/third_party/spdy' \
 	'third_party/WebKit' \
 	'third_party/adobe' \
 	'third_party/analytics' \
@@ -1078,7 +1101,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/libXNVCtrl' \
 	'third_party/libaddressinput' \
 	'third_party/libaom' \
-	'third_party/libaom/source/libaom/third_party/x86inc' \
 	'third_party/libdrm' \
 	'third_party/libjingle' \
 	'third_party/libjpeg_turbo' \
@@ -1086,6 +1108,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/libpng' \
 	'third_party/libsecret' \
         'third_party/libsrtp' \
+	'third_party/libsync' \
 	'third_party/libudev' \
 	'third_party/libusb' \
 	'third_party/libvpx' \
@@ -1125,20 +1148,24 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/pdfium/third_party/libpng16' \
         'third_party/pdfium/third_party/libtiff' \
         'third_party/pdfium/third_party/skia_shared' \
+	'third_party/perfetto' \
         'third_party/ply' \
 	'third_party/polymer' \
 	'third_party/protobuf' \
 	'third_party/protobuf/third_party/six' \
+	'third_party/pyjson5' \
 	'third_party/qcms' \
 	'third_party/qunit' \
 %if 0%{?bundlere2}
 	'third_party/re2' \
 %endif
+	'third_party/rnnoise' \
 	'third_party/s2cellid' \
 	'third_party/sfntly' \
 	'third_party/sinonjs' \
 	'third_party/skia' \
 	'third_party/skia/third_party/gif' \
+	'third_party/skia/third_party/skcms' \
 	'third_party/skia/third_party/vulkan' \
 	'third_party/smhasher' \
 	'third_party/snappy' \
@@ -1169,6 +1196,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'url/third_party/mozilla' \
 	'v8/src/third_party/utf8-decoder' \
 	'v8/src/third_party/valgrind' \
+	'v8/third_party/antlr4' \
 	'v8/third_party/inspector_protocol' \
 	--do-remove
 
@@ -1728,6 +1756,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Tue Aug 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 68.0.3440.106-1.R
+- update to 68.0.3440.106
+
 * Tue Jul 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.99-2.R
 - try to get rid of python2
 
