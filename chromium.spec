@@ -271,6 +271,8 @@ Patch107:	chromium-68.0.3440.84-libjpeg.patch
 Patch108:	chromium-68.0.3440.84-libwebp-shim.patch
 # GCC: do not std::move unique ptr of forward declared UrlIndex
 Patch109:	chromium-68.0.3440.84-move-unique-ptr.patch
+# https://github.com/OSSystems/meta-browser/blob/master/recipes-browser/chromium/files/0001-vpx_sum_squares_2d_i16_neon-Make-s2-a-uint64x1_t.patch
+Patch110:	0001-vpx_sum_squares_2d_i16_neon-Make-s2-a-uint64x1_t.patch
 
 Patch500:	chromium-clang-r2.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-clang-r4.patch
@@ -312,6 +314,8 @@ Source13:	master_preferences
 Source14:	https://fontlibrary.org/assets/downloads/gelasio/4d610887ff4d445cbc639aae7828d139/gelasio.zip
 Source15:	http://download.savannah.nongnu.org/releases/freebangfont/MuktiNarrow-0.94.tar.bz2
 Source16:	https://github.com/web-platform-tests/wpt/raw/master/fonts/Ahem.ttf
+Source17:	GardinerModBug.ttf
+Source18:	GardinerModCat.ttf
 
 # We can assume gcc and binutils.
 BuildRequires:	gcc-c++
@@ -797,6 +801,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch107 -p1 -b .libjpeg
 %patch108 -p1 -b .webp
 %patch109 -p1 -b .move-unique-ptr
+%patch109 -p1 -b .aarch64-int64x1_t
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
@@ -932,6 +937,8 @@ tar xf %{SOURCE15}
 mv MuktiNarrow0.94/MuktiNarrow.ttf .
 rm -rf MuktiNarrow0.94
 cp %{SOURCE16} .
+cp %{SOURCE17} .
+cp %{SOURCE18} .
 %if 0%{?rhel} == 7
 cp %{SOURCE100} .
 cp %{SOURCE101} .
@@ -1758,6 +1765,8 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Tue Aug 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 68.0.3440.106-1.R
 - update to 68.0.3440.106
+- fix build on aarch64
+- added Public Domain GardinerMod fonts
 
 * Tue Jul 24 2018 Arkady L. Shane <ashejn@russianfedora.pro> 67.0.3396.99-2.R
 - try to get rid of python2
