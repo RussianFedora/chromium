@@ -793,9 +793,9 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch103 -p1 -b .py3fix
 %patch104 -p1 -b .py2
 %patch105 -p1 -b .fixb
-%patch107 -p1 -b .cors
-%patch108 -p1 -b .libjpeg
-%patch109 -p1 -b .webp
+%patch106 -p1 -b .cors
+%patch107 -p1 -b .libjpeg
+%patch108 -p1 -b .webp
 %patch109 -p1 -b .move-unique-ptr
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
