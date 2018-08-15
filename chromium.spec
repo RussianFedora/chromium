@@ -801,7 +801,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch107 -p1 -b .libjpeg
 %patch108 -p1 -b .webp
 %patch109 -p1 -b .move-unique-ptr
-%patch109 -p1 -b .aarch64-int64x1_t
+%patch110 -p1 -b .aarch64-int64x1_t
 %if 0%{?asan}
 %patch500 -p1 -b .clang-r2
 %patch501 -p1 -b .clang-r4
