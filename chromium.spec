@@ -349,7 +349,7 @@ BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
-BuildRequires:	minizip-devel
+BuildRequires:	minizip-compat-devel
 BuildRequires:	nodejs
 BuildRequires:	nss-devel >= 3.26
 BuildRequires:	pciutils-devel
@@ -644,9 +644,9 @@ Chromium is an open-source web browser, powered by WebKit (Blink).
 
 %package common
 Summary: Files needed for both the headless_shell and full Chromium
-# Chromium needs an explicit Requires: minizip
+# Chromium needs an explicit Requires: minizip-compat
 # We put it here to cover headless too.
-Requires: minizip%{_isa}
+Requires: minizip-compat%{_isa}
 
 %description common
 %{summary}.
@@ -1755,6 +1755,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Tue Aug 28 2018 Patrik Novotný <panovotn@redhat.com> - 68.0.3440.106-4.R
+- change requires to minizip-compat(-devel), rhbz#1609830, rhbz#1615381
+
 * Fri Aug 17 2018 Arkady L. Shane <ashejn@russianfedora.pro> 68.0.3440.106-3.R
 - and one more
 
