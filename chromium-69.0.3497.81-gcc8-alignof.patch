@@ -1,0 +1,18 @@
+diff -urNp chromium-69.0.3497.81.orig/mojo/public/c/system/macros.h chromium-69.0.3497.81/mojo/public/c/system/macros.h
+--- chromium-69.0.3497.81.orig/mojo/public/c/system/macros.h	2018-09-05 13:58:00.745383984 +0300
++++ chromium-69.0.3497.81/mojo/public/c/system/macros.h	2018-09-05 14:08:52.112470948 +0300
+@@ -27,7 +27,13 @@
+   (sizeof(void*) == 4 ? 32 : 0)
+ 
+ // Like the C++11 |alignof| operator.
+-#if __cplusplus >= 201103L
++#if defined(__GNUC__) && __GNUC__ >= 8
++// GCC 8 has changed the alignof operator to return the minimal alignment
++// required by the target ABI, instead of the preferred alignment.
++// This means that on 32-bit x86, it will return 4 instead of 8.
++// Use __alignof__ instead to avoid this.
++#define MOJO_ALIGNOF(type) __alignof__(type)
++#elif __cplusplus >= 201103L
+ #define MOJO_ALIGNOF(type) alignof(type)
+ #elif defined(__GNUC__)
+ #define MOJO_ALIGNOF(type) __alignof__(type)

@@ -138,11 +138,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	68.0.3440.106
+Version:	69.0.3497.81
 %if 0%{?rhel} == 7
-Release:	3%{?dist}
+Release:	1%{?dist}
 %else
-Release:	3%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -245,7 +245,7 @@ Patch87:	chromium-65.0.3325.162-epel7-stdc++.patch
 # GCC8 has changed the alignof operator to return the minimal alignment required by the target ABI
 # instead of the preferred alignment. This means int64_t is now 4 on i686 (instead of 8).
 # Use __alignof__ to get the value we expect (and chromium checks for).
-Patch98:	chromium-66.0.3359.170-gcc8-alignof.patch
+Patch98:	chromium-69.0.3497.81-gcc8-alignof.patch
 # https://chromium.googlesource.com/crashpad/crashpad/+/26ef5c910fc7e2edb441f1d2b39944195342dee9
 Patch99:	chromium-67.0.3396.62-crashpad-aarch64-buildfix.patch
 # RHEL 7 has a bug in its python2.7 which does not propely handle exec with a tuple
@@ -352,7 +352,7 @@ BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
-BuildRequires:	minizip-compat-devel
+BuildRequires:	minizip-devel
 BuildRequires:	nodejs
 BuildRequires:	nss-devel >= 3.26
 BuildRequires:	pciutils-devel
@@ -649,7 +649,7 @@ Chromium is an open-source web browser, powered by WebKit (Blink).
 Summary: Files needed for both the headless_shell and full Chromium
 # Chromium needs an explicit Requires: minizip-compat
 # We put it here to cover headless too.
-Requires: minizip-compat%{_isa}
+Requires: minizip%{_isa}
 
 %description common
 %{summary}.
@@ -749,7 +749,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch18 -p1 -b .etc
 # %%patch19 -p1 -b .madv_free
 %patch20 -p1 -b .gnsystem
-%patch21 -p1 -b .lastcommit
+##%patch21 -p1 -b .lastcommit
 %patch22 -p1 -b .timefix
 %patch24 -p1 -b .nullfix
 %patch25 -p1 -b .jpegfix
@@ -777,7 +777,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch65 -p1 -b .gcc-round-fix
 %patch67 -p1 -b .memcpyfix
 %if ! 0%{?asan}
-%patch68 -p1 -b .fabi11
+##%patch68 -p1 -b .fabi11
 %endif
 #%patch81 -p1 -b .pipcc
 #%patch82 -p1 -b .explicit-std-move
@@ -788,19 +788,19 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch87 -p1 -b .epel7
 %endif
 %patch98 -p1 -b .gcc8-alignof
-%patch99 -p1 -b .crashpad-aarch64-fix
+##%patch99 -p1 -b .crashpad-aarch64-fix
 %if 0%{?rhel} == 7
 %patch100 -p1 -b .oldexec
 %endif
 %patch101 -p1 -b .widevine
 %patch102 -p1 -b .fedora-user-agent
 %patch103 -p1 -b .py3fix
-%patch104 -p1 -b .py2
-%patch105 -p1 -b .fixb
-%patch106 -p1 -b .cors
-%patch107 -p1 -b .libjpeg
-%patch108 -p1 -b .webp
-%patch109 -p1 -b .move-unique-ptr
+##%patch104 -p1 -b .py2
+##%patch105 -p1 -b .fixb
+##%patch106 -p1 -b .cors
+##%patch107 -p1 -b .libjpeg
+##%patch108 -p1 -b .webp
+##%patch109 -p1 -b .move-unique-ptr
 %patch110 -p1 -b .aarch64-int64x1_t
 %patch111 -p1 -b .fix-default-redeclaration
 %if 0%{?asan}
@@ -1759,6 +1759,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Sep  5 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.81-1.R
+- update to 69.0.3497.81
+
 * Thu Aug 30 2018 Arkady L. Shane <ashejn@russianfedora.pro> 68.0.3440.106-4.R
 - fix error with defaulting on redeclaration
 - fix library filters
