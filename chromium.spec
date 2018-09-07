@@ -1041,6 +1041,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'net/third_party/spdy' \
 	'third_party/WebKit' \
 	'third_party/adobe' \
+	'third_party/abseil-cpp' \
 	'third_party/analytics' \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/base' \
@@ -1048,6 +1049,9 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle/src/third_party/compiler' \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/trace_event' \
+	'third_party/angle/third_party/vulkan-headers' \
+	'third_party/angle/third_party/vulkan-loader' \
+	'third_party/angle/third_party/vulkan-tools' \
 	'third_party/angle/third_party/vulkan-validation-layers' \
 	'third_party/angle/third_party/glslang' \
 	'third_party/angle/third_party/spirv-headers'\
@@ -1196,6 +1200,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/yasm' \
         'third_party/zlib' \
 	'third_party/zlib/google' \
+	'tools/gn/base/third_party/icu' \
 	'url/third_party/mozilla' \
 	'v8/src/third_party/utf8-decoder' \
 	'v8/src/third_party/valgrind' \
