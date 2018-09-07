@@ -1208,6 +1208,9 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'v8/third_party/inspector_protocol' \
 	--do-remove
 
+# Don't use static libstdc++
+sed -i '/-static-libstdc++/d' tools/gn/build/gen.py
+
 # Look, I don't know. This package is spit and chewing gum. Sorry.
 rm -rf third_party/markupsafe
 ln -s %{python2_sitearch}/markupsafe third_party/markupsafe
