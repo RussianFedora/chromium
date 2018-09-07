@@ -1573,7 +1573,6 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %dir %{chromium_path}
 %{chromium_path}/*.bin
 %{chromium_path}/chrome_*.pak
-%{chromium_path}/keyboard_resources.pak
 %{chromium_path}/resources.pak
 %{chromium_path}/views_mus_resources.pak
 %{chromium_path}/icudtl.dat
