@@ -352,7 +352,11 @@ BuildRequires:	libusb-devel
 BuildRequires:	libXdamage-devel
 BuildRequires:	libXScrnSaver-devel
 BuildRequires:	libXtst-devel
+%if 0%{?fedora} >= 30
+BuildRequires:	minizip-compat-devel
+%else
 BuildRequires:	minizip-devel
+%endif
 BuildRequires:	nodejs
 BuildRequires:	nss-devel >= 3.26
 BuildRequires:	pciutils-devel
@@ -649,7 +653,11 @@ Chromium is an open-source web browser, powered by WebKit (Blink).
 Summary: Files needed for both the headless_shell and full Chromium
 # Chromium needs an explicit Requires: minizip-compat
 # We put it here to cover headless too.
+%if 0%{?fedora} >= 30
+Requires: minizip-compat%{_isa}
+%else
 Requires: minizip%{_isa}
+%endif
 
 %description common
 %{summary}.
