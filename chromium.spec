@@ -258,19 +258,6 @@ Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
 Patch103:	chromium-67.0.3396.99-py3fix.patch
 Patch104:	chromium-69.0.3497.81-py2-bootstrap.patch
-# ERROR at //extensions/browser/api/networking_private/BUILD.gn:15:5: Undefined identifier
-#    "networking_cast_private_delegate.cc",
-#    ^------------------------------------
-# https://chromium.googlesource.com/chromium/src/+/abde0a4bd9f3bfddebe825cc25cc3bc857e3d088%5E%21/#F1
-Patch105:	chromium-68.0.3440.106-fix-build-networking_private.patch
-# CORS legacy: add missing string include
-Patch106:	chromium-68.0.3440.84-cors-string.patch
-# Fix libjpeg include handling
-Patch107:	chromium-68.0.3440.84-libjpeg.patch
-# Fix webp bundling shim
-Patch108:	chromium-68.0.3440.84-libwebp-shim.patch
-# GCC: do not std::move unique ptr of forward declared UrlIndex
-Patch109:	chromium-68.0.3440.84-move-unique-ptr.patch
 # https://github.com/OSSystems/meta-browser/blob/master/recipes-browser/chromium/files/0001-vpx_sum_squares_2d_i16_neon-Make-s2-a-uint64x1_t.patch
 Patch110:	0001-vpx_sum_squares_2d_i16_neon-Make-s2-a-uint64x1_t.patch
 # Fix default on redeclaration error
@@ -804,11 +791,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch102 -p1 -b .fedora-user-agent
 %patch103 -p1 -b .py3fix
 %patch104 -p1 -b .py2
-##%patch105 -p1 -b .fixb
-##%patch106 -p1 -b .cors
-##%patch107 -p1 -b .libjpeg
-##%patch108 -p1 -b .webp
-##%patch109 -p1 -b .move-unique-ptr
 %patch110 -p1 -b .aarch64-int64x1_t
 %patch111 -p1 -b .fix-default-redeclaration
 %if 0%{?asan}
@@ -1776,6 +1758,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Sep  5 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.81-1.R
 - update to 69.0.3497.81
+- update and clean up patches
 
 * Thu Aug 30 2018 Arkady L. Shane <ashejn@russianfedora.pro> 68.0.3440.106-4.R
 - fix error with defaulting on redeclaration
