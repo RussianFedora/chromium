@@ -1,0 +1,12 @@
+diff -urNr chromium-69.0.3497.81/tools/gn/bootstrap/bootstrap.py chromium-69.0.3497.81.orig/tools/gn/bootstrap/bootstrap.py
+--- chromium-69.0.3497.81/tools/gn/bootstrap/bootstrap.py	2018-09-09 14:39:00.483670246 +0300
++++ chromium-69.0.3497.81.orig/tools/gn/bootstrap/bootstrap.py	2018-09-09 14:37:41.724850607 +0300
+@@ -87,7 +87,7 @@
+   if not options.debug:
+     gn_gen_args += ' is_debug=false'
+   subprocess.check_call([
+-      gn_path, 'gen', '--script-executable=/usr/bin/python2', out_dir,
++      gn_path, 'gen', out_dir,
+       '--args=%s' % gn_gen_args, "--root=" + SRC_ROOT
+   ])
+ 

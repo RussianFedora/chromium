@@ -257,7 +257,7 @@ Patch101:	chromium-widevine-r2.patch
 Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
 Patch103:	chromium-67.0.3396.99-py3fix.patch
-Patch104:	chromium-67.0.3396.99-py2-bootstrap.patch
+Patch104:	chromium-69.0.3497.81-py2-bootstrap.patch
 # ERROR at //extensions/browser/api/networking_private/BUILD.gn:15:5: Undefined identifier
 #    "networking_cast_private_delegate.cc",
 #    ^------------------------------------
@@ -803,7 +803,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch101 -p1 -b .widevine
 %patch102 -p1 -b .fedora-user-agent
 %patch103 -p1 -b .py3fix
-##%patch104 -p1 -b .py2
+%patch104 -p1 -b .py2
 ##%patch105 -p1 -b .fixb
 ##%patch106 -p1 -b .cors
 ##%patch107 -p1 -b .libjpeg
