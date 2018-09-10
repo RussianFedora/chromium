@@ -1763,6 +1763,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 
 * Wed Sep  5 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.81-1.R
 - update to 69.0.3497.81
+- update and clean up patches
 
 * Thu Aug 30 2018 Arkady L. Shane <ashejn@russianfedora.pro> 68.0.3440.106-4.R
 - fix error with defaulting on redeclaration
