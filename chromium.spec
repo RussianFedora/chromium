@@ -89,7 +89,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global gtk3 1
 
 # Enable vaapi
-%global vaapi 0
+%global vaapi 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -140,9 +140,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	69.0.3497.81
 %if 0%{?rhel} == 7
-Release:	1%{?dist}
+Release:	2%{?dist}
 %else
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -283,9 +283,9 @@ Patch501:	chromium-clang-r4.patch
 # ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-ffmpeg-clang.patch
 Patch502:	chromium-ffmpeg-clang.patch
 # Vaapi Patches
-# Ubuntu patch for chromium 64
-# https://raw.githubusercontent.com/saiarcot895/chromium-ubuntu-build/branch-3282/debian/patches/enable_vaapi_on_linux_2.diff
-Patch600:	enable_vaapi_on_linux_2.diff
+# https://copr-dist-git.fedorainfracloud.org/cgit/hellbangerkarna/Chromium-Vaapi/chromium.git/
+# https://copr-dist-git.fedorainfracloud.org/cgit/hellbangerkarna/Chromium-Vaapi/chromium.git/plain/vaapi.patch?id=d5d9240a5cdae20663bfa124c85f4cc1e3d6c85d
+Patch600:	vaapi.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -1766,6 +1766,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Mon Sep 10 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.81-2.R
+- enable vaapi
+
 * Wed Sep  5 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.81-1.R
 - update to 69.0.3497.81
 
