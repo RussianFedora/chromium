@@ -89,7 +89,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global gtk3 1
 
 # Enable vaapi
-%global vaapi 1
+%global vaapi 0
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -138,11 +138,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	69.0.3497.81
+Version:	69.0.3497.92
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -1756,6 +1756,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Sep 12 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.92-1.R
+- update to 69.0.3497.92
+- disable vaapi
+
 * Mon Sep 10 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.81-2.R
 - enable vaapi
 - update and clean up patches
