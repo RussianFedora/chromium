@@ -89,7 +89,7 @@ BuildRequires:  libicu-devel >= 5.4
 %global gtk3 1
 
 # Enable vaapi
-%global vaapi 0
+%global vaapi 1
 
 %if 0%{?rhel} == 7
 %global bundleopus 1
@@ -140,9 +140,9 @@ BuildRequires:  libicu-devel >= 5.4
 Name:		chromium%{chromium_channel}
 Version:	69.0.3497.92
 %if 0%{?rhel} == 7
-Release:	1%{?dist}
+Release:	2%{?dist}
 %else
-Release:	1%{?dist}.R
+Release:	2%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -974,9 +974,6 @@ CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="ChromeOS" proprietary_codecs=true'
 CHROMIUM_CORE_GN_DEFINES+=' ffmpeg_branding="Chromium" proprietary_codecs=false'
 %endif
 CHROMIUM_CORE_GN_DEFINES+=' treat_warnings_as_errors=false linux_use_bundled_binutils=false use_custom_libcxx=false'
-%if 0%{vaapi}
-CHROMIUM_CORE_GN_DEFINES+=' use_vaapi=true'
-%endif
 export CHROMIUM_CORE_GN_DEFINES
 
 CHROMIUM_BROWSER_GN_DEFINES=""
@@ -996,6 +993,9 @@ CHROMIUM_BROWSER_GN_DEFINES+=' enable_webrtc=true enable_widevine=true'
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=true'
 %else
 CHROMIUM_BROWSER_GN_DEFINES+=' use_gtk3=false'
+%endif
+%if 0%{vaapi}
+CHROMIUM_BROWSER_GN_DEFINES+=' use_vaapi=true'
 %endif
 export CHROMIUM_BROWSER_GN_DEFINES
 
@@ -1756,6 +1756,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Sun Sep 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.92-2.R
+- enable vaapi
+
 * Wed Sep 12 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.92-1.R
 - update to 69.0.3497.92
 - disable vaapi
