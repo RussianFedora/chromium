@@ -138,11 +138,11 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	69.0.3497.92
+Version:	69.0.3497.100
 %if 0%{?rhel} == 7
-Release:	2%{?dist}
+Release:	1%{?dist}
 %else
-Release:	2%{?dist}.R
+Release:	1%{?dist}.R
 %endif
 Epoch:		1
 Summary:	A WebKit (Blink) powered web browser
@@ -804,7 +804,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
-find -type f -exec sed -i '1s=^#!/usr/bin/\(python\|env python\)[23]\?=#!%{__python2}=' {} +
+find -type f -exec sed -iE '1s=^#! */usr/bin/\(python\|env python\)[23]\?=#!%{__python2}=' {} +
 
 %if 0%{?asan}
 export CC="clang"
@@ -1756,6 +1756,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Tue Sep 18 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.100-1.R
+- update to 69.0.3497.100
+
 * Sun Sep 16 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.92-2.R
 - enable vaapi
 
