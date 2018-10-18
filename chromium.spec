@@ -169,7 +169,7 @@ Patch9:		chromium-48.0.2564.116-libusb_interrupt_event_handler.patch
 # https://bugs.chromium.org/p/chromium/issues/detail?id=622493
 Patch12:	chromium-55.0.2883.75-cups22.patch
 # Use PIE in the Linux sandbox (from openSUSE via Russian Fedora)
-Patch15:	chromium-55.0.2883.75-sandbox-pie.patch
+Patch15:	chromium-70.0.3538.67-sandbox-pie.patch
 # Use /etc/chromium for master_prefs
 Patch18:	chromium-68.0.3440.106-master-prefs-path.patch
 # Disable MADV_FREE (if set by glibc)
@@ -258,8 +258,6 @@ Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
 Patch103:	chromium-67.0.3396.99-py3fix.patch
 Patch104:	chromium-69.0.3497.81-py2-bootstrap.patch
-# https://github.com/OSSystems/meta-browser/blob/master/recipes-browser/chromium/files/0001-vpx_sum_squares_2d_i16_neon-Make-s2-a-uint64x1_t.patch
-Patch110:	0001-vpx_sum_squares_2d_i16_neon-Make-s2-a-uint64x1_t.patch
 # Fix default on redeclaration error
 # https://chromium.googlesource.com/chromium/src/+/122692ccee62223f266a988c575ae687e3f4c056%5E%21/#F0
 Patch111:	chromium-68.0.3440.106-fix-default-on-redeclaration.patch
@@ -791,7 +789,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch102 -p1 -b .fedora-user-agent
 %patch103 -p1 -b .py3fix
 %patch104 -p1 -b .py2
-%patch110 -p1 -b .aarch64-int64x1_t
 %patch111 -p1 -b .fix-default-redeclaration
 #%%if 0%%{?asan}
 #%%patch500 -p1 -b .clang-r2
@@ -1758,6 +1755,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Oct 18 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.67-1.R
 - update to 70.0.3538.67
+- update patches
 
 * Tue Sep 18 2018 Arkady L. Shane <ashejn@russianfedora.pro> 69.0.3497.100-1.R
 - update to 69.0.3497.100
