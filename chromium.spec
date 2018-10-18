@@ -1026,6 +1026,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'net/third_party/nss' \
 	'net/third_party/quic' \
 	'net/third_party/spdy' \
+	'net/third_party/uri_template' \
 	'third_party/WebKit' \
 	'third_party/adobe' \
 	'third_party/abseil-cpp' \
@@ -1095,6 +1096,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/libXNVCtrl' \
 	'third_party/libaddressinput' \
 	'third_party/libaom' \
+	'third_party/libaom/source/libaom/third_party/vector' \
+	'third_party/libaom/source/libaom/third_party/x86inc' \
 	'third_party/libdrm' \
 	'third_party/libjingle' \
 	'third_party/libjpeg_turbo' \
@@ -1181,6 +1184,13 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/web-animations-js' \
 	'third_party/webdriver' \
 	'third_party/webrtc' \
+	'third_party/webrtc/common_audio/third_party/fft4g' \
+	'third_party/webrtc/common_audio/third_party/spl_sqrt_floor' \
+	'third_party/webrtc/modules/third_party/fft' \
+	'third_party/webrtc/modules/third_party/g711' \
+	'third_party/webrtc/modules/third_party/g722' \
+	'third_party/webrtc/rtc_base/third_party/base64' \
+	'third_party/webrtc/rtc_base/third_party/sigslot' \
 	'third_party/widevine' \
         'third_party/woff2' \
         'third_party/xdg-utils' \
@@ -1191,8 +1201,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'url/third_party/mozilla' \
 	'v8/src/third_party/utf8-decoder' \
 	'v8/src/third_party/valgrind' \
-	'v8/third_party/antlr4' \
 	'v8/third_party/inspector_protocol' \
+	'v8/third_party/v8' \
 	--do-remove
 
 # Don't use static libstdc++
