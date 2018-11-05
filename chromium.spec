@@ -278,6 +278,8 @@ Patch604:	chromium-gcc8-r591015.patch
 # Disable fontconfig cache magic that breaks remoting
 Patch617:	chromium-70.0.3538.67-disable-fontconfig-cache-magic.patch
 
+Patch618:	chromium-70.0.3538.67-memory-screenozone.patch
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -811,6 +813,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch604 -p1 -b .gcc8
 
 %patch617 -p1 -b .nofc
+%patch618 -p1 -b .memory
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
