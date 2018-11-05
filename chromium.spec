@@ -1312,6 +1312,8 @@ tools/gn/bootstrap/bootstrap.py --gn-gen-args "$CHROMIUM_CORE_GN_DEFINES $CHROMI
 
 %{target}/gn --script-executable=/usr/bin/python2 gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_HEADLESS_GN_DEFINES" %{headlesstarget}
 
+%{target}/gn --script-executable=/usr/bin/python2 gen --args="$CHROMIUM_CORE_GN_DEFINES $CHROMIUM_BROWSER_GN_DEFINES" %{remotingtarget}
+
 %if %{bundlelibusbx}
 # no hackity hack hack
 %else
