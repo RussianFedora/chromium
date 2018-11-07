@@ -281,6 +281,12 @@ Patch617:	chromium-70.0.3538.67-disable-fontconfig-cache-magic.patch
 
 Patch618:	chromium-70.0.3538.67-memory-screenozone.patch
 
+# ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-harfbuzz-r0.patch
+# This resolves a build failure against harfbuzz 2.0.
+# Based on a patch by Alexandre Fierreira.
+# Bug: https://bugs.gentoo.org/669034
+Patch619:	chromium-harfbuzz-r0.patch
+
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
 # For Chromium Fedora use chromium-latest.py --stable --ffmpegclean --ffmpegarm
@@ -818,6 +824,10 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 
 %patch617 -p1 -b .nofc
 %patch618 -p1 -b .memory
+
+%if 0%{?fedora} > 29
+%patch619 -p1 -b .harfbuzz
+%endif
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
@@ -1787,6 +1797,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Tue Nov  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.77-1.R
 - update to 70.0.3538.77
 - apply patch to build with libva1
+- apply patch to build with harfbuzz 2.x
 
 * Thu Oct 18 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.67-1.R
 - update to 70.0.3538.67
