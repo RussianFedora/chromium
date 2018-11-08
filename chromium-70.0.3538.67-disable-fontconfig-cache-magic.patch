@@ -1,0 +1,13 @@
+diff -up chromium-70.0.3538.67/base/test/BUILD.gn.nofc chromium-70.0.3538.67/base/test/BUILD.gn
+--- chromium-70.0.3538.67/base/test/BUILD.gn.nofc	2018-10-29 11:29:01.356812567 -0400
++++ chromium-70.0.3538.67/base/test/BUILD.gn	2018-10-29 11:29:12.631584916 -0400
+@@ -209,9 +209,6 @@ static_library("test_support") {
+     data_deps = [
+       "//third_party/test_fonts",
+     ]
+-    if (current_toolchain == host_toolchain) {
+-      data_deps += [ ":do_generate_fontconfig_caches" ]
+-    }
+   }
+ 
+   if (is_ios) {

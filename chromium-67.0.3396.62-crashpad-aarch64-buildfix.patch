@@ -1,0 +1,12 @@
+diff -urN chromium-67.0.3396.62.orig/third_party/crashpad/crashpad/util/misc/capture_context_linux.S chromium-67.0.3396.62/third_party/crashpad/crashpad/util/misc/capture_context_linux.S
+--- chromium-67.0.3396.62.orig/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2018-06-07 13:12:20.547715634 +0300
++++ chromium-67.0.3396.62/third_party/crashpad/crashpad/util/misc/capture_context_linux.S	2018-06-07 13:27:42.565106972 +0300
+@@ -288,7 +288,7 @@
+ #elif defined(__aarch64__)
+ 
+   // Zero out fault_address, which is unused.
+-  str x31, [x0, #0xb0]  // context->uc_mcontext.fault_address
++  str xzr, [x0, #0xb0]  // context->uc_mcontext.fault_address
+ 
+   // Save general purpose registers in context->uc_mcontext.regs[i].
+   // The original x0 can't be recovered.

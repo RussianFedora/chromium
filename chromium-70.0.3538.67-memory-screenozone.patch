@@ -1,0 +1,11 @@
+diff -urN chromium-70.0.3538.67.orig/ui/aura/screen_ozone.h chromium-70.0.3538.67/ui/aura/screen_ozone.h
+--- chromium-70.0.3538.67.orig/ui/aura/screen_ozone.h	2018-11-05 17:20:10.995620608 +0300
++++ chromium-70.0.3538.67/ui/aura/screen_ozone.h	2018-11-05 17:23:13.750968952 +0300
+@@ -9,6 +9,7 @@
+ #include "ui/aura/aura_export.h"
+ #include "ui/display/screen.h"
+ #include "ui/ozone/public/platform_screen.h"
++#include <memory>
+ 
+ namespace aura {
+ 
