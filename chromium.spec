@@ -135,7 +135,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	70.0.3538.77
+Version:	70.0.3538.102
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1794,6 +1794,9 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Wed Nov 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.102-1.R
+- update to 70.0.3538.102
+
 * Tue Nov  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.77-1.R
 - update to 70.0.3538.77
 - apply patch to build with libva1
