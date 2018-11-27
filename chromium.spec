@@ -286,6 +286,7 @@ Patch618:	chromium-70.0.3538.67-memory-screenozone.patch
 # Based on a patch by Alexandre Fierreira.
 # Bug: https://bugs.gentoo.org/669034
 Patch619:	chromium-harfbuzz-r0.patch
+Patch620:	chromium-70.0.3538.110-remove-sysroot-options.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -828,6 +829,8 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %if 0%{?fedora} > 29
 %patch619 -p1 -b .harfbuzz
 %endif
+
+%patch620 -p1 -b .sysrootfix
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
@@ -1796,6 +1799,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Wed Nov 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.102-1.R
 - update to 70.0.3538.102
+- drop sysroot options
 
 * Tue Nov  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.77-1.R
 - update to 70.0.3538.77
