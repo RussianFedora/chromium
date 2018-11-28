@@ -1546,6 +1546,12 @@ cp -a %{SOURCE9} %{buildroot}%{_datadir}/gnome-control-center/default-apps/
 
 mkdir -p %{buildroot}%{chromium_path}/PepperFlash
 
+# fix python shebang
+%if 0%{?fedora} >= 27
+sed -i 's@#!/usr/bin/python2@#!/usr/bin/python3@g' \
+    %{buildroot}%{chromium_path}/pyproto/google/protobuf/internal/_parameterized.py
+%endif
+
 %post
 # Set SELinux labels - semanage itself will adjust the lib directory naming
 # But only do it when selinux is enabled, otherwise, it gets noisy.
