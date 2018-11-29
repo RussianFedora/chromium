@@ -135,7 +135,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	70.0.3538.102
+Version:	70.0.3538.110
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1803,6 +1803,10 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Nov 29 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.110-1.R
+- update to 70.0.3538.110
+- try to remove python2 depends
+
 * Wed Nov 14 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.102-1.R
 - update to 70.0.3538.102
 - drop sysroot options
