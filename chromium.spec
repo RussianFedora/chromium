@@ -249,7 +249,7 @@ Patch99:	chromium-67.0.3396.62-crashpad-aarch64-buildfix.patch
 # https://bugs.python.org/issue21591
 Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
 # Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r3.patch
-Patch101:	chromium-widevine-r2.patch
+Patch101:	chromium-widevine-r3.patch
 # Add "Fedora" to the user agent string
 Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
