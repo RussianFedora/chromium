@@ -248,13 +248,13 @@ Patch99:	chromium-67.0.3396.62-crashpad-aarch64-buildfix.patch
 # RHEL 7 has a bug in its python2.7 which does not propely handle exec with a tuple
 # https://bugs.python.org/issue21591
 Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
-# Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r2.patch
+# Gentoo patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-widevine-r3.patch
 Patch101:	chromium-widevine-r2.patch
 # Add "Fedora" to the user agent string
 Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
 Patch103:	chromium-67.0.3396.99-py3fix.patch
-Patch104:	chromium-69.0.3497.81-py2-bootstrap.patch
+Patch104:	chromium-71.0.3578.30-py2-bootstrap.patch
 # Fix default on redeclaration error
 # https://chromium.googlesource.com/chromium/src/+/122692ccee62223f266a988c575ae687e3f4c056%5E%21/#F0
 Patch111:	chromium-68.0.3440.106-fix-default-on-redeclaration.patch
@@ -269,12 +269,6 @@ Patch502:	chromium-ffmpeg-clang.patch
 # https://copr-dist-git.fedorainfracloud.org/cgit/hellbangerkarna/Chromium-Vaapi/chromium.git/plain/vaapi.patch?id=d5d9240a5cdae20663bfa124c85f4cc1e3d6c85d
 Patch599:	vaapi.patch
 Patch600:	chromium-libva1.patch
-
-# Add patches from upstream to fix build with GCC
-Patch601:	chromium-gcc8-r588316.patch
-Patch602:	chromium-gcc8-r588547.patch
-Patch603:	chromium-gcc8-r589614.patch
-Patch604:	chromium-gcc8-r591015.patch
 
 # Disable fontconfig cache magic that breaks remoting
 Patch617:	chromium-70.0.3538.67-disable-fontconfig-cache-magic.patch
@@ -792,7 +786,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 #%patch82 -p1 -b .explicit-std-move
 ####%patch83 -p1 -b .GetString
 %patch85 -p1 -b .boolfix
-%patch86 -p1 -b .aarch64fix
+#%patch86 -p1 -b .aarch64fix
 %if 0%{?rhel} == 7
 %patch87 -p1 -b .epel7
 %endif
@@ -817,11 +811,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch600 -p1 -b .libva1
 %endif
 %endif
-
-%patch601 -p1 -b .gcc8
-%patch602 -p1 -b .gcc8
-%patch603 -p1 -b .gcc8
-%patch604 -p1 -b .gcc8
 
 %patch617 -p1 -b .nofc
 %patch618 -p1 -b .memory
@@ -1805,6 +1794,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Dec  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 71.0.3578.80-1.R
 - update to 71.0.3578.80
+- update patches
 
 * Thu Nov 29 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.110-1.R
 - update to 70.0.3538.110
