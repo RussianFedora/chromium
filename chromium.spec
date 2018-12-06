@@ -269,6 +269,7 @@ Patch502:	chromium-ffmpeg-clang.patch
 # https://copr-dist-git.fedorainfracloud.org/cgit/hellbangerkarna/Chromium-Vaapi/chromium.git/plain/vaapi.patch?id=d5d9240a5cdae20663bfa124c85f4cc1e3d6c85d
 Patch599:	vaapi.patch
 Patch600:	chromium-libva1.patch
+Patch601:	chromium-70.0.3538.110-vaapi-i686-fpermissive.patch
 
 # Disable fontconfig cache magic that breaks remoting
 Patch617:	chromium-70.0.3538.67-disable-fontconfig-cache-magic.patch
@@ -280,7 +281,7 @@ Patch618:	chromium-70.0.3538.67-memory-screenozone.patch
 # Based on a patch by Alexandre Fierreira.
 # Bug: https://bugs.gentoo.org/669034
 Patch619:	chromium-harfbuzz-r0.patch
-Patch620:	chromium-70.0.3538.110-remove-sysroot-options.patch
+Patch620:	chromium-71.0.3578.80-remove-sysroot-options.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -809,6 +810,9 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch599 -p1 -b .vaapi
 %if 0%{?fedora} < 28
 %patch600 -p1 -b .libva1
+%endif
+%ifarch i686
+%patch601 -p1 -b .i686permissive
 %endif
 %endif
 
@@ -1795,6 +1799,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 * Thu Dec  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 71.0.3578.80-1.R
 - update to 71.0.3578.80
 - update patches
+- use fpermissive on vaapi code on i686
 
 * Thu Nov 29 2018 Arkady L. Shane <ashejn@russianfedora.pro> 70.0.3538.110-1.R
 - update to 70.0.3538.110
