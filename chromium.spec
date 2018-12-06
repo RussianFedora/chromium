@@ -1113,6 +1113,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/icu' \
 	'third_party/inspector_protocol' \
 	'third_party/jinja2' \
+	'third_party/jsoncpp' \
 	'third_party/jstemplate' \
 	'third_party/khronos' \
 	'third_party/leveldatabase' \
