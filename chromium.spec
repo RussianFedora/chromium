@@ -270,7 +270,6 @@ Patch502:	chromium-ffmpeg-clang.patch
 Patch599:	vaapi.patch
 Patch600:	chromium-libva1.patch
 Patch601:	chromium-70.0.3538.110-vaapi-i686-fpermissive.patch
-
 # Disable fontconfig cache magic that breaks remoting
 Patch617:	chromium-70.0.3538.67-disable-fontconfig-cache-magic.patch
 
@@ -282,6 +281,8 @@ Patch618:	chromium-70.0.3538.67-memory-screenozone.patch
 # Bug: https://bugs.gentoo.org/669034
 Patch619:	chromium-harfbuzz-r0.patch
 Patch620:	chromium-71.0.3578.80-remove-sysroot-options.patch
+# Gentoo gcc patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-71-gcc-0.patch
+Patch621:	chromium-71-gcc-0.patch
 
 # Use chromium-latest.py to generate clean tarball from released build tarballs, found here:
 # http://build.chromium.org/buildbot/official/
@@ -824,6 +825,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %endif
 
 %patch620 -p1 -b .sysrootfix
+%patch621 -p1 -b .gcc
 
 # Change shebang in all relevant files in this directory and all subdirectories
 # See `man find` for how the `-exec command {} +` syntax works
