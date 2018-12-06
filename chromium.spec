@@ -1194,6 +1194,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/snappy' \
 	'third_party/speech-dispatcher' \
 	'third_party/spirv-headers' \
+	'third_party/SPIRV-Tools' \
 	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
 	'third_party/swiftshader' \
