@@ -1,17 +1,14 @@
-# Fix compatibility with VA-API library (libva) version 1
-# Chromium seems to use version 2 or newer
-
-Index: chromium-70.0.3538.67/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
+Index: chromium-71.0.3578.80/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
 ===================================================================
---- chromium-70.0.3538.67.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-+++ chromium-70.0.3538.67/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
-@@ -295,7 +295,8 @@ bool VaapiJpegDecodeAccelerator::Initial
-   // TODO(crbug.com/828119): Try a list of possible supported formats rather
-   // than hardcoding the format to I420 here.
-   va_image_format_ = base::WrapUnique(new VAImageFormat{});
--  va_image_format_->fourcc = VA_FOURCC_I420;
-+  const uint32_t kI420Fourcc = VA_FOURCC('I', '4', '2', '0');
-+  va_image_format_->fourcc = kI420Fourcc;
-   va_image_format_->byte_order = VA_LSB_FIRST;
-   va_image_format_->bits_per_pixel = 12;
- 
+--- chromium-71.0.3578.80.orig/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
++++ chromium-71.0.3578.80/media/gpu/vaapi/vaapi_jpeg_decode_accelerator.cc
+@@ -47,6 +47,9 @@ static void ReportToUMA(VAJDADecoderFail
+ // macro in the header file without pulling in the entire <va/va.h>.
+ static_assert(VA_FOURCC_YUYV == VA_FOURCC('Y', 'U', 'Y', 'V'),
+               "VA_FOURCC_YUYV must be equal to VA_FOURCC('Y', 'U', 'Y', 'V')");
++#ifndef VA_FOURCC_I420
++#define VA_FOURCC_I420 0x30323449
++#endif
+ constexpr VAImageFormat kImageFormatI420 = {.fourcc = VA_FOURCC_I420,
+                                             .byte_order = VA_LSB_FIRST,
+                                             .bits_per_pixel = 12};
