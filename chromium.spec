@@ -508,7 +508,7 @@ BuildRequires:	google-noto-sans-khmer-fonts
 BuildRequires:	ninja-build
 
 %if 0%{?rhel} == 7
-BuildRequires: devtoolset-7-toolchain, devtoolset-7-libatomic-devel
+BuildRequires: devtoolset-8-toolchain, devtoolset-8-libatomic-devel
 %endif
 
 # There is a hardcoded check for nss 3.26 in the chromium code (crypto/nss_util.cc)
@@ -1315,7 +1315,7 @@ sed -i '/aarch64)/ a \        exec "/usr/bin/ninja-build" "$@";;\' ../depot_tool
 
 %if 0%{?rhel} == 7
 sed -i "s@'ninja'@'ninja-build'@g" tools/gn/bootstrap/bootstrap.py
-. /opt/rh/devtoolset-7/enable
+. /opt/rh/devtoolset-8/enable
 %endif
 
 # Check that there is no system 'google' module, shadowing bundled ones:
@@ -1353,7 +1353,7 @@ ln -s /usr/bin/node third_party/node/linux/node-linux-x64/bin/node
 
 %build
 %if 0%{?rhel} == 7
-. /opt/rh/devtoolset-7/enable
+. /opt/rh/devtoolset-8/enable
 NINJA="ninja-build"
 %else
 NINJA="ninja"
@@ -1802,6 +1802,7 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %changelog
 * Thu Dec 13 2018 Arkady L. Shane <ashejn@russianfedora.pro> 71.0.3578.98-1.R
 - update to 71.0.3578.98
+- update devtoolset to 8
 
 * Thu Dec  6 2018 Arkady L. Shane <ashejn@russianfedora.pro> 71.0.3578.80-1.R
 - update to 71.0.3578.80
