@@ -281,7 +281,6 @@ Patch618:	chromium-70.0.3538.67-memory-screenozone.patch
 # Based on a patch by Alexandre Fierreira.
 # Bug: https://bugs.gentoo.org/669034
 Patch619:	chromium-harfbuzz-r0.patch
-Patch620:	chromium-71.0.3578.80-remove-sysroot-options.patch
 # Gentoo gcc patch ftp://mirror.yandex.ru/gentoo-portage/www-client/chromium/files/chromium-71-gcc-0.patch
 Patch621:	chromium-71-gcc-0.patch
 
@@ -825,7 +824,6 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch619 -p1 -b .harfbuzz
 %endif
 
-%patch620 -p1 -b .sysrootfix
 %patch621 -p1 -b .gcc
 
 # Change shebang in all relevant files in this directory and all subdirectories
