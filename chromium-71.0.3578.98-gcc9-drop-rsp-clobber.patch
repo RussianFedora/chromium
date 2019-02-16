@@ -1,0 +1,12 @@
+diff -up chromium-71.0.3578.98/third_party/tcmalloc/gperftools-2.0/chromium/src/base/linux_syscall_support.h.gcc9 chromium-71.0.3578.98/third_party/tcmalloc/gperftools-2.0/chromium/src/base/linux_syscall_support.h
+--- chromium-71.0.3578.98/third_party/tcmalloc/gperftools-2.0/chromium/src/base/linux_syscall_support.h.gcc9	2019-01-08 13:27:25.193614727 -0500
++++ chromium-71.0.3578.98/third_party/tcmalloc/gperftools-2.0/chromium/src/base/linux_syscall_support.h	2019-01-08 13:27:35.161392234 -0500
+@@ -1231,7 +1231,7 @@ typedef unsigned long int ulong;
+                                "d"(LSS_SYSCALL_ARG(parent_tidptr)),
+                                "r"(LSS_SYSCALL_ARG(newtls)),
+                                "r"(LSS_SYSCALL_ARG(child_tidptr))
+-                             : "rsp", "memory", "r8", "r10", "r11", "rcx");
++                             : "memory", "r8", "r10", "r11", "rcx");
+       }
+       LSS_RETURN(int, __res);
+     }

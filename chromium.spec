@@ -269,6 +269,8 @@ Patch502:	chromium-ffmpeg-clang.patch
 Patch599:	vaapi.patch
 Patch600:	chromium-libva1.patch
 Patch601:	chromium-70.0.3538.110-vaapi-i686-fpermissive.patch
+# drop rsp clobber, which breaks gcc9 (thanks to Jeff Law)
+Patch602:	chromium-71.0.3578.98-gcc9-drop-rsp-clobber.patch
 # Disable fontconfig cache magic that breaks remoting
 Patch617:	chromium-70.0.3538.67-disable-fontconfig-cache-magic.patch
 
