@@ -1,8 +1,7 @@
-diff --git a/chrome/browser/about_flags.cc b/chrome/browser/about_flags.cc
-index 0faee72af1c4..8592e86c2b33 100644
---- a/chrome/browser/about_flags.cc
-+++ b/chrome/browser/about_flags.cc
-@@ -1795,7 +1795,7 @@ const FeatureEntry kFeatureEntries[] = {
+diff -purN a/chrome/browser/about_flags.cc b/chrome/browser/about_flags.cc
+--- a/chrome/browser/about_flags.cc	2018-12-05 21:13:11.000000000 +0100
++++ b/chrome/browser/about_flags.cc	2018-12-12 18:06:59.209064675 +0100
+@@ -1714,7 +1714,7 @@ const FeatureEntry kFeatureEntries[] = {
          "disable-accelerated-video-decode",
          flag_descriptions::kAcceleratedVideoDecodeName,
          flag_descriptions::kAcceleratedVideoDecodeDescription,
@@ -11,7 +10,7 @@ index 0faee72af1c4..8592e86c2b33 100644
          SINGLE_DISABLE_VALUE_TYPE(switches::kDisableAcceleratedVideoDecode),
      },
  #if defined(OS_WIN)
-@@ -2454,12 +2454,12 @@ const FeatureEntry kFeatureEntries[] = {
+@@ -2345,12 +2345,12 @@ const FeatureEntry kFeatureEntries[] = {
       FEATURE_VALUE_TYPE(service_manager::features::kXRSandbox)},
  #endif  // ENABLE_ISOLATED_XR_SERVICE
  #endif  // ENABLE_VR
@@ -27,11 +26,10 @@ index 0faee72af1c4..8592e86c2b33 100644
      {"v8-cache-options", flag_descriptions::kV8CacheOptionsName,
       flag_descriptions::kV8CacheOptionsDescription, kOsAll,
       MULTI_VALUE_TYPE(kV8CacheOptionsChoices)},
-diff --git a/chrome/browser/flag_descriptions.cc b/chrome/browser/flag_descriptions.cc
-index 69887814c701..9cea71d16c57 100644
---- a/chrome/browser/flag_descriptions.cc
-+++ b/chrome/browser/flag_descriptions.cc
-@@ -3010,7 +3010,7 @@ const char kTextSuggestionsTouchBarDescription[] =
+diff -purN a/chrome/browser/flag_descriptions.cc b/chrome/browser/flag_descriptions.cc
+--- a/chrome/browser/flag_descriptions.cc	2018-12-05 21:13:13.000000000 +0100
++++ b/chrome/browser/flag_descriptions.cc	2018-12-12 18:06:59.209064675 +0100
+@@ -3082,7 +3082,7 @@ const char kTextSuggestionsTouchBarDescr
  
  // Chrome OS -------------------------------------------------------------------
  
@@ -40,7 +38,7 @@ index 69887814c701..9cea71d16c57 100644
  
  const char kAcceleratedMjpegDecodeName[] =
      "Hardware-accelerated mjpeg decode for captured frame";
-@@ -3557,7 +3557,7 @@ const char kWakeOnPacketsName[] = "Wake On Packets";
+@@ -3687,7 +3687,7 @@ const char kWakeOnPacketsName[] = "Wake
  const char kWakeOnPacketsDescription[] =
      "Enables waking the device based on the receipt of some network packets.";
  
@@ -49,11 +47,10 @@ index 69887814c701..9cea71d16c57 100644
  
  // Random platform combinations -----------------------------------------------
  
-diff --git a/chrome/browser/flag_descriptions.h b/chrome/browser/flag_descriptions.h
-index d80c51660ae5..1eae73713506 100644
---- a/chrome/browser/flag_descriptions.h
-+++ b/chrome/browser/flag_descriptions.h
-@@ -1827,13 +1827,17 @@ extern const char kPermissionPromptPersistenceToggleDescription[];
+diff -purN a/chrome/browser/flag_descriptions.h b/chrome/browser/flag_descriptions.h
+--- a/chrome/browser/flag_descriptions.h	2018-12-05 21:13:13.000000000 +0100
++++ b/chrome/browser/flag_descriptions.h	2018-12-12 18:06:59.209064675 +0100
+@@ -1843,13 +1843,17 @@ extern const char kPermissionPromptPersi
  
  #endif  // defined(OS_MACOSX)
  
@@ -74,11 +71,10 @@ index d80c51660ae5..1eae73713506 100644
  extern const char kAllowTouchpadThreeFingerClickName[];
  extern const char kAllowTouchpadThreeFingerClickDescription[];
  
-diff --git a/components/viz/service/main/viz_main_impl.cc b/components/viz/service/main/viz_main_impl.cc
-index 6f5f55de7588..62f42c240219 100644
---- a/components/viz/service/main/viz_main_impl.cc
-+++ b/components/viz/service/main/viz_main_impl.cc
-@@ -41,7 +41,7 @@ std::unique_ptr<base::Thread> CreateAndStartIOThread() {
+diff -purN a/components/viz/service/main/viz_main_impl.cc b/components/viz/service/main/viz_main_impl.cc
+--- a/components/viz/service/main/viz_main_impl.cc	2018-12-05 21:13:27.000000000 +0100
++++ b/components/viz/service/main/viz_main_impl.cc	2018-12-12 18:06:59.209064675 +0100
+@@ -41,7 +41,7 @@ std::unique_ptr<base::Thread> CreateAndS
    // It should be possible to use |main_task_runner_| for doing IO tasks.
    base::Thread::Options thread_options(base::MessageLoop::TYPE_IO, 0);
    thread_options.priority = base::ThreadPriority::NORMAL;
@@ -87,10 +83,9 @@ index 6f5f55de7588..62f42c240219 100644
    // TODO(reveman): Remove this in favor of setting it explicitly for each
    // type of process.
    thread_options.priority = base::ThreadPriority::DISPLAY;
-diff --git a/content/gpu/BUILD.gn b/content/gpu/BUILD.gn
-index 8974e441d1ba..af7c57f3963c 100644
---- a/content/gpu/BUILD.gn
-+++ b/content/gpu/BUILD.gn
+diff -purN a/content/gpu/BUILD.gn b/content/gpu/BUILD.gn
+--- a/content/gpu/BUILD.gn	2018-12-05 21:13:29.000000000 +0100
++++ b/content/gpu/BUILD.gn	2018-12-12 18:06:59.209064675 +0100
 @@ -6,6 +6,7 @@ import("//build/config/jumbo.gni")
  import("//build/config/ui.gni")
  import("//gpu/vulkan/features.gni")
@@ -99,7 +94,7 @@ index 8974e441d1ba..af7c57f3963c 100644
  import("//ui/ozone/ozone.gni")
  
  # See //content/BUILD.gn for how this works.
-@@ -49,7 +50,6 @@ target(link_target_type, "gpu_sources") {
+@@ -49,7 +50,6 @@ target(link_target_type, "gpu_sources")
    ]
  
    configs += [ "//content:content_implementation" ]
@@ -107,7 +102,7 @@ index 8974e441d1ba..af7c57f3963c 100644
    deps = [
      "//base",
      "//base/third_party/dynamic_annotations",
-@@ -134,4 +134,8 @@ target(link_target_type, "gpu_sources") {
+@@ -136,4 +136,8 @@ target(link_target_type, "gpu_sources")
        (!is_chromecast || is_cast_desktop_build)) {
      configs += [ "//build/config/linux/dri" ]
    }
@@ -116,11 +111,10 @@ index 8974e441d1ba..af7c57f3963c 100644
 +    public_configs = [ "//media/gpu:libva_config" ]
 +  }
  }
-diff --git a/content/gpu/gpu_main.cc b/content/gpu/gpu_main.cc
-index 8397889b61e2..2632f3976377 100644
---- a/content/gpu/gpu_main.cc
-+++ b/content/gpu/gpu_main.cc
-@@ -284,7 +284,7 @@ int GpuMain(const MainFunctionParams& parameters) {
+diff -purN a/content/gpu/gpu_main.cc b/content/gpu/gpu_main.cc
+--- a/content/gpu/gpu_main.cc	2018-12-05 21:13:29.000000000 +0100
++++ b/content/gpu/gpu_main.cc	2018-12-12 18:06:59.213064704 +0100
+@@ -284,7 +284,7 @@ int GpuMain(const MainFunctionParams& pa
  
    base::PlatformThread::SetName("CrGpuMain");
  
@@ -129,7 +123,7 @@ index 8397889b61e2..2632f3976377 100644
    // Set thread priority before sandbox initialization.
    base::PlatformThread::SetCurrentThreadPriority(base::ThreadPriority::DISPLAY);
  #endif
-@@ -317,7 +317,7 @@ int GpuMain(const MainFunctionParams& parameters) {
+@@ -317,7 +317,7 @@ int GpuMain(const MainFunctionParams& pa
    GetContentClient()->SetGpuInfo(gpu_init->gpu_info());
  
    base::ThreadPriority io_thread_priority = base::ThreadPriority::NORMAL;
@@ -138,15 +132,13 @@ index 8397889b61e2..2632f3976377 100644
    io_thread_priority = base::ThreadPriority::DISPLAY;
  #endif
  
-diff --git a/gpu/config/software_rendering_list.json b/gpu/config/software_rendering_list.json
-index cb6118b6a4ec..7b8ea0f75881 100644
---- a/gpu/config/software_rendering_list.json
-+++ b/gpu/config/software_rendering_list.json
-@@ -369,17 +369,6 @@
-         "all"
+diff -purN a/gpu/config/software_rendering_list.json b/gpu/config/software_rendering_list.json
+--- a/gpu/config/software_rendering_list.json	2018-12-05 21:13:33.000000000 +0100
++++ b/gpu/config/software_rendering_list.json	2018-12-12 18:06:59.213064704 +0100
+@@ -370,17 +370,6 @@
        ]
      },
--    {
+     {
 -      "id": 48,
 -      "description": "Accelerated video decode is unavailable on Linux",
 -      "cr_bugs": [137247],
@@ -157,14 +149,14 @@ index cb6118b6a4ec..7b8ea0f75881 100644
 -        "accelerated_video_decode"
 -      ]
 -    },
-     {
+-    {
        "id": 50,
        "description": "Disable VMware software renderer on older Mesa",
-diff --git a/media/base/media_switches.cc b/media/base/media_switches.cc
-index f5b922f73cd3..916a746de835 100644
---- a/media/base/media_switches.cc
-+++ b/media/base/media_switches.cc
-@@ -499,7 +499,7 @@ bool IsVideoCaptureAcceleratedJpegDecodingEnabled() {
+       "cr_bugs": [145531, 332596, 571899, 629434],
+diff -purN a/media/base/media_switches.cc b/media/base/media_switches.cc
+--- a/media/base/media_switches.cc	2018-12-05 21:13:37.000000000 +0100
++++ b/media/base/media_switches.cc	2018-12-12 18:06:59.213064704 +0100
+@@ -496,7 +496,7 @@ bool IsVideoCaptureAcceleratedJpegDecodi
            switches::kUseFakeJpegDecodeAccelerator)) {
      return true;
    }
@@ -173,10 +165,9 @@ index f5b922f73cd3..916a746de835 100644
    return true;
  #endif
    return false;
-diff --git a/media/filters/BUILD.gn b/media/filters/BUILD.gn
-index d558b537a0a4..8e387d8203ac 100644
---- a/media/filters/BUILD.gn
-+++ b/media/filters/BUILD.gn
+diff -purN a/media/filters/BUILD.gn b/media/filters/BUILD.gn
+--- a/media/filters/BUILD.gn	2018-12-05 21:13:37.000000000 +0100
++++ b/media/filters/BUILD.gn	2018-12-12 18:06:59.213064704 +0100
 @@ -5,6 +5,7 @@
  import("//build/config/jumbo.gni")
  import("//media/media_options.gni")
@@ -194,11 +185,10 @@ index d558b537a0a4..8e387d8203ac 100644
      sources += [
        "h264_bitstream_buffer.cc",
        "h264_bitstream_buffer.h",
-diff --git a/media/gpu/BUILD.gn b/media/gpu/BUILD.gn
-index 07bfdefda523..7e33cd747614 100644
---- a/media/gpu/BUILD.gn
-+++ b/media/gpu/BUILD.gn
-@@ -508,6 +508,12 @@ if (use_v4l2_codec || use_vaapi || is_mac || is_win) {
+diff -purN a/media/gpu/BUILD.gn b/media/gpu/BUILD.gn
+--- a/media/gpu/BUILD.gn	2018-12-05 21:13:37.000000000 +0100
++++ b/media/gpu/BUILD.gn	2018-12-12 18:07:39.317348062 +0100
+@@ -506,6 +506,12 @@ if (use_v4l2_codec || use_vaapi || is_ma
    }
  }
  
@@ -208,10 +198,10 @@ index 07bfdefda523..7e33cd747614 100644
 +  packages = [ "libva" ]
 +}
 +
- if (use_vaapi) {
+ if (use_v4l2_codec || use_vaapi) {
    test("jpeg_encode_accelerator_unittest") {
      deps = [
-@@ -578,6 +584,7 @@ if (is_chromeos || is_linux) {
+@@ -576,6 +582,7 @@ if (is_chromeos || is_linux) {
      if (use_ozone) {
        deps += [ "//ui/ozone" ]
      }
@@ -219,11 +209,10 @@ index 07bfdefda523..7e33cd747614 100644
    }
  }
  
-diff --git a/media/gpu/gpu_video_decode_accelerator_factory.cc b/media/gpu/gpu_video_decode_accelerator_factory.cc
-index 67ba4daed787..8815ba896a45 100644
---- a/media/gpu/gpu_video_decode_accelerator_factory.cc
-+++ b/media/gpu/gpu_video_decode_accelerator_factory.cc
-@@ -56,6 +56,7 @@ gpu::VideoDecodeAcceleratorCapabilities GetDecoderCapabilitiesInternal(
+diff -purN a/media/gpu/gpu_video_decode_accelerator_factory.cc b/media/gpu/gpu_video_decode_accelerator_factory.cc
+--- a/media/gpu/gpu_video_decode_accelerator_factory.cc	2018-12-05 21:13:37.000000000 +0100
++++ b/media/gpu/gpu_video_decode_accelerator_factory.cc	2018-12-12 18:06:59.213064704 +0100
+@@ -56,6 +56,7 @@ gpu::VideoDecodeAcceleratorCapabilities
    // profile (instead of calculating a superset).
    // TODO(posciak,henryhsu): improve this so that we choose a superset of
    // resolutions and other supported profile parameters.
@@ -231,11 +220,10 @@ index 67ba4daed787..8815ba896a45 100644
    VideoDecodeAccelerator::Capabilities capabilities;
  #if defined(OS_WIN)
    capabilities.supported_profiles =
-diff --git a/media/gpu/vaapi/vaapi_wrapper.cc b/media/gpu/vaapi/vaapi_wrapper.cc
-index 34a733c4a9c0..72a1816743cd 100644
---- a/media/gpu/vaapi/vaapi_wrapper.cc
-+++ b/media/gpu/vaapi/vaapi_wrapper.cc
-@@ -339,7 +339,7 @@ bool VADisplayState::InitializeOnce() {
+diff -purN a/media/gpu/vaapi/vaapi_wrapper.cc b/media/gpu/vaapi/vaapi_wrapper.cc
+--- a/media/gpu/vaapi/vaapi_wrapper.cc	2018-12-05 21:13:37.000000000 +0100
++++ b/media/gpu/vaapi/vaapi_wrapper.cc	2018-12-12 18:06:59.213064704 +0100
+@@ -333,7 +333,7 @@ bool VADisplayState::InitializeOnce() {
    DVLOG(1) << "VAAPI version: " << major_version << "." << minor_version << " "
             << va_vendor_string_;
  
@@ -244,7 +232,7 @@ index 34a733c4a9c0..72a1816743cd 100644
      LOG(ERROR) << "This build of Chromium requires VA-API version "
                 << VA_MAJOR_VERSION << "." << VA_MINOR_VERSION
                 << ", system version: " << major_version << "." << minor_version;
-@@ -969,7 +969,11 @@ scoped_refptr<VASurface> VaapiWrapper::CreateVASurfaceForPixmap(
+@@ -1000,7 +1000,11 @@ scoped_refptr<VASurface> VaapiWrapper::C
    }
    va_attrib_extbuf.num_planes = num_planes;
  
