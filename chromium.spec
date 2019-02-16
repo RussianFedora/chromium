@@ -1047,10 +1047,8 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'net/third_party/quic' \
 	'net/third_party/spdy' \
 	'net/third_party/uri_template' \
-	'third_party/WebKit' \
 	'third_party/adobe' \
 	'third_party/abseil-cpp' \
-	'third_party/analytics' \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/base' \
 	'third_party/angle/src/common/third_party/smhasher' \
@@ -1060,7 +1058,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle/third_party/vulkan-headers' \
 	'third_party/angle/third_party/vulkan-loader' \
 	'third_party/angle/third_party/vulkan-tools' \
-	'third_party/angle/third_party/vulkan-validation-layers' \
 	'third_party/angle/third_party/glslang' \
 	'third_party/angle/third_party/spirv-headers'\
 	'third_party/angle/third_party/spirv-tools' \
@@ -1099,7 +1096,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/flot' \
 	'third_party/fontconfig' \
 	'third_party/freetype' \
-	'third_party/glslang-angle' \
 	'third_party/google_input_tools' \
 	'third_party/google_input_tools/third_party/closure_library' \
 	'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
@@ -1190,7 +1186,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/speech-dispatcher' \
 	'third_party/spirv-headers' \
 	'third_party/SPIRV-Tools' \
-	'third_party/spirv-tools-angle' \
 	'third_party/sqlite' \
 	'third_party/swiftshader' \
 	'third_party/swiftshader/third_party/subzero' \
