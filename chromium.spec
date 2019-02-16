@@ -1559,19 +1559,6 @@ if selinuxenabled; then
 	restorecon -R -v %{chromium_path}/%{chromium_browser_channel}
 fi
 
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-update-desktop-database &> /dev/null || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-	touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-	gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-update-desktop-database &> /dev/null || :
-
-%posttrans
-gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
 %if %{build_remote_desktop}
 %pretrans -n chrome-remote-desktop -p <lua>
 path = "/etc/opt/chrome/native-messaging-hosts"
