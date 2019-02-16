@@ -135,7 +135,7 @@ BuildRequires:  libicu-devel >= 5.4
 %endif
 
 Name:		chromium%{chromium_channel}
-Version:	71.0.3578.98
+Version:	72.0.3626.109
 %if 0%{?rhel} == 7
 Release:	1%{?dist}
 %else
@@ -1788,6 +1788,11 @@ getent group chrome-remote-desktop >/dev/null || groupadd -r chrome-remote-deskt
 %{chromium_path}/chromedriver
 
 %changelog
+* Thu Dec 13 2018 Arkady L. Shane <ashejn@russianfedora.pro> 72.0.3626.109-1.R
+- update to 72.0.3626.109
+- drop rsp clobber, which breaks gcc9 (thanks to Jeff Law)
+- fix widevine on chromium
+
 * Thu Dec 13 2018 Arkady L. Shane <ashejn@russianfedora.pro> 71.0.3578.98-1.R
 - update to 71.0.3578.98
 - update devtoolset to 8
