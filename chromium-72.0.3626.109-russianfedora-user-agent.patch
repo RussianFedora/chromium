@@ -1,0 +1,11 @@
+--- chromium-72.0.3626.109/content/common/user_agent.cc	2019-02-14 01:14:20.000000000 +0300
++++ chromium-72.0.3626.109/content/common/user_agent.cc.new	2019-02-16 16:33:59.878198771 +0300
+@@ -36,7 +36,7 @@
+ #elif defined(OS_MACOSX)
+       "Macintosh; ";
+ #elif defined(USE_X11) || defined(USE_OZONE)
+-      "X11; ";  // strange, but that's what Firefox uses
++      "X11; Russian Fedora; ";  // strange, but that's what Firefox uses
+ #elif defined(OS_ANDROID)
+       "Linux; ";
+ #elif defined(OS_POSIX) || defined(OS_FUCHSIA)

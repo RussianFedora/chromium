@@ -249,8 +249,8 @@ Patch99:	chromium-67.0.3396.62-crashpad-aarch64-buildfix.patch
 # https://bugs.python.org/issue21591
 Patch100:	chromium-67.0.3396.62-epel7-use-old-python-exec-syntax.patch
 Patch101:	chromium-71.0.3578.98-widevine-r3.patch
-# Add "Fedora" to the user agent string
-Patch102:	chromium-68.0.3440.106-russianfedora-user-agent.patch
+# Add "Russian Fedora" to the user agent string
+Patch102:	chromium-72.0.3626.109-russianfedora-user-agent.patch
 # Try to fix version.py for Rawhide
 Patch103:	chromium-67.0.3396.99-py3fix.patch
 Patch104:	chromium-71.0.3578.30-py2-bootstrap.patch
@@ -746,7 +746,7 @@ sed -i 's@адежный@адёжный@g' components/strings/components_strings
 %patch0 -p1 -b .gcc5
 %patch1 -p1 -b .pathmax
 %patch2 -p1 -b .addrfix
-%patch4 -p1 -b .notest
+# %patch4 -p1 -b .notest
 # %%patch6 -p1 -b .gnu-inline
 %patch7 -p1 -b .ignore-fd-count
 %patch9 -p1 -b .modern-libusbx
