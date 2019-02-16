@@ -1052,6 +1052,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/angle' \
 	'third_party/angle/src/common/third_party/base' \
 	'third_party/angle/src/common/third_party/smhasher' \
+	'third_party/angle/src/common/third_party/xxhash' \
 	'third_party/angle/src/third_party/compiler' \
 	'third_party/angle/src/third_party/libXNVCtrl' \
 	'third_party/angle/src/third_party/trace_event' \
@@ -1082,6 +1083,7 @@ build/linux/unbundle/remove_bundled_libraries.py \
 	'third_party/catapult/tracing/third_party/pako' \
         'third_party/ced' \
 	'third_party/cld_3' \
+	'third_party/closure_compiler' \
 	'third_party/crashpad' \
 	'third_party/crashpad/crashpad/third_party/zlib' \
 	'third_party/crc32c' \
@@ -1197,7 +1199,6 @@ build/linux/unbundle/remove_bundled_libraries.py \
         'third_party/usb_ids' \
 	'third_party/usrsctp' \
 	'third_party/vulkan' \
-	'third_party/vulkan-validation-layers' \
 	'third_party/web-animations-js' \
 	'third_party/webdriver' \
 	'third_party/webrtc' \
