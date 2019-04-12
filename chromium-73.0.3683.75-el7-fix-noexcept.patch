@@ -1,0 +1,54 @@
+diff -up chromium-73.0.3683.75/chrome/common/media_router/media_sink.cc.el7-noexcept chromium-73.0.3683.75/chrome/common/media_router/media_sink.cc
+--- chromium-73.0.3683.75/chrome/common/media_router/media_sink.cc.el7-noexcept	2019-03-11 18:00:54.000000000 -0400
++++ chromium-73.0.3683.75/chrome/common/media_router/media_sink.cc	2019-03-20 09:45:29.400426336 -0400
+@@ -19,12 +19,12 @@ MediaSink::MediaSink(const MediaSink::Id
+       provider_id_(provider_id) {}
+ 
+ MediaSink::MediaSink(const MediaSink& other) = default;
+-MediaSink::MediaSink(MediaSink&& other) noexcept = default;
++MediaSink::MediaSink(MediaSink&& other) = default;
+ MediaSink::MediaSink() = default;
+ MediaSink::~MediaSink() = default;
+ 
+ MediaSink& MediaSink::operator=(const MediaSink& other) = default;
+-MediaSink& MediaSink::operator=(MediaSink&& other) noexcept = default;
++MediaSink& MediaSink::operator=(MediaSink&& other) = default;
+ 
+ bool MediaSink::IsMaybeCloudSink() const {
+   switch (icon_type_) {
+diff -up chromium-73.0.3683.75/components/policy/core/common/policy_map.cc.el7-noexcept chromium-73.0.3683.75/components/policy/core/common/policy_map.cc
+--- chromium-73.0.3683.75/components/policy/core/common/policy_map.cc.el7-noexcept	2019-03-11 18:00:56.000000000 -0400
++++ chromium-73.0.3683.75/components/policy/core/common/policy_map.cc	2019-03-19 11:11:38.310689134 -0400
+@@ -25,7 +25,7 @@ PolicyMap::Entry::Entry() = default;
+ PolicyMap::Entry::~Entry() = default;
+ 
+ PolicyMap::Entry::Entry(Entry&&) noexcept = default;
+-PolicyMap::Entry& PolicyMap::Entry::operator=(Entry&&) noexcept = default;
++PolicyMap::Entry& PolicyMap::Entry::operator=(Entry&&) = default;
+ 
+ PolicyMap::Entry PolicyMap::Entry::DeepCopy() const {
+   Entry copy;
+diff -up chromium-73.0.3683.75/components/signin/core/browser/account_info.cc.el7-noexcept chromium-73.0.3683.75/components/signin/core/browser/account_info.cc
+--- chromium-73.0.3683.75/components/signin/core/browser/account_info.cc.el7-noexcept	2019-03-11 18:00:57.000000000 -0400
++++ chromium-73.0.3683.75/components/signin/core/browser/account_info.cc	2019-03-19 11:11:38.311689112 -0400
+@@ -50,7 +50,7 @@ AccountInfo::AccountInfo(AccountInfo&& o
+ 
+ AccountInfo& AccountInfo::operator=(const AccountInfo& other) = default;
+ 
+-AccountInfo& AccountInfo::operator=(AccountInfo&& other) noexcept = default;
++AccountInfo& AccountInfo::operator=(AccountInfo&& other) = default;
+ 
+ bool AccountInfo::IsEmpty() const {
+   return account_id.empty() && email.empty() && gaia.empty() &&
+diff -up chromium-73.0.3683.75/gpu/config/gpu_info.cc.el7-noexcept chromium-73.0.3683.75/gpu/config/gpu_info.cc
+--- chromium-73.0.3683.75/gpu/config/gpu_info.cc.el7-noexcept	2019-03-19 11:12:36.992435015 -0400
++++ chromium-73.0.3683.75/gpu/config/gpu_info.cc	2019-03-19 11:12:37.061433540 -0400
+@@ -118,7 +118,7 @@ GPUInfo::GPUDevice& GPUInfo::GPUDevice::
+     const GPUInfo::GPUDevice& other) = default;
+ 
+ GPUInfo::GPUDevice& GPUInfo::GPUDevice::operator=(
+-    GPUInfo::GPUDevice&& other) noexcept = default;
++    GPUInfo::GPUDevice&& other) = default;
+ 
+ GPUInfo::GPUInfo()
+     : optimus(false),

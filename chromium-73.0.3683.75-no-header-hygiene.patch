@@ -1,0 +1,17 @@
+diff -up chromium-73.0.3683.75/third_party/swiftshader/third_party/llvm-7.0/BUILD.gn.nohh chromium-73.0.3683.75/third_party/swiftshader/third_party/llvm-7.0/BUILD.gn
+--- chromium-73.0.3683.75/third_party/swiftshader/third_party/llvm-7.0/BUILD.gn.nohh	2019-03-15 09:02:26.167929864 -0400
++++ chromium-73.0.3683.75/third_party/swiftshader/third_party/llvm-7.0/BUILD.gn	2019-03-15 09:03:30.334433446 -0400
+@@ -74,9 +74,12 @@ config("swiftshader_llvm_private_config"
+     "-Wno-unused-private-field",
+     "-Wno-unused-result",
+     "-Wno-unused-variable",
+-    "-Wno-error=header-hygiene",
+   ]
+ 
++  if (is_clang) {
++    cflags += [ "-Wno-error=header-hygiene" ]
++  }
++
+   defines = [
+     "__STDC_CONSTANT_MACROS",
+     "__STDC_LIMIT_MACROS",

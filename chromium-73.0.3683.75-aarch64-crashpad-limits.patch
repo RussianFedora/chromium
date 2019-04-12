@@ -1,0 +1,11 @@
+diff -up chromium-73.0.3683.75/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc.aarch64-limits chromium-73.0.3683.75/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc
+--- chromium-73.0.3683.75/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc.aarch64-limits	2019-03-15 12:08:21.208676651 -0400
++++ chromium-73.0.3683.75/third_party/crashpad/crashpad/snapshot/linux/cpu_context_linux.cc	2019-03-15 12:08:40.934251685 -0400
+@@ -16,6 +16,7 @@
+ 
+ #include <stddef.h>
+ #include <string.h>
++#include <limits>
+ 
+ #include "base/logging.h"
+ 
